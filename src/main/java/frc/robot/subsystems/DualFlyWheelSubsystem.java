@@ -41,7 +41,7 @@ public class DualFlyWheelSubsystem extends SubsystemBase {
         m_sub.setControl(subDutyCycle);
     }
     /**
-     *Sets the multiplier that converts from "primary speed" to "secondary speed"
+     *Sets the multiplier that converts from "primary speed" to "secondary speed". Inversion is automatic; supplying a value of -1 here will make both motors identical.
      */
     public void SetRatio(double arg)
     {

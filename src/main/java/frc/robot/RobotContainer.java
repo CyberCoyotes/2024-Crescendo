@@ -32,7 +32,7 @@ public class RobotContainer {
     flywheelRight = new TalonFX(Constants.SystemConstants.rightFlywheelCAN);
     flywheel = new DualFlyWheelSubsystem(flywheelLeft, flywheelRight);
     flywheel.SetStatePower(0.2);
-    flywheel.SetRatio(0.8);
+    flywheel.SetRatio(-1);
 
 
     // Configure the trigger bindings
@@ -43,6 +43,7 @@ public class RobotContainer {
   private void configureBindings() {
     
     m_driverController.b().onTrue(new InstantCommand( () -> flywheel.Toggle(), flywheel));
+    
     
   }
   public Command getAutonomousCommand() {
