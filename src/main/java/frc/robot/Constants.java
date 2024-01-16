@@ -19,5 +19,6 @@ public final class Constants {
   public static class SystemConstants {
     public static final int leftFlywheelCAN = 16;
     public static final int rightFlywheelCAN = 15;
+    public static final int bassGuitar = 7;
   }
 }
