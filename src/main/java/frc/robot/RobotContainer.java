@@ -18,32 +18,31 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 public class RobotContainer {
 
-  //#region Devices 
-  TalonFX flywheelLeft, flywheelRight, bassGuitar;   
-  //#endregion
+  // #region Devices
+  TalonFX flywheelLeft, flywheelRight, bassGuitar;
+  // #endregion
 
-  //#region Subsystems
+  // #region Subsystems
   DualFlyWheelSubsystem flywheel;
   OrchestraSubsystem daTunes;
-  //#endregion Subsystems
+  // #endregion Subsystems
 
-  private final CommandXboxController m_driverController =
-    new CommandXboxController(OperatorConstants.kDriverControllerPort);
+  private final CommandXboxController m_driverController = new CommandXboxController(
+      OperatorConstants.kDriverControllerPort);
 
   public RobotContainer() {
 
-    flywheelLeft = new TalonFX(Constants.SystemConstants.leftFlywheelCAN);
-    flywheelRight = new TalonFX(Constants.SystemConstants.rightFlywheelCAN);
-    //Orchestra
-    bassGuitar = new TalonFX(Constants.SystemConstants.bassGuitar);
+    flywheelLeft = new TalonFX(Constants.CANIDs.leftFlywheelCAN);
+    flywheelRight = new TalonFX(Constants.CANIDs.rightFlywheelCAN);
+    // Orchestra
+    bassGuitar = new TalonFX(Constants.CANIDs.bassGuitar);
 
     flywheel = new DualFlyWheelSubsystem(flywheelLeft, flywheelRight);
     flywheel.SetStatePower(0.2);
     flywheel.SetRatio(-1);
 
-    daTunes = new OrchestraSubsystem(new TalonFX[]{bassGuitar});
-    daTunes.SetTune(Song.ONE_ONE_FIVE );
-    
+    daTunes = new OrchestraSubsystem(new TalonFX[] { bassGuitar });
+    daTunes.SetTune(Song.ONE_ONE_FIVE);
 
     // Configure the trigger bindings
     configureBindings();
@@ -51,14 +50,14 @@ public class RobotContainer {
 
   // tl;dr: Trigger class for simple booleans
   private void configureBindings() {
-    
-    //WOW This is bad but oh well
-    m_driverController.y().onTrue(new InstantCommand( () -> flywheel.Toggle(), flywheel));
-    m_driverController.b().onTrue(new InstantCommand( () -> daTunes.Play(), daTunes));
-    m_driverController.a().onTrue(new InstantCommand( () -> daTunes.Shud(), daTunes));
-    
-    
+
+    // WOW This is bad but oh well
+    m_driverController.y().onTrue(new InstantCommand(() -> flywheel.Toggle(), flywheel));
+    m_driverController.b().onTrue(new InstantCommand(() -> daTunes.Play(), daTunes));
+    m_driverController.a().onTrue(new InstantCommand(() -> daTunes.Shud(), daTunes));
+
   }
+
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
     return new WaitCommand(2);
