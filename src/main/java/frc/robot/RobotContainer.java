@@ -5,12 +5,14 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.subsystems.DualFlyWheelSubsystem;
+import frc.robot.subsystems.RatioMotorSubsystem;
 import frc.robot.subsystems.OrchestraSubsystem;
-import frc.robot.subsystems.OrchestraSubsystem.Song;
+
+import java.util.function.DoubleSupplier;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -18,49 +20,41 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 public class RobotContainer {
 
-  //#region Devices 
-  TalonFX flywheelLeft, flywheelRight, bassGuitar;   
-  //#endregion
+  // #region Devices
+  TalonFX shooterMotor;
+  // #endregion
 
-  //#region Subsystems
-  DualFlyWheelSubsystem flywheel;
+  // #region Subsystems
+  RatioMotorSubsystem shooter;
   OrchestraSubsystem daTunes;
-  //#endregion Subsystems
+  // #endregion Subsystems
 
-  private final CommandXboxController m_driverController =
-    new CommandXboxController(OperatorConstants.kDriverControllerPort);
+  private final CommandXboxController m_driverController = new CommandXboxController(
+      OperatorConstants.kDriverControllerPort);
 
   public RobotContainer() {
 
-    flywheelLeft = new TalonFX(Constants.SystemConstants.leftFlywheelCAN);
-    flywheelRight = new TalonFX(Constants.SystemConstants.rightFlywheelCAN);
-    //Orchestra
-    bassGuitar = new TalonFX(Constants.SystemConstants.bassGuitar);
+    shooterMotor = new TalonFX(Constants.SystemConstants.shooterCAN);
 
-    flywheel = new DualFlyWheelSubsystem(flywheelLeft, flywheelRight);
-    flywheel.SetStatePower(0.2);
-    flywheel.SetRatio(-1);
-
-    daTunes = new OrchestraSubsystem(new TalonFX[]{bassGuitar});
-    daTunes.SetTune(Song.ONE_ONE_FIVE );
-    
+    shooter = new RatioMotorSubsystem(shooterMotor);
+    shooter.SetStatePower(0.2);
 
     // Configure the trigger bindings
     configureBindings();
+
   }
 
   // tl;dr: Trigger class for simple booleans
   private void configureBindings() {
-    
-    //WOW This is bad but oh well
-    m_driverController.y().onTrue(new InstantCommand( () -> flywheel.Toggle(), flywheel));
-    m_driverController.b().onTrue(new InstantCommand( () -> daTunes.Play(), daTunes));
-    m_driverController.a().onTrue(new InstantCommand( () -> daTunes.Shud(), daTunes));
-    
-    
+
+    // WOW This is bad but oh well
+    m_driverController.y().onTrue(new InstantCommand(() -> shooter.Toggle(), shooter));
+
   }
+
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
     return new WaitCommand(2);
   }
+
 }
