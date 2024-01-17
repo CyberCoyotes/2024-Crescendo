@@ -19,6 +19,8 @@ public final class Constants {
   public static class SystemConstants {
     public static final int leftFlywheelCAN = 16;
     public static final int rightFlywheelCAN = 15;
+
+    /* TODO Reserve 'drive motors' for 1 to 8 */
     public static final int bassGuitar = 7;
   }
 }
