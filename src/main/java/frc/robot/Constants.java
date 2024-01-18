@@ -24,7 +24,8 @@ public final class Constants {
   public static class SystemConstants {
     public static final int intakeCAN = 7;
     public static final int indexCAN = 15;
-    public static final int shooterCAN = 16;
+    public static final int mainShooterCAN = 17;
+    public static final int subShooterCAN = 18;
 
   }
 }

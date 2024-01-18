@@ -37,12 +37,14 @@ public class RatioMotorSubsystem extends SubsystemBase {
      * {@link #SetStatePower} is used to set the main power.
      */
     public RatioMotorSubsystem(TalonFX main, TalonFX sub) {
+
         singleMotor = false;
         this.m_main = main;
         this.m_sub = sub;
         // default to off
         m_main.setControl(mainDutyCycle = new DutyCycleOut(0));
         m_sub.setControl(subDutyCycle = new DutyCycleOut(0));
+
     }
 
     /**
@@ -51,38 +53,33 @@ public class RatioMotorSubsystem extends SubsystemBase {
      * Set configs before creating this class/subsystem.
      * {@link #SetStatePower} is used to set the main power.
      */
-
-    private void InitDashboard() {
-        Shuffleboard.getTab("Driver Diagnostics").add("Motor Running", false);
-    }
-
     public RatioMotorSubsystem(TalonFX only) {
 
         this.m_main = only;
         singleMotor = true;
         // default to off
         m_main.setControl(mainDutyCycle = new DutyCycleOut(0));
+        // ! Undetermined if this is necessary
+        mainDutyCycle.Output = 0;
     }
 
     /**
      * Sets the power the primary motor will use. Does not enable or disable.
      */
     private void SetMotorPowers(double arg) {
+
+        int invertMulti = 1;
+
         System.out.println(this.Running());
-        mainDutyCycle.Output = arg;
+        mainDutyCycle.Output = arg * invertMulti;
         m_main.setControl(mainDutyCycle);
 
         if (!singleMotor) {
-            subDutyCycle.Output = -arg * ratio;
+            subDutyCycle.Output = arg * ratio * invertMulti;
             m_sub.setControl(subDutyCycle);
         }
         ;
 
-    }
-
-    @Override
-    public void periodic() {
-        UpdateShuffleboard();
     }
 
     /**
@@ -116,10 +113,6 @@ public class RatioMotorSubsystem extends SubsystemBase {
 
     public boolean Running() {
         return mainDutyCycle.Output > 0;
-    }
-
-    public void UpdateShuffleboard() {
-        isRunning.setBoolean(Running());
     }
 
 }
