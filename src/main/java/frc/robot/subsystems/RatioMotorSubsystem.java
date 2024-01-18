@@ -59,8 +59,6 @@ public class RatioMotorSubsystem extends SubsystemBase {
         singleMotor = true;
         // default to off
         m_main.setControl(mainDutyCycle = new DutyCycleOut(0));
-        // ! Undetermined if this is necessary
-        mainDutyCycle.Output = 0;
     }
 
     /**
@@ -70,7 +68,6 @@ public class RatioMotorSubsystem extends SubsystemBase {
 
         int invertMulti = 1;
 
-        System.out.println(this.Running());
         mainDutyCycle.Output = arg * invertMulti;
         m_main.setControl(mainDutyCycle);
 
@@ -95,7 +92,7 @@ public class RatioMotorSubsystem extends SubsystemBase {
     public void SetStatePower(double percent) {
         // percent = Math.max(0, Math.min(percent,1));
         this.percentage = percent;
-        mainDutyCycle = new DutyCycleOut(percentage);
+
     }
 
     public void Enable() {
@@ -113,6 +110,12 @@ public class RatioMotorSubsystem extends SubsystemBase {
 
     public boolean Running() {
         return mainDutyCycle.Output > 0;
+    }
+
+    @Override
+    public void periodic() {
+        System.out.println(this.Running());
+
     }
 
 }
