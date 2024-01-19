@@ -4,6 +4,16 @@
 
 package frc.robot;
 
+
+import frc.robot.Constants.OperatorConstants;
+import frc.robot.subsystems.RatioMotorSubsystem;
+
+import frc.robot.subsystems.OrchestraSubsystem;
+
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
+
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
@@ -37,39 +47,63 @@ public class RobotContainer {
   private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
   private final Telemetry logger = new Telemetry(MaxSpeed);
 
-  //#region Devices 
-  TalonFX flywheelLeft, flywheelRight, bassGuitar;   
-  //#endregion
+  // #region Devices
+  TalonFX shooterMotorMain;
+  TalonFX shooterMotorSub;
+  // #endregion
 
-  //#region Subsystems
-  DualFlyWheelSubsystem flywheel;
+  // #region Subsystems
+  RatioMotorSubsystem shooter;
   OrchestraSubsystem daTunes;
-  //#endregion Subsystems
+  // #endregion Subsystems
 
-  private final CommandXboxController m_driverController =
-    new CommandXboxController(OperatorConstants.kDriverControllerPort);
+  private final CommandXboxController m_driverController = new CommandXboxController(
+      OperatorConstants.kDriverControllerPort);
 
   public RobotContainer() {
+
+    shooterMotorMain = new TalonFX(Constants.SystemConstants.mainShooterCAN);
+    shooterMotorSub = new TalonFX(Constants.SystemConstants.subShooterCAN);
+
+    // #region some configs
+
+    shooterMotorMain.setInverted(false);
+    shooterMotorSub.setInverted(true);
+    shooterMotorMain.setNeutralMode(NeutralModeValue.Coast);
+    shooterMotorMain.setNeutralMode(NeutralModeValue.Coast);
 
     flywheelLeft = new TalonFX(Constants.CANIDs.leftFlywheelCAN);
     flywheelRight = new TalonFX(Constants.CANIDs.rightFlywheelCAN);
     //Orchestra
     bassGuitar = new TalonFX(Constants.CANIDs.bassGuitar);
 
-    flywheel = new DualFlyWheelSubsystem(flywheelLeft, flywheelRight);
-    flywheel.SetStatePower(0.2);
-    flywheel.SetRatio(-1);
 
-    daTunes = new OrchestraSubsystem(new TalonFX[]{bassGuitar});
-    daTunes.SetTune(Song.ONE_ONE_FIVE );
-    
+    // #endregion
+
+    shooter = new RatioMotorSubsystem(shooterMotorMain, shooterMotorSub);
+    shooter.SetStatePower(1);
+    shooter.SetRatio(1);
 
     // Configure the trigger bindings
+
     configureBindings();
   }
 
   // tl;dr: Trigger class for simple booleans
   private void configureBindings() {
+
+
+    // WOW This is bad but oh well
+    m_driverController.y().onTrue(new InstantCommand(() -> shooter.Toggle(),
+        shooter));
+
+  }
+
+  public void DebugMethodSingle() {
+    var tab = Shuffleboard.getTab("Driver Diagnostics");
+    tab.addBoolean("Shooter Running", () -> shooter.Running());
+  }
+
     drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
     drivetrain.applyRequest(() -> drive.withVelocityX(-m_driverController.getLeftY() * MaxSpeed) // Drive forward with
                                                                                        // negative Y (forward)
@@ -95,6 +129,7 @@ public class RobotContainer {
         m_driverController.a().onTrue(new InstantCommand( () -> daTunes.Shud(), daTunes));   
     
     }
+
 
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous

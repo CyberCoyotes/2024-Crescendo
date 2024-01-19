@@ -21,10 +21,6 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
   }
 
-  public static class SystemConstants {
-
-  }
-
   public static class CANIDs {
     public static final int kSwerveFRTurnCAN = 1;
     public static final int kSwerveFRDriveCAN = 2;
@@ -36,6 +32,9 @@ public final class Constants {
     public static final int kSwerveBLTurnCAN = 8;
     public static final int kPigeonCAN = 9;
 
+    public static final int intakeCAN = 7;
+    public static final int indexCAN = 15;
+    
     public static final int leftFlywheelCAN = 16;
     public static final int rightFlywheelCAN = 15;
     public static final int bassGuitar = 17;
