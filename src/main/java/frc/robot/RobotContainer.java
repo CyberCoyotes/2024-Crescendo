@@ -26,10 +26,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.Constants.OperatorConstants;
 import frc.robot.generated.TunerConstants;
-import frc.robot.subsystems.DualFlyWheelSubsystem;
-import frc.robot.subsystems.OrchestraSubsystem;
 import frc.robot.subsystems.OrchestraSubsystem.Song;
 
 public class RobotContainer {
@@ -62,8 +59,8 @@ public class RobotContainer {
 
   public RobotContainer() {
 
-    shooterMotorMain = new TalonFX(Constants.SystemConstants.mainShooterCAN);
-    shooterMotorSub = new TalonFX(Constants.SystemConstants.subShooterCAN);
+    shooterMotorMain = new TalonFX(Constants.mainShooterCAN);
+    shooterMotorSub = new TalonFX(Constants.subShooterCAN);
 
     // #region some configs
 
