@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.RatioMotorSubsystem;
 
@@ -15,7 +14,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import com.ctre.phoenix6.Utils;
-import com.ctre.phoenix6.hardware.TalonFX;
+
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 
@@ -30,6 +29,7 @@ import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.OrchestraSubsystem.Song;
 
 public class RobotContainer {
+
   private double MaxSpeed = 6; // 6 meters per second desired top speed
   private double MaxAngularRate = 1.5 * Math.PI; // 3/4 of a rotation per second max angular velocity
 
@@ -59,8 +59,8 @@ public class RobotContainer {
 
   public RobotContainer() {
 
-    shooterMotorMain = new TalonFX(Constants.mainShooterCAN);
-    shooterMotorSub = new TalonFX(Constants.subShooterCAN);
+    shooterMotorMain = new TalonFX(Constants.CANIDs.rightFlywheelCAN);
+    shooterMotorSub = new TalonFX(Constants.CANIDs.leftFlywheelCAN);
 
     // #region some configs
 
@@ -69,19 +69,28 @@ public class RobotContainer {
     shooterMotorMain.setNeutralMode(NeutralModeValue.Coast);
     shooterMotorMain.setNeutralMode(NeutralModeValue.Coast);
 
-    flywheelLeft = new TalonFX(Constants.CANIDs.leftFlywheelCAN);
-    flywheelRight = new TalonFX(Constants.CANIDs.rightFlywheelCAN);
-    //Orchestra
-    bassGuitar = new TalonFX(Constants.CANIDs.bassGuitar);
-
-
+    shooterMotorSub = new TalonFX(Constants.CANIDs.leftFlywheelCAN);
+    shooterMotorMain = new TalonFX(Constants.CANIDs.rightFlywheelCAN);
     // #endregion
 
     shooter = new RatioMotorSubsystem(shooterMotorMain, shooterMotorSub);
     shooter.SetStatePower(1);
     shooter.SetRatio(1);
 
+    drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
+        drivetrain.applyRequest(() -> drive.withVelocityX(-m_driverController.getLeftY() * MaxSpeed) // Drive forward
+                                                                                                     // with
+            // negative Y (forward)
+            .withVelocityY(-m_driverController.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+            .withRotationalRate(-m_driverController.getRightX() * MaxAngularRate) // Drive counterclockwise with
+                                                                                  // negative X (left)
+        ));
+
     // Configure the trigger bindings
+    if (Utils.isSimulation()) {
+      drivetrain.seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
+    }
+    drivetrain.registerTelemetry(logger::telemeterize);
 
     configureBindings();
   }
@@ -89,10 +98,16 @@ public class RobotContainer {
   // tl;dr: Trigger class for simple booleans
   private void configureBindings() {
 
-
     // WOW This is bad but oh well
     m_driverController.y().onTrue(new InstantCommand(() -> shooter.Toggle(),
         shooter));
+
+    m_driverController.a().whileTrue(drivetrain.applyRequest(() -> brake));
+    m_driverController.b().whileTrue(drivetrain.applyRequest(() -> point
+        .withModuleDirection(new Rotation2d(-m_driverController.getLeftY(), -m_driverController.getLeftX()))));
+
+    // reset the field-centric heading on left bumper press
+    m_driverController.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
 
   }
 
@@ -101,36 +116,11 @@ public class RobotContainer {
     tab.addBoolean("Shooter Running", () -> shooter.Running());
   }
 
-    drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
-    drivetrain.applyRequest(() -> drive.withVelocityX(-m_driverController.getLeftY() * MaxSpeed) // Drive forward with
-                                                                                       // negative Y (forward)
-        .withVelocityY(-m_driverController.getLeftX() * MaxSpeed) // Drive left with negative X (left)
-        .withRotationalRate(-m_driverController.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
-    ));
-
-    m_driverController.a().whileTrue(drivetrain.applyRequest(() -> brake));
-    m_driverController.b().whileTrue(drivetrain
-        .applyRequest(() -> point.withModuleDirection(new Rotation2d(-m_driverController.getLeftY(), -m_driverController.getLeftX()))));
-
-    // reset the field-centric heading on left bumper press
-    m_driverController.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
-
-    if (Utils.isSimulation()) {
-      drivetrain.seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
-    }
-    drivetrain.registerTelemetry(logger::telemeterize);
-
-        //WOW This is bad but oh well
-        m_driverController.y().onTrue(new InstantCommand( () -> flywheel.Toggle(), flywheel));
-        m_driverController.b().onTrue(new InstantCommand( () -> daTunes.Play(), daTunes));
-        m_driverController.a().onTrue(new InstantCommand( () -> daTunes.Shud(), daTunes));   
-    
-    }
-
+  // WOW This is bad but oh well
 
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return new WaitCommand(2);
+    return new WaitCommand(3603);
   } // end of Autonomous
 
 } // end of class
