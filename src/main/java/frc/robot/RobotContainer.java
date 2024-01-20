@@ -13,6 +13,11 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+
+import java.util.ArrayList;
+import java.util.function.BooleanSupplier;
+import java.util.function.DoubleSupplier;
+
 import com.ctre.phoenix6.Utils;
 
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
