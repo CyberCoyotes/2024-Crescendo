@@ -24,11 +24,14 @@ public final class Constants {
   public static class CANIDs {
     // ! DO NOT use CAN IDs 1-9; they are reserved for the modules and Pigeon
 
-    public static final int intakeCAN = 7;
-    public static final int indexCAN = 15;
+    public static final int intakeCAN = 10;
+    public static final int indexCAN = 11;
 
-    public static final int leftFlywheelCAN = 16;
+    public static final int timeOfFlightID = 12;
+
+    public static final int bassGuitar = 13;
+
     public static final int rightFlywheelCAN = 15;
-    public static final int bassGuitar = 17;
+    public static final int leftFlywheelCAN = 16;
   }
 }

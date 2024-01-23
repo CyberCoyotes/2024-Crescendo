@@ -14,10 +14,6 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
-import java.util.ArrayList;
-import java.util.function.BooleanSupplier;
-import java.util.function.DoubleSupplier;
-
 import com.ctre.phoenix6.Utils;
 
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
@@ -31,10 +27,10 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.generated.TunerConstants;
-import frc.robot.subsystems.OrchestraSubsystem.Song;
 
 public class RobotContainer {
 
+  // ? can we move the below 2 fields under System Constants?
   private double MaxSpeed = 6; // 6 meters per second desired top speed
   private double MaxAngularRate = 1.5 * Math.PI; // 3/4 of a rotation per second max angular velocity
 
@@ -102,7 +98,6 @@ public class RobotContainer {
 
   // tl;dr: Trigger class for simple booleans
   private void configureBindings() {
-
     // WOW This is bad but oh well
     m_driverController.y().onTrue(new InstantCommand(() -> shooter.Toggle(),
         shooter));
@@ -112,6 +107,7 @@ public class RobotContainer {
         .withModuleDirection(new Rotation2d(-m_driverController.getLeftY(), -m_driverController.getLeftX()))));
 
     // reset the field-centric heading on left bumper press
+
     m_driverController.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
 
   }
@@ -120,8 +116,6 @@ public class RobotContainer {
     var tab = Shuffleboard.getTab("Driver Diagnostics");
     tab.addBoolean("Shooter Running", () -> shooter.Running());
   }
-
-  // WOW This is bad but oh well
 
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
