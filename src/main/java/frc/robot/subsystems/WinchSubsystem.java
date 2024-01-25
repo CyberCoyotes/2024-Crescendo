@@ -10,11 +10,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 /**
  * Made of a motor, connected to a pulley. Contains manual drive for now.
  */
-public class PulleySubsystem extends SubsystemBase {
+public class WinchSubsystem extends SubsystemBase {
     private TalonFX m_motor;
     private DutyCycleOut controlRequest;
 
-    public PulleySubsystem(TalonFX motor) {
+    public WinchSubsystem(TalonFX motor) {
         m_motor = motor;
         controlRequest = new DutyCycleOut(0);
         m_motor.setControl(controlRequest);
