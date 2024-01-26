@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  * Set configs before creating this class/subsystem.
  * {@link #SetStatePower} is used to set the main power.
  */
-public class RatioMotorSubsystem extends SubsystemBase {
+public class LauncherSubsystem extends SubsystemBase {
     /** As opposed to double */
     private boolean singleMotor;
     private TalonFX m_main;
@@ -34,7 +34,7 @@ public class RatioMotorSubsystem extends SubsystemBase {
      * Set configs before creating this class/subsystem.
      * {@link #SetStatePower} is used to set the main power.
      */
-    public RatioMotorSubsystem(TalonFX main, TalonFX sub) {
+    public LauncherSubsystem(TalonFX main, TalonFX sub) {
 
         singleMotor = false;
         this.m_main = main;
@@ -51,7 +51,7 @@ public class RatioMotorSubsystem extends SubsystemBase {
      * Set configs before creating this class/subsystem.
      * {@link #SetStatePower} is used to set the main power.
      */
-    public RatioMotorSubsystem(TalonFX only) {
+    public LauncherSubsystem(TalonFX only) {
 
         this.m_main = only;
         singleMotor = true;
