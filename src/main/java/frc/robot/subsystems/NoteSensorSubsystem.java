@@ -12,7 +12,6 @@ import com.playingwithfusion.TimeOfFlight;
 import com.playingwithfusion.TimeOfFlight.RangingMode;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class NoteSensorSubsystem extends SubsystemBase{
@@ -28,7 +27,7 @@ public class NoteSensorSubsystem extends SubsystemBase{
     public NoteSensorSubsystem() {
         /* Initialize the sensor, and '.setRangingMode(RandingMode.short)' for this usage.
         *
-        | Sample Time   | Time  |
+        | Sample value  | Time  |
         |-------------  |------ |
         | 1             | 20 ms |
         | 2             | 33 ms |
