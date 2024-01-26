@@ -62,7 +62,7 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
                                                                                                                  // ROBOT
                                                                                                                  // RELATIVE
                                                                                                                  // ChassisSpeeds
-                Constants.SystemConstants.PathPlannerConfig,
+                Constants.SystemConstants.PATH_PLANNER_CONFIG,
                 () -> {
                     // Boolean supplier that controls when the path will be mirrored for the red
                     // alliance

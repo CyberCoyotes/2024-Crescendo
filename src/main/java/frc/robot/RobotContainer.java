@@ -23,7 +23,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.generated.TunerConstants;
-import static frc.robot.Constants.SystemConstants.MaxSpeed;
+
+import static frc.robot.Constants.SystemConstants.MAX_SPEED;
 
 public class RobotContainer {
 
@@ -31,14 +32,14 @@ public class RobotContainer {
   private final CommandSwerveDrivetrain drivetrain = TunerConstants.DriveTrain; // My drivetrain
 
   private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-      .withDeadband(MaxSpeed * 0.1)
-      .withRotationalDeadband(Constants.SystemConstants.MaxAngularRate * 0.1) // Add a 10%
+      .withDeadband(MAX_SPEED * 0.1)
+      .withRotationalDeadband(Constants.SystemConstants.MAX_ANGULAR_RATE * 0.1) // Add a 10%
       // deadband
       .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Computer! I want field-centric
                                                                // driving in open loop!
   private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
   private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
-  private final Telemetry logger = new Telemetry(Constants.SystemConstants.MaxSpeed);
+  private final Telemetry logger = new Telemetry(Constants.SystemConstants.MAX_SPEED);
   SendableChooser<Command> autoChooser;
 
   // #region Devices
@@ -52,7 +53,7 @@ public class RobotContainer {
   // #endregion Subsystems
 
   private final CommandXboxController m_driverController = new CommandXboxController(
-      OperatorConstants.kDriverControllerPort);
+      OperatorConstants.K_DRIVER_CONTROLLER_PORT);
 
   public RobotContainer() {
 
@@ -62,8 +63,8 @@ public class RobotContainer {
 
     Shuffleboard.getTab("Autos").add("Auton", autoChooser);
 
-    shooterMotorMain = new TalonFX(Constants.CANIDs.rightFlywheelCAN);
-    shooterMotorSub = new TalonFX(Constants.CANIDs.leftFlywheelCAN);
+    shooterMotorMain = new TalonFX(Constants.CANIDs.RIGHT_FLYWHEEL_CAN);
+    shooterMotorSub = new TalonFX(Constants.CANIDs.RIGHT_FLYWHEEL_CAN);
 
     // #region some configs
 
@@ -72,8 +73,8 @@ public class RobotContainer {
     shooterMotorMain.setNeutralMode(NeutralModeValue.Coast);
     shooterMotorMain.setNeutralMode(NeutralModeValue.Coast);
 
-    shooterMotorSub = new TalonFX(Constants.CANIDs.leftFlywheelCAN);
-    shooterMotorMain = new TalonFX(Constants.CANIDs.rightFlywheelCAN);
+    shooterMotorSub = new TalonFX(Constants.CANIDs.RIGHT_FLYWHEEL_CAN);
+    shooterMotorMain = new TalonFX(Constants.CANIDs.RIGHT_FLYWHEEL_CAN);
     // #endregion
 
     shooter = new RatioMotorSubsystem(shooterMotorMain, shooterMotorSub);
@@ -82,15 +83,16 @@ public class RobotContainer {
 
     drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
         drivetrain
-            .applyRequest(() -> drive.withVelocityX(-m_driverController.getLeftY() * Constants.SystemConstants.MaxSpeed) // Drive
-                                                                                                                         // forward
-                // with
-                // negative Y (forward)
-                .withVelocityY(-m_driverController.getLeftX() * MaxSpeed) // Drive left with
-                                                                          // negative X (left)
-                .withRotationalRate(-m_driverController.getRightX() * Constants.SystemConstants.MaxAngularRate) // Drive
-                                                                                                                // counterclockwise
-                                                                                                                // with
+            .applyRequest(
+                () -> drive.withVelocityX(-m_driverController.getLeftY() * Constants.SystemConstants.MAX_SPEED) // Drive
+                                                                                                                // forward
+                    // with
+                    // negative Y (forward)
+                    .withVelocityY(-m_driverController.getLeftX() * MAX_SPEED) // Drive left with
+                                                                               // negative X (left)
+                    .withRotationalRate(-m_driverController.getRightX() * Constants.SystemConstants.MAX_ANGULAR_RATE) // Drive
+            // counterclockwise
+            // with
             // negative X (left)
             ));
 
