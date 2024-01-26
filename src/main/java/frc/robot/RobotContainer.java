@@ -8,43 +8,38 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.RatioMotorSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.OrchestraSubsystem;
-
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-
+import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import com.ctre.phoenix6.Utils;
-
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.generated.TunerConstants;
+import static frc.robot.Constants.SystemConstants.MaxSpeed;
 
 public class RobotContainer {
-
-  // ? can we move the below 2 fields under System Constants?
-  private double MaxSpeed = 6; // 6 meters per second desired top speed
-  private double MaxAngularRate = 1.5 * Math.PI; // 3/4 of a rotation per second max angular velocity
 
   /* Setting up bindings for necessary control of the swerve drive platform */
   private final CommandSwerveDrivetrain drivetrain = TunerConstants.DriveTrain; // My drivetrain
 
   private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-      .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
-      .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
-                                                               // driving in open loop
+      .withDeadband(MaxSpeed * 0.1)
+      .withRotationalDeadband(Constants.SystemConstants.MaxAngularRate * 0.1) // Add a 10%
+      // deadband
+      .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Computer! I want field-centric
+                                                               // driving in open loop!
   private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
   private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
-  private final Telemetry logger = new Telemetry(MaxSpeed);
+  private final Telemetry logger = new Telemetry(Constants.SystemConstants.MaxSpeed);
+  SendableChooser<Command> autoChooser;
 
   // #region Devices
   TalonFX shooterMotorMain;
@@ -60,6 +55,12 @@ public class RobotContainer {
       OperatorConstants.kDriverControllerPort);
 
   public RobotContainer() {
+
+    // Set shuffleboard autos
+
+    autoChooser = AutoBuilder.buildAutoChooser();
+
+    Shuffleboard.getTab("Autos").add("Auton", autoChooser);
 
     shooterMotorMain = new TalonFX(Constants.CANIDs.rightFlywheelCAN);
     shooterMotorSub = new TalonFX(Constants.CANIDs.leftFlywheelCAN);
@@ -80,13 +81,18 @@ public class RobotContainer {
     shooter.SetRatio(1);
 
     drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
-        drivetrain.applyRequest(() -> drive.withVelocityX(-m_driverController.getLeftY() * MaxSpeed) // Drive forward
-                                                                                                     // with
-            // negative Y (forward)
-            .withVelocityY(-m_driverController.getLeftX() * MaxSpeed) // Drive left with negative X (left)
-            .withRotationalRate(-m_driverController.getRightX() * MaxAngularRate) // Drive counterclockwise with
-                                                                                  // negative X (left)
-        ));
+        drivetrain
+            .applyRequest(() -> drive.withVelocityX(-m_driverController.getLeftY() * Constants.SystemConstants.MaxSpeed) // Drive
+                                                                                                                         // forward
+                // with
+                // negative Y (forward)
+                .withVelocityY(-m_driverController.getLeftX() * MaxSpeed) // Drive left with
+                                                                          // negative X (left)
+                .withRotationalRate(-m_driverController.getRightX() * Constants.SystemConstants.MaxAngularRate) // Drive
+                                                                                                                // counterclockwise
+                                                                                                                // with
+            // negative X (left)
+            ));
 
     // Configure the trigger bindings
     if (Utils.isSimulation()) {
@@ -120,7 +126,7 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return new WaitCommand(3603);
+    return autoChooser.getSelected();
   } // end of Autonomous
 
 } // end of class

@@ -7,13 +7,7 @@ import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrain;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
-import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
-import com.pathplanner.lib.util.PIDConstants;
-import com.pathplanner.lib.util.ReplanningConfig;
-
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier;
@@ -68,7 +62,7 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
                                                                                                                  // ROBOT
                                                                                                                  // RELATIVE
                                                                                                                  // ChassisSpeeds
-                Constants.AutoConstants.PathPlannerConfig,
+                Constants.SystemConstants.PathPlannerConfig,
                 () -> {
                     // Boolean supplier that controls when the path will be mirrored for the red
                     // alliance

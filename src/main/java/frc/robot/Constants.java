@@ -7,6 +7,7 @@ package frc.robot;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
+import static frc.robot.Constants.SystemConstants.PID;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -25,14 +26,29 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
   }
 
-  public static class AutoConstants {
-    HolonomicPathFollowerConfig PathPlannerConfig = new HolonomicPathFollowerConfig(
-        new PIDConstants(0.5, 0.0, 0.0), // Translation PID constants
-        new PIDConstants(0.5, 0.0, 0.0), // Rotation PID constants
-        4.5, // Max module speed, in m/s
+  public static class SystemConstants {
+
+    public static double MaxSpeed = 6; // 6 meters per second desired top speed
+    public static double MaxAngularRate = 1.5 * Math.PI; // 3/4 of a rotation per second max angular velocity
+
+    public static class PID {
+      public static double driveP = 0.3f;
+      public static double driveI = 0;
+      public static double driveD = 0.1;
+      public static double steerP = 0.3;
+      public static double steerI = 0;
+      public static double steerD = 0.1;
+    }
+
+    public static HolonomicPathFollowerConfig PathPlannerConfig = new HolonomicPathFollowerConfig(
+        new PIDConstants(PID.driveP, PID.driveI, PID.driveD), // Translation PID constants
+        new PIDConstants(PID.steerP, PID.steerI, PID.steerD), // Rotation PID constants
+        MaxSpeed, // Max module speed, in m/s
         0.4, // Drive base radius in meters. Distance from robot center to furthest module.
         new ReplanningConfig() // Default path replanning config. See the API for the options here
+
     );
+
   }
 
   public static class CANIDs {
