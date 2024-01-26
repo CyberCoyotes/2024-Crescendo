@@ -1,5 +1,13 @@
 package frc.robot.subsystems;
 
+/* Subsystem class to primarily use a Time of Flight sensor from 'Playing with Fusion'.
+ * It will read the distance from the sensor to the 'note' and determine if the note is in a load position.
+ * It should return an actual distance reading to the SmartDashboard and a boolean for a method 'isNoteLoaded'
+ * This sensor data will change LED status and enable/disable intake and index motors
+ */
+
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import com.playingwithfusion.TimeOfFlight;
 import com.playingwithfusion.TimeOfFlight.RangingMode;
 
@@ -7,18 +15,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-/* Subsystem class to primarily use a Time of Flight sensor from 'Playing with Fusion'.
- * It will read the distance from the sensor to the 'note' and determine if the note is in a load position.
- * This sensor data will change LED status and enable/disable intake and index motors
- */
-public class NoteSensorSubsystem extends SubsystemBase {
-     /* Set ID in web interface http://172.22.11.2:5812/     */   
+public class NoteSensorSubsystem extends SubsystemBase{
+    
+     /* Set ID in web interface http://172.22.11.2:5812/  */   
      private TimeOfFlight sensorNoteDistance = new TimeOfFlight(Constants.CANIDs.timeOfFlightID);
 
      /* Set the distance to the note to be considered 'in load position.'
      Measure in (mm) to determine an appropriate value.*/
      public int noteDistanceCheck = 0;
-
+  
     /* Constructor */
     public NoteSensorSubsystem() {
         /* Initialize the sensor, and '.setRangingMode(RandingMode.short)' for this usage.
@@ -48,7 +53,6 @@ public class NoteSensorSubsystem extends SubsystemBase {
         * Requires 'isNoteLoadeded' value and two led methods */
 
     }
-
     
     public void periodic() {
         // This method will be called once per scheduler run
@@ -56,5 +60,5 @@ public class NoteSensorSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Note Distance", sensorNoteDistance.getRange());
         SmartDashboard.putBoolean("Note Loaded", isNoteLoaded());
     }
-        
+
 } // end of class NoteSensorSubsystem
