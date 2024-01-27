@@ -18,9 +18,15 @@ public class NoteSensorSubsystem extends SubsystemBase{
     
      /* Set ID in web interface http://172.22.11.2:5812/  */   
     private TimeOfFlight noteDistance = new TimeOfFlight(Constants.CANIDs.NOTE_SENSOR_ID);
+
+    /* 
+    * This line declares a private instance variable called `m_ledSubsystem` of type `LedSubsystem`
+    * It is initialized with a new instance of the `LedSubsystem` class
+    * It is needed to control the LEDs based on the method `isNoteLoaded()`
+    */
     private LedSubsystem m_ledSubsystem = new LedSubsystem();
 
-     /* Set the distance to the note to be considered 'in load position.'
+     /* Set the distance to the note to be considered  load position.'
      Measure in (mm) to determine an appropriate value.*/
      public int noteDistanceCheck = 100;
   
