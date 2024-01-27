@@ -1,7 +1,5 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.RunCommand;
-
 /* Subsystem class to primarily use a Time of Flight sensor from 'Playing with Fusion'.
  * It will read the distance from the sensor to the 'note' and determine if the note is in a load position.
  * It should return an actual distance reading to the SmartDashboard and a boolean for a method 'isNoteLoaded'
@@ -19,24 +17,25 @@ import frc.robot.Constants;
 public class NoteSensorSubsystem extends SubsystemBase{
     
      /* Set ID in web interface http://172.22.11.2:5812/  */   
-     private TimeOfFlight noteDistance = new TimeOfFlight(Constants.CANIDs.timeOfFlightID);
+    private TimeOfFlight noteDistance = new TimeOfFlight(Constants.CANIDs.NOTE_SENSOR_ID);
+    private LedSubsystem m_ledSubsystem = new LedSubsystem();
 
      /* Set the distance to the note to be considered 'in load position.'
      Measure in (mm) to determine an appropriate value.*/
-     public int noteDistanceCheck = 0;
+     public int noteDistanceCheck = 100;
   
     /* Constructor */
     public NoteSensorSubsystem() {
         /* Initialize the sensor, and '.setRangingMode(RangingMode.Short)' for this usage.
         *
-        | Sample value  | Time  |
-        |-------------  |------ |
-        | 1             | 20 ms |
-        | 2             | 33 ms |
-        | 3             | 50 ms |
-        | 4 (default)   | 100 ms|
-        | 5             | 200 ms|
-        */
+        | Sample value  | Time   |
+        |---------------|--------|
+        | 1             | 20 ms  |
+        | 2             | 33 ms  |
+        | 3             | 50 ms  |
+        | 4 (default)   | 100 ms |
+        | 5             | 200 ms |
+        *****************************/
     noteDistance.setRangingMode(RangingMode.Short,0.5);
     }
 
@@ -55,10 +54,11 @@ public class NoteSensorSubsystem extends SubsystemBase{
         * Requires 'isNoteLoadeded' value and two led methods */
         if (isNoteLoaded() == true) {
             // SetColor decide loaded color
-             
+            m_ledSubsystem.ColorGreen();
+
         } else if (isNoteLoaded() == false) {
             //SetColor decide UnLoaded color
-            
+            m_ledSubsystem.ColorRed();
         }
     }
     
