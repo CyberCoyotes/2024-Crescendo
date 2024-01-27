@@ -17,46 +17,61 @@ import frc.robot.Constants;
 public class NoteSensorSubsystem extends SubsystemBase{
     
      /* Set ID in web interface http://172.22.11.2:5812/  */   
-     private TimeOfFlight sensorNoteDistance = new TimeOfFlight(Constants.CANIDs.timeOfFlightID);
+    private TimeOfFlight noteDistance = new TimeOfFlight(Constants.CANIDs.NOTE_SENSOR_ID);
 
-     /* Set the distance to the note to be considered 'in load position.'
+    /* 
+    * This line declares a private instance variable called `m_ledSubsystem` of type `LedSubsystem`
+    * It is initialized with a new instance of the `LedSubsystem` class
+    * It is needed to control the LEDs based on the method `isNoteLoaded()`
+    */
+    private LedSubsystem m_ledSubsystem = new LedSubsystem();
+
+     /* Set the distance to the note to be considered  load position.'
      Measure in (mm) to determine an appropriate value.*/
-     public int noteDistanceCheck = 0;
+     public int noteDistanceCheck = 100;
   
     /* Constructor */
     public NoteSensorSubsystem() {
-        /* Initialize the sensor, and '.setRangingMode(RandingMode.short)' for this usage.
+        /* Initialize the sensor, and '.setRangingMode(RangingMode.Short)' for this usage.
         *
-        | Sample value  | Time  |
-        |-------------  |------ |
-        | 1             | 20 ms |
-        | 2             | 33 ms |
-        | 3             | 50 ms |
-        | 4 (default)   | 100 ms|
-        | 5             | 200 ms|
-        */
+        | Sample value  | Time   |
+        |---------------|--------|
+        | 1             | 20 ms  |
+        | 2             | 33 ms  |
+        | 3             | 50 ms  |
+        | 4 (default)   | 100 ms |
+        | 5             | 200 ms |
+        *****************************/
+    noteDistance.setRangingMode(RangingMode.Short,0.5);
     }
 
     public double getNoteDistance() {
         /* Gets the distance from the sensor to the nearest edge of the note*/
-        return 0.0; // return sensorNoteDistance.
+        return noteDistance.getRange(); // return NoteDistance.
     }
 
     public boolean isNoteLoaded() {
         /* Returns true if the note is loaded, false if not */
-        return true; // return sensorNoteDistance.
+        return noteDistance.getRange() < noteDistanceCheck ; // return NoteDistance.
     }
 
     public void setLEDColor() {
         /* Set the LED color based on the note position.
         * Requires 'isNoteLoadeded' value and two led methods */
+        if (isNoteLoaded() == true) {
+            // SetColor decide loaded color
+            m_ledSubsystem.ColorGreen();
 
+        } else if (isNoteLoaded() == false) {
+            //SetColor decide UnLoaded color
+            m_ledSubsystem.ColorRed();
+        }
     }
     
     public void periodic() {
         // This method will be called once per scheduler run
         // It did not seem to be called on the dashboard until I added a Command to the RobotContainer, but it would display updated data even when the button was not pressed.
-        SmartDashboard.putNumber("Note Distance", sensorNoteDistance.getRange());
+        SmartDashboard.putNumber("Note Distance", noteDistance.getRange());
         SmartDashboard.putBoolean("Note Loaded", isNoteLoaded());
     }
 
