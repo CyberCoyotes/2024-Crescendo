@@ -27,7 +27,7 @@ public class IntakeSubsystem extends SubsystemBase {
         dutyCycle = new DutyCycleOut(0);
         motor.setControl(dutyCycle);
 
-        sensor = new TimeOfFlight(Constants.CANIDs.TIME_OF_FLIGHT_ID);
+        sensor = new TimeOfFlight(Constants.CANIDs.NOTE_SENSOR_ID);
         // Every 20ms it updates ()
         sensor.setRangingMode(RangingMode.Short, 1);
     }

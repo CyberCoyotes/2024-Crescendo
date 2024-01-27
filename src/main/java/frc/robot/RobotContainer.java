@@ -3,10 +3,9 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
-
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.subsystems.RatioMotorSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.LauncherSubsystem;
 import frc.robot.subsystems.OrchestraSubsystem;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -48,7 +47,7 @@ public class RobotContainer {
   // #endregion
 
   // #region Subsystems
-  RatioMotorSubsystem shooter;
+  LauncherSubsystem shooter;
   OrchestraSubsystem daTunes;
   // #endregion Subsystems
 
@@ -77,7 +76,7 @@ public class RobotContainer {
     shooterMotorMain = new TalonFX(Constants.CANIDs.RIGHT_FLYWHEEL_CAN);
     // #endregion
 
-    shooter = new RatioMotorSubsystem(shooterMotorMain, shooterMotorSub);
+    shooter = new LauncherSubsystem(shooterMotorMain, shooterMotorSub);
     shooter.SetStatePower(1);
     shooter.SetRatio(1);
 

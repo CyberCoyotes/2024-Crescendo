@@ -21,6 +21,9 @@ import com.pathplanner.lib.util.ReplanningConfig;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
+  public int noteDistanceCheck = 100;
+
   public static class OperatorConstants {
     public static final int K_DRIVER_CONTROLLER_PORT = 0;
   }
@@ -56,7 +59,8 @@ public final class Constants {
     public static final int INTAKE_CAN = 10;
     public static final int INDEX_CAN = 11;
 
-    public static final int TIME_OF_FLIGHT_ID = 12;
+    public static final int NOTE_SENSOR_ID = 12; // Time of Flight sensor for the note
+
 
     public static final int BASS_GUITAR = 13;
 
