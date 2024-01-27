@@ -4,6 +4,7 @@
 
 package frc.robot;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.LauncherSubsystem;
 import frc.robot.subsystems.OrchestraSubsystem;
@@ -48,11 +49,17 @@ public class RobotContainer {
 
   // #region Subsystems
   LauncherSubsystem shooter;
+  IntakeSubsystem intake;
   OrchestraSubsystem daTunes;
   // #endregion Subsystems
 
   private final CommandXboxController m_driverController = new CommandXboxController(
       OperatorConstants.K_DRIVER_CONTROLLER_PORT);
+  private final CommandXboxController m_operatorController = new CommandXboxController(
+      OperatorConstants.K_OPERATOR_CONTROLLER_PORT);
+
+      
+
 
   public RobotContainer() {
 
@@ -116,8 +123,11 @@ public class RobotContainer {
 
     // reset the field-centric heading on left bumper press
 
-    m_driverController.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
+    m_driverController.back().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
+    m_operatorController.back().onTrue(drivetrain.runOnce(() -> drivetrain.getPigeon2().setYaw(0)));
 
+    m_driverController.leftBumper().onTrue(drivetrain.runOnce(() -> intake.Run(() -> -1)));
+    m_driverController.leftBumper().onTrue(drivetrain.runOnce(() -> intake.Run(() -> 1)));
   }
 
   public void DebugMethodSingle() {

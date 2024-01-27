@@ -26,6 +26,8 @@ public final class Constants {
 
   public static class OperatorConstants {
     public static final int K_DRIVER_CONTROLLER_PORT = 0;
+    public static final int K_OPERATOR_CONTROLLER_PORT = 1;
+    
   }
 
   public static class SystemConstants {
