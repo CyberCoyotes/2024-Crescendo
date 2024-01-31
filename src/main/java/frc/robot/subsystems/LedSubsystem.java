@@ -61,6 +61,9 @@ public class LedSubsystem extends SubsystemBase{
          public void ColorBlue (){
             m_candle.setLEDs(0,0,255) ;
          }
+         public void ColorYellow (){
+            m_candle.setLEDs(255,255,0) ;
+         }
          
          /*******************************
          Color       |   RGB Values
@@ -70,6 +73,7 @@ public class LedSubsystem extends SubsystemBase{
          Blue        |   (0, 0, 255)
          Orange      |   (255, 165, 0)
          Dark Orange |   (255, 60,0)
+         Yellow      |   (255, 255,0)
      
          ********************************/
 
