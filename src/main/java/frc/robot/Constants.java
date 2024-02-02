@@ -27,13 +27,20 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int K_DRIVER_CONTROLLER_PORT = 0;
     public static final int K_OPERATOR_CONTROLLER_PORT = 1;
-    
+
+    public static final int DEFAULT_ARM_INCREMENT_VALUE = 20;
+
   }
 
   public static class SystemConstants {
 
     public static final double MAX_SPEED = 6; // 6 meters per second desired top speed
     public static final double MAX_ANGULAR_RATE = 1.5 * Math.PI; // 3/4 of a rotation per second max angular velocity
+
+    public static final double DEG_TO_ARM_ENCODER = 1;
+    public static final double ARM_ENCODER_TO_DEG = 1 / DEG_TO_ARM_ENCODER;
+    // For every 488 rotations of our driver motor, the arm makes 1 revolution.
+    public static final double NET_ARM_RATIO = 458;
 
     public static class PID {
       public static final double DRIVE_P = 0.3f;
@@ -62,7 +69,6 @@ public final class Constants {
     public static final int INDEX_CAN = 11;
 
     public static final int NOTE_SENSOR_ID = 12; // Time of Flight sensor for the note
-
 
     public static final int BASS_GUITAR = 13;
 

@@ -16,10 +16,9 @@ import frc.robot.Constants;
 public class IntakeSubsystem extends SubsystemBase {
 
     private TalonFX motor;
-    private TimeOfFlight sensor;
+    private NoteSensorSubsystem notey;
     private DutyCycleOut dutyCycle;
     // The distance at which the tof thinks we have cargo
-    private final double tofCutoff = 50; // 5cm
 
     public IntakeSubsystem() {
 
@@ -27,9 +26,10 @@ public class IntakeSubsystem extends SubsystemBase {
         dutyCycle = new DutyCycleOut(0);
         motor.setControl(dutyCycle);
 
-        sensor = new TimeOfFlight(Constants.CANIDs.NOTE_SENSOR_ID);
+        notey.noteDistanceCheck = 3;
+        notey = new NoteSensorSubsystem();
         // Every 20ms it updates ()
-        sensor.setRangingMode(RangingMode.Short, 1);
+
     }
 
     public void Run(DoubleSupplier supplier) {
@@ -38,6 +38,6 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public boolean HasCargo() {
-        return sensor.getRange() < tofCutoff;
+        return notey.isNoteLoaded();
     }
 }
