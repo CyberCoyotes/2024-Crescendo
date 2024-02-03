@@ -1,9 +1,12 @@
 package frc.robot.subsystems;
 
+import java.util.function.DoubleSupplier;
+
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /**
@@ -15,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class LauncherSubsystem extends SubsystemBase {
     /** As opposed to double */
     private boolean singleMotor;
+
     private TalonFX m_main;
     private TalonFX m_sub;
     /** The state percentage */
@@ -116,4 +120,9 @@ public class LauncherSubsystem extends SubsystemBase {
 
     }
 
+    public Command RunLauncher(double input)
+
+    {
+        return this.run(() -> SetStatePower(input));
+    }
 }

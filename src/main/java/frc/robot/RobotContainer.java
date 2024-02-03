@@ -3,11 +3,15 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
+
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ArmSubsytem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.LauncherSubsystem;
 import frc.robot.subsystems.OrchestraSubsystem;
+import frc.robot.subsystems.WinchSubsystem;
+
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -19,15 +23,19 @@ import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.generated.TunerConstants;
 
 import static frc.robot.Constants.SystemConstants.MAX_SPEED;
+import static frc.robot.Constants.OperatorConstants.DEFAULT_ARM_INCREMENT_VALUE;
 
 public class RobotContainer {
 
+  // #region Drivetrain
   /* Setting up bindings for necessary control of the swerve drive platform */
   private final CommandSwerveDrivetrain drivetrain = TunerConstants.DriveTrain; // My drivetrain
 
@@ -40,26 +48,35 @@ public class RobotContainer {
   private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
   private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
   private final Telemetry logger = new Telemetry(Constants.SystemConstants.MAX_SPEED);
+  // #endregion
+  // #region Network Tables
   SendableChooser<Command> autoChooser;
-
+  // Interactable way to change increment distance on arm for High Speed High
+  // Fidelity Testing
+  GenericEntry incrementDistanceEntry;
+  // #endregion Network Tables
   // #region Devices
   TalonFX shooterMotorMain;
   TalonFX shooterMotorSub;
   // #endregion
-
   // #region Subsystems
-  LauncherSubsystem shooter;
+  LauncherSubsystem launcher;
   IntakeSubsystem intake;
   OrchestraSubsystem daTunes;
+  WinchSubsystem winch;
+  ArmSubsytem arm;
   // #endregion Subsystems
 
   private final CommandXboxController m_driverController = new CommandXboxController(
       OperatorConstants.K_DRIVER_CONTROLLER_PORT);
   private final CommandXboxController m_operatorController = new CommandXboxController(
       OperatorConstants.K_OPERATOR_CONTROLLER_PORT);
+  // schizophrenic way to access controllers; might have to get taken out back and
+  // "deprecated"
+  private final CommandXboxController[] Controllers = new CommandXboxController[] { m_driverController,
+      m_operatorController
 
-      
-
+  };
 
   public RobotContainer() {
 
@@ -83,10 +100,13 @@ public class RobotContainer {
     shooterMotorMain = new TalonFX(Constants.CANIDs.RIGHT_FLYWHEEL_CAN);
     // #endregion
 
-    shooter = new LauncherSubsystem(shooterMotorMain, shooterMotorSub);
-    shooter.SetStatePower(1);
-    shooter.SetRatio(1);
+    launcher = new LauncherSubsystem(shooterMotorMain, shooterMotorSub);
+    launcher.SetStatePower(1);
+    launcher.SetRatio(1);
 
+    // intake run depending on driver bumper status
+    intake.setDefaultCommand(intake.run(() -> intake.Run(() -> BumperStatus(0))));
+    launcher.setDefaultCommand(launcher.RunLauncher(m_operatorController.getRightTriggerAxis()));
     drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
         drivetrain
             .applyRequest(
@@ -113,26 +133,58 @@ public class RobotContainer {
 
   // tl;dr: Trigger class for simple booleans
   private void configureBindings() {
-    // WOW This is bad but oh well
-    m_driverController.y().onTrue(new InstantCommand(() -> shooter.Toggle(),
-        shooter));
 
     m_driverController.a().whileTrue(drivetrain.applyRequest(() -> brake));
     m_driverController.b().whileTrue(drivetrain.applyRequest(() -> point
         .withModuleDirection(new Rotation2d(-m_driverController.getLeftY(), -m_driverController.getLeftX()))));
 
-    // reset the field-centric heading on left bumper press
+    // reset the field-centric heading on back press
+    // Instant command because it doesn't set a requirment. In short, creating a
+    // requirement may block this or cancel another (say, driving)
+    m_driverController.back().onTrue(new InstantCommand(() -> drivetrain.seedFieldRelative()));
+    // ! Delete this below if we know that Gyro is working; close issue #81
+    // m_operatorController.back().onTrue(new InstantCommand(() ->
+    // drivetrain.getPigeon2().setYaw(0)));
+    // -------------------//-------------------//-------------------//-------------------//-------------------//-------------------
+    m_operatorController.povUp().onTrue(winch.run(() -> winch.Drive(() -> 1)));
+    m_operatorController.povDown().onTrue(winch.run(() -> winch.Drive(() -> -1)));
+    m_operatorController.y()
+        .onTrue(
+            arm.run(() -> arm.IncrementNativeUnits(incrementDistanceEntry.getInteger(DEFAULT_ARM_INCREMENT_VALUE))));
+    m_operatorController.a()
+        .onTrue(
+            arm.run(() -> arm.IncrementNativeUnits(incrementDistanceEntry.getInteger(-DEFAULT_ARM_INCREMENT_VALUE))));
 
-    m_driverController.back().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
-    m_operatorController.back().onTrue(drivetrain.runOnce(() -> drivetrain.getPigeon2().setYaw(0)));
-
-    m_driverController.leftBumper().onTrue(drivetrain.runOnce(() -> intake.Run(() -> -1)));
-    m_driverController.leftBumper().onTrue(drivetrain.runOnce(() -> intake.Run(() -> 1)));
   }
 
   public void DebugMethodSingle() {
-    var tab = Shuffleboard.getTab("Driver Diagnostics");
-    tab.addBoolean("Shooter Running", () -> shooter.Running());
+
+    // More useful logs that the drivers will probably want
+    var driverDiagnostics = Shuffleboard.getTab("Driver Diagnostics");
+    driverDiagnostics.addDouble("Net Arm Angle", () -> arm.GetPositionDegreesAbsolulte());
+
+    incrementDistanceEntry = driverDiagnostics.add("Increment Distance (Control)", 20).getEntry();
+    // Less useful logs that we still need to see for testing.
+    var testerDiagnostics = Shuffleboard.getTab("Driver Diagnostics");
+
+    testerDiagnostics.addBoolean("Shooter Running", () -> launcher.Running());
+    testerDiagnostics.addDouble("Net Arm Angle", () -> arm.GetPositionDegreesAbsolulte());
+    testerDiagnostics.addDouble("Net Arm Encoder", () -> arm.GetPositionEncoder());
+    testerDiagnostics.addDouble("Winch Input", () -> winch.GetControl());
+  }
+
+  //
+  //
+  /**
+   * Schizophrenic method to quickly get an int indicating driver bumper status. 1
+   * if RB,-1 if LB, 0 if both or none
+   * 
+   * @param port controller port, 0 is driver, 1 is operaator
+   * @return use your brain pretty please
+   */
+  private double BumperStatus(int port) {
+    return (Controllers[port].rightBumper().getAsBoolean() ? 1 : 0)
+        + (Controllers[port].leftBumper().getAsBoolean() ? -1 : 0);
   }
 
   public Command getAutonomousCommand() {

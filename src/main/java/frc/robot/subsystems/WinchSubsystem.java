@@ -24,4 +24,8 @@ public class WinchSubsystem extends SubsystemBase {
     public void Drive(DoubleSupplier supplier) {
         controlRequest.Output = Math.round(supplier.getAsDouble());
     }
+
+    public double GetControl() {
+        return controlRequest.Output;
+    }
 }
