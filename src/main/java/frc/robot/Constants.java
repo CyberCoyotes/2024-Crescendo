@@ -2,8 +2,6 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-   
-
 package frc.robot;
 
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
@@ -23,9 +21,10 @@ import com.pathplanner.lib.util.ReplanningConfig;
  */
 public final class Constants {
 
-  /*Real world unit of millimeters
-  * When less than this, the note status is considered "loaded"
-  */
+  /*
+   * Real world unit of millimeters
+   * When less than this, the note status is considered "loaded"
+   */
   public static int NOTE_DISTANCE_CHECK = 100;
 
   public static class OperatorConstants {
@@ -68,51 +67,56 @@ public final class Constants {
   }
 
   public static class CANIDs {
-  
+
     /* Hypothetical ID Table */
 
-   /* CAN IDs 
-    | Object      | ID  | 
-    |------------ |-----|
-    | Drive FL    | 01  |
-    | Steer FL    | 02  |
-    | Drive FR    | 03  |
-    | Steer FR    | 04  |
-    | Drive RL    | 05  |
-    | Steer RL    | 06  |
-    | Drive RR    | 07  |
-    | Steer RR    | 08  |
-    | CANCoder FL | 09  |
-    | CANCoder FR | 10  |
-    | CANCoder RL | 11  |
-    | CANCoder RR | 12  |
-    | -Hard pass- | 13  |
-    | Pidgeon     | 14  |
-    | Candle      | 15  |
-
-    // Season Specific
-    | Intake      | 20  |
-    | Index       | 21  |
-    | Arm         | 22  |  
-    | Launcher LT | 23  |
-    | Launcher RT | 24  |
-    | Winch       | 25  |
-    | ToF Note    | 42  | 
-    | Bass Guitar | | 
-    
-    */
+    /*
+     * CAN IDs
+     * | Object | ID |
+     * |------------ |-----|
+     * | Drive FL | 01 |
+     * | Steer FL | 02 |
+     * | Drive FR | 03 |
+     * | Steer FR | 04 |
+     * | Drive RL | 05 |
+     * | Steer RL | 06 |
+     * | Drive RR | 07 |
+     * | Steer RR | 08 |
+     * | CANCoder FL | 09 |
+     * | CANCoder FR | 10 |
+     * | CANCoder RL | 11 |
+     * | CANCoder RR | 12 |
+     * | -Hard pass- | 13 |
+     * | Pidgeon | 14 |
+     * | Candle | 15 |
+     * 
+     * // Season Specific
+     * | Intake | 20 |
+     * | Index | 21 |
+     * | Arm | 22 |
+     * | Launcher LT | 23 |
+     * | Launcher RT | 24 |
+     * | Winch | 25 |
+     * | ToF Note | 42 |
+     * | Bass Guitar | |
+     * 
+     */
 
     public static final int CANDLE_ID = 15; // Mini LED and LED strip controller
     public static final int INTAKE_ID = 20;
     public static final int INDEX_ID = 21;
     public static final int ARM_ID = 22;
     public static final int RIGHT_FLYWHEEL_ID = 23; // Right, when looking from back?
-    public static final int LEFT_FLYWHEEL_ID = 24; // 
+    public static final int LEFT_FLYWHEEL_ID = 24; //
     public static final int WINCH_ID = 25;
     public static final int NOTE_SENSOR_ID = 42; // Time of Flight sensor for the note
 
-
     // Extra CAN IDs
     public static final int BASS_GUITAR = 13;
+    public static final int WINCH = 17;
+    public static final int CANDLE = 18;
+
+    public static final int RIGHT_FLYWHEEL_CAN = 15;
+    public static final int LEFT_FLYWHEEL_CAN = 16;
   }
 }

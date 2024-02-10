@@ -8,7 +8,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ArmSubsytem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
-import frc.robot.subsystems.LauncherSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.OrchestraSubsystem;
 import frc.robot.subsystems.WinchSubsystem;
 
@@ -59,7 +59,7 @@ public class RobotContainer {
   TalonFX shooterMotorSub;
   // #endregion
   // #region Subsystems
-  LauncherSubsystem launcher;
+  ShooterSubsystem shooter;
   IntakeSubsystem intake;
   OrchestraSubsystem daTunes;
   WinchSubsystem winch;
@@ -99,13 +99,13 @@ public class RobotContainer {
     shooterMotorMain = new TalonFX(Constants.CANIDs.RIGHT_FLYWHEEL_ID);
     // #endregion
 
-    launcher = new LauncherSubsystem(shooterMotorMain, shooterMotorSub);
-    launcher.SetStatePower(1);
-    launcher.SetRatio(1);
-
+    shooter = new ShooterSubsystem(shooterMotorMain, shooterMotorSub);
+    shooter.SetStatePower(1);
+    shooter.SetRatio(1);
+    arm.setDefaultCommand(arm.DriveCommand(m_driverController.getLeftY()));
     // intake run depending on driver bumper status
     intake.setDefaultCommand(intake.run(() -> intake.Run(() -> BumperStatus(0))));
-    launcher.setDefaultCommand(launcher.RunLauncher(m_operatorController.getRightTriggerAxis()));
+    shooter.setDefaultCommand(shooter.RunShooter(m_operatorController.getRightTriggerAxis()));
     drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
         drivetrain
             .applyRequest(
@@ -160,23 +160,27 @@ public class RobotContainer {
   }
 
   public void DebugMethodSingle() {
-
+    // #region Driving
     // More useful logs that the drivers will probably want
     var driverDiagnostics = Shuffleboard.getTab("Driver Diagnostics");
     driverDiagnostics.addDouble("Net Arm Angle", () -> arm.GetPositionDegreesAbsolulte());
-
-    incrementDistanceEntry = driverDiagnostics.add("Increment Distance (Control)", 20).getEntry();
+    // #endregion Driving
+    // #region Testing
     // Less useful logs that we still need to see for testing.
+
     var testerDiagnostics = Shuffleboard.getTab("Driver Diagnostics");
 
-    testerDiagnostics.addBoolean("Shooter Running", () -> launcher.Running());
+    incrementDistanceEntry = testerDiagnostics.add("Increment Distance (Control)", 20).getEntry();
+    testerDiagnostics.addBoolean("Shooter Running", () -> shooter.Running());
     testerDiagnostics.addDouble("Net Arm Angle", () -> arm.GetPositionDegreesAbsolulte());
     testerDiagnostics.addDouble("Net Arm Encoder", () -> arm.GetPositionEncoder());
     testerDiagnostics.addDouble("Winch Input", () -> winch.GetControl());
+    testerDiagnostics.addBoolean("Note Detected", () -> intake.HasCargo());
+    testerDiagnostics.addDouble("Shooter Danger Level", () -> shooter.GetDanger());
+    testerDiagnostics.addBoolean("Fatal Danger", () -> shooter.IsDangerous());
+    // #endregion Testing
   }
 
-  //
-  //
   /**
    * Schizophrenic method to quickly get an int indicating driver bumper status. 1
    * if RB,-1 if LB, 0 if both or none

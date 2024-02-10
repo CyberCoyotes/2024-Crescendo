@@ -1,4 +1,8 @@
 Here's the changes that I really recall.
 
-- Set the arm motor sensor to align with the arm itself ?
-- Some more format changes for regions; if you have the proper extension, makes them collapsable and expandable. Handy
+Commit 1:
+
+- Added some more logging for each of the subsystems, to improve testing and such
+- Changed Launcher to Shooter.
+- Provided some commands in the command folder.
+- Fixed some arm limit code that was probably not great
