@@ -16,14 +16,14 @@ public class ArmSubsytem extends SubsystemBase {
 
     // The angle we start at, relative to the ground. This means that the sensor is
     // 0 when theta = this.
-    private double defaultAngle = 35;
-    private double degUpperBound = 55;
+    // private double defaultAngle = 35; // See also CTRE hardware or software limits
+    // private double degUpperBound = 55; // See also CTRE hardware or software limits
     // Bounds for encoder
-    double forwardEncoderLimit;
-    double rearEncoderLimit;
+    // double forwardEncoderLimit; // See also CTRE hardware or software limits
+    // double rearEncoderLimit; // See also CTRE hardware or software limits
     // These two control modes are very subject to change
     private VelocityDutyCycle velocityControl;
-    private PositionDutyCycle positionControl;;
+    private PositionDutyCycle positionControl;
     private NeutralOut brakeMode;
 
     // ! To consider:
@@ -52,8 +52,8 @@ public class ArmSubsytem extends SubsystemBase {
 
         config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
-        config.HardwareLimitSwitch.withForwardLimitAutosetPositionValue(forwardEncoderLimit);
-        config.HardwareLimitSwitch.withForwardLimitAutosetPositionValue(rearEncoderLimit);
+        // config.HardwareLimitSwitch.withForwardLimitAutosetPositionValue(forwardEncoderLimit);
+        // config.HardwareLimitSwitch.withForwardLimitAutosetPositionValue(rearEncoderLimit);
         motor.getConfigurator().apply(config);
 
     }
@@ -101,19 +101,21 @@ public class ArmSubsytem extends SubsystemBase {
         motor.setControl(positionControl.withPosition(motor.getPosition().getValueAsDouble() + target));
     }
 
+    /* Seems unnecessarily complex 
     public double GetPositionDegreesAbsolulte() {
         return GetPositionEncoder() * Constants.SystemConstants.ARM_ENCODER_TO_DEG + defaultAngle;
     }
+    */
 
+    /* Use the CTRE software limit and hardware limit configuration settings instead.
     private double GetSensorUpperBound() {
-        // FIXME Scoyoc, could I get a sanity check? -SZ
         return (degUpperBound - defaultAngle) * Constants.SystemConstants.DEG_TO_ARM_ENCODER;
     }
 
     private double GetSensorLowerBound() {
-        // FIXME Scoyoc, could I get a sanity check? -SZ
         return (defaultAngle - defaultAngle) * Constants.SystemConstants.DEG_TO_ARM_ENCODER;
     }
+    */
 
     public double GetPositionEncoder() {
         return motor.getPosition().getValueAsDouble();

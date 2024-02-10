@@ -30,7 +30,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.generated.TunerConstants;
 
 import static frc.robot.Constants.SystemConstants.MAX_SPEED;
-import static frc.robot.Constants.OperatorConstants.DEFAULT_ARM_INCREMENT_VALUE;
 
 public class RobotContainer {
 
@@ -163,14 +162,14 @@ public class RobotContainer {
 
     // More useful logs that the drivers will probably want
     var driverDiagnostics = Shuffleboard.getTab("Driver Diagnostics");
-    driverDiagnostics.addDouble("Net Arm Angle", () -> arm.GetPositionDegreesAbsolulte());
+    // driverDiagnostics.addDouble("Net Arm Angle", () -> arm.GetPositionDegreesAbsolulte());
 
     incrementDistanceEntry = driverDiagnostics.add("Increment Distance (Control)", 20).getEntry();
     // Less useful logs that we still need to see for testing.
     var testerDiagnostics = Shuffleboard.getTab("Driver Diagnostics");
 
     testerDiagnostics.addBoolean("Shooter Running", () -> launcher.Running());
-    testerDiagnostics.addDouble("Net Arm Angle", () -> arm.GetPositionDegreesAbsolulte());
+    // testerDiagnostics.addDouble("Net Arm Angle", () -> arm.GetPositionDegreesAbsolulte());
     testerDiagnostics.addDouble("Net Arm Encoder", () -> arm.GetPositionEncoder());
     testerDiagnostics.addDouble("Winch Input", () -> winch.GetControl());
   }
