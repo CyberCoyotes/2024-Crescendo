@@ -30,7 +30,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.generated.TunerConstants;
 
 import static frc.robot.Constants.SystemConstants.MAX_SPEED;
-import static frc.robot.Constants.OperatorConstants.DEFAULT_ARM_INCREMENT_VALUE;
 
 public class RobotContainer {
 
@@ -44,8 +43,8 @@ public class RobotContainer {
       // deadband
       .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Computer! I want field-centric
                                                                // driving in open loop!
-  private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
-  private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
+  // private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
+  // private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
   private final Telemetry logger = new Telemetry(Constants.SystemConstants.MAX_SPEED);
   // #endregion
   // #region Network Tables
@@ -166,6 +165,7 @@ public class RobotContainer {
     driverDiagnostics.addDouble("Net Arm Angle", () -> arm.GetPositionDegreesAbsolulte());
     // #endregion Driving
     // #region Testing
+
     // Less useful logs that we still need to see for testing.
 
     var testerDiagnostics = Shuffleboard.getTab("Driver Diagnostics");
