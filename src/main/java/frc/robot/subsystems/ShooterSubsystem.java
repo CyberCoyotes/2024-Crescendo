@@ -1,7 +1,5 @@
 package frc.robot.subsystems;
 
-import java.util.function.DoubleSupplier;
-
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 
@@ -15,10 +13,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  * Set configs before creating this class/subsystem.
  * {@link #SetStatePower} is used to set the main power.
  */
-public class LauncherSubsystem extends SubsystemBase {
+public class ShooterSubsystem extends SubsystemBase {
     /** As opposed to double */
     private boolean singleMotor;
-
+    // The max rpm of the motor for shooting cargo; realistically 5900.
+    private int maxDanger = 5900;
     private TalonFX m_main;
     private TalonFX m_sub;
     /** The state percentage */
@@ -38,7 +37,7 @@ public class LauncherSubsystem extends SubsystemBase {
      * Set configs before creating this class/subsystem.
      * {@link #SetStatePower} is used to set the main power.
      */
-    public LauncherSubsystem(TalonFX main, TalonFX sub) {
+    public ShooterSubsystem(TalonFX main, TalonFX sub) {
 
         singleMotor = false;
         this.m_main = main;
@@ -55,7 +54,7 @@ public class LauncherSubsystem extends SubsystemBase {
      * Set configs before creating this class/subsystem.
      * {@link #SetStatePower} is used to set the main power.
      */
-    public LauncherSubsystem(TalonFX only) {
+    public ShooterSubsystem(TalonFX only) {
 
         this.m_main = only;
         singleMotor = true;
@@ -120,9 +119,21 @@ public class LauncherSubsystem extends SubsystemBase {
 
     }
 
-    public Command RunLauncher(double input)
+    public Command RunShooter(double input)
 
     {
         return this.run(() -> SetStatePower(input));
+    }
+
+    /**
+     * 
+     * @return The velocity of the motor
+     */
+    public double GetDanger() {
+        return m_main.getVelocity().getValueAsDouble();
+    }
+
+    public boolean IsDangerous() {
+        return GetDanger() / maxDanger >= 0.8;
     }
 }

@@ -71,6 +71,8 @@ public final class Constants {
     public static final int NOTE_SENSOR_ID = 12; // Time of Flight sensor for the note
 
     public static final int BASS_GUITAR = 13;
+    public static final int WINCH = 17;
+    public static final int CANDLE = 18;
 
     public static final int RIGHT_FLYWHEEL_CAN = 15;
     public static final int LEFT_FLYWHEEL_CAN = 16;
