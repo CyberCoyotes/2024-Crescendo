@@ -27,8 +27,8 @@ public class ArmSubsytem extends SubsystemBase {
     private double degUpperBound = 55;
 
     // Bounds for encoder
-    // double forwardEncoderLimit; // See also CTRE hardware or software limits
-    // double rearEncoderLimit; // See also CTRE hardware or software limits
+    double forwardEncoderLimit; // See also CTRE hardware or software limits
+    double rearEncoderLimit; // See also CTRE hardware or software limits
     // These two control modes are very subject to change
     private VelocityDutyCycle velocityControl;
     private PositionDutyCycle positionControl;
@@ -74,7 +74,7 @@ public class ArmSubsytem extends SubsystemBase {
     public void SnapToAbsolutePosition(double degreePosition) {
         // Stub
         // manualControl.
-        positionControl.Position = DegToEncoder(degreePosition);
+        // positionControl.Position = DegToEncoder(degreePosition);
         motor.setControl(positionControl);
     }
 
