@@ -162,7 +162,7 @@ public class RobotContainer {
     // #region Driving
     // More useful logs that the drivers will probably want
     var driverDiagnostics = Shuffleboard.getTab("Driver Diagnostics");
-    driverDiagnostics.addDouble("Net Arm Angle", () -> arm.GetPositionDegreesAbsolulte());
+    // driverDiagnostics.addDouble("Net Arm Angle", () -> arm.GetPositionDegreesAbsolulte());
     // #endregion Driving
     // #region Testing
 
@@ -172,7 +172,7 @@ public class RobotContainer {
 
     incrementDistanceEntry = testerDiagnostics.add("Increment Distance (Control)", 20).getEntry();
     testerDiagnostics.addBoolean("Shooter Running", () -> shooter.Running());
-    testerDiagnostics.addDouble("Net Arm Angle", () -> arm.GetPositionDegreesAbsolulte());
+    // testerDiagnostics.addDouble("Net Arm Angle", () -> arm.GetPositionDegreesAbsolulte());
     testerDiagnostics.addDouble("Net Arm Encoder", () -> arm.GetPositionEncoder());
     testerDiagnostics.addDouble("Winch Input", () -> winch.GetControl());
     testerDiagnostics.addBoolean("Note Detected", () -> intake.HasCargo());
