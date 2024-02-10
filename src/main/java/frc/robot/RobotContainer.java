@@ -43,8 +43,8 @@ public class RobotContainer {
       // deadband
       .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Computer! I want field-centric
                                                                // driving in open loop!
-  private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
-  private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
+  // private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
+  // private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
   private final Telemetry logger = new Telemetry(Constants.SystemConstants.MAX_SPEED);
   // #endregion
   // #region Network Tables
