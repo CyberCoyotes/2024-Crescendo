@@ -1,7 +1,5 @@
 package frc.robot.subsystems;
 
-import java.util.function.DoubleSupplier;
-
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 
@@ -19,14 +17,14 @@ public class LauncherSubsystem extends SubsystemBase {
     /** As opposed to double */
     private boolean singleMotor;
 
-    private TalonFX m_main;
-    private TalonFX m_sub;
+    private TalonFX m_main; // The main motor
+    private TalonFX m_secondary; // The secondary motor
     /** The state percentage */
     private double percentage;
     /** The multiplier that converts from "primary speed" to "secondary speed" */
     private double ratio = 1;
     private DutyCycleOut mainDutyCycle;
-    private DutyCycleOut subDutyCycle;
+    private DutyCycleOut secondaryDutyCycle;
 
     // #region Diagnostics
     GenericEntry isRunning;
@@ -38,14 +36,14 @@ public class LauncherSubsystem extends SubsystemBase {
      * Set configs before creating this class/subsystem.
      * {@link #SetStatePower} is used to set the main power.
      */
-    public LauncherSubsystem(TalonFX main, TalonFX sub) {
+    public LauncherSubsystem(TalonFX main, TalonFX secondary) {
 
         singleMotor = false;
         this.m_main = main;
-        this.m_sub = sub;
+        this.m_secondary = secondary;
         // default to off
         m_main.setControl(mainDutyCycle = new DutyCycleOut(0));
-        m_sub.setControl(subDutyCycle = new DutyCycleOut(0));
+        m_secondary.setControl(secondaryDutyCycle = new DutyCycleOut(0));
 
     }
 
@@ -74,8 +72,8 @@ public class LauncherSubsystem extends SubsystemBase {
         m_main.setControl(mainDutyCycle);
 
         if (!singleMotor) {
-            subDutyCycle.Output = arg * ratio * invertMulti;
-            m_sub.setControl(subDutyCycle);
+            secondaryDutyCycle.Output = arg * ratio * invertMulti;
+            m_secondary.setControl(secondaryDutyCycle);
         }
         ;
 

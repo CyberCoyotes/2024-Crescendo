@@ -5,7 +5,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class MagLimitSwitch  extends SubsystemBase{
-    private DigitalInput limitSwitch = new DigitalInput(1); // figure out what actual outlet called
+
+    /* This could (should?) be moved into ArmSubsystem.java once tested. No other subsystem would use this limit switch */
+    /* REV Magnetic Limit Switch
+     * To be used for the arm for triggering a reset to the arm encoder when its position is "home"
+     */
+    private DigitalInput limitSwitch = new DigitalInput(1);
 
     public boolean getSwitchState() {
      return limitSwitch.get();

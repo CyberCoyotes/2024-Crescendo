@@ -1,23 +1,14 @@
 package frc.robot.subsystems;
 
-import java.io.NotActiveException;
 import java.util.function.DoubleSupplier;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix6.configs.CustomParamsConfigs;
-import com.ctre.phoenix6.configs.HardwareLimitSwitchConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.NeutralOut;
 import com.ctre.phoenix6.controls.PositionDutyCycle;
-import com.ctre.phoenix6.controls.StaticBrake;
 import com.ctre.phoenix6.controls.VelocityDutyCycle;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.fasterxml.jackson.databind.ser.std.NumberSerializers.DoubleSerializer;
-import com.playingwithfusion.CANVenom.BrakeCoastMode;
 
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DutyCycle;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
