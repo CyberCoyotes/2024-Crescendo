@@ -85,8 +85,8 @@ public class RobotContainer {
 
     Shuffleboard.getTab("Autos").add("Auton", autoChooser);
 
-    shooterMotorMain = new TalonFX(Constants.CANIDs.RIGHT_FLYWHEEL_CAN);
-    shooterMotorSub = new TalonFX(Constants.CANIDs.RIGHT_FLYWHEEL_CAN);
+    shooterMotorMain = new TalonFX(Constants.CANIDs.RIGHT_FLYWHEEL_ID);
+    shooterMotorSub = new TalonFX(Constants.CANIDs.LEFT_FLYWHEEL_ID);
 
     // #region some configs
 
@@ -95,8 +95,8 @@ public class RobotContainer {
     shooterMotorMain.setNeutralMode(NeutralModeValue.Coast);
     shooterMotorMain.setNeutralMode(NeutralModeValue.Coast);
 
-    shooterMotorSub = new TalonFX(Constants.CANIDs.RIGHT_FLYWHEEL_CAN);
-    shooterMotorMain = new TalonFX(Constants.CANIDs.RIGHT_FLYWHEEL_CAN);
+    shooterMotorSub = new TalonFX(Constants.CANIDs.RIGHT_FLYWHEEL_ID);
+    shooterMotorMain = new TalonFX(Constants.CANIDs.RIGHT_FLYWHEEL_ID);
     // #endregion
 
     shooter = new ShooterSubsystem(shooterMotorMain, shooterMotorSub);
@@ -133,9 +133,9 @@ public class RobotContainer {
   // tl;dr: Trigger class for simple booleans
   private void configureBindings() {
 
-    m_driverController.a().whileTrue(drivetrain.applyRequest(() -> brake));
-    m_driverController.b().whileTrue(drivetrain.applyRequest(() -> point
-        .withModuleDirection(new Rotation2d(-m_driverController.getLeftY(), -m_driverController.getLeftX()))));
+    // m_driverController.a().whileTrue(drivetrain.applyRequest(() -> brake));
+    // m_driverController.b().whileTrue(drivetrain.applyRequest(() -> point
+        // .withModuleDirection(new Rotation2d(-m_driverController.getLeftY(), -m_driverController.getLeftX()))));
 
     // reset the field-centric heading on back press
     // Instant command because it doesn't set a requirment. In short, creating a
@@ -145,8 +145,10 @@ public class RobotContainer {
     // m_operatorController.back().onTrue(new InstantCommand(() ->
     // drivetrain.getPigeon2().setYaw(0)));
     // -------------------//-------------------//-------------------//-------------------//-------------------//-------------------
-    m_operatorController.povUp().onTrue(winch.run(() -> winch.Drive(() -> 1)));
-    m_operatorController.povDown().onTrue(winch.run(() -> winch.Drive(() -> -1)));
+    // m_operatorController.povUp().onTrue(winch.run(() -> winch.Drive(() -> 1)));
+    // m_operatorController.povDown().onTrue(winch.run(() -> winch.Drive(() -> -1)));
+    
+    /* This ride is closed and undergoing maintence 
     m_operatorController.y()
         .onTrue(
             arm.run(() -> arm.IncrementNativeUnits(incrementDistanceEntry.getInteger(DEFAULT_ARM_INCREMENT_VALUE))));
@@ -154,6 +156,7 @@ public class RobotContainer {
         .onTrue(
             arm.run(() -> arm.IncrementNativeUnits(incrementDistanceEntry.getInteger(-DEFAULT_ARM_INCREMENT_VALUE))));
 
+    */ // End of comment for incremental arm
   }
 
   public void DebugMethodSingle() {
