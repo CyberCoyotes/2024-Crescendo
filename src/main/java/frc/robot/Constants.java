@@ -64,13 +64,9 @@ public final class Constants {
         new ReplanningConfig() // Default path replanning config. See the API for the options here
 
     );
-
   }
 
   public static class CANIDs {
-  
-    /* Hypothetical ID Table */
-
    /* CAN IDs 
     | Object      | ID  | 
     |------------ |-----|
@@ -89,8 +85,11 @@ public final class Constants {
     | -Hard pass- | 13  |
     | Pidgeon     | 14  |
     | Candle      | 15  |
+    */
 
-    // Season Specific
+    /* Season Specific 
+    | Object      | ID  | 
+    |------------ |-----|
     | Intake      | 20  |
     | Index       | 21  |
     | Arm         | 22  |  
@@ -99,9 +98,9 @@ public final class Constants {
     | Winch       | 25  |
     | ToF Note    | 42  | 
     | Bass Guitar | | 
-    
     */
 
+    /* Taz 4: L3 Gear Ratio */
     public static final int CANDLE_ID = 15; // Mini LED and LED strip controller
     public static final int INTAKE_ID = 20;
     public static final int INDEX_ID = 21;
@@ -110,7 +109,6 @@ public final class Constants {
     public static final int LEFT_FLYWHEEL_ID = 24; // 
     public static final int WINCH_ID = 25;
     public static final int NOTE_SENSOR_ID = 42; // Time of Flight sensor for the note
-
 
     // Extra CAN IDs
     public static final int BASS_GUITAR = 13;
