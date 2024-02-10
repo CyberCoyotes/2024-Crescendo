@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
 import static frc.robot.Constants.SystemConstants.ARM_ENCODER_TO_DEG;
-import java.util.function.DoubleSupplier;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -32,17 +31,8 @@ public class ArmSubsytem extends SubsystemBase {
 
     // ! To consider:
     /*
-     * --- Do we want to alter the motor reading?
-     * Change it so that 1 reading from the sensor = 1 rotation of the arm?
-     * See line 21
-     * --- Do we need some type of resource lock on the motor, to prevent
-     * simultaneous driving of it and use of a macro?
-     * --- Do we want to use our driven mode as DutyCycleOut or as a velocity mode,
-     * thus maintiainging constant velocity?
-     * --- Still need to configure our speeds and whatnot for FeedForward and the
-     * like
      * --- when are we facing the horde and doing a god forsaken PID for this
-     * monsterous thing
+     * monsterous thing? TODAY! (maybe)
      */
 
     TalonFX motor;
@@ -133,12 +123,12 @@ public class ArmSubsytem extends SubsystemBase {
     }
 
     private double GetSensorUpperBound() {
-        // FIXME @JediScoy, could I get a sanity check? -@Fruggg
+
         return DegToEncoder(degUpperBound);
     }
 
     private double GetSensorLowerBound() {
-        // FIXME @JediScoy, could I get a sanity check? -@Fruggg
+
         return 0;
     }
 
