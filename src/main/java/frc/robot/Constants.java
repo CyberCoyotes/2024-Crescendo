@@ -2,8 +2,6 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-   
-
 package frc.robot;
 
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
@@ -23,9 +21,10 @@ import com.pathplanner.lib.util.ReplanningConfig;
  */
 public final class Constants {
 
-  /*Real world unit of millimeters
-  * When less than this, the note status is considered "loaded"
-  */
+  /*
+   * Real world unit of millimeters
+   * When less than this, the note status is considered "loaded"
+   */
   public static int NOTE_DISTANCE_CHECK = 100;
 
   public static class OperatorConstants {
@@ -67,6 +66,7 @@ public final class Constants {
   }
 
   public static class CANIDs {
+
    /* CAN IDs 
     | Object      | ID  | 
     |------------ |-----|
@@ -106,11 +106,16 @@ public final class Constants {
     public static final int INDEX_ID = 21;
     public static final int ARM_ID = 22;
     public static final int RIGHT_FLYWHEEL_ID = 23; // Right, when looking from back?
-    public static final int LEFT_FLYWHEEL_ID = 24; // 
+    public static final int LEFT_FLYWHEEL_ID = 24; //
     public static final int WINCH_ID = 25;
     public static final int NOTE_SENSOR_ID = 42; // Time of Flight sensor for the note
 
     // Extra CAN IDs
     public static final int BASS_GUITAR = 13;
+    public static final int WINCH = 17;
+    public static final int CANDLE = 18;
+
+    public static final int RIGHT_FLYWHEEL_CAN = 15;
+    public static final int LEFT_FLYWHEEL_CAN = 16;
   }
 }

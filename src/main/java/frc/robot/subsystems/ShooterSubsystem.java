@@ -13,18 +13,19 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  * Set configs before creating this class/subsystem.
  * {@link #SetStatePower} is used to set the main power.
  */
-public class LauncherSubsystem extends SubsystemBase {
+public class ShooterSubsystem extends SubsystemBase {
     /** As opposed to double */
     private boolean singleMotor;
-
-    private TalonFX m_main; // The main motor
-    private TalonFX m_secondary; // The secondary motor
+    // The max rpm of the motor for shooting cargo; realistically 5900.
+    private int maxDanger = 5900;
+    private TalonFX m_main;
+    private TalonFX m_sub;
     /** The state percentage */
     private double percentage;
     /** The multiplier that converts from "primary speed" to "secondary speed" */
     private double ratio = 1;
     private DutyCycleOut mainDutyCycle;
-    private DutyCycleOut secondaryDutyCycle;
+    private DutyCycleOut subDutyCycle;
 
     // #region Diagnostics
     GenericEntry isRunning;
@@ -36,14 +37,14 @@ public class LauncherSubsystem extends SubsystemBase {
      * Set configs before creating this class/subsystem.
      * {@link #SetStatePower} is used to set the main power.
      */
-    public LauncherSubsystem(TalonFX main, TalonFX secondary) {
+    public ShooterSubsystem(TalonFX main, TalonFX sub) {
 
         singleMotor = false;
         this.m_main = main;
-        this.m_secondary = secondary;
+        this.m_sub = sub;
         // default to off
         m_main.setControl(mainDutyCycle = new DutyCycleOut(0));
-        m_secondary.setControl(secondaryDutyCycle = new DutyCycleOut(0));
+        m_sub.setControl(subDutyCycle = new DutyCycleOut(0));
 
     }
 
@@ -53,7 +54,7 @@ public class LauncherSubsystem extends SubsystemBase {
      * Set configs before creating this class/subsystem.
      * {@link #SetStatePower} is used to set the main power.
      */
-    public LauncherSubsystem(TalonFX only) {
+    public ShooterSubsystem(TalonFX only) {
 
         this.m_main = only;
         singleMotor = true;
@@ -72,8 +73,8 @@ public class LauncherSubsystem extends SubsystemBase {
         m_main.setControl(mainDutyCycle);
 
         if (!singleMotor) {
-            secondaryDutyCycle.Output = arg * ratio * invertMulti;
-            m_secondary.setControl(secondaryDutyCycle);
+            subDutyCycle.Output = arg * ratio * invertMulti;
+            m_sub.setControl(subDutyCycle);
         }
         ;
 
@@ -118,9 +119,21 @@ public class LauncherSubsystem extends SubsystemBase {
 
     }
 
-    public Command RunLauncher(double input)
+    public Command RunShooter(double input)
 
     {
         return this.run(() -> SetStatePower(input));
+    }
+
+    /**
+     * 
+     * @return The velocity of the motor
+     */
+    public double GetDanger() {
+        return m_main.getVelocity().getValueAsDouble();
+    }
+
+    public boolean IsDangerous() {
+        return GetDanger() / maxDanger >= 0.8;
     }
 }

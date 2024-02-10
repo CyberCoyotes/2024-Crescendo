@@ -1,7 +1,8 @@
 package frc.robot.subsystems;
 
-import java.util.function.DoubleSupplier;
-
+import static frc.robot.Constants.SystemConstants.ARM_ENCODER_TO_DEG;
+import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.NeutralOut;
 import com.ctre.phoenix6.controls.PositionDutyCycle;
@@ -9,6 +10,7 @@ import com.ctre.phoenix6.controls.VelocityDutyCycle;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -16,8 +18,14 @@ public class ArmSubsytem extends SubsystemBase {
 
     // The angle we start at, relative to the ground. This means that the sensor is
     // 0 when theta = this.
+
     // private double defaultAngle = 35; // See also CTRE hardware or software limits
     // private double degUpperBound = 55; // See also CTRE hardware or software limits
+
+    // Issue #95
+    private double defaultAngle = 35;
+    private double degUpperBound = 55;
+
     // Bounds for encoder
     // double forwardEncoderLimit; // See also CTRE hardware or software limits
     // double rearEncoderLimit; // See also CTRE hardware or software limits
@@ -28,17 +36,8 @@ public class ArmSubsytem extends SubsystemBase {
 
     // ! To consider:
     /*
-     * --- Do we want to alter the motor reading?
-     * Change it so that 1 reading from the sensor = 1 rotation of the arm?
-     * See line 21
-     * --- Do we need some type of resource lock on the motor, to prevent
-     * simultaneous driving of it and use of a macro?
-     * --- Do we want to use our driven mode as DutyCycleOut or as a velocity mode,
-     * thus maintiainging constant velocity?
-     * --- Still need to configure our speeds and whatnot for FeedForward and the
-     * like
      * --- when are we facing the horde and doing a god forsaken PID for this
-     * monsterous thing
+     * monsterous thing? TODAY! (maybe)
      */
 
     TalonFX motor;
@@ -46,22 +45,36 @@ public class ArmSubsytem extends SubsystemBase {
     public ArmSubsytem() {
         // Set up motor and control modes
         TalonFXConfiguration config = new TalonFXConfiguration();
+        SoftwareLimitSwitchConfigs limitConfigs = new SoftwareLimitSwitchConfigs();
+        Slot0Configs PIDConfigs = new Slot0Configs();
 
         positionControl = new PositionDutyCycle(0);
         velocityControl = new VelocityDutyCycle(0);
 
         config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
-        // config.HardwareLimitSwitch.withForwardLimitAutosetPositionValue(forwardEncoderLimit);
-        // config.HardwareLimitSwitch.withForwardLimitAutosetPositionValue(rearEncoderLimit);
+        limitConfigs.ForwardSoftLimitThreshold = forwardEncoderLimit;
+        limitConfigs.ReverseSoftLimitThreshold = rearEncoderLimit;
+        limitConfigs.ForwardSoftLimitEnable = true;
+        limitConfigs.ReverseSoftLimitEnable = true;
+
+        // #region PID
+        PIDConfigs.kP = 0.1;
+        PIDConfigs.kI = 0;
+        PIDConfigs.kD = 0.01;
+        // niceeeeeee
+        config.Slot0 = PIDConfigs;
+        motor.getConfigurator().apply(PIDConfigs);
+        motor.getConfigurator().apply(limitConfigs);
+        // #endregion
         motor.getConfigurator().apply(config);
 
     }
 
-    public void SnapToAbsolutePosition() {
+    public void SnapToAbsolutePosition(double degreePosition) {
         // Stub
         // manualControl.
-
+        positionControl.Position = DegToEncoder(degreePosition);
         motor.setControl(positionControl);
     }
 
@@ -71,10 +84,15 @@ public class ArmSubsytem extends SubsystemBase {
         motor.setControl(brakeMode);
     }
 
-    public void Drive(DoubleSupplier speedSupplier) {
+    public Command DriveCommand(Double speedSupplier) {
         // Stub
         // manualControl.
-        velocityControl.Velocity = speedSupplier.getAsDouble();
+
+        return this.run(() -> Drive(speedSupplier));
+    }
+
+    private void Drive(Double speedSupplier) {
+        velocityControl.Velocity = speedSupplier;
         motor.setControl(velocityControl);
     }
 
@@ -108,16 +126,24 @@ public class ArmSubsytem extends SubsystemBase {
     */
 
     /* Use the CTRE software limit and hardware limit configuration settings instead.
+
+    private double DegToEncoder(double degreePosition) {
+        return (degreePosition - defaultAngle) * ARM_ENCODER_TO_DEG;
+    }
+
     private double GetSensorUpperBound() {
-        return (degUpperBound - defaultAngle) * Constants.SystemConstants.DEG_TO_ARM_ENCODER;
+
+        return DegToEncoder(degUpperBound);
     }
 
     private double GetSensorLowerBound() {
-        return (defaultAngle - defaultAngle) * Constants.SystemConstants.DEG_TO_ARM_ENCODER;
+
+        return 0;
     }
     */
 
     public double GetPositionEncoder() {
         return motor.getPosition().getValueAsDouble();
     }
+
 }
