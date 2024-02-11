@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
@@ -37,13 +39,21 @@ public final class Constants {
 
   public static class SystemConstants {
 
+    public static class ArmConstants {
+      public static final double DEG_TO_ARM_NATIVE = -0.93;// -83.7 / 90
+      public static final double ARM_NATIVE_TO_DEG = 1 / DEG_TO_ARM_NATIVE;
+      public static final double ARM_MAX_DUTY_CYCLE_OUT = 0.35;
+      public static final double ARM_SUPPLY_CURRENT_LIMIT = 2.5;
+      public static final double ARM_ROTATION_LIMIT_NATIVE = -51; // Represents a mild overshoot of 90 deg
+      public static final Slot0Configs ARM_PID_CONFIGS = new Slot0Configs().withKP(0.05);
+      public static SoftwareLimitSwitchConfigs LIMIT_CONFIGS = new SoftwareLimitSwitchConfigs()
+          .withReverseSoftLimitEnable(true).withReverseSoftLimitThreshold(ARM_ROTATION_LIMIT_NATIVE);
+    }
+
     public static final double MAX_SPEED = 6; // 6 meters per second desired top speed
     public static final double MAX_ANGULAR_RATE = 1.5 * Math.PI; // 3/4 of a rotation per second max angular velocity
 
-    public static final double DEG_TO_ARM_ENCODER = 1;
-    public static final double ARM_ENCODER_TO_DEG = 1 / DEG_TO_ARM_ENCODER;
     // For every 488 rotations of our driver motor, the arm makes 1 revolution.
-    public static final double NET_ARM_RATIO = 458;
 
     // Is this standard or added by us?
     public static class PID {
@@ -67,38 +77,40 @@ public final class Constants {
 
   public static class CANIDs {
 
-   /* CAN IDs 
-    | Object      | ID  | 
-    |------------ |-----|
-    | Drive FL    | 01  |
-    | Steer FL    | 02  |
-    | Drive FR    | 03  |
-    | Steer FR    | 04  |
-    | Drive RL    | 05  |
-    | Steer RL    | 06  |
-    | Drive RR    | 07  |
-    | Steer RR    | 08  |
-    | CANCoder FL | 09  |
-    | CANCoder FR | 10  |
-    | CANCoder RL | 11  |
-    | CANCoder RR | 12  |
-    | -Hard pass- | 13  |
-    | Pidgeon     | 14  |
-    | Candle      | 15  |
-    */
+    /*
+     * CAN IDs
+     * | Object | ID |
+     * |------------ |-----|
+     * | Drive FL | 01 |
+     * | Steer FL | 02 |
+     * | Drive FR | 03 |
+     * | Steer FR | 04 |
+     * | Drive RL | 05 |
+     * | Steer RL | 06 |
+     * | Drive RR | 07 |
+     * | Steer RR | 08 |
+     * | CANCoder FL | 09 |
+     * | CANCoder FR | 10 |
+     * | CANCoder RL | 11 |
+     * | CANCoder RR | 12 |
+     * | -Hard pass- | 13 |
+     * | Pidgeon | 14 |
+     * | Candle | 15 |
+     */
 
-    /* Season Specific 
-    | Object      | ID  | 
-    |------------ |-----|
-    | Intake      | 20  |
-    | Index       | 21  |
-    | Arm         | 22  |  
-    | Launcher LT | 23  |
-    | Launcher RT | 24  |
-    | Winch       | 25  |
-    | ToF Note    | 42  | 
-    | Bass Guitar | | 
-    */
+    /*
+     * Season Specific
+     * | Object | ID |
+     * |------------ |-----|
+     * | Intake | 20 |
+     * | Index | 21 |
+     * | Arm | 22 |
+     * | Launcher LT | 23 |
+     * | Launcher RT | 24 |
+     * | Winch | 25 |
+     * | ToF Note | 42 |
+     * | Bass Guitar | |
+     */
 
     /* Taz 4: L3 Gear Ratio */
     public static final int CANDLE_ID = 15; // Mini LED and LED strip controller

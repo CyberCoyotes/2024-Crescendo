@@ -43,8 +43,10 @@ public class RobotContainer {
       // deadband
       .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Computer! I want field-centric
                                                                // driving in open loop!
-  // private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
-  // private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
+  // private final SwerveRequest.SwerveDriveBrake brake = new
+  // SwerveRequest.SwerveDriveBrake();
+  // private final SwerveRequest.PointWheelsAt point = new
+  // SwerveRequest.PointWheelsAt();
   private final Telemetry logger = new Telemetry(Constants.SystemConstants.MAX_SPEED);
   // #endregion
   // #region Network Tables
@@ -134,7 +136,8 @@ public class RobotContainer {
 
     // m_driverController.a().whileTrue(drivetrain.applyRequest(() -> brake));
     // m_driverController.b().whileTrue(drivetrain.applyRequest(() -> point
-        // .withModuleDirection(new Rotation2d(-m_driverController.getLeftY(), -m_driverController.getLeftX()))));
+    // .withModuleDirection(new Rotation2d(-m_driverController.getLeftY(),
+    // -m_driverController.getLeftX()))));
 
     // reset the field-centric heading on back press
     // Instant command because it doesn't set a requirment. In short, creating a
@@ -145,24 +148,29 @@ public class RobotContainer {
     // drivetrain.getPigeon2().setYaw(0)));
     // -------------------//-------------------//-------------------//-------------------//-------------------//-------------------
     // m_operatorController.povUp().onTrue(winch.run(() -> winch.Drive(() -> 1)));
-    // m_operatorController.povDown().onTrue(winch.run(() -> winch.Drive(() -> -1)));
-    
-    /* This ride is closed and undergoing maintence 
-    m_operatorController.y()
-        .onTrue(
-            arm.run(() -> arm.IncrementNativeUnits(incrementDistanceEntry.getInteger(DEFAULT_ARM_INCREMENT_VALUE))));
-    m_operatorController.a()
-        .onTrue(
-            arm.run(() -> arm.IncrementNativeUnits(incrementDistanceEntry.getInteger(-DEFAULT_ARM_INCREMENT_VALUE))));
+    // m_operatorController.povDown().onTrue(winch.run(() -> winch.Drive(() ->
+    // -1)));
 
-    */ // End of comment for incremental arm
+    /*
+     * This ride is closed and undergoing maintence
+     * m_operatorController.y()
+     * .onTrue(
+     * arm.run(() -> arm.IncrementNativeUnits(incrementDistanceEntry.getInteger(
+     * DEFAULT_ARM_INCREMENT_VALUE))));
+     * m_operatorController.a()
+     * .onTrue(
+     * arm.run(() -> arm.IncrementNativeUnits(incrementDistanceEntry.getInteger(-
+     * DEFAULT_ARM_INCREMENT_VALUE))));
+     * 
+     */ // End of comment for incremental arm
   }
 
   public void DebugMethodSingle() {
     // #region Driving
     // More useful logs that the drivers will probably want
     var driverDiagnostics = Shuffleboard.getTab("Driver Diagnostics");
-    // driverDiagnostics.addDouble("Net Arm Angle", () -> arm.GetPositionDegreesAbsolulte());
+    // driverDiagnostics.addDouble("Net Arm Angle", () ->
+    // arm.GetPositionDegreesAbsolulte());
     // #endregion Driving
     // #region Testing
 
@@ -172,7 +180,8 @@ public class RobotContainer {
 
     incrementDistanceEntry = testerDiagnostics.add("Increment Distance (Control)", 20).getEntry();
     testerDiagnostics.addBoolean("Shooter Running", () -> shooter.Running());
-    // testerDiagnostics.addDouble("Net Arm Angle", () -> arm.GetPositionDegreesAbsolulte());
+    // testerDiagnostics.addDouble("Net Arm Angle", () ->
+    // arm.GetPositionDegreesAbsolulte());
     testerDiagnostics.addDouble("Net Arm Encoder", () -> arm.GetPositionEncoder());
     testerDiagnostics.addDouble("Winch Input", () -> winch.GetControl());
     testerDiagnostics.addBoolean("Note Detected", () -> intake.HasCargo());
