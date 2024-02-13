@@ -45,7 +45,7 @@ public final class Constants {
     // For every 488 rotations of our driver motor, the arm makes 1 revolution.
     public static final double NET_ARM_RATIO = 458;
 
-    // Is this standard or added by us?
+    
     public static class PID {
       public static final double DRIVE_P = 0.3f;
       public static final double DRIVE_I = 0;
