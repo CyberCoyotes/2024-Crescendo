@@ -59,11 +59,11 @@ public class NoteSensorSubsystem extends SubsystemBase{
         /* Set the LED color based on the note position.
         * Requires 'isNoteLoadeded' value and two led methods */
         if (isNoteLoaded() == true) {
-            // SetColor decide loaded color
+            //Decided loaded color = green
             m_ledSubsystem.ColorGreen();
 
         } else if (isNoteLoaded() == false) {
-            //SetColor decide UnLoaded color
+            //Decided loaded color = yellow
             m_ledSubsystem.ColorYellow();
         }
     }
