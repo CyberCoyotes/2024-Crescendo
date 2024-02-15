@@ -84,12 +84,14 @@ public class ArmSubsytem extends SubsystemBase {
         motor.setControl(brakeMode);
     }
 
+    /* 
     public Command DriveCommand(Double speedSupplier) {
         // Stub
         // manualControl.
 
         return this.run(() -> Drive(speedSupplier));
     }
+    */
 
     private void Drive(Double speedSupplier) {
         velocityControl.Velocity = speedSupplier;
