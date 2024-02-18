@@ -120,7 +120,7 @@ public final class Constants {
     public static final int RIGHT_FLYWHEEL_ID = 23; // Right, when looking from back?
     public static final int LEFT_FLYWHEEL_ID = 24; //
     public static final int WINCH_ID = 25;
-    public static final int NOTE_SENSOR_ID = 42; // Time of Flight sensor for the note
+    public static final int NOTE_SENSOR_ID = 1; // Time of Flight sensor for the note
 
     // Extra CAN IDs
     public static final int BASS_GUITAR = 13;
