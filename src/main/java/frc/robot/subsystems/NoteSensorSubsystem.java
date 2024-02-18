@@ -14,63 +14,76 @@ import com.playingwithfusion.TimeOfFlight.RangingMode;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
-public class NoteSensorSubsystem extends SubsystemBase{
-    
-     /* Set ID in web interface http://172.22.11.2:5812/  */   
+public class NoteSensorSubsystem extends SubsystemBase {
+
+    /* Set ID in web interface http://172.22.11.2:5812/ */
     private TimeOfFlight noteDistance = new TimeOfFlight(Constants.CANIDs.NOTE_SENSOR_ID);
 
-    /* 
-    * This line declares a private instance variable called `m_ledSubsystem` of type `LedSubsystem`
-    * It is initialized with a new instance of the `LedSubsystem` class
-    * It is needed to control the LEDs based on the method `isNoteLoaded()`
-    */
+    /*
+     * This line declares a private instance variable called `m_ledSubsystem` of
+     * type `LedSubsystem`
+     * It is initialized with a new instance of the `LedSubsystem` class
+     * It is needed to control the LEDs based on the method `isNoteLoaded()`
+     */
     private LedSubsystem m_ledSubsystem = new LedSubsystem();
 
-     /* Set the distance to the note to be considered  load position.'
-     Measure in (mm) to determine an appropriate value.*/
-     public int noteDistanceCheck = 100;
-  
+    /*
+     * Set the distance to the note to be considered load position.'
+     * Measure in (mm) to determine an appropriate value.
+     */
+    public int noteDistanceCheck = 100;
+
     /* Constructor */
     public NoteSensorSubsystem() {
-        /* Initialize the sensor, and '.setRangingMode(RangingMode.Short)' for this usage.
-        *
-        | Sample value  | Time   |
-        |---------------|--------|
-        | 1             | 20 ms  |
-        | 2             | 33 ms  |
-        | 3             | 50 ms  |
-        | 4 (default)   | 100 ms |
-        | 5             | 200 ms |
-        *****************************/
-    noteDistance.setRangingMode(RangingMode.Short,0.5);
+        /*
+         * Initialize the sensor, and '.setRangingMode(RangingMode.Short)' for this
+         * usage.
+         *
+         * | Sample value | Time |
+         * |---------------|--------|
+         * | 1 | 20 ms |
+         * | 2 | 33 ms |
+         * | 3 | 50 ms |
+         * | 4 (default) | 100 ms |
+         * | 5 | 200 ms |
+         *****************************/
+        noteDistance.setRangingMode(RangingMode.Short, 0.5);
     }
 
     public double getNoteDistance() {
-        /* Gets the distance from the sensor to the nearest edge of the note*/
+        /* Gets the distance from the sensor to the nearest edge of the note */
         return noteDistance.getRange(); // return NoteDistance.
     }
 
     public boolean isNoteLoaded() {
         /* Returns true if the note is loaded, false if not */
-        return noteDistance.getRange() < noteDistanceCheck ; // return NoteDistance.
+        return noteDistance.getRange() < noteDistanceCheck; // return NoteDistance.
     }
 
     public void setLEDColor() {
-        /* Set the LED color based on the note position.
-        * Requires 'isNoteLoadeded' value and two led methods */
+        /*
+         * Set the LED color based on the note position.
+         * Requires 'isNoteLoadeded' value and two led methods
+         */
         if (isNoteLoaded() == true) {
-            //Decided loaded color = green
+            // Decided loaded color = green
             m_ledSubsystem.ColorGreen();
 
         } else if (isNoteLoaded() == false) {
-            //Decided loaded color = yellow
+            // Decided loaded color = yellow
             m_ledSubsystem.ColorYellow();
         }
     }
-    
+
     public void periodic() {
         // This method will be called once per scheduler run
-        // It did not seem to be called on the dashboard until I added a Command to the RobotContainer, but it would display updated data even when the button was not pressed.
+        // It did not seem to be called on the dashboard until I added a Command to the
+        // RobotContainer, but it would display updated data even when the button was
+        // not pressed.
+
+        // ! Can be achieved with Shuffleboard call in
+        // ! Constructor, per the example in robot container
+
         SmartDashboard.putNumber("Note Distance", noteDistance.getRange());
         SmartDashboard.putBoolean("Note Loaded", isNoteLoaded());
     }
