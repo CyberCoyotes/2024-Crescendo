@@ -19,7 +19,7 @@ public class ShooterSubsystem extends SubsystemBase {
     /** As opposed to double */
     private boolean singleMotor;
     // The max rpm of the motor for shooting cargo; realistically 5900.
-    private int maxDanger = 5900;
+    private int maxVelocity = 5900;
     private TalonFX m_main;
     private TalonFX m_sub;
     /** The state percentage */
@@ -131,11 +131,11 @@ public class ShooterSubsystem extends SubsystemBase {
      * 
      * @return The velocity of the motor
      */
-    public double GetDanger() {
+    public double GetVelocity() {
         return m_main.getVelocity().getValueAsDouble();
     }
 
-    public boolean IsDangerous() {
-        return GetDanger() / maxDanger >= 0.8;
+    public boolean IsVelocityReqMet() {
+        return GetVelocity() / maxVelocity >= 0.8;
     }
 }

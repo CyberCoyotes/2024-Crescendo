@@ -38,12 +38,8 @@ public class RobotContainer {
   SendableChooser<Command> autoChooser;
   // Interactable way to change increment distance on arm for High Speed High
   // Fidelity Testing
-  // GenericEntry incrementDistanceEntry;
+  GenericEntry incrementDistanceEntry;
   // #endregion Network Tables
-  // #region Devices
-  TalonFX shooterMotorMain;
-  TalonFX shooterMotorSub;
-  // #endregion
   // #region Subsystems
   ShooterSubsystem shooter = new ShooterSubsystem();
   IntakeSubsystem intake = new IntakeSubsystem();
@@ -75,8 +71,6 @@ public class RobotContainer {
   private final Telemetry logger = new Telemetry(MaxSpeed);
 
   public RobotContainer() {
-    shooterMotorMain = new TalonFX(Constants.CANIDs.RIGHT_FLYWHEEL_ID);
-    shooterMotorSub = new TalonFX(Constants.CANIDs.LEFT_FLYWHEEL_ID);
 
     // #region some configs
 
