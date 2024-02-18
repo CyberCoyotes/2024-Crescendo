@@ -13,21 +13,18 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj.DutyCycle;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+
 import static frc.robot.Constants.SystemConstants.ArmConstants;
 
 public class ArmSubsytem extends SubsystemBase {
 
     // The angle we start at, relative to the ground. This means that the sensor is
     // 0 when theta = this.
-
-    // private double defaultAngle = 35; // See also CTRE hardware or software
-    // limits
-    // private double degUpperBound = 55; // See also CTRE hardware or software
-    // limits
-
-    // Issue #95
-    private double defaultAngle = 55;
+    private double defaultAngle = 35;
     private double degUpperBound = 90;
+    // A notable angle we used with angles.
+    private double shootAngleOne = 52;
 
     // Bounds for encoder
 
@@ -37,35 +34,26 @@ public class ArmSubsytem extends SubsystemBase {
     private PositionDutyCycle positionControl;
     private NeutralOut brakeMode;
 
-    // ! To consider:
-    /*
-     * --- when are we facing the horde and doing a god forsaken PID for this
-     * monsterous thing? TODAY! (maybe)
-     */
+    TalonFX motor = new TalonFX(Constants.CANIDs.ARM_ID);
 
-    TalonFX motor;
+    public double NativeRead() {
+        return motor.getPosition().getValue();
+    }
 
     public ArmSubsytem() {
-        // Set up motor and control modes
-        TalonFXConfiguration config = new TalonFXConfiguration();
-        config.CurrentLimits.SupplyCurrentLimit = ArmConstants.ARM_SUPPLY_CURRENT_LIMIT;
-        config.MotorOutput.PeakReverseDutyCycle = -ArmConstants.ARM_MAX_DUTY_CYCLE_OUT;
-        config.MotorOutput.PeakForwardDutyCycle = ArmConstants.ARM_MAX_DUTY_CYCLE_OUT;
+        // Set up control modes
         positionControl = new PositionDutyCycle(0);
         outputControl = new DutyCycleOut(0);
-        config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-        // niceeeeeee
-        config.Slot0 = ArmConstants.ARM_PID_CONFIGS;
-        motor.getConfigurator().apply(ArmConstants.ARM_PID_CONFIGS);
-        motor.getConfigurator().apply(ArmConstants.LIMIT_CONFIGS);
-        motor.getConfigurator().apply(config);
+
+        //
+        motor.getConfigurator().apply(ArmConstants.MOTOR_CONFIG);
 
     }
 
     public void SnapToAbsolutePosition(double degreePosition) {
         // Stub
         // manualControl.
-        // positionControl.Position = DegToEncoder(degreePosition);
+        positionControl.Position = DegToNative(degreePosition);
         motor.setControl(positionControl);
     }
 
@@ -75,16 +63,7 @@ public class ArmSubsytem extends SubsystemBase {
         motor.setControl(brakeMode);
     }
 
-    /* 
-    public Command DriveCommand(Double speedSupplier) {
-        // Stub
-        // manualControl.
-
-        return this.run(() -> Drive(speedSupplier));
-    }
-    */
-
-    private void Drive(Double speed) {
+    public void Drive(Double speed) {
         outputControl.Output = speed;
         motor.setControl(outputControl);
     }
@@ -112,34 +91,33 @@ public class ArmSubsytem extends SubsystemBase {
         motor.setControl(positionControl.withPosition(motor.getPosition().getValueAsDouble() + target));
     }
 
-    /*
-     * Seems unnecessarily complex
-     * public double GetPositionDegreesAbsolulte() {
-     * return GetPositionEncoder() * Constants.SystemConstants.ARM_ENCODER_TO_DEG +
-     * defaultAngle;
-     * }
-     */
+    // Seems unnecessarily complex -JV
 
-    /*
-     * Use the CTRE software limit and hardware limit configuration settings
-     * instead.
-     * 
-     * private double DegToEncoder(double degreePosition) {
-     * return (degreePosition - defaultAngle) * ARM_ENCODER_TO_DEG;
-     * }
-     * 
-     * private double GetSensorUpperBound() {
-     * 
-     * return DegToEncoder(degUpperBound);
-     * }
-     * 
-     * private double GetSensorLowerBound() {
-     * 
-     * return 0;
-     * }
-     */
+    // Pulling my barely-existent rank; Degrees > using a reference sheet. If
+    // nothing else, I'm gonna leave the methods for getting Rotations untouched.
+    // -SZ
+    public double GetPositionDegreesAbsolulte() {
+        return GetPositionNative() * ArmConstants.ARM_NATIVE_TO_DEG +
+                defaultAngle;
+    }
 
-    public double GetPositionEncoder() {
+    // Use the
+    // CTRE software
+    // limit and
+    // hardware limit
+    // configuration settings instead.
+    // I will die on this hill. -SZ
+
+    private double DegToNative(double degreePosition) {
+        return (degreePosition - defaultAngle) * ArmConstants.DEG_TO_ARM_NATIVE;
+    }
+
+    private double GetNativeUpperBound() {
+
+        return DegToNative(degUpperBound);
+    }
+
+    public double GetPositionNative() {
         return motor.getPosition().getValueAsDouble();
     }
 
