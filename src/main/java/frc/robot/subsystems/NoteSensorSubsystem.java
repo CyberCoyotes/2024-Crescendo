@@ -31,7 +31,7 @@ public class NoteSensorSubsystem extends SubsystemBase {
      * Set the distance to the note to be considered load position.'
      * Measure in (mm) to determine an appropriate value.
      */
-    public int noteDistanceCheck = 100;
+    public int noteDistanceCheck = 375;
 
     /* Constructor */
     public NoteSensorSubsystem() {
@@ -47,7 +47,7 @@ public class NoteSensorSubsystem extends SubsystemBase {
          * | 4 (default) | 100 ms |
          * | 5 | 200 ms |
          *****************************/
-        noteDistance.setRangingMode(RangingMode.Short, 0.5);
+        noteDistance.setRangingMode(RangingMode.Short, 1);
     }
 
     public double getNoteDistance() {

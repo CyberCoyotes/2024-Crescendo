@@ -31,7 +31,7 @@ public final class Constants {
    * Real world unit of millimeters
    * When less than this, the note status is considered "loaded"
    */
-  public static int NOTE_DISTANCE_CHECK = 100;
+  // public static int NOTE_DISTANCE_CHECK = 100;
 
   public static class OperatorConstants {
     public static final int K_DRIVER_CONTROLLER_PORT = 0; // Driver Controller
