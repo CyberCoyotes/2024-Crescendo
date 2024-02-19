@@ -8,6 +8,8 @@ import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier;
@@ -48,24 +50,13 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
     private void ConfigPathPlanner() {
         AutoBuilder.configureHolonomic(
                 () -> getState().Pose, // Robot pose supplier
-                this::seedFieldRelative, // Method to reset odometry (will be called if your auto has a
-                                         // starting pose)
-                () -> this.m_kinematics.toChassisSpeeds(this.getState().ModuleStates), // ChassisSpeeds supplier. MUST
-                                                                                       // BE ROBOT RELATIVE
-                (ChassisSpeeds speeds) -> setControl(new SwerveRequest.ApplyChassisSpeeds().withSpeeds(speeds)), // Method
-                                                                                                                 // that
-                                                                                                                 // will
-                                                                                                                 // drive
-                                                                                                                 // the
-                                                                                                                 // robot
-                                                                                                                 // given
-                                                                                                                 // ROBOT
-                                                                                                                 // RELATIVE
-                                                                                                                 // ChassisSpeeds
+                this::seedFieldRelative, // Method to reset odometry (will be called if your auto has a starting pose)
+                () -> this.m_kinematics.toChassisSpeeds(this.getState().ModuleStates), // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+                (ChassisSpeeds speeds) -> setControl(new SwerveRequest.ApplyChassisSpeeds().withSpeeds(speeds)),
+                 /* Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds */
                 Constants.SystemConstants.PATH_PLANNER_CONFIG,
                 () -> {
-                    // Boolean supplier that controls when the path will be mirrored for the red
-                    // alliance
+                    // Boolean supplier that controls when the path will be mirrored for the red alliance
                     // This will flip the path being followed to the red side of the field.
                     // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
 
@@ -81,6 +72,11 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 
     public Command applyRequest(Supplier<SwerveRequest> requestSupplier) {
         return run(() -> this.setControl(requestSupplier.get()));
+    }
+
+    /* For testing auton paths. Note, the pathname is actually the auton builder name */
+    public Command getAutoPath(String pathName) {
+        return new PathPlannerAuto(pathName);
     }
 
     private void startSimThread() {
