@@ -23,11 +23,12 @@ public class IntakeSubsystem extends SubsystemBase {
     public IntakeSubsystem() {
 
         motor = new TalonFX(Constants.CANIDs.INTAKE_ID);
+
         dutyCycle = new DutyCycleOut(0);
         motor.setControl(dutyCycle);
 
         // int noteDistanceCheck = Constants.NOTE_DISTANCE_CHECK;
-        
+
         notey = new NoteSensorSubsystem();
         // Every 20ms it updates ()
 

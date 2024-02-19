@@ -2,10 +2,12 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 /**
  * Serves as a base for any flywheel system driven by 2 motors. Fire and forget,
@@ -17,13 +19,14 @@ public class ShooterSubsystem extends SubsystemBase {
     /** As opposed to double */
     private boolean singleMotor;
     // The max rpm of the motor for shooting cargo; realistically 5900.
-    private int maxDanger = 5900;
+    private int maxVelocity = 5900;
     private TalonFX m_main;
     private TalonFX m_sub;
     /** The state percentage */
-    private double percentage;
+    private double maxPercentage = 1;
+    // private double maxPower = 1;
     /** The multiplier that converts from "primary speed" to "secondary speed" */
-    private double ratio = 1;
+    private double ratio = .95;
     private DutyCycleOut mainDutyCycle;
     private DutyCycleOut subDutyCycle;
 
@@ -37,14 +40,22 @@ public class ShooterSubsystem extends SubsystemBase {
      * Set configs before creating this class/subsystem.
      * {@link #SetStatePower} is used to set the main power.
      */
-    public ShooterSubsystem(TalonFX main, TalonFX sub) {
+    public ShooterSubsystem() {
 
         singleMotor = false;
-        this.m_main = main;
-        this.m_sub = sub;
+
+        m_main = new TalonFX(Constants.CANIDs.RIGHT_FLYWHEEL_ID);
+        m_sub = new TalonFX(Constants.CANIDs.LEFT_FLYWHEEL_ID);
+        m_main.setInverted(true);
+        m_sub.setInverted(false);
+        m_main.setNeutralMode(NeutralModeValue.Coast);
+        m_sub.setNeutralMode(NeutralModeValue.Coast);
+
         // default to off
-        m_main.setControl(mainDutyCycle = new DutyCycleOut(0));
-        m_sub.setControl(subDutyCycle = new DutyCycleOut(0));
+        mainDutyCycle = new DutyCycleOut(0);
+        subDutyCycle = new DutyCycleOut(0);
+        m_main.setControl(mainDutyCycle);
+        m_sub.setControl(subDutyCycle);
 
     }
 
@@ -65,7 +76,7 @@ public class ShooterSubsystem extends SubsystemBase {
     /**
      * Sets the power the primary motor will use. Does not enable or disable.
      */
-    private void SetMotorPowers(double arg) {
+    public void SetOutput(double arg) {
 
         int invertMulti = 1;
 
@@ -80,33 +91,23 @@ public class ShooterSubsystem extends SubsystemBase {
 
     }
 
-    /**
-     * Sets the multiplier that converts from "primary speed" to "secondary speed".
-     * Inversion is automatic; supplying a value of -1 here will make both motors
-     * identical.
-     */
-    public void SetRatio(double arg) {
-        ratio = arg;
-
-    }
-
-    public void SetStatePower(double percent) {
+    public void SetMaxOutput(double percent) {
         // percent = Math.max(0, Math.min(percent,1));
-        this.percentage = percent;
+        this.maxPercentage = percent;
 
     }
 
     public void Enable() {
-        SetMotorPowers(percentage);
+        SetOutput(maxPercentage);
     }
 
     public void Disable() {
-        SetMotorPowers(0);
+        SetOutput(0);
     }
 
     public void Toggle() {
-        double set = Math.abs(mainDutyCycle.Output - percentage);
-        SetMotorPowers(set);
+        double set = Math.abs(mainDutyCycle.Output - maxPercentage);
+        SetOutput(set);
     }
 
     public boolean Running() {
@@ -115,25 +116,26 @@ public class ShooterSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        System.out.println(this.Running());
+        // System.out.println(this.Running() + "; " + maxPercentage);
 
     }
 
     public Command RunShooter(double input)
 
     {
-        return this.run(() -> SetStatePower(input));
+        return this.run(() -> SetOutput(input));
+
     }
 
     /**
      * 
      * @return The velocity of the motor
      */
-    public double GetDanger() {
+    public double GetVelocity() {
         return m_main.getVelocity().getValueAsDouble();
     }
 
-    public boolean IsDangerous() {
-        return GetDanger() / maxDanger >= 0.8;
+    public boolean IsVelocityReqMet() {
+        return GetVelocity() / maxVelocity >= 0.8;
     }
 }

@@ -4,8 +4,12 @@
 
 package frc.robot;
 
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
@@ -27,7 +31,7 @@ public final class Constants {
    * Real world unit of millimeters
    * When less than this, the note status is considered "loaded"
    */
-  public static int NOTE_DISTANCE_CHECK = 100;
+  // public static int NOTE_DISTANCE_CHECK = 100;
 
   public static class OperatorConstants {
     public static final int K_DRIVER_CONTROLLER_PORT = 0; // Driver Controller
@@ -40,14 +44,38 @@ public final class Constants {
   public static class SystemConstants {
 
     public static class ArmConstants {
+
       public static final double DEG_TO_ARM_NATIVE = -0.93;// -83.7 / 90
       public static final double ARM_NATIVE_TO_DEG = 1 / DEG_TO_ARM_NATIVE;
-      public static final double ARM_MAX_DUTY_CYCLE_OUT = 0.35;
-      public static final double ARM_SUPPLY_CURRENT_LIMIT = 2.5;
+      public static final double ARM_MAX_DUTY_CYCLE_OUT = 0.6;
+      public static final double ARM_SUPPLY_CURRENT_LIMIT = 5;
+      public static final double ARM_STATOR_CURRENT_LIMIT = 15;
       public static final double ARM_ROTATION_LIMIT_NATIVE = -51; // Represents a mild overshoot of 90 deg
-      public static final Slot0Configs ARM_PID_CONFIGS = new Slot0Configs().withKP(0.05);
-      public static SoftwareLimitSwitchConfigs LIMIT_CONFIGS = new SoftwareLimitSwitchConfigs()
-          .withReverseSoftLimitEnable(true).withReverseSoftLimitThreshold(ARM_ROTATION_LIMIT_NATIVE);
+
+      // #region ugly
+      public static final Slot0Configs ARM_SLOT0_CONFIGS = new Slot0Configs().withKP(0.05);
+      private static final CurrentLimitsConfigs ARM_CURRENT_LIMITS = new CurrentLimitsConfigs()
+          .withStatorCurrentLimit(ARM_STATOR_CURRENT_LIMIT)
+          .withSupplyCurrentLimit(ARM_SUPPLY_CURRENT_LIMIT)
+          .withStatorCurrentLimitEnable(true)
+          .withSupplyCurrentLimitEnable(true);
+      private static final MotorOutputConfigs MOTOR_OUTPUT_CONFIGS = new MotorOutputConfigs()
+          .withNeutralMode(NeutralModeValue.Brake)
+          .withPeakReverseDutyCycle(-ARM_MAX_DUTY_CYCLE_OUT)
+          .withPeakForwardDutyCycle(ARM_MAX_DUTY_CYCLE_OUT);
+
+      private static final SoftwareLimitSwitchConfigs LIMIT_CONFIGS = new SoftwareLimitSwitchConfigs()
+          .withReverseSoftLimitThreshold(ARM_ROTATION_LIMIT_NATIVE)
+          .withReverseSoftLimitEnable(true);
+
+      public static final TalonFXConfiguration MOTOR_CONFIG = new TalonFXConfiguration()
+          .withCurrentLimits(ARM_CURRENT_LIMITS)
+          .withMotorOutput(MOTOR_OUTPUT_CONFIGS)
+          .withSlot0(ARM_SLOT0_CONFIGS)
+          .withSoftwareLimitSwitch(LIMIT_CONFIGS);
+
+      // #endregion ugly
+
     }
 
     public static final double MAX_SPEED = 6; // 6 meters per second desired top speed
@@ -55,7 +83,6 @@ public final class Constants {
 
     // For every 488 rotations of our driver motor, the arm makes 1 revolution.
 
-    
     public static class PID {
       public static final double DRIVE_P = 0.3f;
       public static final double DRIVE_I = 0;
@@ -127,7 +154,7 @@ public final class Constants {
     public static final int WINCH = 17;
     public static final int CANDLE = 18;
 
-    public static final int RIGHT_FLYWHEEL_CAN = 15;
-    public static final int LEFT_FLYWHEEL_CAN = 16;
+    // public static final int RIGHT_FLYWHEEL_CAN = 15;
+    // public static final int LEFT_FLYWHEEL_CAN = 16;
   }
 }
