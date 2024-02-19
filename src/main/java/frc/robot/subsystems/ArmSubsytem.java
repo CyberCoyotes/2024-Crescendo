@@ -91,11 +91,7 @@ public class ArmSubsytem extends SubsystemBase {
         motor.setControl(positionControl.withPosition(motor.getPosition().getValueAsDouble() + target));
     }
 
-    // Seems unnecessarily complex -JV
 
-    // Pulling my barely-existent rank; Degrees > using a reference sheet. If
-    // nothing else, I'm gonna leave the methods for getting Rotations untouched.
-    // -SZ
     public double GetPositionDegreesAbsolulte() {
         return GetPositionNative() * ArmConstants.ARM_NATIVE_TO_DEG +
                 defaultAngle;
