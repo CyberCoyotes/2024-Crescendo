@@ -60,7 +60,7 @@ public class RobotContainer {
 
     joystick.leftBumper().onTrue(m_armSub.runOnce(() -> m_armSub.setArmMotionMagicVoltage(0.0)));
 
-    joystick.rightBumper().onTrue(m_armSub.runOnce(() -> m_armSub.setArmMotionMagicVoltage(35.0)));
+    joystick.rightBumper().onTrue(m_armSub.runOnce(() -> m_armSub.setArmMotionMagicVoltage(5.0)));
 
     // joystick.rightBumper().whileTrue(new InstantCommand(
                                       // () -> m_armSub.setArmMotionMagicVoltage(35.0)));
@@ -68,7 +68,7 @@ public class RobotContainer {
     // joystick.rightBumper().whileTrue(new SequentialCommandGroup(
                                             // new InstantCommand(() -> m_armSub.setArmMotionMagicVoltage(35.0))));
 
-    joystick.x().whileTrue(new InstantCommand(() -> m_shooterSub.setShooter(100)));
+    joystick.x().whileTrue(new InstantCommand(() -> m_shooterSub.setShooter(20)));
     joystick.x().whileFalse(new InstantCommand(() -> m_shooterSub.setShooter(0)));
 
         

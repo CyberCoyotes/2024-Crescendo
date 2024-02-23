@@ -26,8 +26,8 @@ public class ArmSubsystem extends SubsystemBase{
     private static int ARM_ID = 22; // Initialize the armMotorID variable
     private static final int ARM_FWD_LIMIT = 50;
     private static final int ARM_REV_LIMIT = 0;
-    private static final int ARM_STATOR_LIMIT = 40;
-    private static final int ARM_SUPPLY_LIMIT = 40;
+    private static final int ARM_STATOR_LIMIT = 5;
+    private static final int ARM_SUPPLY_LIMIT = 5;
     
     
     // Declare a variable for the motor you want to control
@@ -64,7 +64,9 @@ public class ArmSubsystem extends SubsystemBase{
         /* Gains or configuration of arm motor for config slot 0*/ 
         var armGains0 = new Slot0Configs();
         armGains0.GravityType = GravityTypeValue.Arm_Cosine; /* .Elevator_Static | .Arm_Cosine*/
-        armGains0.kP =   1.00;   /* Proportional Gain */
+        // Set the motor direction
+        m_arm.setInverted(true); // Set to true if you want to invert the motor direction
+        armGains0.kP =   0.50;   /* Proportional Gain */
         armGains0.kI =   0.00;   /* Integral Gain */
         armGains0.kD =   0.00;   /* Derivative Gain */
         armGains0.kV =   0.00;   /* Velocity Feed Forward Gain */
@@ -75,7 +77,7 @@ public class ArmSubsystem extends SubsystemBase{
         /* Gains or configuration of arm motor for config slot 1*/ 
         var armGains1 = new Slot1Configs();
         armGains1.GravityType = GravityTypeValue.Arm_Cosine; /* .Elevator_Static | .Arm_Cosine*/
-        armGains1.kP =   1.00;   /* Proportional Gain */
+        armGains1.kP =   0.50;   /* Proportional Gain */
         armGains1.kI =   0.00;   /* Integral Gain */
         armGains1.kD =   0.00;   /* Derivative Gain */
         armGains1.kV =   0.00;   /* Velocity Feed Forward Gain */
