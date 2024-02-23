@@ -35,18 +35,34 @@ public final class Constants {
 
   }
 
-  public static class SystemConstants {
 
-    public static class ArmConstants {
+  public static class ArmConstants {
 
-      public static final double DEG_TO_ARM_NATIVE = -0.93;// -83.7 / 90
-      public static final double ARM_NATIVE_TO_DEG = 1 / DEG_TO_ARM_NATIVE;
-      public static final double ARM_MAX_DUTY_CYCLE_OUT = 0.6;
-      public static final double ARM_SUPPLY_CURRENT_LIMIT = 5;
-      public static final double ARM_STATOR_CURRENT_LIMIT = 15;
-      public static final double ARM_ROTATION_LIMIT_NATIVE = -51; // Represents a mild overshoot of 90 deg
+    /* Arm has been set to invert so positive values for arm poses */
+    public static final double DEG_TO_ARM_NATIVE = 0.93;// -83.7 / 90
+    public static final double ARM_NATIVE_TO_DEG = 1 / DEG_TO_ARM_NATIVE;
+    public static final double ARM_MAX_DUTY_CYCLE_OUT = 0.6;
+    public static final double ARM_SUPPLY_CURRENT_LIMIT = 5;
+    public static final double ARM_STATOR_CURRENT_LIMIT = 15;
+    
+    /* Arm poses */
+    public static final int ARM_REV_LIMIT = 0;
+    public static final double ARM_LOW_POSE = 5;
+    public static final double ARM_MID_POSE = 10;
+    public static final double ARM_HIGH_POSE = 25;
+    public static final double ARM_AMP_POSE = 90;
+    public static final int ARM_FWD_LIMIT = 91;
+
+    public static final int ARM_MAX_ACCEL = 16; // 80
+    public static final int ARM_MAX_VEL = 32; // 160
+    public static final int ARM_JERK = 0;
+    
+    public static final int ARM_STATOR_LIMIT = 5;
+    public static final int ARM_SUPPLY_LIMIT = 5;
+    }
 
       // #region ugly
+      /* 
       public static final Slot0Configs ARM_SLOT0_CONFIGS = new Slot0Configs().withKP(0.05);
       private static final CurrentLimitsConfigs ARM_CURRENT_LIMITS = new CurrentLimitsConfigs()
           .withStatorCurrentLimit(ARM_STATOR_CURRENT_LIMIT)
@@ -67,10 +83,11 @@ public final class Constants {
           .withMotorOutput(MOTOR_OUTPUT_CONFIGS)
           .withSlot0(ARM_SLOT0_CONFIGS)
           .withSoftwareLimitSwitch(LIMIT_CONFIGS);
-
+*/
       // #endregion ugly
 
-    }
+
+    public static class SystemConstants {
 
     public static final double MAX_SPEED = 6; // 6 meters per second desired top speed
     public static final double MAX_ANGULAR_RATE = 1.5 * Math.PI; // 3/4 of a rotation per second max angular velocity

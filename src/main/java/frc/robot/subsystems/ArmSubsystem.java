@@ -17,17 +17,12 @@ import com.ctre.phoenix6.signals.GravityTypeValue;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import frc.robot.Constants.CANIDs;
 
 public class ArmSubsystem extends SubsystemBase{
 
-    private static final int ARM_MAX_ACCEL = 80;
-    private static final int ARM_MAX_VEL = 160;
-    private static final int ARM_JERK = 0;
-    private static int ARM_ID = 22; // Initialize the armMotorID variable
-    private static final int ARM_FWD_LIMIT = 50;
-    private static final int ARM_REV_LIMIT = 0;
-    private static final int ARM_STATOR_LIMIT = 5;
-    private static final int ARM_SUPPLY_LIMIT = 5;
+
     
     
     // Declare a variable for the motor you want to control
@@ -42,7 +37,7 @@ public class ArmSubsystem extends SubsystemBase{
     public ArmSubsystem () {
 
         // Initialize the motor in the constructor with the motor ID and optional canbus ID
-        m_arm = new TalonFX(ARM_ID);
+        m_arm = new TalonFX(Constants.CANIDs.ARM_ID);
 
         /* any unmodified configs in a configuration object are *automatically* factory-defaulted;
         user can perform a full factory default by passing a new device configuration object.
@@ -88,27 +83,21 @@ public class ArmSubsystem extends SubsystemBase{
         // set Motion Magic settings
         var armMotionMagic0 = new MotionMagicConfigs();
         
-        armMotionMagic0.MotionMagicCruiseVelocity = ARM_MAX_VEL/5; // 80 rps cruise velocity // FIMXE changed for safety testing
-        armMotionMagic0.MotionMagicAcceleration = ARM_MAX_ACCEL/5; // 160 rps/s acceleration (0.5 seconds) // FIMXE changed for safety testing
-  
-        armMotionMagic0.MotionMagicJerk = ARM_JERK; // 1600 rps/s^2 jerk (0.1 seconds)
-
-        var armMotionMagic1 = new MotionMagicConfigs();
-        armMotionMagic1.MotionMagicCruiseVelocity = ARM_MAX_VEL/2; // 80 rps cruise velocity
-        armMotionMagic1.MotionMagicAcceleration = ARM_MAX_ACCEL/2; // 160 rps/s acceleration (0.5 seconds)
-        armMotionMagic1.MotionMagicJerk = 0; // 1600 rps/s^2 jerk (0.1 seconds)
+        armMotionMagic0.MotionMagicCruiseVelocity = Constants.ArmConstants.ARM_MAX_VEL/5; // 80 rps cruise velocity // FIMXE changed for safety testing
+        armMotionMagic0.MotionMagicAcceleration = Constants.ArmConstants.ARM_MAX_ACCEL/5; // 160 rps/s acceleration (0.5 seconds) // FIMXE changed for safety testing  
+        armMotionMagic0.MotionMagicJerk = Constants.ArmConstants.ARM_JERK; // 1600 rps/s^2 jerk (0.1 seconds)
 
         var armSoftLimit0 = new SoftwareLimitSwitchConfigs();
         armSoftLimit0.ForwardSoftLimitEnable = true;
-        armSoftLimit0.ForwardSoftLimitThreshold = ARM_FWD_LIMIT; 
+        armSoftLimit0.ForwardSoftLimitThreshold = Constants.ArmConstants.ARM_FWD_LIMIT; 
         armSoftLimit0.ReverseSoftLimitEnable = true;
-        armSoftLimit0.ReverseSoftLimitThreshold = ARM_REV_LIMIT;
+        armSoftLimit0.ReverseSoftLimitThreshold = Constants.ArmConstants.ARM_REV_LIMIT;
         
         var armCurrent0 = new CurrentLimitsConfigs();
         armCurrent0.StatorCurrentLimitEnable = true;
-        armCurrent0.StatorCurrentLimit = ARM_STATOR_LIMIT;
+        armCurrent0.StatorCurrentLimit = Constants.ArmConstants.ARM_STATOR_LIMIT;
         armCurrent0.SupplyCurrentLimitEnable = true;
-        armCurrent0.SupplyCurrentLimit = ARM_SUPPLY_LIMIT; 
+        armCurrent0.SupplyCurrentLimit = Constants.ArmConstants.ARM_SUPPLY_LIMIT; 
 
         /* Applies the configuration shortcut-variable with the apply*/
         // armConfigurator.apply(armConfigs);
@@ -153,7 +142,7 @@ public class ArmSubsystem extends SubsystemBase{
                 armPose, 
                 false, 
                 armPose, 
-                ARM_ID, 
+                Constants.CANIDs.ARM_ID, 
                 false, 
                 false, 
                 false));
