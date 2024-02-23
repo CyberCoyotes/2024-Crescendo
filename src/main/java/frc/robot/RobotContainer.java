@@ -21,15 +21,18 @@ import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-
+import frc.robot.subsystems.LedSubsystem;
+import frc.robot.subsystems.NoteSensorSubsystem;
 
 public class RobotContainer {
 
+
   private final ArmSubsystem m_armSub = new ArmSubsystem();
-
   private final ShooterSubsystem m_shooterSub = new ShooterSubsystem();
-
   private final IndexSubsystem m_indexSub = new IndexSubsystem();
+  private final LedSubsystem m_ledSub = new LedSubsystem();
+  private final NoteSensorSubsystem m_noteSensorSub = new NoteSensorSubsystem();
+
 
   private double MaxSpeed = TunerConstants.kSpeedAt12VoltsMps; // kSpeedAt12VoltsMps desired top speed
   private double MaxAngularRate = 1.5 * Math.PI; // 3/4 of a rotation per second max angular velocity
@@ -46,6 +49,11 @@ public class RobotContainer {
   private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
   private final Telemetry logger = new Telemetry(MaxSpeed);
 
+  // TODO Use for manually testing auton builder files from path planner
+  // See ... /pathplanner/autos for names
+  private Command runAuto = drivetrain.getAutoPath("Start1.0-3-4-5");
+
+
   private void configureBindings() {
     drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
         drivetrain.applyRequest(() -> drive.withVelocityX(-joystick.getLeftY() * MaxSpeed) // Drive forward with
@@ -54,9 +62,9 @@ public class RobotContainer {
             .withRotationalRate(-joystick.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
         ));
 
-    joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
-    joystick.b().whileTrue(drivetrain
-        .applyRequest(() -> point.withModuleDirection(new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))));
+    // joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
+    // joystick.b().whileTrue(drivetrain
+        // .applyRequest(() -> point.withModuleDirection(new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))));
 
     // reset the field-centric heading on left bumper press
     // joystick.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
@@ -70,7 +78,7 @@ public class RobotContainer {
 
 
     joystick.rightBumper().whileTrue(new SequentialCommandGroup(
-                                            new InstantCommand(() -> m_armSub.setArmMotionMagicVoltage(5.0)),
+                                            // new InstantCommand(() -> m_armSub.setArmMotionMagicVoltage(10)),                                            
                                             new InstantCommand(() -> m_shooterSub.setShooter(20.0)),
                                             new InstantCommand(() -> m_indexSub.SetPower(0.5))));
 
@@ -79,13 +87,8 @@ public class RobotContainer {
                                             new InstantCommand(() -> m_shooterSub.setShooter(0.0)),
                                             new InstantCommand(() -> m_indexSub.SetPower(0.0))));
 
-    // joystick.x().whileTrue(new InstantCommand(() -> m_shooterSub.setShooter(20)));
-    joystick.x().whileFalse(new InstantCommand(() -> m_shooterSub.setShooter(0)));
-
-    joystick.povDown().onTrue(new InstantCommand(() -> m_armSub.setArmMotionMagicVoltage(Constants.ArmConstants.ARM_REV_LIMIT)));
-    joystick.povLeft().onTrue(new InstantCommand(() -> m_armSub.setArmMotionMagicVoltage(Constants.ArmConstants.ARM_LOW_POSE)));
-    joystick.povRight().onTrue(new InstantCommand(() -> m_armSub.setArmMotionMagicVoltage(Constants.ArmConstants.ARM_MID_POSE)));
-    joystick.povUp().onTrue(new InstantCommand(() -> m_armSub.setArmMotionMagicVoltage(Constants.ArmConstants.ARM_HIGH_POSE)));
+    joystick.y().whileTrue(new InstantCommand(() -> m_armSub.setArmMotionMagicVoltage(10)));
+    joystick.x().whileTrue(new InstantCommand(() -> m_armSub.setArmMotionMagicVoltage(0)));
 
         
     if (Utils.isSimulation()) {
@@ -99,6 +102,8 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return Commands.print("No autonomous command configured");
+    // TODO Here for direct file testing purposes
+    return runAuto;
+    // Commands.print("No autonomous command configured");
   }
 }

@@ -30,11 +30,9 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int K_DRIVER_CONTROLLER_PORT = 0; // Driver Controller
     public static final int K_OPERATOR_CONTROLLER_PORT = 1; // Operator or Secondary Controller
-
     public static final int DEFAULT_ARM_INCREMENT_VALUE = 20; // ?
 
   }
-
 
   public static class ArmConstants {
 
@@ -91,27 +89,7 @@ public final class Constants {
 
     public static final double MAX_SPEED = 6; // 6 meters per second desired top speed
     public static final double MAX_ANGULAR_RATE = 1.5 * Math.PI; // 3/4 of a rotation per second max angular velocity
-
-    // For every 488 rotations of our driver motor, the arm makes 1 revolution.
-
-    public static class PID {
-      public static final double DRIVE_P = 0.3f;
-      public static final double DRIVE_I = 0;
-      public static final double DRIVE_D = 0.1;
-      public static final double STEER_P = 0.3;
-      public static final double STEER_I = 0;
-      public static final double STEER_D = 0.1;
     }
-
-    public static final HolonomicPathFollowerConfig PATH_PLANNER_CONFIG = new HolonomicPathFollowerConfig(
-        new PIDConstants(PID.DRIVE_P, PID.DRIVE_I, PID.DRIVE_D), // Translation PID constants
-        new PIDConstants(PID.STEER_P, PID.STEER_I, PID.STEER_D), // Rotation PID constants
-        MAX_SPEED, // Max module speed, in m/s
-        0.4, // Drive base radius in meters. Distance from robot center to furthest module.
-        new ReplanningConfig() // Default path replanning config. See the API for the options here
-
-    );
-  }
 
   public static class CANIDs {
 
