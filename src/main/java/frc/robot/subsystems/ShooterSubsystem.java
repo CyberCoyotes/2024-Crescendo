@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ShooterSubsystem extends SubsystemBase {
 
-    public static final int RIGHT_FLYWHEEL_ID = 23; // Initialize the shooterMotorID variable
+    public static final int RIGHT_FLYWHEEL_ID = 24; // Initialize the shooterMotorID variable
 
     private final TalonFX m_shooter;
 

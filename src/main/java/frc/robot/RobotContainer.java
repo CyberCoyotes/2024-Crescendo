@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.generated.TunerConstants;
 
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 
@@ -27,6 +28,8 @@ public class RobotContainer {
   private final ArmSubsystem m_armSub = new ArmSubsystem();
 
   private final ShooterSubsystem m_shooterSub = new ShooterSubsystem();
+
+  private final IndexSubsystem m_indexSub = new IndexSubsystem();
 
   private double MaxSpeed = TunerConstants.kSpeedAt12VoltsMps; // kSpeedAt12VoltsMps desired top speed
   private double MaxAngularRate = 1.5 * Math.PI; // 3/4 of a rotation per second max angular velocity
@@ -60,15 +63,22 @@ public class RobotContainer {
 
     joystick.leftBumper().onTrue(m_armSub.runOnce(() -> m_armSub.setArmMotionMagicVoltage(0.0)));
 
-    joystick.rightBumper().onTrue(m_armSub.runOnce(() -> m_armSub.setArmMotionMagicVoltage(5.0)));
+    // joystick.rightBumper().onTrue(m_armSub.runOnce(() -> m_armSub.setArmMotionMagicVoltage(5.0)));
 
     // joystick.rightBumper().whileTrue(new InstantCommand(
-                                      // () -> m_armSub.setArmMotionMagicVoltage(35.0)));
+                                      // () -> m_armSub.setArmMotionMagicVoltage(5.0)));
 
-    // joystick.rightBumper().whileTrue(new SequentialCommandGroup(
-                                            // new InstantCommand(() -> m_armSub.setArmMotionMagicVoltage(35.0))));
+    joystick.rightBumper().whileTrue(new SequentialCommandGroup(
+                                            new InstantCommand(() -> m_armSub.setArmMotionMagicVoltage(5.0)),
+                                            new InstantCommand(() -> m_shooterSub.setShooter(20.0)),
+                                            new InstantCommand(() -> m_indexSub.SetPower(0.5))));
 
-    joystick.x().whileTrue(new InstantCommand(() -> m_shooterSub.setShooter(20)));
+    joystick.rightBumper().whileFalse(new SequentialCommandGroup(
+                                            // new InstantCommand(() -> m_armSub.setArmMotionMagicVoltage(5.0)),
+                                            new InstantCommand(() -> m_shooterSub.setShooter(0.0)),
+                                            new InstantCommand(() -> m_indexSub.SetPower(0.0))));
+
+    // joystick.x().whileTrue(new InstantCommand(() -> m_shooterSub.setShooter(20)));
     joystick.x().whileFalse(new InstantCommand(() -> m_shooterSub.setShooter(0)));
 
         
