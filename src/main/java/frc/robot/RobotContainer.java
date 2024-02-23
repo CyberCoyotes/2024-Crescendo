@@ -13,10 +13,21 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.generated.TunerConstants;
 
+import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
+
+
 public class RobotContainer {
+
+  private final ArmSubsystem m_armSub = new ArmSubsystem();
+
+  private final ShooterSubsystem m_shooterSub = new ShooterSubsystem();
+
   private double MaxSpeed = TunerConstants.kSpeedAt12VoltsMps; // kSpeedAt12VoltsMps desired top speed
   private double MaxAngularRate = 1.5 * Math.PI; // 3/4 of a rotation per second max angular velocity
 
@@ -45,8 +56,22 @@ public class RobotContainer {
         .applyRequest(() -> point.withModuleDirection(new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))));
 
     // reset the field-centric heading on left bumper press
-    joystick.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
+    // joystick.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
 
+    joystick.leftBumper().onTrue(m_armSub.runOnce(() -> m_armSub.setArmMotionMagicVoltage(0.0)));
+
+    joystick.rightBumper().onTrue(m_armSub.runOnce(() -> m_armSub.setArmMotionMagicVoltage(35.0)));
+
+    // joystick.rightBumper().whileTrue(new InstantCommand(
+                                      // () -> m_armSub.setArmMotionMagicVoltage(35.0)));
+
+    // joystick.rightBumper().whileTrue(new SequentialCommandGroup(
+                                            // new InstantCommand(() -> m_armSub.setArmMotionMagicVoltage(35.0))));
+
+    joystick.x().whileTrue(new InstantCommand(() -> m_shooterSub.setShooter(100)));
+    joystick.x().whileFalse(new InstantCommand(() -> m_shooterSub.setShooter(0)));
+
+        
     if (Utils.isSimulation()) {
       drivetrain.seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
     }
