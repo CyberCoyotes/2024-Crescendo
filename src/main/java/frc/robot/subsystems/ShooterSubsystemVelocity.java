@@ -1,6 +1,13 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.configs.MotionMagicConfigs;
+import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.configs.VoltageConfigs;
 import com.ctre.phoenix6.controls.DutyCycleOut;
+import com.ctre.phoenix6.controls.VelocityDutyCycle;
+import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
@@ -14,25 +21,44 @@ import frc.robot.Constants;
  * Set configs before creating this class/subsystem.
  * {@link #SetStatePower} is used to set the main power.
  */
-public class ShooterSubsystem extends SubsystemBase {
+public class ShooterSubsystemVelocity extends SubsystemBase {
+    private static final double MaxVelocity = 20;
+
     /** As opposed to double */
     private boolean singleMotor;
     // The max rpm of the motor for shooting cargo; realistically 5900.
-    public final int MaxVelocity = 5900;
+
     private TalonFX m_main;
     private TalonFX m_sub;
-    /** The state percentage */
-    private double maxPercentage = 1;
+    /** The max velo */
+    private double maxVelo = 20;
     // private double maxPower = 1;
     /** The multiplier that converts from "primary speed" to "secondary speed" */
     private double ratio = .95;
-    private DutyCycleOut mainDutyCycle;
-    private DutyCycleOut subDutyCycle;
+    private VelocityVoltage mainVeloCycle;
+    private VelocityVoltage subVeloCycle;
 
     // #region Diagnostics
     GenericEntry isRunning;
     // #endregion
-    private int velocitySetpoint = 0;
+
+    TalonFXConfiguration motorConfigs = new TalonFXConfiguration()
+            .withSlot0(new Slot0Configs()
+                    .withKP(0.11)
+                    .withKI(0.5)
+                    .withKS(0.0001)
+                    .withKV(0.12))
+            .withVoltage(new VoltageConfigs().withPeakForwardVoltage(8).withPeakReverseVoltage(-8))
+            .withCurrentLimits(
+                    new CurrentLimitsConfigs().withStatorCurrentLimit(60).withStatorCurrentLimitEnable(true));
+
+    // An error of 1 rotation per second results in 2V output
+    // An error of 1 rotation per second increases output by 0.5V every second
+    // A change of 1 rotation per second squared results in 0.01 volts output
+    // Falcon 500 is a 500kV motor, 500rpm per V = 8.333 rps per V, 1/8.33 = 0.12
+    // volts / Rotation per second
+
+    // Peak output of 8 volts
 
     /**
      * Serves as a base for any flywheel system driven by 2 motors. Fire and forget,
@@ -40,22 +66,26 @@ public class ShooterSubsystem extends SubsystemBase {
      * Set configs before creating this class/subsystem.
      * {@link #SetStatePower} is used to set the main power.
      */
-    public ShooterSubsystem() {
+    public ShooterSubsystemVelocity() {
 
         singleMotor = false;
 
+        // m_main.getConfigurator().apply(new TalonFXConfiguration().withMotionMagic())
+
         m_main = new TalonFX(Constants.CANIDs.RIGHT_FLYWHEEL_ID);
         m_sub = new TalonFX(Constants.CANIDs.LEFT_FLYWHEEL_ID);
+        m_main.getConfigurator().apply(motorConfigs);
+        m_sub.getConfigurator().apply(motorConfigs);
         m_main.setInverted(true);
         m_sub.setInverted(false);
         m_main.setNeutralMode(NeutralModeValue.Coast);
         m_sub.setNeutralMode(NeutralModeValue.Coast);
 
         // default to off
-        mainDutyCycle = new DutyCycleOut(0);
-        subDutyCycle = new DutyCycleOut(0);
-        m_main.setControl(mainDutyCycle);
-        m_sub.setControl(subDutyCycle);
+        mainVeloCycle = new VelocityVoltage(0);
+        subVeloCycle = new VelocityVoltage(0);
+        m_main.setControl(mainVeloCycle);
+        m_sub.setControl(subVeloCycle);
 
     }
 
@@ -65,12 +95,12 @@ public class ShooterSubsystem extends SubsystemBase {
      * Set configs before creating this class/subsystem.
      * {@link #SetStatePower} is used to set the main power.
      */
-    public ShooterSubsystem(TalonFX only) {
+    public ShooterSubsystemVelocity(TalonFX only) {
 
         this.m_main = only;
         singleMotor = true;
         // default to off
-        m_main.setControl(mainDutyCycle = new DutyCycleOut(0));
+        m_main.setControl(mainVeloCycle = new VelocityVoltage(0));
     }
 
     /**
@@ -80,43 +110,39 @@ public class ShooterSubsystem extends SubsystemBase {
 
         int invertMulti = 1;
 
-        mainDutyCycle.Output = arg * invertMulti;
-        m_main.setControl(mainDutyCycle);
+        mainVeloCycle.Velocity = arg * invertMulti;
+        m_main.setControl(mainVeloCycle);
 
         if (!singleMotor) {
-            subDutyCycle.Output = arg * ratio * invertMulti;
-            m_sub.setControl(subDutyCycle);
+            subVeloCycle.Velocity = arg * ratio * invertMulti;
+            m_sub.setControl(subVeloCycle);
         }
         ;
 
     }
 
-    public void SetMaxOutput(double percent) {
+    public void SetMaxOutput(double velo) {
         // percent = Math.max(0, Math.min(percent,1));
-        this.maxPercentage = percent;
+        this.maxVelo = velo;
 
     }
 
     public void Enable() {
-        SetOutput(maxPercentage);
+        SetOutput(maxVelo);
     }
 
     public void Disable() {
         SetOutput(0);
-        SetVelocity(0);
-    }
 
-    public void SetVelocity(int i) {
-        this.velocitySetpoint = i;
     }
 
     public void Toggle() {
-        double set = Math.abs(mainDutyCycle.Output - maxPercentage);
+        double set = Math.abs(mainVeloCycle.Velocity - maxVelo);
         SetOutput(set);
     }
 
     public boolean Running() {
-        return mainDutyCycle.Output > 0;
+        return mainVeloCycle.Velocity > 0;
     }
 
     /**

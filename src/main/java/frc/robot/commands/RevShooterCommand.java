@@ -3,10 +3,11 @@ package frc.robot.commands;
 import java.lang.reflect.Executable;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.ShooterSubsystem;
+
+import frc.robot.subsystems.ShooterSubsystemVelocity;
 
 public class RevShooterCommand extends Command {
-    private ShooterSubsystem shooter;
+    private ShooterSubsystemVelocity shooter;
 
     public RevShooterCommand() {
 
@@ -14,7 +15,6 @@ public class RevShooterCommand extends Command {
 
     @Override
     public void execute() {
-        shooter.SetVelocity(shooter.MaxVelocity);
         shooter.Enable();
     }
 

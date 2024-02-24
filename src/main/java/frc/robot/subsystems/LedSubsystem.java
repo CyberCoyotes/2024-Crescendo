@@ -23,7 +23,7 @@ import frc.robot.Constants;
 
 
 public class LedSubsystem extends SubsystemBase{
-    private final CANdle m_candle = new CANdle(Constants.CANIDs.CANDLE_ID, "rio");
+    private final CANdle m_candle = new CANdle(Constants.CANIDs.CANDLE_ID);
     
     /* Update once the LEDs are installed if using Animations */
    //  private final int LedCount = 69;

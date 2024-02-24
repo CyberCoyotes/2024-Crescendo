@@ -5,10 +5,13 @@
 package frc.robot;
 
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.Slot1Configs;
 import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
@@ -30,73 +33,122 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int K_DRIVER_CONTROLLER_PORT = 0; // Driver Controller
     public static final int K_OPERATOR_CONTROLLER_PORT = 1; // Operator or Secondary Controller
-
     public static final int DEFAULT_ARM_INCREMENT_VALUE = 20; // ?
 
   }
 
-  public static class SystemConstants {
-    public static class ShooterConstants {
+  public static class ArmConstants {
 
-    }
+    /* Arm has been set to invert so positive values for arm poses */
+    public static final double DEG_TO_ARM_NATIVE = 0.93;// -83.7 / 90
+    public static final double ARM_NATIVE_TO_DEG = 1 / DEG_TO_ARM_NATIVE;
+    public static final double ARM_MAX_DUTY_CYCLE_OUT = 0.6;
+    public static final double ARM_SUPPLY_CURRENT_LIMIT = 5;
+    public static final double ARM_STATOR_CURRENT_LIMIT = 15;
 
-    public static class ArmConstants {
+    /* Arm poses */
+    public static final int ARM_REV_LIMIT = 0;
+    public static final double ARM_LOW_POSE = 5;
+    public static final double ARM_MID_POSE = 10;
+    public static final double ARM_HIGH_POSE = 25;
+    public static final double ARM_AMP_POSE = 90;
+    public static final int ARM_FWD_LIMIT = 91;
 
-      public static final double DEG_TO_ARM_NATIVE = -0.93;// -83.7 / 90
-      public static final double ARM_NATIVE_TO_DEG = 1 / DEG_TO_ARM_NATIVE;
-      public static final double ARM_MAX_DUTY_CYCLE_OUT = 0.6;
-      public static final double ARM_SUPPLY_CURRENT_LIMIT = 5;
-      public static final double ARM_STATOR_CURRENT_LIMIT = 15;
-      public static final double ARM_ROTATION_LIMIT_NATIVE = -51; // Represents a mild overshoot of 90 deg
+    public static final int ARM_MAX_ACCEL = 16; // 80
+    public static final int ARM_MAX_VEL = 32; // 160
+    public static final int ARM_JERK = 0;
 
-      // #region ugly
-      public static final Slot0Configs ARM_SLOT0_CONFIGS = new Slot0Configs().withKP(0.05);
-      private static final CurrentLimitsConfigs ARM_CURRENT_LIMITS = new CurrentLimitsConfigs()
-          .withStatorCurrentLimit(ARM_STATOR_CURRENT_LIMIT)
-          .withSupplyCurrentLimit(ARM_SUPPLY_CURRENT_LIMIT)
+    public static final int ARM_STATOR_LIMIT = 5;
+    public static final int ARM_SUPPLY_LIMIT = 5;
+    public static final double ARM_ROTATION_LIMIT_NATIVE = 0;
+
+    public static final class ArmConstantsExtension {
+
+      static final Slot0Configs armGains0 = new Slot0Configs().withGravityType(GravityTypeValue.Arm_Cosine)
+          .withKP(0.50)
+          .withKI(0.00)
+          .withKD(0.00)
+          .withKV(0.00)
+          .withKS(0.00)
+          .withKA(0.00)
+          .withKG(0.00);
+      static final Slot1Configs armGains1 = new Slot1Configs().withGravityType(GravityTypeValue.Arm_Cosine)
+          .withKP(0.50)
+          .withKI(0.00)
+          .withKD(0.00)
+          .withKV(0.00)
+          .withKS(0.00)
+          .withKA(0.00)
+          .withKG(0.00);
+
+      /* Gains or configuration of arm motor for config slot 1 */
+
+      // set Motion Magic settings
+      static final MotionMagicConfigs armMotionMagic0 = new MotionMagicConfigs()
+          .withMotionMagicCruiseVelocity(Constants.ArmConstants.ARM_MAX_VEL / 5) // 80 rps cruise velocity //
+                                                                                 // FIMXE changed for safety
+                                                                                 // testing
+                                                                                 // 160 rps/s acceleration
+                                                                                 // (0.5 seconds) // FIMXE
+                                                                                 // changed for safety
+                                                                                 // testing
+          .withMotionMagicAcceleration(Constants.ArmConstants.ARM_MAX_ACCEL / 5)
+          .withMotionMagicJerk(Constants.ArmConstants.ARM_JERK / 5);
+
+      static final SoftwareLimitSwitchConfigs armSoftLimit0 = new SoftwareLimitSwitchConfigs()
+          .withForwardSoftLimitEnable(true)
+          .withForwardSoftLimitThreshold(Constants.ArmConstants.ARM_FWD_LIMIT)
+          .withReverseSoftLimitEnable(true)
+          .withReverseSoftLimitThreshold(Constants.ArmConstants.ARM_REV_LIMIT);
+      static final CurrentLimitsConfigs armSoftLimit1 = new CurrentLimitsConfigs()
+
           .withStatorCurrentLimitEnable(true)
-          .withSupplyCurrentLimitEnable(true);
-      private static final MotorOutputConfigs MOTOR_OUTPUT_CONFIGS = new MotorOutputConfigs()
-          .withNeutralMode(NeutralModeValue.Brake)
-          .withPeakReverseDutyCycle(-ARM_MAX_DUTY_CYCLE_OUT)
-          .withPeakForwardDutyCycle(ARM_MAX_DUTY_CYCLE_OUT);
+          .withStatorCurrentLimit(Constants.ArmConstants.ARM_STATOR_LIMIT)
+          .withSupplyCurrentLimitEnable(true)
+          .withSupplyCurrentLimit(Constants.ArmConstants.ARM_SUPPLY_LIMIT);
 
-      private static final SoftwareLimitSwitchConfigs LIMIT_CONFIGS = new SoftwareLimitSwitchConfigs()
-          .withReverseSoftLimitThreshold(ARM_ROTATION_LIMIT_NATIVE)
-          .withReverseSoftLimitEnable(true);
-
-      public static final TalonFXConfiguration MOTOR_CONFIG = new TalonFXConfiguration()
-          .withCurrentLimits(ARM_CURRENT_LIMITS)
-          .withMotorOutput(MOTOR_OUTPUT_CONFIGS)
-          .withSlot0(ARM_SLOT0_CONFIGS)
-          .withSoftwareLimitSwitch(LIMIT_CONFIGS);
-
-      // #endregion ugly
+      public static final TalonFXConfiguration config = new TalonFXConfiguration().withSlot0(armGains0)
+          .withSlot1(armGains1)
+          .withMotionMagic(armMotionMagic0).withSoftwareLimitSwitch(armSoftLimit0).withCurrentLimits(armSoftLimit1);
 
     }
+
+  }
+
+  // #region ugly
+  /*
+   * public static final Slot0Configs ARM_SLOT0_CONFIGS = new
+   * Slot0Configs().withKP(0.05);
+   * private static final CurrentLimitsConfigs ARM_CURRENT_LIMITS = new
+   * CurrentLimitsConfigs()
+   * .withStatorCurrentLimit(ARM_STATOR_CURRENT_LIMIT)
+   * .withSupplyCurrentLimit(ARM_SUPPLY_CURRENT_LIMIT)
+   * .withStatorCurrentLimitEnable(true)
+   * .withSupplyCurrentLimitEnable(true);
+   * private static final MotorOutputConfigs MOTOR_OUTPUT_CONFIGS = new
+   * MotorOutputConfigs()
+   * .withNeutralMode(NeutralModeValue.Brake)
+   * .withPeakReverseDutyCycle(-ARM_MAX_DUTY_CYCLE_OUT)
+   * .withPeakForwardDutyCycle(ARM_MAX_DUTY_CYCLE_OUT);
+   * 
+   * private static final SoftwareLimitSwitchConfigs LIMIT_CONFIGS = new
+   * SoftwareLimitSwitchConfigs()
+   * .withReverseSoftLimitThreshold(ARM_ROTATION_LIMIT_NATIVE)
+   * .withReverseSoftLimitEnable(true);
+   * 
+   * public static final TalonFXConfiguration MOTOR_CONFIG = new
+   * TalonFXConfiguration()
+   * .withCurrentLimits(ARM_CURRENT_LIMITS)
+   * .withMotorOutput(MOTOR_OUTPUT_CONFIGS)
+   * .withSlot0(ARM_SLOT0_CONFIGS)
+   * .withSoftwareLimitSwitch(LIMIT_CONFIGS);
+   */
+  // #endregion ugly
+
+  public static class SystemConstants {
 
     public static final double MAX_SPEED = 6; // 6 meters per second desired top speed
     public static final double MAX_ANGULAR_RATE = 1.5 * Math.PI; // 3/4 of a rotation per second max angular velocity
-
-    // For every 488 rotations of our driver motor, the arm makes 1 revolution.
-
-    public static class PID {
-      public static final double DRIVE_P = 0.3f;
-      public static final double DRIVE_I = 0;
-      public static final double DRIVE_D = 0.1;
-      public static final double STEER_P = 0.3;
-      public static final double STEER_I = 0;
-      public static final double STEER_D = 0.1;
-    }
-
-    public static final HolonomicPathFollowerConfig PATH_PLANNER_CONFIG = new HolonomicPathFollowerConfig(
-        new PIDConstants(PID.DRIVE_P, PID.DRIVE_I, PID.DRIVE_D), // Translation PID constants
-        new PIDConstants(PID.STEER_P, PID.STEER_I, PID.STEER_D), // Rotation PID constants
-        MAX_SPEED, // Max module speed, in m/s
-        0.4, // Drive base radius in meters. Distance from robot center to furthest module.
-        new ReplanningConfig() // Default path replanning config. See the API for the options here
-
-    );
   }
 
   public static class CANIDs {
@@ -141,8 +193,8 @@ public final class Constants {
     public static final int INTAKE_ID = 20;
     public static final int INDEX_ID = 21;
     public static final int ARM_ID = 22;
-    public static final int RIGHT_FLYWHEEL_ID = 23;
-    public static final int LEFT_FLYWHEEL_ID = 24;
+    public static final int LEFT_FLYWHEEL_ID = 23;
+    public static final int RIGHT_FLYWHEEL_ID = 24;
     public static final int WINCH_ID = 25;
     public static final int NOTE_SENSOR_ID = 42; // Time of Flight sensor for the note
 

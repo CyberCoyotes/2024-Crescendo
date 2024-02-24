@@ -16,7 +16,6 @@ import frc.robot.Constants;
 public class IntakeSubsystem extends SubsystemBase {
 
     private TalonFX motor;
-
     private DutyCycleOut dutyCycle;
     // The distance at which the tof thinks we have cargo
 
@@ -29,6 +28,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
         // int noteDistanceCheck = Constants.NOTE_DISTANCE_CHECK;
 
+        // notey = new NoteSensorSubsystem();
         // Every 20ms it updates ()
 
     }

@@ -19,14 +19,11 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.commands.IncrementIndexCommand;
 import frc.robot.generated.TunerConstants;
-import frc.robot.subsystems.ArmSubsytem;
-import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.OrchestraSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.ShooterSubsystemVelocity;
 import frc.robot.subsystems.WinchSubsystem;
 
 public class RobotContainer {
@@ -41,12 +38,12 @@ public class RobotContainer {
   GenericEntry incrementDistanceEntry;
   // #endregion Network Tables
   // #region Subsystems
-  ShooterSubsystem shooter = new ShooterSubsystem();
+  ShooterSubsystemVelocity shooter = new ShooterSubsystemVelocity();
   IntakeSubsystem intake = new IntakeSubsystem();
   IndexSubsystem index = new IndexSubsystem();
   // OrchestraSubsystem daTunes;
   // WinchSubsystem winch;
-  ArmSubsytem arm = new ArmSubsytem();
+  ArmSubsystem arm = new ArmSubsystem();
   // #endregion Subsystems
 
   private double MaxSpeed = TunerConstants.kSpeedAt12VoltsMps; // kSpeedAt12VoltsMps desired top speed
@@ -80,7 +77,7 @@ public class RobotContainer {
 
     // #endregion
 
-    shooter = new ShooterSubsystem();
+    shooter = new ShooterSubsystemVelocity();
     // shooter.SetMaxOutput(1);
 
     arm.setDefaultCommand(
@@ -114,11 +111,6 @@ public class RobotContainer {
 
     // reset the field-centric heading on left bumper press
     m_driverController.start().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
-    // Per Cole's request
-    m_operatorController.y().whileTrue(arm.run(() -> arm.SnapToAbsolutePosition(90)));
-    m_operatorController.x().whileTrue(arm.run(() -> arm.SnapToAbsolutePosition(52)));
-    m_operatorController.a().whileTrue(arm.run(() -> arm.SnapToAbsolutePosition(35)));
-    m_operatorController.povDown().whileTrue(index.run(() -> new IncrementIndexCommand(index)));
 
   };
 
@@ -136,7 +128,7 @@ public class RobotContainer {
     var driverDiagnostics = Shuffleboard.getTab("Driver Diagnostics");
 
     driverDiagnostics.addBoolean("Note Detected", () -> index.HasCargo());
-    driverDiagnostics.addDouble("Arm Rot", () -> arm.GetPositionNative());
+    driverDiagnostics.addDouble("Arm Rot", () -> arm.GetArmPos().getValueAsDouble());
     driverDiagnostics.addDouble("Arm Rot Deg", () -> arm.GetPositionDegreesAbsolulte());
 
     // #endregion Testing
