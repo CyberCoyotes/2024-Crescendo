@@ -5,7 +5,6 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -19,7 +18,7 @@ public class ShooterSubsystem extends SubsystemBase {
     /** As opposed to double */
     private boolean singleMotor;
     // The max rpm of the motor for shooting cargo; realistically 5900.
-    private int maxVelocity = 5900;
+    public final int MaxVelocity = 5900;
     private TalonFX m_main;
     private TalonFX m_sub;
     /** The state percentage */
@@ -33,6 +32,7 @@ public class ShooterSubsystem extends SubsystemBase {
     // #region Diagnostics
     GenericEntry isRunning;
     // #endregion
+    private int velocitySetpoint = 0;
 
     /**
      * Serves as a base for any flywheel system driven by 2 motors. Fire and forget,
@@ -103,6 +103,11 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public void Disable() {
         SetOutput(0);
+        SetVelocity(0);
+    }
+
+    public void SetVelocity(int i) {
+        this.velocitySetpoint = i;
     }
 
     public void Toggle() {
@@ -114,19 +119,6 @@ public class ShooterSubsystem extends SubsystemBase {
         return mainDutyCycle.Output > 0;
     }
 
-    @Override
-    public void periodic() {
-        // System.out.println(this.Running() + "; " + maxPercentage);
-
-    }
-
-    public Command RunShooter(double input)
-
-    {
-        return this.run(() -> SetOutput(input));
-
-    }
-
     /**
      * 
      * @return The velocity of the motor
@@ -136,6 +128,6 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public boolean IsVelocityReqMet() {
-        return GetVelocity() / maxVelocity >= 0.8;
+        return GetVelocity() / MaxVelocity >= 0.8;
     }
 }

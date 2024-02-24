@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.commands.IncrementIndexCommand;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ArmSubsytem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -70,7 +71,7 @@ public class RobotContainer {
   private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
   private final Telemetry logger = new Telemetry(MaxSpeed);
 
- /* TODO For testing autonomous files built with PathPlanner */
+  /* TODO For testing autonomous files built with PathPlanner */
   private Command autonTesting = drivetrain.getAutoPath("Start1.0-3-4-5");
 
   public RobotContainer() {
@@ -87,7 +88,7 @@ public class RobotContainer {
             (m_operatorController.axisGreaterThan(Axis.kLeftY.value, 0.1))
                 .getAsBoolean()) ? m_operatorController.getLeftY() : 0))));
     // // intake run depending on driver bumper status
-    intake.setDefaultCommand(intake.run(() -> intake.Run(() -> -BumperStatus(0))));
+    intake.setDefaultCommand(intake.run(() -> intake.Run(-BumperStatus(0))));
     index.setDefaultCommand(index.run(() -> index.SetPower(BumperStatus(1))));
     shooter.setDefaultCommand(shooter.run(() -> shooter.SetOutput(
         Math.max(m_operatorController.getLeftTriggerAxis() * 0.5, m_operatorController.getRightTriggerAxis()))));
@@ -95,7 +96,6 @@ public class RobotContainer {
     configureBindings();
     DebugMethodSingle();
   }
-
 
   private void configureBindings() {
     drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
@@ -118,6 +118,7 @@ public class RobotContainer {
     m_operatorController.y().whileTrue(arm.run(() -> arm.SnapToAbsolutePosition(90)));
     m_operatorController.x().whileTrue(arm.run(() -> arm.SnapToAbsolutePosition(52)));
     m_operatorController.a().whileTrue(arm.run(() -> arm.SnapToAbsolutePosition(35)));
+    m_operatorController.povDown().whileTrue(index.run(() -> new IncrementIndexCommand(index)));
 
   };
 
@@ -134,7 +135,7 @@ public class RobotContainer {
     // var driverDiagnostics = Shuffleboard.getTab("Driver Diagnostics");
     var driverDiagnostics = Shuffleboard.getTab("Driver Diagnostics");
 
-    driverDiagnostics.addBoolean("Note Detected", () -> intake.HasCargo());
+    driverDiagnostics.addBoolean("Note Detected", () -> index.HasCargo());
     driverDiagnostics.addDouble("Arm Rot", () -> arm.GetPositionNative());
     driverDiagnostics.addDouble("Arm Rot Deg", () -> arm.GetPositionDegreesAbsolulte());
 
@@ -154,7 +155,7 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-        /* irst put the drivetrain into auto run mode, then run the auto */
+    /* irst put the drivetrain into auto run mode, then run the auto */
     return autonTesting;
   }
 }
