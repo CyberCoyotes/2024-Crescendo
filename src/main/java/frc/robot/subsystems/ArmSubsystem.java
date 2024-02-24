@@ -24,6 +24,7 @@ public class ArmSubsystem extends SubsystemBase {
     // Declare a variable for the motor you want to control
     private final TalonFX m_motor;
     private final DutyCycleOut manualControl;
+    private final MotionMagicVoltage positionControl;
     // reference
     // https://github.com/CrossTheRoadElec/Phoenix6-Examples/blob/main/java/CommanddDrive/src/main/java/frc/robot/subsystems/DriveSubsystem.java
 
@@ -35,6 +36,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     public ArmSubsystem() {
         manualControl = new DutyCycleOut(0);
+        positionControl = new MotionMagicVoltage(0);
         m_motor = new TalonFX(Constants.CANIDs.ARM_ID);
         m_motor.setInverted(true);
         /*
@@ -62,10 +64,6 @@ public class ArmSubsystem extends SubsystemBase {
 
     }
 
-    public void Drive() {
-
-    }
-
     public double GetPositionDegreesAbsolulte() {
         return GetArmPos().getValueAsDouble() * ArmConstants.ARM_NATIVE_TO_DEG +
                 35;// 35 is defaults
@@ -86,20 +84,21 @@ public class ArmSubsystem extends SubsystemBase {
      */
     // }
 
-    /* This calls a 'long form' of MotionMagicVoltage */
-    public void setArmMotionMagicVoltage(double armPose) {
+    // !Unnecessary
+    // /* This calls a 'long form' of MotionMagicVoltage */
+    // public void setArmMotionMagicVoltage(double armPose) {
 
-        m_motor.setControl(
-                new MotionMagicVoltage(
-                        armPose,
-                        false,
-                        armPose,
-                        Constants.CANIDs.ARM_ID,
-                        false,
-                        false,
-                        false));
+    // m_motor.setControl(
+    // new MotionMagicVoltage(
+    // armPose,
+    // false,
+    // armPose,
+    // Constants.CANIDs.ARM_ID,
+    // false,
+    // false,
+    // false));
 
-    }
+    // }
 
     public void setArmPose(double armPose) {
 
@@ -113,7 +112,7 @@ public class ArmSubsystem extends SubsystemBase {
                  * velocity output
                  * 'short form' of MotionMagicVoltage motor sets to position
                  */
-                new MotionMagicVoltage(armPose));
+                positionControl.withPosition(armPose));
 
         // SmartDashboard.putNumber(m_arm.getPosition().getValue());
 
@@ -123,28 +122,24 @@ public class ArmSubsystem extends SubsystemBase {
 
     }
 
-    public void setArmToStart() {
-        m_motor.setControl(new MotionMagicVoltage(0));
-    }
-
     public void setArmToScorePose1() {
-        m_motor.setControl(new MotionMagicVoltage(10));
+        m_motor.setControl(positionControl.withPosition(10));
     }
 
     public void setArmToScorePose2() {
-        m_motor.setControl(new MotionMagicVoltage(20));
+        m_motor.setControl(positionControl.withPosition(20));
     }
 
     public void setArmToScorePose3() {
-        m_motor.setControl(new MotionMagicVoltage(30));
+        m_motor.setControl(positionControl.withPosition(30));
     }
 
     public void setArmToScorePose4() {
-        m_motor.setControl(new MotionMagicVoltage(40));
+        m_motor.setControl(positionControl.withPosition(40));
     }
 
     public void stopRotation() {
-        m_motor.setControl(new DutyCycleOut(0));
+        m_motor.setControl(manualControl.withOutput(0));
     }
 
     public void Drive(Double speed) {
