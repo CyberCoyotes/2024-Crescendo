@@ -41,7 +41,7 @@ public final class Constants {
     public static final double ARM_NATIVE_TO_DEG = 1 / DEG_TO_ARM_NATIVE;
     public static final double ARM_MAX_DUTY_CYCLE_OUT = 0.6;
     public static final double ARM_SUPPLY_CURRENT_LIMIT = 5;
-    public static final double ARM_STATOR_CURRENT_LIMIT = 15;
+    public static final double ARM_STATOR_CURRENT_LIMIT = 5;
     
     /* Arm poses */
     public static final int ARM_REV_LIMIT = 0;
@@ -56,7 +56,7 @@ public final class Constants {
     public static final int ARM_JERK = 0;
     
     public static final int ARM_STATOR_LIMIT = 5;
-    public static final int ARM_SUPPLY_LIMIT = 5;
+    public static final int ARM_SUPPLY_LIMIT = 15;
     }
 
       // #region ugly
@@ -133,8 +133,8 @@ public final class Constants {
     public static final int INTAKE_ID         = 20;
     public static final int INDEX_ID          = 21;
     public static final int ARM_ID            = 22;
-    public static final int LEFT_FLYWHEEL_ID  = 23;
-    public static final int RIGHT_FLYWHEEL_ID = 24;
+    public static final int LEFT_FLYWHEEL_ID  = 24; // Check Tuner X to confirm
+    public static final int RIGHT_FLYWHEEL_ID = 23; // Check Tuner X to confirm
     public static final int WINCH_ID          = 25;
     public static final int NOTE_SENSOR_ID    = 42; // Time of Flight sensor for the note
 

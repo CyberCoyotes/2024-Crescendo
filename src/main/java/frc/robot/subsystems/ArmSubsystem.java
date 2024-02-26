@@ -83,8 +83,8 @@ public class ArmSubsystem extends SubsystemBase{
         // set Motion Magic settings
         var armMotionMagic0 = new MotionMagicConfigs();
         
-        armMotionMagic0.MotionMagicCruiseVelocity = Constants.ArmConstants.ARM_MAX_VEL/5; // 80 rps cruise velocity // FIMXE changed for safety testing
-        armMotionMagic0.MotionMagicAcceleration = Constants.ArmConstants.ARM_MAX_ACCEL/5; // 160 rps/s acceleration (0.5 seconds) // FIMXE changed for safety testing  
+        armMotionMagic0.MotionMagicCruiseVelocity = Constants.ArmConstants.ARM_MAX_VEL; // 80 rps cruise velocity // FIMXE changed for safety testing
+        armMotionMagic0.MotionMagicAcceleration = Constants.ArmConstants.ARM_MAX_ACCEL; // 160 rps/s acceleration (0.5 seconds) // FIMXE changed for safety testing  
         armMotionMagic0.MotionMagicJerk = Constants.ArmConstants.ARM_JERK; // 1600 rps/s^2 jerk (0.1 seconds)
 
         var armSoftLimit0 = new SoftwareLimitSwitchConfigs();
@@ -135,21 +135,22 @@ public class ArmSubsystem extends SubsystemBase{
     // }
 
     /* This calls a 'long form' of MotionMagicVoltage */
-    public void setArmMotionMagicVoltage (double armPose) {
+    public void setArmPose2 (double armPose) {
 
         m_arm.setControl(
             new MotionMagicVoltage(
-                armPose, 
-                false, 
-                armPose, 
-                Constants.CANIDs.ARM_ID, 
-                false, 
-                false, 
-                false));
+                0, // start position, previsouly set to armPose
+                false, // enable FOC
+                0,  // Feedforward
+                0, // slot config
+                false, // override brake during neutral
+                false, // limit forward motion
+                false)); // limit reverse motion
 
     }
 
-    public void setArmPose (double armPose) {
+    /* This approach did not seem to be working, and its name has been changed to reflect its failure */
+    public void setArmPoseBroken (double armPose) {
 
         /* Documentation */             //m_arm.Slot = 0;
         /* Documentation version is Iterative */
@@ -169,6 +170,8 @@ public class ArmSubsystem extends SubsystemBase{
             
     }
 
+    // This is NOT the way
+    /*
     public void setArmToStart() {
         m_arm.setControl(new MotionMagicVoltage(0));
     }
@@ -192,6 +195,7 @@ public class ArmSubsystem extends SubsystemBase{
     public void stopRotation() {
         m_arm.setControl(new DutyCycleOut(0));
     }
+     */
 
     /* Currently only being called in subsystem-command; 
     inspite of my efforts it only appears once it's triggered at least once */
