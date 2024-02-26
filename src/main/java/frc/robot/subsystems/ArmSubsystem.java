@@ -65,7 +65,7 @@ public class ArmSubsystem extends SubsystemBase{
         armGains0.kI =   0.00;   /* Integral Gain */
         armGains0.kD =   0.00;   /* Derivative Gain */
         armGains0.kV =   0.00;   /* Velocity Feed Forward Gain */
-        armGains0.kS =   0.00;   /* Static Feed Forward Gain // Approximately 0.25V to get the mechanism moving */
+        armGains0.kS =   0.00;   /* Static Feed Forward Gain // NOTE, not MY notes Approximately 0.25V to get the mechanism moving */
         armGains0.kA =   0.00;   /* Acceleration Feedforward */
         armGains0.kG =   0.00;   /* Gravity Feedfoward */
 
