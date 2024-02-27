@@ -78,3 +78,6 @@ public class LedSubsystem extends SubsystemBase{
          ********************************/
 
     } // end of class LedSubsystem
+
+    /* NOTES & References */
+    /* https://github.com/CrossTheRoadElec/Phoenix5-Examples/blob/master/Java%20General/CANdle/src/main/java/frc/robot/RobotContainer.java */
