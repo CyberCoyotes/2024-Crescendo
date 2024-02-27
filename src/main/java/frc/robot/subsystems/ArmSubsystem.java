@@ -1,8 +1,5 @@
 package frc.robot.subsystems;
 
-/* Needs the static use references without including Constants. every time */
-
-
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
@@ -10,24 +7,18 @@ import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.Slot1Configs;
 import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.GravityTypeValue;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.Constants.CANIDs;
 
 public class ArmSubsystem extends SubsystemBase{
 
     // Declare a variable for the motor you want to control
     private final TalonFX m_arm;
-    // REREFENCES
-    // https://github.com/CrossTheRoadElec/Phoenix6-Examples/blob/main/java/CommanddDrive/src/main/java/frc/robot/subsystems/DriveSubsystem.java
-    // See also
-    // https://github.com/FRCTeam2910/2023CompetitionRobot-Public/blob/main/src/main/java/org/frcteam2910/c2023/subsystems/intake/IntakeIOHardware.java
+
 
     // class member variable
     final MotionMagicVoltage m_armPose = new MotionMagicVoltage(0); // Initializes to position 0
@@ -114,17 +105,6 @@ public class ArmSubsystem extends SubsystemBase{
         /* Reusing from drivetrain subsystem */
         return m_arm.getPosition();
     }
-
-    
-    /* An example of a motor intilization method */
-    
-    /* 
-    private void initializeArmTalonFX(TalonFXConfigurator cfg) {
-
-        var toApply = new TalonFXConfiguration();
-
-        /* Configure current limits */
-    // }
 
     /* This calls a 'long form' of MotionMagicVoltage */
     public void setArmPose2 (double armPosition) {
@@ -218,3 +198,7 @@ public class ArmSubsystem extends SubsystemBase{
     */
 /* https://github.com/FRCTeam2910/2023CompetitionRobot-Public/blob/main/src/main/java/org/frcteam2910/c2023/subsystems/arm/ArmIOFalcon500.java */
        
+    // REREFENCES
+    // https://github.com/CrossTheRoadElec/Phoenix6-Examples/blob/main/java/CommanddDrive/src/main/java/frc/robot/subsystems/DriveSubsystem.java
+    // See also
+    // https://github.com/FRCTeam2910/2023CompetitionRobot-Public/blob/main/src/main/java/org/frcteam2910/c2023/subsystems/intake/IntakeIOHardware.java
