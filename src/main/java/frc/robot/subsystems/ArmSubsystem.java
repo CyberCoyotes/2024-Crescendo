@@ -22,13 +22,12 @@ import frc.robot.Constants.CANIDs;
 
 public class ArmSubsystem extends SubsystemBase{
 
-
-    
-    
     // Declare a variable for the motor you want to control
     private final TalonFX m_arm;
-    // reference
+    // REREFENCES
     // https://github.com/CrossTheRoadElec/Phoenix6-Examples/blob/main/java/CommanddDrive/src/main/java/frc/robot/subsystems/DriveSubsystem.java
+    // See also
+    // https://github.com/FRCTeam2910/2023CompetitionRobot-Public/blob/main/src/main/java/org/frcteam2910/c2023/subsystems/intake/IntakeIOHardware.java
 
     // class member variable
     final MotionMagicVoltage m_armPose = new MotionMagicVoltage(0); // Initializes to position 0
@@ -41,7 +40,7 @@ public class ArmSubsystem extends SubsystemBase{
 
         /* any unmodified configs in a configuration object are *automatically* factory-defaulted;
         user can perform a full factory default by passing a new device configuration object.
-        This line should do a full factory reset */
+        This line should do a full factory reset...? */
         m_arm.getConfigurator().apply(new TalonFXConfiguration());
 
         // m_arm.setControl(NeutralModeValue);
