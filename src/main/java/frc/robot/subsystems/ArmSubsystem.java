@@ -58,7 +58,6 @@ public class ArmSubsystem extends SubsystemBase{
         /* Gains or configuration of arm motor for config slot 0*/ 
         var armGains0 = new Slot0Configs();
         armGains0.GravityType = GravityTypeValue.Arm_Cosine; /* .Elevator_Static | .Arm_Cosine*/
-        // Set the motor direction
         m_arm.setInverted(true); // Set to true if you want to invert the motor direction
         armGains0.kP =   0.50;   /* Proportional Gain */
         armGains0.kI =   0.00;   /* Integral Gain */
@@ -81,7 +80,6 @@ public class ArmSubsystem extends SubsystemBase{
         
         // set Motion Magic settings
         var armMotionMagic0 = new MotionMagicConfigs();
-        
         armMotionMagic0.MotionMagicCruiseVelocity = Constants.ArmConstants.ARM_MAX_VEL; // 80 rps cruise velocity // FIMXE changed for safety testing
         armMotionMagic0.MotionMagicAcceleration = Constants.ArmConstants.ARM_MAX_ACCEL; // 160 rps/s acceleration (0.5 seconds) // FIMXE changed for safety testing  
         armMotionMagic0.MotionMagicJerk = Constants.ArmConstants.ARM_JERK; // 1600 rps/s^2 jerk (0.1 seconds)
@@ -98,9 +96,6 @@ public class ArmSubsystem extends SubsystemBase{
         armCurrent0.SupplyCurrentLimitEnable = true;
         armCurrent0.SupplyCurrentLimit = Constants.ArmConstants.ARM_SUPPLY_LIMIT; 
 
-        /* Applies the configuration shortcut-variable with the apply*/
-        // armConfigurator.apply(armConfigs);
-
         /* Long form (better for my learning): Applies gains with an optional 50 ms timeout (I think) */ 
         m_arm.getConfigurator().apply(armGains0, 0.050);
         m_arm.getConfigurator().apply(armMotionMagic0, 0.050);
@@ -116,10 +111,8 @@ public class ArmSubsystem extends SubsystemBase{
 
     
     public StatusSignal<Double> getArmPos() {
-
         /* Reusing from drivetrain subsystem */
         return m_arm.getPosition();
-        
     }
 
     
@@ -134,7 +127,7 @@ public class ArmSubsystem extends SubsystemBase{
     // }
 
     /* This calls a 'long form' of MotionMagicVoltage */
-    public void setArmPose2 (double armPose) {
+    public void setArmPose2 (double armPosition) {
 
         m_arm.setControl(
             new MotionMagicVoltage(
@@ -146,6 +139,9 @@ public class ArmSubsystem extends SubsystemBase{
                 false, // limit forward motion
                 false)); // limit reverse motion
 
+        SmartDashboard.putNumber("Arm Position", m_arm.getPosition().getValue());
+        SmartDashboard.putNumber("Arm Stator", m_arm.getStatorCurrent().getValue());
+        showArmTelemetry();
     }
 
     /* This approach did not seem to be working, and its name has been changed to reflect its failure */
@@ -162,7 +158,6 @@ public class ArmSubsystem extends SubsystemBase{
             new  MotionMagicVoltage(armPose));
 
             // SmartDashboard.putNumber(m_arm.getPosition().getValue());
-            
             // SmartDashboard.putNumber("Arm Position", m_arm.getPosition().getValue());
             // SmartDashboard.putNumber("Arm Stator", m_arm.getStatorCurrent().getValue());
             showArmTelemetry();

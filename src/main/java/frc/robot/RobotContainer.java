@@ -89,7 +89,11 @@ public class RobotContainer {
 
     joystick.y().whileTrue(new InstantCommand(() -> m_armSub.setArmPose2(10)));
     joystick.x().whileTrue(new InstantCommand(() -> m_armSub.setArmPose2(0)));
-
+    
+    joystick.povLeft().whileTrue(new InstantCommand(() -> m_armSub.setArmPose2(5)));
+    joystick.povUp().whileTrue(new InstantCommand(() -> m_armSub.setArmPose2(10)));
+    joystick.povRight().whileTrue(new InstantCommand(() -> m_armSub.setArmPose2(20)));
+    joystick.povDown().whileTrue(new InstantCommand(() -> m_armSub.setArmPose2(0)));
         
     if (Utils.isSimulation()) {
       drivetrain.seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
