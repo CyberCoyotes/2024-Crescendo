@@ -78,21 +78,21 @@ public class RobotContainer {
 
 
     joystick.rightBumper().whileTrue(new SequentialCommandGroup(
-                                            // new InstantCommand(() -> m_armSub.setArmPose2(10)),                                            
+                                            new InstantCommand(() -> m_armSub.setArmPoseBroken(10)),                                            
                                             new InstantCommand(() -> m_shooterSub.setShooter(20.0)),
                                             new InstantCommand(() -> m_indexSub.SetPower(0.5))));
 
     joystick.rightBumper().whileFalse(new SequentialCommandGroup(
-                                            // new InstantCommand(() -> m_armSub.setArmPose2(5.0)),
+                                            new InstantCommand(() -> m_armSub.setArmPose2(0.0)),
                                             new InstantCommand(() -> m_shooterSub.setShooter(0.0)),
                                             new InstantCommand(() -> m_indexSub.SetPower(0.0))));
 
-    joystick.y().whileTrue(new InstantCommand(() -> m_armSub.setArmPose2(10)));
-    joystick.x().whileTrue(new InstantCommand(() -> m_armSub.setArmPose2(0)));
+    joystick.y().whileTrue(new InstantCommand(() -> m_armSub.setArmPoseBroken(50)));
+    joystick.x().whileTrue(new InstantCommand(() -> m_armSub.setArmPoseBroken(0)));
     
     joystick.povLeft().whileTrue(new InstantCommand(() -> m_armSub.setArmPose2(5)));
     joystick.povUp().whileTrue(new InstantCommand(() -> m_armSub.setArmPose2(10)));
-    joystick.povRight().whileTrue(new InstantCommand(() -> m_armSub.setArmPose2(20)));
+    joystick.povRight().whileTrue(new InstantCommand(() -> m_armSub.setArmPose2(50)));
     joystick.povDown().whileTrue(new InstantCommand(() -> m_armSub.setArmPose2(0)));
         
     if (Utils.isSimulation()) {
