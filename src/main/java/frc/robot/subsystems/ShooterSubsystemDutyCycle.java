@@ -14,7 +14,10 @@ import frc.robot.Constants;
  * enabling and diabling will be done by singular calls.
  * Set configs before creating this class/subsystem.
  * {@link #SetStatePower} is used to set the main power.
+ * 
+ * @deprecated Use velocity Variant
  */
+@Deprecated
 public class ShooterSubsystemDutyCycle extends SubsystemBase {
     /** As opposed to double */
     private boolean singleMotor;

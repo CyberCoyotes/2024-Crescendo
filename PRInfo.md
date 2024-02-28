@@ -22,4 +22,4 @@ Here's the changes that I really recall.
 
 # Commit 3:
 
-- Eradicated alot of comments I felt were obtrusive. That's literally the whole commit, so bossman can review it with less strain.
+- "Reworked" comments. Some documentation/notes were moved, some fossils were eradicated, etc. Nothing else happened here, so that it is easier to dissect the changes.

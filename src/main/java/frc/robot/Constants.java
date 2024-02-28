@@ -18,17 +18,6 @@ import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
-/**
- * The Constants class provides a convenient place for teams to hold robot-wide
- * numerical or boolean
- * constants. This class should not be used for any other purpose. All constants
- * should be declared
- * globally (i.e. public static). Do not put anything functional in this class.
- *
- * <p>
- * It is advised to statically import this class (or one of its inner classes)
- * wherever the constants are needed, to reduce verbosity.
- */
 public final class Constants {
 
   public static class OperatorConstants {
@@ -116,36 +105,6 @@ public final class Constants {
     }
 
   }
-
-  // #region ugly
-  /*
-   * public static final Slot0Configs ARM_SLOT0_CONFIGS = new
-   * Slot0Configs().withKP(0.05);
-   * private static final CurrentLimitsConfigs ARM_CURRENT_LIMITS = new
-   * CurrentLimitsConfigs()
-   * .withStatorCurrentLimit(ARM_STATOR_CURRENT_LIMIT)
-   * .withSupplyCurrentLimit(ARM_SUPPLY_CURRENT_LIMIT)
-   * .withStatorCurrentLimitEnable(true)
-   * .withSupplyCurrentLimitEnable(true);
-   * private static final MotorOutputConfigs MOTOR_OUTPUT_CONFIGS = new
-   * MotorOutputConfigs()
-   * .withNeutralMode(NeutralModeValue.Brake)
-   * .withPeakReverseDutyCycle(-ARM_MAX_DUTY_CYCLE_OUT)
-   * .withPeakForwardDutyCycle(ARM_MAX_DUTY_CYCLE_OUT);
-   * 
-   * private static final SoftwareLimitSwitchConfigs LIMIT_CONFIGS = new
-   * SoftwareLimitSwitchConfigs()
-   * .withReverseSoftLimitThreshold(ARM_ROTATION_LIMIT_NATIVE)
-   * .withReverseSoftLimitEnable(true);
-   * 
-   * public static final TalonFXConfiguration MOTOR_CONFIG = new
-   * TalonFXConfiguration()
-   * .withCurrentLimits(ARM_CURRENT_LIMITS)
-   * .withMotorOutput(MOTOR_OUTPUT_CONFIGS)
-   * .withSlot0(ARM_SLOT0_CONFIGS)
-   * .withSoftwareLimitSwitch(LIMIT_CONFIGS);
-   */
-  // #endregion ugly
 
   public static class SystemConstants {
 

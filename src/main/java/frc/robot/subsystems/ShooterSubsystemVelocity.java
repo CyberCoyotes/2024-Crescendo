@@ -52,25 +52,11 @@ public class ShooterSubsystemVelocity extends SubsystemBase {
             .withCurrentLimits(
                     new CurrentLimitsConfigs().withStatorCurrentLimit(60).withStatorCurrentLimitEnable(true));
 
-    // An error of 1 rotation per second results in 2V output
-    // An error of 1 rotation per second increases output by 0.5V every second
-    // A change of 1 rotation per second squared results in 0.01 volts output
-    // Falcon 500 is a 500kV motor, 500rpm per V = 8.333 rps per V, 1/8.33 = 0.12
-    // volts / Rotation per second
+    // ! Peak output of 8 volts
 
-    // Peak output of 8 volts
-
-    /**
-     * Serves as a base for any flywheel system driven by 2 motors. Fire and forget,
-     * enabling and diabling will be done by singular calls.
-     * Set configs before creating this class/subsystem.
-     * {@link #SetStatePower} is used to set the main power.
-     */
     public ShooterSubsystemVelocity() {
 
         singleMotor = false;
-
-        // m_main.getConfigurator().apply(new TalonFXConfiguration().withMotionMagic())
 
         m_main = new TalonFX(Constants.CANIDs.RIGHT_FLYWHEEL_ID);
         m_sub = new TalonFX(Constants.CANIDs.LEFT_FLYWHEEL_ID);
@@ -89,12 +75,6 @@ public class ShooterSubsystemVelocity extends SubsystemBase {
 
     }
 
-    /**
-     * Serves as a base for any flywheel system driven by 1 motor. Fire and forget,
-     * enabling and diabling will be done by singular calls.
-     * Set configs before creating this class/subsystem.
-     * {@link #SetStatePower} is used to set the main power.
-     */
     public ShooterSubsystemVelocity(TalonFX only) {
 
         this.m_main = only;
@@ -157,3 +137,14 @@ public class ShooterSubsystemVelocity extends SubsystemBase {
         return GetVelocity() / MaxVelocity >= 0.8;
     }
 }
+
+/*
+ * NOTES
+ * 
+ * // An error of 1 rotation per second results in 2V output
+ * // An error of 1 rotation per second increases output by 0.5V every second
+ * // A change of 1 rotation per second squared results in 0.01 volts output
+ * // Falcon 500 is a 500kV motor, 500rpm per V = 8.333 rps per V, 1/8.33 = 0.12
+ * // volts / Rotation per second
+ * 
+ */

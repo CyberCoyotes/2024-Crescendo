@@ -31,12 +31,6 @@ public class ArmSubsystem extends SubsystemBase {
     // reference
     // https://github.com/CrossTheRoadElec/Phoenix6-Examples/blob/main/java/CommanddDrive/src/main/java/frc/robot/subsystems/DriveSubsystem.java
 
-    // class member variable
-    // final MotionMagicVoltage m_armPose = new MotionMagicVoltage(0); //
-    // Initializes to position 0
-    // final MotionMagicVoltage m_armPose = new MotionMagicVoltage(0); //
-    // Initializes to position 0
-
     public ArmSubsystem() {
         manualControl = new DutyCycleOut(0);
         positionControl = new MotionMagicVoltage(0);
@@ -65,17 +59,6 @@ public class ArmSubsystem extends SubsystemBase {
         return (degreePosition) * ArmConstants.DEG_TO_ARM_NATIVE;
     }
 
-    /* An example of a motor intilization method */
-
-    /*
-     * private void initializeArmTalonFX(TalonFXConfigurator cfg) {
-     * 
-     * var toApply = new TalonFXConfiguration();
-     * 
-     * /* Configure current limits
-     */
-    // }
-
     /**
      * This calls a 'long form' of MotionMagicVoltage
      * 
@@ -98,23 +81,8 @@ public class ArmSubsystem extends SubsystemBase {
 
     public void setArmPose(double armPose) {
 
-        /* Documentation */ // m_arm.Slot = 0;
-        /* Documentation version is Iterative */
-        // m_arm.setControl(m_arm.withPosition(200));
-        /* Command Based implementation */
         m_motor.setControl(
-                /*
-                 * 'long form' of MotionMagicVoltage motor travels at full speed & coast like a
-                 * velocity output
-                 * 'short form' of MotionMagicVoltage motor sets to position
-                 */
                 positionControl.withPosition(armPose));
-
-        // SmartDashboard.putNumber(m_arm.getPosition().getValue());
-
-        // SmartDashboard.putNumber("Arm Position", m_arm.getPosition().getValue());
-        // SmartDashboard.putNumber("Arm Stator", m_arm.getStatorCurrent().getValue());
-
     }
 
     public void setArmToScorePose1() {
@@ -142,13 +110,6 @@ public class ArmSubsystem extends SubsystemBase {
         m_motor.setControl(manualControl);
     }
 
-    /*
-     * Currently only being called in subsystem-command;
-     * inspite of my efforts it only appears once it's triggered at least once
-     * 
-     * Changed to Shuffleboard. Feel free to delete these comments if you wanna,
-     * Scoyoc - SZ
-     */
     public void showArmTelemetry(String tableName) {
         var table = Shuffleboard.getTab(tableName);
 
