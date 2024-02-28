@@ -20,6 +20,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.commands.IncrementIndexCommand;
+import frc.robot.commands.RunShooter;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IndexSubsystem;
@@ -27,7 +29,12 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystemVelocity;
 import frc.robot.subsystems.WinchSubsystem;
 
+import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.path.PathPlannerTrajectory;
+
 public class RobotContainer {
+  RunShooter shooterRun;
+  IncrementIndexCommand indexIncrent;
 
   // private final Telemetry logger = new
   // Telemetry(Constants.SystemConstants.MAX_SPEED);
@@ -47,6 +54,9 @@ public class RobotContainer {
   ArmSubsystem arm = new ArmSubsystem();
   // #endregion Subsystems
 
+  // #region commands
+
+  // #endregion
   private double MaxSpeed = TunerConstants.kSpeedAt12VoltsMps; // kSpeedAt12VoltsMps desired top speed
   private double MaxAngularRate = 1.5 * Math.PI; // 3/4 of a rotation per second max angular velocity
 
@@ -74,12 +84,10 @@ public class RobotContainer {
 
   public RobotContainer() {
 
-    // #region some configs
-
-    // #endregion
-
     shooter = new ShooterSubsystemVelocity();
-    // shooter.SetMaxOutput(1);
+
+    // Set up our pathplanenr stuff
+    NamedCommands.registerCommand("RunShooter", new RunShooter(shooter));
 
     arm.setDefaultCommand(
         arm.run(() -> arm.Drive(((m_operatorController.axisLessThan(Axis.kLeftY.value, -0.1).getAsBoolean() ||
@@ -89,6 +97,7 @@ public class RobotContainer {
     intake.setDefaultCommand(intake.run(() -> intake.Run(-BumperStatus(0))));
     index.setDefaultCommand(index.run(() -> index.SetPower(BumperStatus(1))));
     shooter.setDefaultCommand(shooter.run(() -> shooter.SetOutput(
+        // ! cool but unintuitive
         Math.max(m_operatorController.getLeftTriggerAxis() * 0.5, m_operatorController.getRightTriggerAxis()))));
 
     configureBindings();
@@ -122,7 +131,7 @@ public class RobotContainer {
     // #region Driving
     // More useful logs that the drivers will probably want
     // driverDiagnostics.addDouble("Net Arm Angle", () ->
-    // arm.GetPositionDegreesAbsolulte());
+    // arm.GetPositionDegreesAbsolulte());S
     // #endregion Driving
     // #region Testing
 
@@ -152,6 +161,6 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     /* irst put the drivetrain into auto run mode, then run the auto */
-    return autonTesting;
+    return indexIncrent;
   }
 }

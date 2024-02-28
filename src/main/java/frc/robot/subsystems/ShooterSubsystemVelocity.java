@@ -22,7 +22,7 @@ import frc.robot.Constants;
  * {@link #SetStatePower} is used to set the main power.
  */
 public class ShooterSubsystemVelocity extends SubsystemBase {
-    private static final double MaxVelocity = 20;
+    private static final double MaxVoltage = 20;
 
     /** As opposed to double */
     private boolean singleMotor;
@@ -31,7 +31,7 @@ public class ShooterSubsystemVelocity extends SubsystemBase {
     private TalonFX m_main;
     private TalonFX m_sub;
     /** The max velo */
-    private double maxVelo = 20;
+    private double runningVoltage = 20;
     // private double maxPower = 1;
     /** The multiplier that converts from "primary speed" to "secondary speed" */
     private double ratio = .95;
@@ -84,7 +84,7 @@ public class ShooterSubsystemVelocity extends SubsystemBase {
     }
 
     /**
-     * Sets the power the primary motor will use. Does not enable or disable.
+     * Sets the power the primary motor is using.
      */
     public void SetOutput(double arg) {
 
@@ -101,14 +101,19 @@ public class ShooterSubsystemVelocity extends SubsystemBase {
 
     }
 
+    @Override
+    public void periodic() {
+        System.out.println(m_main.getVelocity());
+    }
+
     public void SetMaxOutput(double velo) {
         // percent = Math.max(0, Math.min(percent,1));
-        this.maxVelo = velo;
+        this.runningVoltage = velo;
 
     }
 
     public void Enable() {
-        SetOutput(maxVelo);
+        SetOutput(runningVoltage);
     }
 
     public void Disable() {
@@ -117,7 +122,7 @@ public class ShooterSubsystemVelocity extends SubsystemBase {
     }
 
     public void Toggle() {
-        double set = Math.abs(mainVeloCycle.Velocity - maxVelo);
+        double set = Math.abs(mainVeloCycle.Velocity - runningVoltage);
         SetOutput(set);
     }
 
@@ -134,7 +139,7 @@ public class ShooterSubsystemVelocity extends SubsystemBase {
     }
 
     public boolean IsVelocityReqMet() {
-        return GetVelocity() / MaxVelocity >= 0.8;
+        return GetVelocity() / MaxVoltage >= 0.8;
     }
 }
 

@@ -8,9 +8,12 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import java.util.function.DoubleSupplier;
+
 import com.playingwithfusion.TimeOfFlight;
 import com.playingwithfusion.TimeOfFlight.RangingMode;
 
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
@@ -67,6 +70,7 @@ public class NoteSensorSubsystem extends SubsystemBase {
          */
         if (isNoteLoaded() == true) {
             // Decided loaded color = green
+
             m_ledSubsystem.ColorGreen();
 
         } else if (isNoteLoaded() == false) {
@@ -76,16 +80,9 @@ public class NoteSensorSubsystem extends SubsystemBase {
     }
 
     public void periodic() {
-        // This method will be called once per scheduler run
-        // It did not seem to be called on the dashboard until I added a Command to the
-        // RobotContainer, but it would display updated data even when the button was
-        // not pressed.
 
-        // ! Can be achieved with Shuffleboard call in
-        // ! Constructor, per the example in robot container
+        setLEDColor();
 
-        SmartDashboard.putNumber("Note Distance", noteDistance.getRange());
-        SmartDashboard.putBoolean("Note Loaded", isNoteLoaded());
     }
-
-} // end of class NoteSensorSubsystem
+}
+// end of class NoteSensorSubsystem
