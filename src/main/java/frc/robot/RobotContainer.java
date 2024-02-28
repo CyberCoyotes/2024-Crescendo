@@ -24,11 +24,12 @@ import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.NoteSensorSubsystem;
 import frc.robot.subsystems.ShooterSubsystemVelocity;
 import frc.robot.subsystems.WinchSubsystem;
 
 public class RobotContainer {
-
+ 
   // private final Telemetry logger = new
   // Telemetry(Constants.SystemConstants.MAX_SPEED);
   // #endregion
@@ -42,6 +43,8 @@ public class RobotContainer {
   ShooterSubsystemVelocity shooter = new ShooterSubsystemVelocity();
   IntakeSubsystem intake = new IntakeSubsystem();
   IndexSubsystem index = new IndexSubsystem();
+  NoteSensorSubsystem m_NoteSensorSubsystem = new NoteSensorSubsystem();
+  
   // OrchestraSubsystem daTunes;
   // WinchSubsystem winch;
   ArmSubsystem arm = new ArmSubsystem();
@@ -73,7 +76,7 @@ public class RobotContainer {
   private Command autonTesting = drivetrain.getAutoPath("Start1.0-3-4-5");
 
   public RobotContainer() {
-
+    m_NoteSensorSubsystem.setLEDColor();
     // #region some configs
 
     // #endregion
