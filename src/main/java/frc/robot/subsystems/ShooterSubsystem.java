@@ -2,22 +2,20 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class ShooterSubsystem extends SubsystemBase {
-
-    public static final int RIGHT_FLYWHEEL_ID = 24; // Initialize the shooterMotorID variable
 
     private final TalonFX m_shooter;
 
     final VelocityVoltage m_shooterVelocity = new VelocityVoltage(0); // Initializes to position 0
 
     public ShooterSubsystem() {
-        m_shooter = new TalonFX(RIGHT_FLYWHEEL_ID);
+        m_shooter = new TalonFX(Constants.CANIDs.RIGHT_FLYWHEEL_ID);
 
     m_shooter.getConfigurator().apply(new TalonFXConfiguration());
 
