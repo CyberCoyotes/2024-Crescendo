@@ -22,7 +22,7 @@ import frc.robot.Constants;
  * {@link #SetStatePower} is used to set the main power.
  */
 public class ShooterSubsystemVelocity extends SubsystemBase {
-    private static final double MaxVoltage = 20;
+    private static final double MaxVelo = 20;
 
     /** As opposed to double */
     private boolean singleMotor;
@@ -138,9 +138,6 @@ public class ShooterSubsystemVelocity extends SubsystemBase {
         return m_main.getVelocity().getValueAsDouble();
     }
 
-    public boolean IsVelocityReqMet() {
-        return GetVelocity() / MaxVoltage >= 0.8;
-    }
 }
 
 /*

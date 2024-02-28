@@ -25,10 +25,10 @@ public class IntakeCommandGroup extends SequentialCommandGroup {
         this.intake = intake;
         InitSubCommands();
 
-        addCommands(new InstantCommand((() -> index.NoteSensor.setLEDColor()), index),
+        addCommands(
                 new ParallelCommandGroup(runIntake, (new RunCommand(() -> index.RunIndexing(), index)))
                         .until(() -> index.HasCargo()),
-                new InstantCommand((() -> index.NoteSensor.setLEDColor()), index));
+                new IncrementIndexCommand(index));
 
     }
 
