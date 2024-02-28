@@ -81,10 +81,13 @@ public class RobotContainer {
     shooter = new ShooterSubsystemVelocity();
     // shooter.SetMaxOutput(1);
 
+    /* 
     arm.setDefaultCommand(
         arm.run(() -> arm.Drive(((m_operatorController.axisLessThan(Axis.kLeftY.value, -0.1).getAsBoolean() ||
             (m_operatorController.axisGreaterThan(Axis.kLeftY.value, 0.1))
                 .getAsBoolean()) ? m_operatorController.getLeftY() : 0))));
+    */
+
     // // intake run depending on driver bumper status
     intake.setDefaultCommand(intake.run(() -> intake.Run(-BumperStatus(0))));
     index.setDefaultCommand(index.run(() -> index.SetPower(BumperStatus(1))));
@@ -131,10 +134,14 @@ public class RobotContainer {
     // var driverDiagnostics = Shuffleboard.getTab("Driver Diagnostics");
     var driverDiagnostics = Shuffleboard.getTab("Driver Diagnostics");
 
+
+    // Throwing errors
+    /*
     driverDiagnostics.addBoolean("Note Detected", () -> index.HasCargo());
     driverDiagnostics.addDouble("Arm Rot", () -> arm.GetArmPos().getValueAsDouble());
     driverDiagnostics.addDouble("Arm Rot Deg", () -> arm.GetPositionDegrees());
     arm.showArmTelemetry("Driver Diagnostics");
+     */
     // #endregion Testing
   }
 

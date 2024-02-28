@@ -15,6 +15,7 @@ public class MoveArmManual extends Command {
 
     @Override
     public void execute() {
-        arm.Drive(input);
+        // TODO undefined in the current arm subsystem iteration
+        // arm.Drive(input);
     }
 }
