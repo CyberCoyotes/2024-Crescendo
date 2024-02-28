@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.XboxController.Axis;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ArmSubsystem;
@@ -112,6 +113,9 @@ public class RobotContainer {
     // reset the field-centric heading on left bumper press
     m_driverController.start().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
 
+    m_driverController.x().whileTrue(new InstantCommand(() -> arm.setArmPose(10)));
+    m_driverController.y().whileTrue(new InstantCommand(() -> arm.setArmPose(0)));
+
   };
 
   public void DebugMethodSingle() {
@@ -129,8 +133,8 @@ public class RobotContainer {
 
     driverDiagnostics.addBoolean("Note Detected", () -> index.HasCargo());
     driverDiagnostics.addDouble("Arm Rot", () -> arm.GetArmPos().getValueAsDouble());
-    driverDiagnostics.addDouble("Arm Rot Deg", () -> arm.GetPositionDegreesAbsolulte());
-
+    driverDiagnostics.addDouble("Arm Rot Deg", () -> arm.GetPositionDegrees());
+    arm.showArmTelemetry("Driver Diagnostics");
     // #endregion Testing
   }
 

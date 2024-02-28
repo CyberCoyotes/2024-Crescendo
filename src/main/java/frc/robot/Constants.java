@@ -12,6 +12,7 @@ import com.ctre.phoenix6.configs.Slot1Configs;
 import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.GravityTypeValue;
+import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
@@ -58,8 +59,8 @@ public final class Constants {
     public static final int ARM_MAX_VEL = 32; // 160
     public static final int ARM_JERK = 0;
 
-    public static final int ARM_STATOR_LIMIT = 5;
-    public static final int ARM_SUPPLY_LIMIT = 5;
+    public static final int ARM_STATOR_LIMIT = 15;
+    public static final int ARM_SUPPLY_LIMIT = 15;
     public static final double ARM_ROTATION_LIMIT_NATIVE = 0;
 
     public static final class ArmConstantsExtension {
@@ -107,7 +108,8 @@ public final class Constants {
           .withSupplyCurrentLimitEnable(true)
           .withSupplyCurrentLimit(Constants.ArmConstants.ARM_SUPPLY_LIMIT);
 
-      public static final TalonFXConfiguration config = new TalonFXConfiguration().withSlot0(armGains0)
+      public static final TalonFXConfiguration config = new TalonFXConfiguration()
+          .withSlot0(armGains0)
           .withSlot1(armGains1)
           .withMotionMagic(armMotionMagic0).withSoftwareLimitSwitch(armSoftLimit0).withCurrentLimits(armSoftLimit1);
 

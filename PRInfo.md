@@ -1,6 +1,6 @@
 Here's the changes that I really recall.
 
-Commit 1:
+# Commit 1:
 
 - Moved the ToF sensor to the index, since it's generally more applicable to index-related jobs.
 - Simplified needless DoubleSuppliers.
@@ -13,3 +13,13 @@ Commit 1:
 - Removed ShooterSubsystem's RunShooter
   Reason: Obsolete, and subsystems running their own commands in P6 hurts my senile brain.
 - Added new constants in reference to the velocity mode of the shooter motors.
+
+# Commit 2:
+
+- Arm Subsystem Changes:
+  - Factory Default
+  - Smartdash -> Shuffleboard
+
+# Commit 3:
+
+- Eradicated alot of comments I felt were obtrusive. That's literally the whole commit, so bossman can review it with less strain.

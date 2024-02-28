@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import java.util.function.DoubleSupplier;
+
 /* Needs the static use references without including Constants. every time */
 
 import com.ctre.phoenix6.StatusSignal;
@@ -14,6 +16,7 @@ import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -37,40 +40,29 @@ public class ArmSubsystem extends SubsystemBase {
     public ArmSubsystem() {
         manualControl = new DutyCycleOut(0);
         positionControl = new MotionMagicVoltage(0);
-        m_motor = new TalonFX(Constants.CANIDs.ARM_ID);
-        m_motor.setInverted(true);
-        /*
-         * any unmodified configs in a configuration object are *automatically*
-         * factory-defaulted;
-         * user can perform a full factory default by passing a new device configuration
-         * object.
-         * This line should do a full factory reset
-         */
-        m_motor.getConfigurator().apply(Constants.ArmConstants.ArmConstantsExtension.config);
-        /* Gains or configuration of arm motor for config slot 0 */
 
-        /*
-         * Send info about the arm to the Smart Dashboard
-         * Defaults to percent output
-         */
-        // SmartDashboard.putData("Arm Output", m_arm);
+        m_motor = new TalonFX(Constants.CANIDs.ARM_ID);
+        // Factory Default; apply configs
+        m_motor.getConfigurator().apply(new TalonFXConfiguration());
+        m_motor.getConfigurator().apply(Constants.ArmConstants.ArmConstantsExtension.config);
 
     } /* End of the class-method */
 
     public StatusSignal<Double> GetArmPos() {
 
-        /* Reusing from drivetrain subsystem */
         return m_motor.getPosition();
-
     }
 
-    public double GetPositionDegreesAbsolulte() {
-        return GetArmPos().getValueAsDouble() * ArmConstants.ARM_NATIVE_TO_DEG +
-                35;// 35 is defaults
+    public void EnableLock() {
+        m_motor.setControl(positionControl.withPosition(m_motor.getPosition().getValueAsDouble()));
     }
 
-    private double DegToNative(double degreePosition) {
-        return (degreePosition - 35) * ArmConstants.DEG_TO_ARM_NATIVE;
+    public double GetPositionDegrees() {
+        return GetArmPos().getValueAsDouble() * ArmConstants.ARM_NATIVE_TO_DEG;
+    }
+
+    private double DegToCanon(double degreePosition) {
+        return (degreePosition) * ArmConstants.DEG_TO_ARM_NATIVE;
     }
 
     /* An example of a motor intilization method */
@@ -84,21 +76,25 @@ public class ArmSubsystem extends SubsystemBase {
      */
     // }
 
-    // !Unnecessary
-    // /* This calls a 'long form' of MotionMagicVoltage */
-    // public void setArmMotionMagicVoltage(double armPose) {
+    /**
+     * This calls a 'long form' of MotionMagicVoltage
+     * 
+     * @deprecated This creates a new MotionMagic object, which is
+     *             processor-intensive. Please find another way, if possible.
+     */
+    @Deprecated()
 
-    // m_motor.setControl(
-    // new MotionMagicVoltage(
-    // armPose,
-    // false,
-    // armPose,
-    // Constants.CANIDs.ARM_ID,
-    // false,
-    // false,
-    // false));
-
-    // }
+    public void setArmMotionMagicVoltage(double armPose) {
+        m_motor.setControl(
+                new MotionMagicVoltage(
+                        armPose,
+                        false,
+                        armPose,
+                        Constants.CANIDs.ARM_ID,
+                        false,
+                        false,
+                        false));
+    }
 
     public void setArmPose(double armPose) {
 
@@ -118,7 +114,6 @@ public class ArmSubsystem extends SubsystemBase {
 
         // SmartDashboard.putNumber("Arm Position", m_arm.getPosition().getValue());
         // SmartDashboard.putNumber("Arm Stator", m_arm.getStatorCurrent().getValue());
-        showArmTelemetry();
 
     }
 
@@ -150,12 +145,17 @@ public class ArmSubsystem extends SubsystemBase {
     /*
      * Currently only being called in subsystem-command;
      * inspite of my efforts it only appears once it's triggered at least once
+     * 
+     * Changed to Shuffleboard. Feel free to delete these comments if you wanna,
+     * Scoyoc - SZ
      */
-    public void showArmTelemetry() {
-        SmartDashboard.putNumber("Arm Position", m_motor.getPosition().getValue());
-        SmartDashboard.putNumber("Arm Stator", m_motor.getStatorCurrent().getValue());
-        SmartDashboard.putNumber("Arm Supply", m_motor.getSupplyCurrent().getValue());
-        SmartDashboard.putNumber("Arm Voltage", m_motor.getMotorVoltage().getValue());
+    public void showArmTelemetry(String tableName) {
+        var table = Shuffleboard.getTab(tableName);
+
+        table.addNumber("Arm Position", (DoubleSupplier) m_motor.getPosition().asSupplier());
+        table.addNumber("Arm Stator", (DoubleSupplier) m_motor.getStatorCurrent().asSupplier());
+        table.addNumber("Arm Supply", (DoubleSupplier) m_motor.getSupplyCurrent().asSupplier());
+        table.addNumber("Arm Voltage", (DoubleSupplier) m_motor.getMotorVoltage().asSupplier());
     }
 
 } // end of ArmSubsystem method
