@@ -34,7 +34,7 @@ public final class Constants {
     public static final double ARM_NATIVE_TO_DEG = 1 / DEG_TO_ARM_NATIVE;
     public static final double ARM_MAX_DUTY_CYCLE_OUT = 0.6;
     public static final double ARM_SUPPLY_CURRENT_LIMIT = 5;
-    public static final double ARM_STATOR_CURRENT_LIMIT = 15;
+    public static final double ARM_STATOR_CURRENT_LIMIT = 20;
 
     /* Arm poses */
     public static final int ARM_REV_LIMIT = 0;
@@ -44,15 +44,15 @@ public final class Constants {
     public static final double ARM_AMP_POSE = 90;
     public static final int ARM_FWD_LIMIT = 91;
 
-    public static final int ARM_MAX_ACCEL = 16; // 80
-    public static final int ARM_MAX_VEL = 32; // 160
+    public static final int ARM_MAX_ACCEL = 100;
+    public static final int ARM_MAX_VEL = 200;
     public static final int ARM_JERK = 0;
 
     public static final int ARM_STATOR_LIMIT = 15;
     public static final int ARM_SUPPLY_LIMIT = 15;
     public static final double ARM_ROTATION_LIMIT_NATIVE = 0;
 
-    public static final class ArmConstantsExtension {
+    public static final class ConstantsPlus {
 
       static final Slot0Configs armGains0 = new Slot0Configs().withGravityType(GravityTypeValue.Arm_Cosine)
           .withKP(0.50)
@@ -97,7 +97,7 @@ public final class Constants {
           .withSupplyCurrentLimitEnable(true)
           .withSupplyCurrentLimit(Constants.ArmConstants.ARM_SUPPLY_LIMIT);
 
-      public static final TalonFXConfiguration config = new TalonFXConfiguration()
+      public static final TalonFXConfiguration CONFIG = new TalonFXConfiguration()
           .withSlot0(armGains0)
           .withSlot1(armGains1)
           .withMotionMagic(armMotionMagic0).withSoftwareLimitSwitch(armSoftLimit0).withCurrentLimits(armSoftLimit1);

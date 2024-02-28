@@ -38,7 +38,7 @@ public class ArmSubsystem extends SubsystemBase {
         m_motor = new TalonFX(Constants.CANIDs.ARM_ID);
         // Factory Default; apply configs
         m_motor.getConfigurator().apply(new TalonFXConfiguration());
-        m_motor.getConfigurator().apply(Constants.ArmConstants.ArmConstantsExtension.config);
+        m_motor.getConfigurator().apply(Constants.ArmConstants.ConstantsPlus.CONFIG);
 
     } /* End of the class-method */
 
