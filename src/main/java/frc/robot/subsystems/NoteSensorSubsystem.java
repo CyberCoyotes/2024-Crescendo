@@ -80,10 +80,10 @@ public class NoteSensorSubsystem extends SubsystemBase {
         // It did not seem to be called on the dashboard until I added a Command to the
         // RobotContainer, but it would display updated data even when the button was
         // not pressed.
-
+           
         // ! Can be achieved with Shuffleboard call in
-        // ! Constructor, per the example in robot container
-
+        // ! Constructor, per 
+        setLEDColor();
         SmartDashboard.putNumber("Note Distance", noteDistance.getRange());
         SmartDashboard.putBoolean("Note Loaded", isNoteLoaded());
     }

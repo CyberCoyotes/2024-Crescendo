@@ -43,8 +43,7 @@ public class RobotContainer {
   ShooterSubsystemVelocity shooter = new ShooterSubsystemVelocity();
   IntakeSubsystem intake = new IntakeSubsystem();
   IndexSubsystem index = new IndexSubsystem();
-  NoteSensorSubsystem m_NoteSensorSubsystem = new NoteSensorSubsystem();
-  
+   
   // OrchestraSubsystem daTunes;
   // WinchSubsystem winch;
   ArmSubsystem arm = new ArmSubsystem();
@@ -76,7 +75,7 @@ public class RobotContainer {
   private Command autonTesting = drivetrain.getAutoPath("Start1.0-3-4-5");
 
   public RobotContainer() {
-    m_NoteSensorSubsystem.setLEDColor();
+  
     // #region some configs
 
     // #endregion
