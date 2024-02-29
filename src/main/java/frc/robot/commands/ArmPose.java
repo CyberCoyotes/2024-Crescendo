@@ -5,8 +5,6 @@ import frc.robot.subsystems.ArmSubsystem;
 
 public class ArmPose extends Command {
 
-  private static final double ARM_POSE_ONE = 20;
-
   private ArmSubsystem m_armSub;
   private double armPose;
   private boolean isFinished = false;
