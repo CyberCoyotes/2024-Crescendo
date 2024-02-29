@@ -16,7 +16,7 @@ public class IncrementIndexCommand extends Command {
 
     @Override
     public void execute() {
-        indexer.SetPower(-0.05);
+        indexer.SetPower(-0.25);
     }
 
     @Override
