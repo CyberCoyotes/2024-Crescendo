@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.commands.IncrementIndexCommand;
+import frc.robot.commands.IncrementIndex1Stage;
 import frc.robot.commands.RunShooter;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ArmSubsystem;
@@ -34,7 +34,7 @@ import com.pathplanner.lib.path.PathPlannerTrajectory;
 
 public class RobotContainer {
   RunShooter shooterRun;
-  IncrementIndexCommand indexIncrent;
+  IncrementIndex1Stage indexIncrent;
 
   // private final Telemetry logger = new
   // Telemetry(Constants.SystemConstants.MAX_SPEED);
@@ -83,20 +83,17 @@ public class RobotContainer {
   private Command autonTesting = drivetrain.getAutoPath("Start1.0-3-4-5");
 
   public RobotContainer() {
-    indexIncrent = new IncrementIndexCommand(index);
+    indexIncrent = new IncrementIndex1Stage(index);
     shooter = new ShooterSubsystemVelocity();
 
     // Set up our pathplanenr stuff
     NamedCommands.registerCommand("RunShooter", new RunShooter(shooter));
 
-    /*
-     * arm.setDefaultCommand(
-     * arm.run(() ->
-     * arm.Drive(((m_operatorController.axisLessThan(Axis.kLeftY.value,
-     * -0.1).getAsBoolean() ||
-     * (m_operatorController.axisGreaterThan(Axis.kLeftY.value, 0.1))
-     * .getAsBoolean()) ? m_operatorController.getLeftY() : 0))));
-     */
+    arm.setDefaultCommand(
+        arm.run(() -> arm.Drive(((m_operatorController.axisLessThan(Axis.kLeftY.value,
+            -0.1).getAsBoolean() ||
+            (m_operatorController.axisGreaterThan(Axis.kLeftY.value, 0.1))
+                .getAsBoolean()) ? m_operatorController.getLeftY() : 0))));
 
     // // intake run depending on driver bumper status
     intake.setDefaultCommand(intake.run(() -> intake.Run(0.25 * -BumperStatus(0))));
@@ -111,6 +108,7 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
+
     drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
         drivetrain.applyRequest(() -> drive.withVelocityX(-m_driverController.getLeftY() * MaxSpeed) // Drive forward
                                                                                                      // with
@@ -128,8 +126,8 @@ public class RobotContainer {
     // reset the field-centric heading on left bumper press
     m_driverController.start().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
 
-    m_driverController.x().whileTrue(new InstantCommand(() -> arm.setArmPose(10)));
-    m_driverController.y().whileTrue(new InstantCommand(() -> arm.setArmPose(0)));
+    m_operatorController.y().whileTrue(new InstantCommand(() -> arm.setArmPose(0)));
+    m_operatorController.x().whileTrue(new InstantCommand(() -> arm.setArmPose(10)));
 
   };
 
@@ -146,14 +144,11 @@ public class RobotContainer {
     // var driverDiagnostics = Shuffleboard.getTab("Driver Diagnostics");
     var driverDiagnostics = Shuffleboard.getTab("Driver Diagnostics");
 
-    // Throwing errors
-    /*
-     * driverDiagnostics.addBoolean("Note Detected", () -> index.HasCargo());
-     * driverDiagnostics.addDouble("Arm Rot", () ->
-     * arm.GetArmPos().getValueAsDouble());
-     * driverDiagnostics.addDouble("Arm Rot Deg", () -> arm.GetPositionDegrees());
-     * arm.showArmTelemetry("Driver Diagnostics");
-     */
+    driverDiagnostics.addBoolean("Note Detected", () -> index.HasCargo());
+    driverDiagnostics.addDouble("Arm Rot", () -> arm.GetArmPos().getValueAsDouble());
+    driverDiagnostics.addDouble("Arm Rot Deg", () -> arm.GetPositionDegrees());
+    arm.showArmTelemetry("Driver Diagnostics");
+
     // #endregion Testing
   }
 

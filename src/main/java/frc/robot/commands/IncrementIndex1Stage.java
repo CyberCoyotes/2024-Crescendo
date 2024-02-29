@@ -4,11 +4,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.NoteSensorSubsystem;
 
-public class IncrementIndexCommand extends Command {
+public class IncrementIndex1Stage extends Command {
 
     IndexSubsystem indexer;
 
-    public IncrementIndexCommand(IndexSubsystem indexer) {
+    public IncrementIndex1Stage(IndexSubsystem indexer) {
         this.indexer = indexer;
 
         addRequirements(indexer);

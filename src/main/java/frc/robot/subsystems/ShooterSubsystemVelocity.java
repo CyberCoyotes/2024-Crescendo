@@ -138,6 +138,10 @@ public class ShooterSubsystemVelocity extends SubsystemBase {
         return m_main.getVelocity().getValueAsDouble();
     }
 
+    public Boolean AtVelocity(double velo) {
+        return m_main.getVelocity().getValueAsDouble() >= (velo - 0.5);
+    }
+
 }
 
 /*
