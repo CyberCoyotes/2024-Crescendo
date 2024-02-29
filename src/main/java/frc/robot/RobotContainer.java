@@ -26,6 +26,7 @@ import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.NoteSensorSubsystem;
 import frc.robot.subsystems.ShooterSubsystemVelocity;
 import frc.robot.subsystems.WinchSubsystem;
 
@@ -33,6 +34,7 @@ import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.path.PathPlannerTrajectory;
 
 public class RobotContainer {
+
   RunShooter shooterRun;
   IncrementIndexCommand indexIncrent;
 
@@ -49,6 +51,7 @@ public class RobotContainer {
   ShooterSubsystemVelocity shooter = new ShooterSubsystemVelocity();
   IntakeSubsystem intake = new IntakeSubsystem();
   IndexSubsystem index = new IndexSubsystem();
+   
   // OrchestraSubsystem daTunes;
   // WinchSubsystem winch;
   ArmSubsystem arm = new ArmSubsystem();
@@ -83,6 +86,7 @@ public class RobotContainer {
   private Command autonTesting = drivetrain.getAutoPath("Start1.0-3-4-5");
 
   public RobotContainer() {
+
     indexIncrent = new IncrementIndexCommand(index);
     shooter = new ShooterSubsystemVelocity();
 
