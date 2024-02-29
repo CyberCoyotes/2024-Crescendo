@@ -8,9 +8,12 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import java.util.function.DoubleSupplier;
+
 import com.playingwithfusion.TimeOfFlight;
 import com.playingwithfusion.TimeOfFlight.RangingMode;
 
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
@@ -67,6 +70,7 @@ public class NoteSensorSubsystem extends SubsystemBase {
          */
         if (isNoteLoaded() == true) {
             // Decided loaded color = green
+
             m_ledSubsystem.ColorGreen();
 
         } else if (isNoteLoaded() == false) {
@@ -87,5 +91,5 @@ public class NoteSensorSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Note Distance", noteDistance.getRange());
         SmartDashboard.putBoolean("Note Loaded", isNoteLoaded());
     }
-
-} // end of class NoteSensorSubsystem
+}
+// end of class NoteSensorSubsystem
