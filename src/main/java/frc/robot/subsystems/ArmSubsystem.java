@@ -102,10 +102,11 @@ public class ArmSubsystem extends SubsystemBase{
              */
             new  MotionMagicVoltage(armPose));
 
+            /* 
             SmartDashboard.putNumber("Arm Position", m_arm.getPosition().getValue());
             SmartDashboard.putNumber("Arm Stator", m_arm.getStatorCurrent().getValue());
             showArmTelemetry();
-            
+            */
     }
 
     /* This form is probably unnecessary based on testing on 2/27 
