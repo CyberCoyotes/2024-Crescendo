@@ -83,10 +83,13 @@ public class RobotContainer {
   private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
   private final Telemetry logger = new Telemetry(MaxSpeed);
 
-  /* TODO For testing autonomous files built with PathPlanner */
-  private Command autonTesting = drivetrain.getAutoPath("Start1.0-3-4-5");
 
   private final SetArmPosition setArmPositionCommand = new SetArmPosition(arm, 20);
+
+  
+  /* TODO For testing autonomous files built with PathPlanner */
+  // private Command autonTesting = drivetrain.getAutoPath("Start1.0-3-4-5");
+  // private Command autonTesting = drivetrain.getAutoPath("Test");
 
   public RobotContainer() {
 
@@ -94,7 +97,9 @@ public class RobotContainer {
     shooter = new ShooterSubsystemVelocity();
 
     // Set up our pathplanenr stuff
-    NamedCommands.registerCommand("RunShooter", new RunShooter(shooter));
+    // NamedCommands.registerCommand("RunShooter", new RunShooter(shooter));
+    // NamedCommands.registerCommand("SetArmLowPose", new SetArmPosition(arm, Constants.ArmConstants.ARM_LOW_POSE)); 
+    // NamedCommands.registerCommand("SetArmHomePose", new SetArmPosition(arm, Constants.ArmConstants.ARM_HOME_POSE));
 
     /*
      * arm.setDefaultCommand(
@@ -184,6 +189,6 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     /* irst put the drivetrain into auto run mode, then run the auto */
-    return indexIncrent;
+    return null;
   }
 }
