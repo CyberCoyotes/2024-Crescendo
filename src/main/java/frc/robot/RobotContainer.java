@@ -89,11 +89,11 @@ public class RobotContainer {
     // Set up our pathplanenr stuff
     NamedCommands.registerCommand("RunShooter", new RunShooter(shooter));
 
-    arm.setDefaultCommand(
-        arm.run(() -> arm.Drive(((m_operatorController.axisLessThan(Axis.kLeftY.value,
-            -0.1).getAsBoolean() ||
-            (m_operatorController.axisGreaterThan(Axis.kLeftY.value, 0.1))
-                .getAsBoolean()) ? m_operatorController.getLeftY() : 0))));
+    // arm.setDefaultCommand(
+    // arm.run(() -> arm(((m_operatorController.axisLessThan(Axis.kLeftY.value,
+    // -0.1).getAsBoolean() ||
+    // (m_operatorController.axisGreaterThan(Axis.kLeftY.value, 0.1))
+    // .getAsBoolean()) ? m_operatorController.getLeftY() : 0))));
 
     // // intake run depending on driver bumper status
     intake.setDefaultCommand(intake.run(() -> intake.Run(0.25 * -BumperStatus(0))));
@@ -144,10 +144,11 @@ public class RobotContainer {
     // var driverDiagnostics = Shuffleboard.getTab("Driver Diagnostics");
     var driverDiagnostics = Shuffleboard.getTab("Driver Diagnostics");
 
-    driverDiagnostics.addBoolean("Note Detected", () -> index.HasCargo());
-    driverDiagnostics.addDouble("Arm Rot", () -> arm.GetArmPos().getValueAsDouble());
-    driverDiagnostics.addDouble("Arm Rot Deg", () -> arm.GetPositionDegrees());
-    arm.showArmTelemetry("Driver Diagnostics");
+    // driverDiagnostics.addBoolean("Note Detected", () -> index.HasCargo());
+    // driverDiagnostics.addDouble("Arm Rot", () ->
+    // arm.GetArmPos().getValueAsDouble());
+    // driverDiagnostics.addDouble("Arm Rot Deg", () -> arm.GetPositionDegrees());
+    // arm.showArmTelemetry("Driver Diagnostics");
 
     // #endregion Testing
   }
