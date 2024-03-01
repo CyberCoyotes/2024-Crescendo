@@ -132,7 +132,7 @@ public class RobotContainer {
     m_driverController.start().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
 
     m_driverController.x().whileTrue(new InstantCommand(() -> arm.setArmPose(0)));
-    m_driverController.y().whileTrue(new SetArmPosition(arm, 0.0));
+    m_driverController.y().whileTrue(new SetArmPosition(arm, 15));
 
   };
 
