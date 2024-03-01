@@ -124,16 +124,20 @@ public class RobotContainer {
                                                                                   // negative X (left)
         ));
 
-    m_driverController.a().whileTrue(drivetrain.applyRequest(() -> brake));
-    m_driverController.b().whileTrue(drivetrain
+    // m_driverController.a().whileTrue(drivetrain.applyRequest(() -> brake));
+    /* m_driverController.b().whileTrue(drivetrain
         .applyRequest(() -> point
             .withModuleDirection(new Rotation2d(-m_driverController.getLeftY(), -m_driverController.getLeftX()))));
-
+    */
+    
     // reset the field-centric heading on left bumper press
     m_driverController.start().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
 
-    m_driverController.x().whileTrue(new InstantCommand(() -> arm.setArmPose(10)));
-    m_driverController.y().whileTrue(new InstantCommand(() -> arm.setArmPose(0)));
+    m_driverController.a().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_HOME_POSE)));
+    m_driverController.b().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_LOW_POSE)));
+    m_driverController.x().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_AMP_POSE)));
+    m_driverController.y().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_MID_POSE)));
+
 
   };
 
