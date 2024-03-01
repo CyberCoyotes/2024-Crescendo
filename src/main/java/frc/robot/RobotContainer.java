@@ -27,6 +27,7 @@ import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.NoteSensorSubsystem;
 import frc.robot.subsystems.ShooterSubsystemVelocity;
 import frc.robot.subsystems.WinchSubsystem;
 
@@ -34,6 +35,7 @@ import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.path.PathPlannerTrajectory;
 
 public class RobotContainer {
+
   RunShooter shooterRun;
   IncrementIndexCommand indexIncrent;
 
@@ -50,6 +52,7 @@ public class RobotContainer {
   ShooterSubsystemVelocity shooter = new ShooterSubsystemVelocity();
   IntakeSubsystem intake = new IntakeSubsystem();
   IndexSubsystem index = new IndexSubsystem();
+   
   // OrchestraSubsystem daTunes;
   // WinchSubsystem winch;
   ArmSubsystem arm = new ArmSubsystem();
@@ -86,6 +89,7 @@ public class RobotContainer {
   private final SetArmPosition setArmPositionCommand = new SetArmPosition(arm, 20);
 
   public RobotContainer() {
+
     indexIncrent = new IncrementIndexCommand(index);
     shooter = new ShooterSubsystemVelocity();
 
@@ -123,16 +127,22 @@ public class RobotContainer {
                                                                                   // negative X (left)
         ));
 
-    m_driverController.a().whileTrue(drivetrain.applyRequest(() -> brake));
-    m_driverController.b().whileTrue(drivetrain
+    // m_driverController.a().whileTrue(drivetrain.applyRequest(() -> brake));
+    /* m_driverController.b().whileTrue(drivetrain
         .applyRequest(() -> point
             .withModuleDirection(new Rotation2d(-m_driverController.getLeftY(), -m_driverController.getLeftX()))));
-
+    */
+    
     // reset the field-centric heading on left bumper press
     m_driverController.start().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
 
-    m_driverController.x().whileTrue(new InstantCommand(() -> arm.setArmPose(0)));
-    m_driverController.y().whileTrue(new SetArmPosition(arm, 15));
+
+    /* This command call works now. Not sure if there are advantages/disadvantages to either */
+    //     m_driverController.y().whileTrue(new SetArmPosition(arm, 15)); */
+    m_driverController.a().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_HOME_POSE)));
+    m_driverController.b().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_LOW_POSE)));
+    m_driverController.x().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_AMP_POSE)));
+    m_driverController.y().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_MID_POSE)));
 
   };
 

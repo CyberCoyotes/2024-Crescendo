@@ -38,9 +38,10 @@ public final class Constants {
 
     /* Arm poses */
     public static final int ARM_REV_LIMIT = 0;
-    public static final double ARM_LOW_POSE = 5;
-    public static final double ARM_MID_POSE = 10;
-    public static final double ARM_HIGH_POSE = 25;
+    public static final double ARM_HOME_POSE = 0;
+    public static final double ARM_LOW_POSE = 10;
+    public static final double ARM_MID_POSE = 25;
+    public static final double ARM_HIGH_POSE = 55;
     public static final double ARM_AMP_POSE = 90;
     public static final int ARM_FWD_LIMIT = 91;
 
