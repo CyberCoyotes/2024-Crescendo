@@ -1,30 +1,22 @@
 package frc.robot.subsystems;
 
-import java.util.function.DoubleSupplier;
-
 /* Needs the static use references without including Constants. every time */
 
 import com.ctre.phoenix6.StatusSignal;
-import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
-import com.ctre.phoenix6.configs.MotionMagicConfigs;
-import com.ctre.phoenix6.configs.Slot0Configs;
-import com.ctre.phoenix6.configs.Slot1Configs;
-import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
+
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.GravityTypeValue;
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.commands.SetArmPose;
 
 public class ArmSubsystem extends SubsystemBase {
-
-    //SHAUN'S GARBAGE
 
     // Declare a variable for the motor you want to control
     private final TalonFX m_motor;
@@ -82,25 +74,24 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     public void setArmPose(double armPose) {
-
         m_motor.setControl(
                 positionControl.withPosition(armPose));
     }
 
     public void setArmToScorePose1() {
-        m_motor.setControl(positionControl.withPosition(10));
+        setArmPose(10);
     }
 
     public void setArmToScorePose2() {
-        m_motor.setControl(positionControl.withPosition(20));
+        setArmPose(20);
     }
 
     public void setArmToScorePose3() {
-        m_motor.setControl(positionControl.withPosition(30));
+        setArmPose(30);
     }
 
     public void setArmToScorePose4() {
-        m_motor.setControl(positionControl.withPosition(40));
+        setArmPose(40);
     }
 
     public void stopRotation() {

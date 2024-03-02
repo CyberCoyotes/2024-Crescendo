@@ -2,7 +2,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IndexSubsystem;
-import frc.robot.subsystems.NoteSensorSubsystem;
 
 public class IncrementIndexCommand extends Command {
 
@@ -21,7 +20,7 @@ public class IncrementIndexCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        // Check if there is no note loaded
+        // true when the cargo isn't detected
         return !indexer.HasCargo();
     }
 
