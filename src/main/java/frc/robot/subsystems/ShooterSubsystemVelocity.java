@@ -1,12 +1,9 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
-import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.configs.VoltageConfigs;
-import com.ctre.phoenix6.controls.DutyCycleOut;
-import com.ctre.phoenix6.controls.VelocityDutyCycle;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -22,7 +19,7 @@ import frc.robot.Constants;
  * {@link #SetStatePower} is used to set the main power.
  */
 public class ShooterSubsystemVelocity extends SubsystemBase {
-    private static final double MaxVelocity = 20;
+    private static final double MaxVelo = 20;
 
     /** As opposed to double */
     private boolean singleMotor;
@@ -31,7 +28,7 @@ public class ShooterSubsystemVelocity extends SubsystemBase {
     private TalonFX m_main;
     private TalonFX m_sub;
     /** The max velo */
-    private double maxVelo = 20;
+    private double runningVoltage = 20;
     // private double maxPower = 1;
     /** The multiplier that converts from "primary speed" to "secondary speed" */
     private double ratio = .95;
@@ -84,7 +81,7 @@ public class ShooterSubsystemVelocity extends SubsystemBase {
     }
 
     /**
-     * Sets the power the primary motor will use. Does not enable or disable.
+     * Sets the power the primary motor is using.
      */
     public void SetOutput(double arg) {
 
@@ -101,14 +98,19 @@ public class ShooterSubsystemVelocity extends SubsystemBase {
 
     }
 
+    @Override
+    public void periodic() {
+        // System.out.println(m_main.getVelocity());
+    }
+
     public void SetMaxOutput(double velo) {
         // percent = Math.max(0, Math.min(percent,1));
-        this.maxVelo = velo;
+        this.runningVoltage = velo;
 
     }
 
     public void Enable() {
-        SetOutput(maxVelo);
+        SetOutput(runningVoltage);
     }
 
     public void Disable() {
@@ -117,7 +119,7 @@ public class ShooterSubsystemVelocity extends SubsystemBase {
     }
 
     public void Toggle() {
-        double set = Math.abs(mainVeloCycle.Velocity - maxVelo);
+        double set = Math.abs(mainVeloCycle.Velocity - runningVoltage);
         SetOutput(set);
     }
 
@@ -133,9 +135,10 @@ public class ShooterSubsystemVelocity extends SubsystemBase {
         return m_main.getVelocity().getValueAsDouble();
     }
 
-    public boolean IsVelocityReqMet() {
-        return GetVelocity() / MaxVelocity >= 0.8;
+    public Boolean AtVelocity(double velo) {
+        return m_main.getVelocity().getValueAsDouble() >= (velo - 0.5);
     }
+
 }
 
 /*
