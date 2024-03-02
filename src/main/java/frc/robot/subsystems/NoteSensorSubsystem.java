@@ -26,8 +26,7 @@ public class NoteSensorSubsystem extends SubsystemBase {
      * It is needed to control the LEDs based on the method `isNoteLoaded()`
      */
     private LedSubsystem m_ledSubsystem = new LedSubsystem();
-
-    /*
+     /*
      * Set the distance to the note to be considered load position.'
      * Measure in (mm) to determine an appropriate value.
      */
@@ -71,8 +70,10 @@ public class NoteSensorSubsystem extends SubsystemBase {
             m_ledSubsystem.ColorGreen();
 
         } else if (isNoteLoaded() == false) {
-            // Decided loaded color = yellow
-            m_ledSubsystem.ColorYellow();
+            // Decided loaded color = Red
+            //m_ledSubsystem.ColorRed();
+
+            m_ledSubsystem.ColorFlowRed();
         }
     }
 
