@@ -78,7 +78,7 @@ public class RobotContainer {
   private final Telemetry logger = new Telemetry(MaxSpeed);
 
   /* TODO For testing autonomous files built with PathPlanner */
-  private Command autonTesting = drivetrain.getAutoPath("Start1.0-3-4-5");
+  private Command autonTesting = drivetrain.getAutoPath("S3-N1-N8-ShotC-N7");
 
   private final IntakeCommandGroup intakeGroup = new IntakeCommandGroup(index, intake);
 
@@ -190,6 +190,6 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     /* irst put the drivetrain into auto run mode, then run the auto */
-    return indexIncrent;
+    return autonTesting;
   }
 }
