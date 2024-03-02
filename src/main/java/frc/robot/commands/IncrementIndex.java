@@ -3,11 +3,11 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IndexSubsystem;
 
-public class IncrementIndex1Stage extends Command {
+public class IncrementIndex extends Command {
 
     IndexSubsystem indexer;
 
-    public IncrementIndex1Stage(IndexSubsystem indexer) {
+    public IncrementIndex(IndexSubsystem indexer) {
         this.indexer = indexer;
 
         addRequirements(indexer);

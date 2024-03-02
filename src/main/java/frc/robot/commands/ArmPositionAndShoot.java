@@ -19,7 +19,7 @@ public class ArmPositionAndShoot extends SequentialCommandGroup {
         // Updated arm reference to SetArmPose
         addCommands(
                 new SetArmPosition(arm, pose), // Set the arm to the desired pose
-                new IncrementIndex1Stage(index), // Reverse index the note, presuming to clear the shooter wheels?
+                new IncrementIndex(index), // Reverse index the note, presuming to clear the shooter wheels?
                 new ParallelCommandGroup(
                         new RunShooter(shooter),
                         new WaitUntilCommand(() -> shooter.AtVelocity(velo)).andThen(() -> index.RunIndexing(),

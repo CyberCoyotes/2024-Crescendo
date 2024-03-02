@@ -13,8 +13,9 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.commands.IncrementIndex1Stage;
+
 import frc.robot.commands.RunShooter;
 import frc.robot.commands.SetArmPosition;
 import frc.robot.generated.TunerConstants;
@@ -29,7 +30,6 @@ import com.pathplanner.lib.path.PathPlannerTrajectory;
 public class RobotContainer {
 
   RunShooter shooterRun;
-  IncrementIndex1Stage indexIncrent;
 
   // private final Telemetry logger = new
   // Telemetry(Constants.SystemConstants.MAX_SPEED);
@@ -81,8 +81,6 @@ public class RobotContainer {
   private final SetArmPosition setArmPositionCommand = new SetArmPosition(arm, 20);
 
   public RobotContainer() {
-
-    indexIncrent = new IncrementIndex1Stage(index);
 
     shooter = new ShooterSubsystemVelocity();
 
@@ -174,6 +172,6 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     /* irst put the drivetrain into auto run mode, then run the auto */
-    return indexIncrent;
+    return new WaitCommand(1);
   }
 }
