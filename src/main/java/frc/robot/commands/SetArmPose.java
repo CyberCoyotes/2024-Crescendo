@@ -18,10 +18,12 @@ public class SetArmPose extends Command {
         arm.setArmPose(pose);
     }
 
+    /* See also `SetArmPose.java` 
     @Override
-    public boolean isFinished() {
-        return arm.GetArmPos().getValueAsDouble() == pose;
+     public boolean isFinished() {
+        return arm.setArmPose().getValueAsDouble() == pose;
     }
+    */
 
     @Override
     public InterruptionBehavior getInterruptionBehavior() {

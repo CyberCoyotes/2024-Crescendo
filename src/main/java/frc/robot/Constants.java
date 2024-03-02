@@ -6,17 +6,11 @@ package frc.robot;
 
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
-import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.Slot1Configs;
 import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.GravityTypeValue;
-import com.ctre.phoenix6.signals.InvertedValue;
-import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
-import com.pathplanner.lib.util.PIDConstants;
-import com.pathplanner.lib.util.ReplanningConfig;
 
 public final class Constants {
 
@@ -37,17 +31,17 @@ public final class Constants {
     public static final double ARM_STATOR_CURRENT_LIMIT = 20;
 
     /* Arm poses */
-    public static final int ARM_REV_LIMIT = 0;
-    public static final double ARM_HOME_POSE = 0;
-    public static final double ARM_LOW_POSE = 10;
-    public static final double ARM_MID_POSE = 25;
-    public static final double ARM_HIGH_POSE = 55;
-    public static final double ARM_AMP_POSE = 90;
-    public static final int ARM_FWD_LIMIT = 91;
+    public static final int     ARM_REV_LIMIT = 0;
+    public static final double  ARM_HOME_POSE = 0;
+    public static final double  ARM_LOW_POSE = 10;
+    public static final double  ARM_MID_POSE = 25;
+    public static final double  ARM_HIGH_POSE = 55;
+    public static final double  ARM_AMP_POSE = 90;
+    public static final int     ARM_FWD_LIMIT = 91;
 
-    public static final int ARM_MAX_ACCEL = 100;
-    public static final int ARM_MAX_VEL = 200;
-    public static final int ARM_JERK = 0;
+    public static final int     ARM_MAX_ACCEL = 100;
+    public static final int     ARM_MAX_VEL = 200;
+    public static final int     ARM_JERK = 0;
 
     public static final int ARM_STATOR_LIMIT = 15;
     public static final int ARM_SUPPLY_LIMIT = 15;

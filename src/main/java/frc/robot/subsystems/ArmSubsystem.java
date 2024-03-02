@@ -16,8 +16,6 @@ import frc.robot.Constants;
 
 public class ArmSubsystem extends SubsystemBase {
 
-    // VANSCOYOC EDITION: MAYBE WORKS?
-
     // Declare a variable for the motor you want to control
     private final TalonFX m_arm;
 
