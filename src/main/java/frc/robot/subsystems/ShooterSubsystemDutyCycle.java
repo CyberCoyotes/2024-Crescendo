@@ -63,6 +63,10 @@ public class ShooterSubsystemDutyCycle extends SubsystemBase {
 
     }
 
+    public void AtVelocity(double velocity) {
+
+    }
+
     /**
      * Serves as a base for any flywheel system driven by 1 motor. Fire and forget,
      * enabling and diabling will be done by singular calls.
