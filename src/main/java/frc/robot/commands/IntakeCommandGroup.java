@@ -22,9 +22,11 @@ public class IntakeCommandGroup extends SequentialCommandGroup {
         InitSubCommands();
 
         addCommands(
-                new ParallelCommandGroup(runIntake, (new RunCommand(() -> index.RunIndexing(), index)))
-                        .until(() -> index.HasCargo()),
-                new IncrementIndex1Stage(index));
+                new ParallelCommandGroup(
+                    runIntake, 
+                    (new RunCommand(() -> index.RunIndexing(), 
+                    index))).until(() -> index.HasCargo()));
+                    // new IncrementIndex1Stage(index)); // too finicky at momement
 
     }
 

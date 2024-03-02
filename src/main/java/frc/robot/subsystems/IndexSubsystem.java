@@ -18,7 +18,7 @@ public class IndexSubsystem extends SubsystemBase {
 
     }
 
-    double indexPower = 0.5;
+    double indexPower = 1.0;
 
     public void RunIndexing() {
         motor.set(ControlMode.PercentOutput, indexPower);

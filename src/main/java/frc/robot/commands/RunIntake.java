@@ -21,7 +21,7 @@ public class RunIntake extends Command {
 
     @Override
     public void execute() {
-        intake.Run(1);
+        intake.Run(-0.50);
     }
 
     @Override
