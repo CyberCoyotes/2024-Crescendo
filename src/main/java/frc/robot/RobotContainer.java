@@ -38,7 +38,7 @@ public class RobotContainer {
   SendableChooser<Command> autoChooser;
   // Interactable way to change increment distance on arm for High Speed High
   // Fidelity Testing
-  GenericEntry incrementDistanceEntry;
+
   // #endregion Network Tables
   // #region Subsystems
   ShooterSubsystemVelocity shooter = new ShooterSubsystemVelocity();
@@ -150,6 +150,9 @@ public class RobotContainer {
     // var driverDiagnostics = Shuffleboard.getTab("Driver Diagnostics");
     var driverDiagnostics = Shuffleboard.getTab("Driver Diagnostics");
 
+    driverDiagnostics.add("Test Auton", autonTesting);
+    driverDiagnostics.add(autoChooser);
+
     driverDiagnostics.addBoolean("Note Detected", () -> index.HasCargo());
     driverDiagnostics.addDouble("Arm Rot", () -> arm.GetArmPos().getValueAsDouble());
     driverDiagnostics.addDouble("Arm Rot Deg", () -> arm.GetPositionDegrees());
@@ -172,6 +175,6 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     /* irst put the drivetrain into auto run mode, then run the auto */
-    return new WaitCommand(1);
+    return autoChooser.getSelected();
   }
 }
