@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.IncrementIndex1Stage;
 import frc.robot.commands.RunShooter;
+import frc.robot.commands.SetArmPosition;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IndexSubsystem;
@@ -89,11 +90,11 @@ public class RobotContainer {
     // Set up our pathplanenr stuff
     NamedCommands.registerCommand("RunShooter", new RunShooter(shooter));
 
-    // arm.setDefaultCommand(
-    // arm.run(() -> arm(((m_operatorController.axisLessThan(Axis.kLeftY.value,
-    // -0.1).getAsBoolean() ||
-    // (m_operatorController.axisGreaterThan(Axis.kLeftY.value, 0.1))
-    // .getAsBoolean()) ? m_operatorController.getLeftY() : 0))));
+    arm.setDefaultCommand(
+        arm.run(() -> arm.Drive(((m_operatorController.axisLessThan(Axis.kLeftY.value,
+            -0.1).getAsBoolean() ||
+            (m_operatorController.axisGreaterThan(Axis.kLeftY.value, 0.1))
+                .getAsBoolean()) ? m_operatorController.getLeftY() : 0))));
 
     // // intake run depending on driver bumper status
     intake.setDefaultCommand(intake.run(() -> intake.Run(0.25 * -BumperStatus(0))));
@@ -126,16 +127,14 @@ public class RobotContainer {
     // reset the field-centric heading on left bumper press
     m_driverController.start().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
 
-    m_operatorController.y().whileTrue(new InstantCommand(() -> arm.setArmPose(0)));
-    m_operatorController.x().whileTrue(new InstantCommand(() -> arm.setArmPose(10)));
+    m_operatorController.y().whileTrue(new SetArmPosition(arm, 0));
+    m_operatorController.x().whileTrue(new SetArmPosition(arm, 20));
 
   };
 
   public void DebugMethodSingle() {
     // #region Driving
-    // More useful logs that the drivers will probably want
-    // driverDiagnostics.addDouble("Net Arm Angle", () ->
-    // arm.GetPositionDegreesAbsolulte());S
+
     // #endregion Driving
     // #region Testing
 
@@ -144,11 +143,10 @@ public class RobotContainer {
     // var driverDiagnostics = Shuffleboard.getTab("Driver Diagnostics");
     var driverDiagnostics = Shuffleboard.getTab("Driver Diagnostics");
 
-    // driverDiagnostics.addBoolean("Note Detected", () -> index.HasCargo());
-    // driverDiagnostics.addDouble("Arm Rot", () ->
-    // arm.GetArmPos().getValueAsDouble());
-    // driverDiagnostics.addDouble("Arm Rot Deg", () -> arm.GetPositionDegrees());
-    // arm.showArmTelemetry("Driver Diagnostics");
+    driverDiagnostics.addBoolean("Note Detected", () -> index.HasCargo());
+    driverDiagnostics.addDouble("Arm Rot", () -> arm.GetArmPos().getValueAsDouble());
+    driverDiagnostics.addDouble("Arm Rot Deg", () -> arm.GetPositionDegrees());
+    arm.showArmTelemetry("Driver Diagnostics");
 
     // #endregion Testing
   }
