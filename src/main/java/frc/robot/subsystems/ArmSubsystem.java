@@ -114,40 +114,15 @@ public class ArmSubsystem extends SubsystemBase {
     public void setArmPose(double armPose) {
 
         m_arm.setControl(
-                /*
-                 * 'long form' of MotionMagicVoltage motor travels at full speed & coast like a
-                 * velocity output
-                 * 'short form' of MotionMagicVoltage motor sets to position
-                 */
-                new MotionMagicVoltage(armPose));
-
-        /*
-         * SmartDashboard.putNumber("Arm Position", m_arm.getPosition().getValue());
-         * SmartDashboard.putNumber("Arm Stator", m_arm.getStatorCurrent().getValue());
-         */
-        showArmTelemetry();
-
+          
+            new  MotionMagicVoltage(armPose));
+            /* 
+            SmartDashboard.putNumber("Arm Position", m_arm.getPosition().getValue());
+            SmartDashboard.putNumber("Arm Stator", m_arm.getStatorCurrent().getValue());*/
+            showArmTelemetry();
+            
     }
 
-    /*
-     * This form is probably unnecessary based on testing on 2/27
-     * public void setArmPoseLong (double armPosition) {
-     * 
-     * m_arm.setControl(
-     * new MotionMagicVoltage(
-     * 0, // start position, previsouly set to armPose
-     * false, // enable FOC
-     * 0, // Feedforward
-     * 0, // slot config
-     * false, // override brake during neutral
-     * false, // limit forward motion
-     * false)); // limit reverse motion
-     * 
-     * SmartDashboard.putNumber("Arm Position", m_arm.getPosition().getValue());
-     * SmartDashboard.putNumber("Arm Stator", m_arm.getStatorCurrent().getValue());
-     * showArmTelemetry();
-     * }
-     */
 
     /*
      * Currently only being called in subsystem-command;

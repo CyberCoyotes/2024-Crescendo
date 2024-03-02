@@ -103,7 +103,7 @@ public class ShooterSubsystemVelocity extends SubsystemBase {
 
     @Override
     public void periodic() {
-        System.out.println(m_main.getVelocity());
+        // System.out.println(m_main.getVelocity());
     }
 
     public void SetMaxOutput(double velo) {
