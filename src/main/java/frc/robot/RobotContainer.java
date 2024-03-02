@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.IncrementIndex1Stage;
 import frc.robot.commands.IntakeCommandGroup;
+import frc.robot.commands.RevAndShootCommand;
 import frc.robot.commands.RunShooter;
 import frc.robot.commands.SetArmPosition;
 import frc.robot.generated.TunerConstants;
@@ -143,7 +144,7 @@ public class RobotContainer {
 
     m_driverController.rightBumper().whileTrue(new IntakeCommandGroup(index, intake));
 
-    m_driverController.rightTrigger().whileTrue(new InstantCommand(() -> shooter.SetOutput(100)));
+    m_driverController.rightTrigger().whileTrue(new RevAndShootCommand(index, shooter));
     m_driverController.rightTrigger().whileFalse(new InstantCommand(() -> shooter.SetOutput(0)));
 
     // m_driverController.rightBumper().whileTrue(new InstantCommand(() -> intake.Run(0.75)));
