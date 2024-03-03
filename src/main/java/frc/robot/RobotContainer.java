@@ -16,9 +16,12 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.IncrementIndex1Stage;
 import frc.robot.commands.IntakeCommandGroup;
+import frc.robot.commands.IntakeRevCommandGroup;
 import frc.robot.commands.RevAndShootCommand;
 import frc.robot.commands.RunShooter;
 import frc.robot.commands.SetArmPosition;
+import frc.robot.commands.SetIndex;
+import frc.robot.commands.SetIntake;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IndexSubsystem;
@@ -80,9 +83,12 @@ public class RobotContainer {
   /* TODO For testing autonomous files built with PathPlanner */
   private Command autonTesting = drivetrain.getAutoPath("S3-N1-N8-ShotC-N7");
 
-  private final IntakeCommandGroup intakeGroup = new IntakeCommandGroup(index, intake);
+  final IntakeCommandGroup intakeGroup = new IntakeCommandGroup(index, intake);
+  final IntakeRevCommandGroup intakeRevGroup = new IntakeRevCommandGroup(index, intake);
+  //final SetIndex indexing = new SetIndex(index, power);
 
 
+  // Example
   private final SetArmPosition setArmPositionCommand = new SetArmPosition(arm, 20);
 
   
@@ -100,17 +106,6 @@ public class RobotContainer {
     // NamedCommands.registerCommand("RunShooter", new RunShooter(shooter));
     // NamedCommands.registerCommand("SetArmLowPose", new SetArmPosition(arm, Constants.ArmConstants.ARM_LOW_POSE)); 
     // NamedCommands.registerCommand("SetArmHomePose", new SetArmPosition(arm, Constants.ArmConstants.ARM_HOME_POSE));
-
-    // arm.setDefaultCommand(
-    // arm.run(() -> arm(((m_operatorController.axisLessThan(Axis.kLeftY.value,
-    // -0.1).getAsBoolean() ||
-    // (m_operatorController.axisGreaterThan(Axis.kLeftY.value, 0.1))
-    // .getAsBoolean()) ? m_operatorController.getLeftY() : 0))));
-
-    // // intake run depending on driver bumper status
-    // ORIGINAL intake.setDefaultCommand(intake.run(() -> intake.Run(0.75 * -BumperStatus(0))));
-    // intake.setDefaultCommand(intakeGroupCommand);
-
 
     index.setDefaultCommand(index.run(() -> index.SetPower(BumperStatus(1))));
     /* 
@@ -151,14 +146,11 @@ public class RobotContainer {
     m_driverController.y().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_MID_POSE)));
 
     m_driverController.rightBumper().whileTrue(new IntakeCommandGroup(index, intake));
+    m_driverController.leftBumper().whileTrue(new IntakeRevCommandGroup(index, intake));
 
     m_driverController.rightTrigger().whileTrue(new RevAndShootCommand(index, shooter));
     m_driverController.rightTrigger().whileFalse(new InstantCommand(() -> shooter.SetOutput(0)));
-
-    // m_driverController.rightBumper().whileTrue(new InstantCommand(() -> intake.Run(0.75)));
-
-    // Needs to be reversed
-    m_driverController.leftBumper().whileTrue(new IntakeCommandGroup(index, intake));
+    m_driverController.leftTrigger().whileTrue(new SetIndex(index,-0.75));
 
   };
 
