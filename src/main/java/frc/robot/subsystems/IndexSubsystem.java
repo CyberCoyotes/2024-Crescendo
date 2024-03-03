@@ -2,8 +2,6 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix6.controls.DutyCycleOut;
-import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -20,7 +18,7 @@ public class IndexSubsystem extends SubsystemBase {
 
     }
 
-    double indexPower = 0.5;
+    double indexPower = 1.0;
 
     public void RunIndexing() {
         motor.set(ControlMode.PercentOutput, indexPower);

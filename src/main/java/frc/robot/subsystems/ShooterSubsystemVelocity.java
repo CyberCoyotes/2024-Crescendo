@@ -1,17 +1,15 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
-import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.configs.VoltageConfigs;
-import com.ctre.phoenix6.controls.DutyCycleOut;
-import com.ctre.phoenix6.controls.VelocityDutyCycle;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -50,7 +48,7 @@ public class ShooterSubsystemVelocity extends SubsystemBase {
                     .withKV(0.12))
             .withVoltage(new VoltageConfigs().withPeakForwardVoltage(8).withPeakReverseVoltage(-8))
             .withCurrentLimits(
-                    new CurrentLimitsConfigs().withStatorCurrentLimit(60).withStatorCurrentLimitEnable(true));
+                    new CurrentLimitsConfigs().withStatorCurrentLimit(100).withStatorCurrentLimitEnable(true));
 
     // ! Peak output of 8 volts
 
@@ -103,7 +101,8 @@ public class ShooterSubsystemVelocity extends SubsystemBase {
 
     @Override
     public void periodic() {
-        System.out.println(m_main.getVelocity());
+        // System.out.println(m_main.getVelocity());
+        SmartDashboard.putNumber("Velocity", GetVelocity());
     }
 
     public void SetMaxOutput(double velo) {
@@ -136,6 +135,10 @@ public class ShooterSubsystemVelocity extends SubsystemBase {
      */
     public double GetVelocity() {
         return m_main.getVelocity().getValueAsDouble();
+    }
+
+    public Boolean AtVelocity(double velo) {
+        return m_main.getVelocity().getValueAsDouble() >= (velo - 0.5);
     }
 
 }

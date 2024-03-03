@@ -4,32 +4,26 @@
 
 package frc.robot;
 
-import com.ctre.phoenix6.Utils;
-import com.ctre.phoenix6.hardware.TalonFX;
+
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
-import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.wpilibj.XboxController.Axis;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.commands.IncrementIndexCommand;
+import frc.robot.commands.IncrementIndex1Stage;
+import frc.robot.commands.IntakeCommandGroup;
+import frc.robot.commands.RevAndShootCommand;
 import frc.robot.commands.RunShooter;
 import frc.robot.commands.SetArmPosition;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.NoteSensorSubsystem;
 import frc.robot.subsystems.ShooterSubsystemVelocity;
-import frc.robot.subsystems.WinchSubsystem;
 
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.path.PathPlannerTrajectory;
@@ -37,7 +31,7 @@ import com.pathplanner.lib.path.PathPlannerTrajectory;
 public class RobotContainer {
 
   RunShooter shooterRun;
-  IncrementIndexCommand indexIncrent;
+  IncrementIndex1Stage indexIncrent;
 
   // private final Telemetry logger = new
   // Telemetry(Constants.SystemConstants.MAX_SPEED);
@@ -83,6 +77,11 @@ public class RobotContainer {
   private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
   private final Telemetry logger = new Telemetry(MaxSpeed);
 
+  /* TODO For testing autonomous files built with PathPlanner */
+  private Command autonTesting = drivetrain.getAutoPath("S3-N1-N8-ShotC-N7");
+
+  private final IntakeCommandGroup intakeGroup = new IntakeCommandGroup(index, intake);
+
 
   private final SetArmPosition setArmPositionCommand = new SetArmPosition(arm, 20);
 
@@ -92,8 +91,9 @@ public class RobotContainer {
   // private Command autonTesting = drivetrain.getAutoPath("Test");
 
   public RobotContainer() {
+    
+    indexIncrent = new IncrementIndex1Stage(index);
 
-    indexIncrent = new IncrementIndexCommand(index);
     shooter = new ShooterSubsystemVelocity();
 
     // Set up our pathplanenr stuff
@@ -101,28 +101,30 @@ public class RobotContainer {
     // NamedCommands.registerCommand("SetArmLowPose", new SetArmPosition(arm, Constants.ArmConstants.ARM_LOW_POSE)); 
     // NamedCommands.registerCommand("SetArmHomePose", new SetArmPosition(arm, Constants.ArmConstants.ARM_HOME_POSE));
 
-    /*
-     * arm.setDefaultCommand(
-     * arm.run(() ->
-     * arm.Drive(((m_operatorController.axisLessThan(Axis.kLeftY.value,
-     * -0.1).getAsBoolean() ||
-     * (m_operatorController.axisGreaterThan(Axis.kLeftY.value, 0.1))
-     * .getAsBoolean()) ? m_operatorController.getLeftY() : 0))));
-     */
+    // arm.setDefaultCommand(
+    // arm.run(() -> arm(((m_operatorController.axisLessThan(Axis.kLeftY.value,
+    // -0.1).getAsBoolean() ||
+    // (m_operatorController.axisGreaterThan(Axis.kLeftY.value, 0.1))
+    // .getAsBoolean()) ? m_operatorController.getLeftY() : 0))));
 
     // // intake run depending on driver bumper status
-    intake.setDefaultCommand(intake.run(() -> intake.Run(0.25 * -BumperStatus(0))));
+    // ORIGINAL intake.setDefaultCommand(intake.run(() -> intake.Run(0.75 * -BumperStatus(0))));
+    // intake.setDefaultCommand(intakeGroupCommand);
+
+
     index.setDefaultCommand(index.run(() -> index.SetPower(BumperStatus(1))));
+    /* 
     shooter.setDefaultCommand(shooter.run(() -> shooter.SetOutput(
         // ! cool but unintuitive
         Math.max(m_operatorController.getLeftTriggerAxis() * 0.5 * 60,
             m_operatorController.getRightTriggerAxis() * 60))));
-
+    */
     configureBindings();
     DebugMethodSingle();
   }
 
   private void configureBindings() {
+
     drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
         drivetrain.applyRequest(() -> drive.withVelocityX(-m_driverController.getLeftY() * MaxSpeed) // Drive forward
                                                                                                      // with
@@ -141,13 +143,22 @@ public class RobotContainer {
     // reset the field-centric heading on left bumper press
     m_driverController.start().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
 
-
-    /* This command call works now. Not sure if there are advantages/disadvantages to either */
-    //     m_driverController.y().whileTrue(new SetArmPosition(arm, 15)); */
+    /* This command call works now. Not sure if there are advantages/disadvantages to one or the other */
+    /* m_driverController.y().whileTrue(new SetArmPosition(arm, 15)); */
     m_driverController.a().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_HOME_POSE)));
     m_driverController.b().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_LOW_POSE)));
     m_driverController.x().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_AMP_POSE)));
     m_driverController.y().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_MID_POSE)));
+
+    m_driverController.rightBumper().whileTrue(new IntakeCommandGroup(index, intake));
+
+    m_driverController.rightTrigger().whileTrue(new RevAndShootCommand(index, shooter));
+    m_driverController.rightTrigger().whileFalse(new InstantCommand(() -> shooter.SetOutput(0)));
+
+    // m_driverController.rightBumper().whileTrue(new InstantCommand(() -> intake.Run(0.75)));
+
+    // Needs to be reversed
+    m_driverController.leftBumper().whileTrue(new IntakeCommandGroup(index, intake));
 
   };
 
@@ -164,14 +175,12 @@ public class RobotContainer {
     // var driverDiagnostics = Shuffleboard.getTab("Driver Diagnostics");
     var driverDiagnostics = Shuffleboard.getTab("Driver Diagnostics");
 
-    // Throwing errors
-    /*
-     * driverDiagnostics.addBoolean("Note Detected", () -> index.HasCargo());
-     * driverDiagnostics.addDouble("Arm Rot", () ->
-     * arm.GetArmPos().getValueAsDouble());
-     * driverDiagnostics.addDouble("Arm Rot Deg", () -> arm.GetPositionDegrees());
-     * arm.showArmTelemetry("Driver Diagnostics");
-     */
+    // driverDiagnostics.addBoolean("Note Detected", () -> index.HasCargo());
+    // driverDiagnostics.addDouble("Arm Rot", () ->
+    // arm.GetArmPos().getValueAsDouble());
+    // driverDiagnostics.addDouble("Arm Rot Deg", () -> arm.GetPositionDegrees());
+    // arm.showArmTelemetry("Driver Diagnostics");
+
     // #endregion Testing
   }
 
@@ -188,7 +197,6 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    /* irst put the drivetrain into auto run mode, then run the auto */
-    return null;
+    return autonTesting;
   }
 }
