@@ -5,10 +5,12 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.TrackLL;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.ArmSubsytem;
-import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.CommandSwerveDrivetrain;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.subsystems.OrchestraSubsystem;
 import frc.robot.subsystems.WinchSubsystem;
 
@@ -62,7 +64,9 @@ public class RobotContainer {
   IntakeSubsystem intake;
   OrchestraSubsystem daTunes;
   WinchSubsystem winch;
-  ArmSubsytem arm;
+  ArmSubsystem arm;
+  VisionSubsystem visionSub;
+
   // #endregion Subsystems
 
   private final CommandXboxController m_driverController = new CommandXboxController(
@@ -101,9 +105,9 @@ public class RobotContainer {
     shooter = new ShooterSubsystem(shooterMotorMain, shooterMotorSub);
     shooter.SetStatePower(1);
     shooter.SetRatio(1);
-    arm.setDefaultCommand(arm.DriveCommand(m_driverController.getLeftY()));
+    //arm.setDefaultCommand(arm.DriveCommand(m_driverController.getLeftY()));
     // intake run depending on driver bumper status
-    intake.setDefaultCommand(intake.run(() -> intake.Run(() -> BumperStatus(0))));
+    //intake.setDefaultCommand(intake.run(() -> intake.Run(() -> BumperStatus(0))));
     shooter.setDefaultCommand(shooter.RunShooter(m_operatorController.getRightTriggerAxis()));
     drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
         drivetrain
@@ -135,7 +139,7 @@ public class RobotContainer {
     // m_driverController.a().whileTrue(drivetrain.applyRequest(() -> brake));
     // m_driverController.b().whileTrue(drivetrain.applyRequest(() -> point
         // .withModuleDirection(new Rotation2d(-m_driverController.getLeftY(), -m_driverController.getLeftX()))));
-
+  m_driverController.x().onTrue(new InstantCommand(() -> visionSub.turnLL()));
     // reset the field-centric heading on back press
     // Instant command because it doesn't set a requirment. In short, creating a
     // requirement may block this or cancel another (say, driving)
@@ -173,9 +177,9 @@ public class RobotContainer {
     incrementDistanceEntry = testerDiagnostics.add("Increment Distance (Control)", 20).getEntry();
     testerDiagnostics.addBoolean("Shooter Running", () -> shooter.Running());
     // testerDiagnostics.addDouble("Net Arm Angle", () -> arm.GetPositionDegreesAbsolulte());
-    testerDiagnostics.addDouble("Net Arm Encoder", () -> arm.GetPositionEncoder());
+    //testerDiagnostics.addDouble("Net Arm Encoder", () -> arm.GetPositionEncoder());
     testerDiagnostics.addDouble("Winch Input", () -> winch.GetControl());
-    testerDiagnostics.addBoolean("Note Detected", () -> intake.HasCargo());
+    //testerDiagnostics.addBoolean("Note Detected", () -> intake.HasCargo());
     testerDiagnostics.addDouble("Shooter Danger Level", () -> shooter.GetDanger());
     testerDiagnostics.addBoolean("Fatal Danger", () -> shooter.IsDangerous());
     // #endregion Testing

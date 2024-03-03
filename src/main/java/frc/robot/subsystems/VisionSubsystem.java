@@ -14,6 +14,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class VisionSubsystem extends SubsystemBase {
 
@@ -67,9 +68,8 @@ public class VisionSubsystem extends SubsystemBase {
     }
 
     // vison constants
-    double CAMERA_HEIGHT = 18.9; //taz 1 on green cart, change to new bot height
-    double WALL_DISTANCE = 200; // placeholder value 
-
+    double CAMERA_HEIGHT = 56; //crescendo bot height from floor to middle of LL camera
+    
     //gets the ID of the selected apriltag
     public double getID(){
         return tid.getDouble(-1.0);
@@ -224,15 +224,14 @@ public class VisionSubsystem extends SubsystemBase {
         }
     }
 
-ArmSubsytem arm = new ArmSubsytem();
+ArmSubsystem arm = new ArmSubsystem();
 
 @Override
 public void periodic(){
     double TAG_ID = getID();
     double DISTANCE = DISTANCE_CALCULATIONS();
-    if((TAG_ID == 5.0)&&(DISTANCE >= 100)){
-        System.out.println("ooga booga");
-        arm.SnapToAbsolutePosition(2);
+    if((TAG_ID == 6.0)&&(DISTANCE <= 100)){ //5 if red/right, 6 if blue/left
+        arm.setArmPose(55);
     }
 }
 

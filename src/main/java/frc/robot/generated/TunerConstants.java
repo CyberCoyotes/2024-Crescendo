@@ -8,7 +8,7 @@ import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.ClosedLoopOutputType;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants.SteerFeedbackType;
 
 import edu.wpi.first.math.util.Units;
-import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.CommandSwerveDrivetrain;
 
 public class TunerConstants {
         // Both sets of gains need to be tuned to your individual robot.
@@ -63,8 +63,8 @@ public class TunerConstants {
         private static final double kDriveFrictionVoltage = 0.25;
 
         private static final SwerveDrivetrainConstants DrivetrainConstants = new SwerveDrivetrainConstants()
-                        .withPigeon2Id(kPigeonId)
-                        .withCANbusName(kCANbusName);
+                        .withPigeon2Id(kPigeonId);
+                        // .withCANbusName(kCANbusName);
 
         private static final SwerveModuleConstantsFactory ConstantCreator = new SwerveModuleConstantsFactory()
                         .withDriveMotorGearRatio(kDriveGearRatio)
