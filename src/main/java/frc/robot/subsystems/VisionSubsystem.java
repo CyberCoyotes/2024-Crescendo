@@ -223,5 +223,18 @@ public class VisionSubsystem extends SubsystemBase {
             return p2d;
         }
     }
+
+ArmSubsytem arm = new ArmSubsytem();
+
+@Override
+public void periodic(){
+    double TAG_ID = getID();
+    double DISTANCE = DISTANCE_CALCULATIONS();
+    if((TAG_ID == 5.0)&&(DISTANCE >= 100)){
+        System.out.println("ooga booga");
+        arm.SnapToAbsolutePosition(2);
+    }
+}
+
 }
 // end of class
