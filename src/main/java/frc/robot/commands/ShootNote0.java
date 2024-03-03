@@ -6,10 +6,11 @@ import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystemVelocity;
 
-public class PresetA_CG extends SequentialCommandGroup {
-    public PresetA_CG(ArmSubsystem arm, IndexSubsystem index, IntakeSubsystem intake, ShooterSubsystemVelocity shooter) {
+public class ShootNote0 extends SequentialCommandGroup {
+    public ShootNote0(ArmSubsystem arm, IndexSubsystem index, IntakeSubsystem intake, ShooterSubsystemVelocity shooter) {
         addCommands(
-            new SetArmPosition(arm, 20),
+            /* Moving the arm is probably unnecessary */
+            new SetArmPosition(arm, 0),
             new RevAndShootCommand(index, shooter)
         );
     }

@@ -7,8 +7,8 @@ import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystemVelocity;
 
-public class PresetB_CG extends SequentialCommandGroup {
-    public PresetB_CG(ArmSubsystem arm, IndexSubsystem index, IntakeSubsystem intake, ShooterSubsystemVelocity shooter) {
+public class ShootPoseB extends SequentialCommandGroup {
+    public ShootPoseB(ArmSubsystem arm, IndexSubsystem index, IntakeSubsystem intake, ShooterSubsystemVelocity shooter) {
         addCommands(
             new SetArmPosition(arm, Constants.ArmConstants.ARM_LOW_POSE),
             new RevAndShootCommand(index, shooter)
