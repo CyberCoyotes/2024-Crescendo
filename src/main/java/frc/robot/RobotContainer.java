@@ -58,6 +58,9 @@ public class RobotContainer {
   // #region commands
 
   // #endregion
+
+  
+
   private double MaxSpeed = TunerConstants.kSpeedAt12VoltsMps; // kSpeedAt12VoltsMps desired top speed
   private double MaxAngularRate = 1.5 * Math.PI; // 3/4 of a rotation per second max angular velocity
 
@@ -87,33 +90,20 @@ public class RobotContainer {
   final IntakeRevCommandGroup intakeRevGroup = new IntakeRevCommandGroup(index, intake);
   //final SetIndex indexing = new SetIndex(index, power);
 
-
-  // Example
-  private final SetArmPosition setArmPositionCommand = new SetArmPosition(arm, 20);
-
-  
-  /* TODO For testing autonomous files built with PathPlanner */
-  // private Command autonTesting = drivetrain.getAutoPath("Start1.0-3-4-5");
-  // private Command autonTesting = drivetrain.getAutoPath("Test");
-
   public RobotContainer() {
     
     indexIncrent = new IncrementIndex1Stage(index);
 
     shooter = new ShooterSubsystemVelocity();
 
-    // Set up our pathplanenr stuff
-    // NamedCommands.registerCommand("RunShooter", new RunShooter(shooter));
-    // NamedCommands.registerCommand("SetArmLowPose", new SetArmPosition(arm, Constants.ArmConstants.ARM_LOW_POSE)); 
-    // NamedCommands.registerCommand("SetArmHomePose", new SetArmPosition(arm, Constants.ArmConstants.ARM_HOME_POSE));
+    // TODO Set up our pathplanenr NamedCommands
+    NamedCommands.registerCommand("Shoot", new RevAndShootCommand(index, shooter));
+    NamedCommands.registerCommand("IntakeOn", new IntakeCommandGroup(index, intake));
+    NamedCommands.registerCommand("ArmHome", new SetArmPosition(arm, Constants.ArmConstants.ARM_HOME_POSE));
+    NamedCommands.registerCommand("ArmLow", new SetArmPosition(arm, Constants.ArmConstants.ARM_LOW_POSE)); 
 
     index.setDefaultCommand(index.run(() -> index.SetPower(BumperStatus(1))));
-    /* 
-    shooter.setDefaultCommand(shooter.run(() -> shooter.SetOutput(
-        // ! cool but unintuitive
-        Math.max(m_operatorController.getLeftTriggerAxis() * 0.5 * 60,
-            m_operatorController.getRightTriggerAxis() * 60))));
-    */
+ 
     configureBindings();
     DebugMethodSingle();
   }
