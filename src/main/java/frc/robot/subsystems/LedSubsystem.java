@@ -22,7 +22,9 @@ import com.ctre.phoenix.led.CANdleConfiguration;
 import com.ctre.phoenix.led.ColorFlowAnimation;
 import com.ctre.phoenix.led.ColorFlowAnimation.Direction;
 
-
+import edu.wpi.first.hal.AllianceStationID;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -33,6 +35,7 @@ public class LedSubsystem extends SubsystemBase {
    private final int LedCount = 69;
    public enum AnimationTypes {
       ColorFlowRed,
+      ColorFlowBlue,
       // Fire, 
       // Larson, 
       // Rainbow,
@@ -109,6 +112,10 @@ public class LedSubsystem extends SubsystemBase {
       m_candle.animate(m_toAnimate);
       changeAnimation(AnimationTypes.ColorFlowRed);
    }
+   public void ColorFlowBlue() {
+      m_candle.animate(m_toAnimate);
+      changeAnimation(AnimationTypes.ColorFlowBlue);
+   }
    /*******************************
     * Color | RGB Values
     * ----------------------------
@@ -131,11 +138,19 @@ public class LedSubsystem extends SubsystemBase {
      case ColorFlowRed:
        m_toAnimate = new ColorFlowAnimation(255, 0, 0, 0, 0.7, LedCount, Direction.Forward);
        break;
+        case ColorFlowBlue:
+       m_toAnimate = new ColorFlowAnimation(0, 0, 255, 0, 0.7, LedCount, Direction.Forward);
+       break;
      case AnimationsOff:
          m_toAnimate = null;
     break;
    }
 
-   System.out.println("Changed to " + m_currentAnimation.toString());
+   // System.out.println("Changed to " + m_currentAnimation.toString());
+   }
+
+   public void ColorFlowAlliance() {
+   
+   ColorFlowRed();
    }
 } // end of class LedSubsystem

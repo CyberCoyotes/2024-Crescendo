@@ -108,7 +108,11 @@ public class ArmSubsystem extends SubsystemBase {
         /* Reusing from drivetrain subsystem */
         return m_arm.getPosition();
     }
+    @Override
+    public void periodic() {
+        
 
+    }
     public void setArmPose(double armPose) {
 
         m_arm.setControl(

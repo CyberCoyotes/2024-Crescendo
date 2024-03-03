@@ -70,7 +70,7 @@ public class NoteSensorSubsystem extends SubsystemBase {
             m_ledSubsystem.ColorGreen();
 
         } else if (isNoteLoaded() == false) {
-            m_ledSubsystem.ColorFlowRed();
+            m_ledSubsystem.ColorFlowAlliance();
 
         }
     }

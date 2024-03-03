@@ -3,7 +3,7 @@
   "startingPose": {
     "position": {
       "x": 0.45,
-      "y": 2.0
+      "y": 7.0
     },
     "rotation": 180.0
   },
@@ -18,16 +18,22 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "2meters"
+                  "pathName": "S1-Shoot0"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "IntakeOn"
+                  "name": "ArmHome"
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
           }
         }
       ]
