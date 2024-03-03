@@ -15,6 +15,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.IncrementIndex1Stage;
+import frc.robot.commands.IntakeCommandGroup;
+import frc.robot.commands.RevAndShootCommand;
 import frc.robot.commands.RunShooter;
 import frc.robot.commands.SetArmPosition;
 import frc.robot.generated.TunerConstants;
@@ -78,6 +80,8 @@ public class RobotContainer {
   /* TODO For testing autonomous files built with PathPlanner */
   private Command autonTesting = drivetrain.getAutoPath("Start1.0-3-4-5");
 
+  private final IntakeCommandGroup intakeGroup = new IntakeCommandGroup(index, intake);
+
   private final SetArmPosition setArmPositionCommand = new SetArmPosition(arm, 20);
 
   public RobotContainer() {
@@ -96,13 +100,17 @@ public class RobotContainer {
     // .getAsBoolean()) ? m_operatorController.getLeftY() : 0))));
 
     // // intake run depending on driver bumper status
-    intake.setDefaultCommand(intake.run(() -> intake.Run(0.25 * -BumperStatus(0))));
+    // ORIGINAL intake.setDefaultCommand(intake.run(() -> intake.Run(0.75 * -BumperStatus(0))));
+    // intake.setDefaultCommand(intakeGroupCommand);
+
+
     index.setDefaultCommand(index.run(() -> index.SetPower(BumperStatus(1))));
+    /* 
     shooter.setDefaultCommand(shooter.run(() -> shooter.SetOutput(
         // ! cool but unintuitive
         Math.max(m_operatorController.getLeftTriggerAxis() * 0.5 * 60,
             m_operatorController.getRightTriggerAxis() * 60))));
-
+    */
     configureBindings();
     DebugMethodSingle();
   }
@@ -128,11 +136,21 @@ public class RobotContainer {
     m_driverController.start().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
 
     /* This command call works now. Not sure if there are advantages/disadvantages to one or the other */
-    //     m_driverController.y().whileTrue(new SetArmPosition(arm, 15)); */
+    /* m_driverController.y().whileTrue(new SetArmPosition(arm, 15)); */
     m_driverController.a().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_HOME_POSE)));
     m_driverController.b().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_LOW_POSE)));
     m_driverController.x().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_AMP_POSE)));
     m_driverController.y().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_MID_POSE)));
+
+    m_driverController.rightBumper().whileTrue(new IntakeCommandGroup(index, intake));
+
+    m_driverController.rightTrigger().whileTrue(new RevAndShootCommand(index, shooter));
+    m_driverController.rightTrigger().whileFalse(new InstantCommand(() -> shooter.SetOutput(0)));
+
+    // m_driverController.rightBumper().whileTrue(new InstantCommand(() -> intake.Run(0.75)));
+
+    // Needs to be reversed
+    m_driverController.leftBumper().whileTrue(new IntakeCommandGroup(index, intake));
 
   };
 
