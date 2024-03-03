@@ -18,6 +18,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "SetArmLowPose"
+          }
+        },
+        {
           "type": "wait",
           "data": {
             "waitTime": 0.15
@@ -68,6 +74,6 @@
       ]
     }
   },
-  "folder": "StartingPose1",
+  "folder": null,
   "choreoAuto": false
 }
