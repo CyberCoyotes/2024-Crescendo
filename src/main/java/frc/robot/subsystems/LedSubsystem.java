@@ -33,14 +33,14 @@ public class LedSubsystem extends SubsystemBase {
    private final int LedCount = 69;
    public enum AnimationTypes {
       ColorFlowRed,
-      Fire, 
-      Larson, 
-      Rainbow,
-      RgbFade,
-      SingleFade,
-      Strobe,
-      Twinkle,
-      TwinkleOff,
+      // Fire, 
+      // Larson, 
+      // Rainbow,
+      // RgbFade,
+      // SingleFade,
+      // Strobe,
+      // Twinkle,
+      // TwinkleOff,
       AnimationsOff
   }
 
