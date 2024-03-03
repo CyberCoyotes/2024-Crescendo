@@ -22,9 +22,7 @@ public class IntakeRevCommandGroup extends SequentialCommandGroup {
         addCommands(
                 new ParallelCommandGroup(
                     // Run Intake in reverse
-                    /* TODO Looking at other RunIntake command, negative seems to be pulling
-                    notes IN, so a positive would be reversed, pushing notes out.
-                    My OCD is twitching and maybe we should be reverse the motor */ 
+                
                     new SetIntake(intake, 0.75),  
                     // Run Index in reverse
                     new SetIndex(index, -0.75)
