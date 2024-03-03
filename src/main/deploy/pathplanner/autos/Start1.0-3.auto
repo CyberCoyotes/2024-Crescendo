@@ -16,6 +16,31 @@
           "data": {
             "pathName": "S1-Shoot0-N3"
           }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "SetArmLowPose"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.5
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "SetArmHomePose"
+                }
+              }
+            ]
+          }
         }
       ]
     }
