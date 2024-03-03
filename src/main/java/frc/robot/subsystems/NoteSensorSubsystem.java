@@ -8,9 +8,14 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import java.util.Optional;
+
 import com.playingwithfusion.TimeOfFlight;
 import com.playingwithfusion.TimeOfFlight.RangingMode;
 
+import edu.wpi.first.hal.AllianceStationID;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
@@ -59,19 +64,24 @@ public class NoteSensorSubsystem extends SubsystemBase {
         return noteDistance.getRange() < noteDistanceCheck; // return NoteDistance.
     }
 
-    public void setLEDColor() {
+   
+     public void setLEDColor() {
         /*
          * Set the LED color based on the note position.
          * Requires 'isNoteLoadeded' value and two led methods
          */
+        Optional<Alliance> AllianceColor = DriverStation.getAlliance();
         if (isNoteLoaded() == true) {
             // Decided loaded color = green
 
             m_ledSubsystem.ColorGreen();
 
         } else if (isNoteLoaded() == false) {
+            
+            if(AllianceColor.get() == Alliance.Red)
             m_ledSubsystem.ColorFlowRed();
-
+            } else if(AllianceColor.get() == Alliance.Blue) {
+            m_ledSubsystem.ColorFlowBlue(); 
         }
     }
 
