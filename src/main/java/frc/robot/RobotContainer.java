@@ -191,7 +191,7 @@ public class RobotContainer {
     m_driverController.rightBumper().whileTrue(new IntakeCommandGroup(index, intake));
     m_driverController.leftBumper().whileTrue(new IntakeRevCommandGroup(index, intake));
 
-    m_driverController.rightTrigger().whileTrue(new RevAndShootCommand(index, shooter));
+    m_driverController.rightTrigger().whileTrue(new ShootPoseA(arm, index, intake, shooter));
     m_driverController.rightTrigger().whileFalse(new InstantCommand(() -> shooter.SetOutput(0)));
     m_driverController.leftTrigger().whileTrue(new SetIndex(index,-0.75));
 

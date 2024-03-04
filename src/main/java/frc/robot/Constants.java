@@ -102,8 +102,8 @@ public final class Constants {
   }
 
   public static class IndexConstants {
-    public static final double INDEX_POWER = -1.0;
-    public static final double INDEX_POWER_REV = 0.75;
+    public static final double INDEX_POWER = 1.0;
+    public static final double INDEX_POWER_REV = -0.75;
 
   }
 
