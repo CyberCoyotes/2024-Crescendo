@@ -123,18 +123,22 @@ public class RobotContainer {
     SmartDashboard.putData("Auto Chooser", autoChooser);
     /* Unintended side effect is this will create EVERY auton file from the RIO deploy folder. See solution below */
 
-    // FIXME indexIncrent = new IncrementIndex1Stage(index);
-
+    // FIXME I don't know if this is needed but seems undefined 
+    // indexIncrent = new IncrementIndex1Stage(index);
+    
     shooter = new ShooterSubsystemVelocity();
 
     index.setDefaultCommand(index.run(() -> index.SetPower(BumperStatus(1))));
+
 /* 
+
     arm.setDefaultCommand(
         arm.run(() -> arm.Drive(((m_operatorController.axisLessThan(Axis.kLeftY.value,
             -0.1).getAsBoolean() ||
             (m_operatorController.axisGreaterThan(Axis.kLeftY.value, 0.1))
                 .getAsBoolean()) ? m_operatorController.getLeftY() : 0))));
 */
+
     // // intake run depending on driver bumper status
     // ORIGINAL intake.setDefaultCommand(intake.run(() -> intake.Run(0.75 *
     // -BumperStatus(0))));
@@ -210,7 +214,6 @@ public class RobotContainer {
     // var driverDiagnostics = Shuffleboard.getTab("Driver Diagnostics");
     var driverDiagnostics = Shuffleboard.getTab("Driver Diagnostics");
 
-    // driverDiagnostics.add("Test Auton", autonTesting);
     driverDiagnostics.add(autoChooser);
 
     driverDiagnostics.addBoolean("Note Detected", () -> index.HasCargo());
