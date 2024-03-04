@@ -21,6 +21,8 @@ import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.IntakeCommandGroup;
 import frc.robot.commands.IntakeRevCommandGroup;
+import frc.robot.commands.IntakeAuton;
+import frc.robot.commands.IndexAuton;
 import frc.robot.commands.RevAndShootCommand;
 import frc.robot.commands.RunShooter;
 import frc.robot.commands.SetArmPosition;
@@ -107,6 +109,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("Shoot", new RevAndShootCommand(index, shooter).withTimeout(.5));
     NamedCommands.registerCommand("ShootOff", new RevAndShootCommand(index, shooter));;
     // NamedCommands.registerCommand("Loaded", new (index, shooter));;
+    NamedCommands.registerCommand("Index", new IndexAuton(index));
     NamedCommands.registerCommand("IntakeOn", new IntakeCommandGroup(index, intake));
     NamedCommands.registerCommand("IntakeOff", new IntakeCommandGroup(index, intake));
     NamedCommands.registerCommand("ArmHome", new SetArmPosition(arm, Constants.ArmConstants.ARM_HOME_POSE));

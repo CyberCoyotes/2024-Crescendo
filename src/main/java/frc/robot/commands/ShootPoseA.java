@@ -6,11 +6,12 @@ import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystemVelocity;
 
+
 public class ShootPoseA extends SequentialCommandGroup {
     public ShootPoseA(ArmSubsystem arm, IndexSubsystem index, IntakeSubsystem intake, ShooterSubsystemVelocity shooter) {
         addCommands(
-            new SetArmPosition(arm, 20),
-            new RevAndShootCommand(index, shooter)
+            new IndexAuton(index).withTimeout(1) // Assuming IntakeAuton takes IntakeSubsystem as a parameter
         );
+
     }
 }
