@@ -65,8 +65,8 @@ public class TunerConstants {
         private static final double kDriveFrictionVoltage = 0.25;
 
         private static final SwerveDrivetrainConstants DrivetrainConstants = new SwerveDrivetrainConstants()
-                        .withPigeon2Id(kPigeonId)
-                        .withCANbusName(kCANbusName);
+                        .withPigeon2Id(kPigeonId);
+        // .withCANbusName(kCANbusName);
 
         private static final SwerveModuleConstantsFactory ConstantCreator = new SwerveModuleConstantsFactory()
                         .withDriveMotorGearRatio(kDriveGearRatio)

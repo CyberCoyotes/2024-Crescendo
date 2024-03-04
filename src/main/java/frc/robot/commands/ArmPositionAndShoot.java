@@ -10,7 +10,7 @@ import frc.robot.subsystems.ShooterSubsystemVelocity;
 public class ArmPositionAndShoot extends SequentialCommandGroup {
     // The time to rev the shooter
     double time = 0.2;
-    double velo = 60;
+    double velo = 60; // ideal velocity
 
     public ArmPositionAndShoot(ArmSubsystem arm, ShooterSubsystemVelocity shooter, IndexSubsystem index, int pose) {
         // ORIGINAL addCommands(new ArmPose(arm, pose), new IncrementIndex1Stage(index),
