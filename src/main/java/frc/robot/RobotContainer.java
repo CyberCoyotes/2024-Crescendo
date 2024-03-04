@@ -119,7 +119,8 @@ public class RobotContainer {
     SmartDashboard.putData("Auto Chooser", autoChooser);
     /* Unintended side effect is this will create EVERY auton file from the RIO deploy folder. See solution below */
 
-    indexIncrent = new IncrementIndex1Stage(index);
+    // FIXME I don't know if this is needed but seems undefined 
+    // indexIncrent = new IncrementIndex1Stage(index);
 
     shooter = new ShooterSubsystemVelocity();
 
@@ -204,7 +205,6 @@ public class RobotContainer {
     // var driverDiagnostics = Shuffleboard.getTab("Driver Diagnostics");
     var driverDiagnostics = Shuffleboard.getTab("Driver Diagnostics");
 
-    driverDiagnostics.add("Test Auton", autonTesting);
     driverDiagnostics.add(autoChooser);
 
     driverDiagnostics.addBoolean("Note Detected", () -> index.HasCargo());

@@ -52,25 +52,6 @@ public class ArmSubsystem extends SubsystemBase {
         return (degreePosition) * ArmConstants.DEG_TO_ARM_NATIVE;
     }
 
-    /**
-     * This calls a 'long form' of MotionMagicVoltage
-     * 
-     * @deprecated This creates a new MotionMagic object, which is
-     *             processor-intensive. Please find another way, if possible.
-     */
-    @Deprecated()
-
-    public void setArmMotionMagicVoltage(double armPose) {
-        m_motor.setControl(
-                new MotionMagicVoltage(
-                        armPose,
-                        false,
-                        armPose,
-                        Constants.CANIDs.ARM_ID,
-                        false,
-                        false,
-                        false));
-    }
     @Override
     public void periodic() {
         
@@ -79,22 +60,6 @@ public class ArmSubsystem extends SubsystemBase {
     public void setArmPose(double armPose) {
         m_motor.setControl(
                 positionControl.withPosition(armPose));
-    }
-
-    public void setArmToScorePose1() {
-        setArmPose(10);
-    }
-
-    public void setArmToScorePose2() {
-        setArmPose(20);
-    }
-
-    public void setArmToScorePose3() {
-        setArmPose(30);
-    }
-
-    public void setArmToScorePose4() {
-        setArmPose(40);
     }
 
     public void stopRotation() {
