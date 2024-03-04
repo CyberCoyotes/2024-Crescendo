@@ -108,6 +108,30 @@
                 "data": {
                   "pathName": "N3-Shoot0"
                 }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.25
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Shoot0-N4"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.25
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "N4-Shoot0"
+                }
               }
             ]
           }

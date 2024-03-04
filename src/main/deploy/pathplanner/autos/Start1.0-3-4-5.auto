@@ -5,7 +5,7 @@
       "x": 0.45,
       "y": 7.0
     },
-    "rotation": 0
+    "rotation": 180.0
   },
   "command": {
     "type": "sequential",
@@ -14,7 +14,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "S1-Shoot0-N3"
+            "pathName": "S1-Shoot0"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SetArmLowPose"
           }
         },
         {
@@ -26,7 +32,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "ShotA-N4"
+            "pathName": "Shoot0-N4"
           }
         },
         {
@@ -38,7 +44,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "N4-ShotA"
+            "pathName": "N4-Shoot0"
           }
         },
         {
@@ -68,6 +74,6 @@
       ]
     }
   },
-  "folder": "StartingPose1",
+  "folder": null,
   "choreoAuto": false
 }

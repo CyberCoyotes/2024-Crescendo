@@ -4,29 +4,36 @@
 
 package frc.robot;
 
+
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.wpilibj.PS4Controller.Axis;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-
+import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-
 import frc.robot.commands.IntakeCommandGroup;
+import frc.robot.commands.IntakeRevCommandGroup;
 import frc.robot.commands.RevAndShootCommand;
 import frc.robot.commands.RunShooter;
 import frc.robot.commands.SetArmPosition;
+import frc.robot.commands.SetIndex;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystemVelocity;
-
 import com.pathplanner.lib.auto.NamedCommands;
 
+// Getting rid of the soft yelling
+@SuppressWarnings("unused")
 public class RobotContainer {
 
   RunShooter shooterRun;
@@ -35,12 +42,14 @@ public class RobotContainer {
   // Telemetry(Constants.SystemConstants.MAX_SPEED);
   // #endregion
   // #region Network Tables
-  SendableChooser<Command> autoChooser;
+
   // Interactable way to change increment distance on arm for High Speed High
   // Fidelity Testing
 
   // #endregion Network Tables
   // #region Subsystems
+
+  /* Subsystems */
   ShooterSubsystemVelocity shooter = new ShooterSubsystemVelocity();
   IntakeSubsystem intake = new IntakeSubsystem();
   IndexSubsystem index = new IndexSubsystem();
@@ -52,7 +61,8 @@ public class RobotContainer {
 
   // #region commands
 
-  // #endregion
+  // #endregion 
+
   private double MaxSpeed = TunerConstants.kSpeedAt12VoltsMps; // kSpeedAt12VoltsMps desired top speed
   private double MaxAngularRate = 1.5 * Math.PI; // 3/4 of a rotation per second max angular velocity
 
@@ -75,19 +85,45 @@ public class RobotContainer {
   private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
   private final Telemetry logger = new Telemetry(MaxSpeed);
 
-  /* TODO For testing autonomous files built with PathPlanner */
-  private Command autonTesting = drivetrain.getAutoPath("Start1.0-3-4-5");
 
+ 
   private final IntakeCommandGroup intakeGroup = new IntakeCommandGroup(index, intake);
+  private final IntakeRevCommandGroup intakeRevGroup = new IntakeRevCommandGroup(index, intake);
+  //final SetIndex indexing = new SetIndex(index, power);
 
-  private final SetArmPosition setArmPositionCommand = new SetArmPosition(arm, 20);
+  /* Manual testing autonomous files built with PathPlanner */
+  // private Command autonTesting = drivetrain.getAutoPath("S3-N1-N8-ShotC-N7");
 
+  /* Autonomous Chooser*/
+  SendableChooser<Command> autoChooser;
+
+  // Constructor of the class
   public RobotContainer() {
+
+
+    /*Pathplanner Named Commands. 
+    See notes at end of class for more information */
+    
+    NamedCommands.registerCommand("Shoot", new RevAndShootCommand(index, shooter).withTimeout(.5));
+    NamedCommands.registerCommand("ShootOff", new RevAndShootCommand(index, shooter));;
+    // NamedCommands.registerCommand("Loaded", new (index, shooter));;
+    NamedCommands.registerCommand("IntakeOn", new IntakeCommandGroup(index, intake));
+    NamedCommands.registerCommand("IntakeOff", new IntakeCommandGroup(index, intake));
+    NamedCommands.registerCommand("ArmHome", new SetArmPosition(arm, Constants.ArmConstants.ARM_HOME_POSE));
+    NamedCommands.registerCommand("ArmLow", new SetArmPosition(arm, Constants.ArmConstants.ARM_LOW_POSE));
+    NamedCommands.registerCommand("ArmMid", new SetArmPosition(arm, Constants.ArmConstants.ARM_MID_POSE)); 
+    NamedCommands.registerCommand("RunShooter", new RunShooter(shooter));
+
+    /* Autos */
+    autoChooser = AutoBuilder.buildAutoChooser();
+    SmartDashboard.putData("Auto Chooser", autoChooser);
+    /* Unintended side effect is this will create EVERY auton file from the RIO deploy folder. See solution below */
+
+    indexIncrent = new IncrementIndex1Stage(index);
 
     shooter = new ShooterSubsystemVelocity();
 
-    // Set up our pathplanenr stuff
-    NamedCommands.registerCommand("RunShooter", new RunShooter(shooter));
+    index.setDefaultCommand(index.run(() -> index.SetPower(BumperStatus(1))));
 
     arm.setDefaultCommand(
         arm.run(() -> arm.Drive(((m_operatorController.axisLessThan(Axis.kLeftY.value,
@@ -114,15 +150,20 @@ public class RobotContainer {
   private void configureBindings() {
 
     drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
-        drivetrain.applyRequest(() -> drive.withVelocityX(-m_driverController.getLeftY() * MaxSpeed) // Drive forward
-                                                                                                     // with
-            // negative Y (forward)
+      // Drive forward with negative Y (forward)
+        drivetrain.applyRequest(() -> drive.withVelocityX(-m_driverController.getLeftY() * MaxSpeed) 
             .withVelocityY(-m_driverController.getLeftX() * MaxSpeed) // Drive left with negative X (left)
             .withRotationalRate(-m_driverController.getRightX() * MaxAngularRate) // Drive counterclockwise with
                                                                                   // negative X (left)
         ));
 
     // m_driverController.a().whileTrue(drivetrain.applyRequest(() -> brake));
+    /* m_driverController.b().whileTrue(drivetrain
+        .applyRequest(() -> point
+            .withModuleDirection(new Rotation2d(-m_driverController.getLeftY(), -m_driverController.getLeftX()))));
+    */
+    
+    // reset the field-centric heading
     /*
      * m_driverController.b().whileTrue(drivetrain
      * .applyRequest(() -> point
@@ -144,15 +185,11 @@ public class RobotContainer {
     m_driverController.y().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_MID_POSE)));
 
     m_driverController.rightBumper().whileTrue(new IntakeCommandGroup(index, intake));
+    m_driverController.leftBumper().whileTrue(new IntakeRevCommandGroup(index, intake));
 
     m_driverController.rightTrigger().whileTrue(new RevAndShootCommand(index, shooter));
     m_driverController.rightTrigger().whileFalse(new InstantCommand(() -> shooter.SetOutput(0)));
-
-    // m_driverController.rightBumper().whileTrue(new InstantCommand(() ->
-    // intake.Run(0.75)));
-
-    // Needs to be reversed
-    m_driverController.leftBumper().whileTrue(new IntakeCommandGroup(index, intake));
+    m_driverController.leftTrigger().whileTrue(new SetIndex(index,-0.75));
 
   };
 
@@ -191,7 +228,23 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    /* irst put the drivetrain into auto run mode, then run the auto */
     return autoChooser.getSelected();
   }
-}
+} // End of class
+
+
+
+/* NOTES & REFERENCES
+/* Pathplanner
+/* Named commands must be registered before the creation of any 
+  PathPlanner Autos or Paths. It is recommended to do this in RobotContainer, 
+  after subsystem initialization, but before the creation of any other commands.
+  REFERENCE https://pathplanner.dev/pplib-named-commands.html
+  */
+
+  /* SSH into Rio
+  Using the easy button for auton has side effects.
+  (https://pathplanner.dev/pplib-build-an-auto.html#create-a-sendablechooser-with-all-autos-in-project)
+  Remedy is to SSH into the Rio and delete the autos you don't want.
+  https://docs.wpilib.org/en/stable/docs/software/roborio-info/roborio-ssh.html
+  */

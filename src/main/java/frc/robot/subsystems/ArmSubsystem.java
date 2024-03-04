@@ -71,7 +71,11 @@ public class ArmSubsystem extends SubsystemBase {
                         false,
                         false));
     }
+    @Override
+    public void periodic() {
+        
 
+    }
     public void setArmPose(double armPose) {
         m_motor.setControl(
                 positionControl.withPosition(armPose));

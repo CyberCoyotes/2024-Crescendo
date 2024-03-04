@@ -33,14 +33,16 @@ public class LedSubsystem extends SubsystemBase {
    private final int LedCount = 69;
    public enum AnimationTypes {
       ColorFlowRed,
-      Fire, 
-      Larson, 
-      Rainbow,
-      RgbFade,
-      SingleFade,
-      Strobe,
-      Twinkle,
-      TwinkleOff,
+      ColorFlowRedReverse,
+      ColorFlowBlue,
+      // Fire, 
+      // Larson, 
+      // Rainbow,
+      // RgbFade,
+      // SingleFade,
+      // Strobe,
+      // Twinkle,
+      // TwinkleOff,
       AnimationsOff
   }
 
@@ -98,16 +100,25 @@ public class LedSubsystem extends SubsystemBase {
    }
 
    public void ColorBlue() {
+      AnimeOFFMaybe();
       m_candle.setLEDs(0, 0, 255);
    }
 
    public void ColorYellow() {
       m_candle.setLEDs(255, 255, 0);
    }
-   
+  
    public void ColorFlowRed() {
       m_candle.animate(m_toAnimate);
       changeAnimation(AnimationTypes.ColorFlowRed);
+   }
+    public void ColorFlowRedReverse() {
+      m_candle.animate(m_toAnimate);
+      changeAnimation(AnimationTypes.ColorFlowRedReverse);
+   }
+    public void ColorFlowBlue() {
+      m_candle.animate(m_toAnimate);
+      changeAnimation(AnimationTypes.ColorFlowBlue);
    }
    /*******************************
     * Color | RGB Values
@@ -130,6 +141,12 @@ public class LedSubsystem extends SubsystemBase {
       {
      case ColorFlowRed:
        m_toAnimate = new ColorFlowAnimation(255, 0, 0, 0, 0.7, LedCount, Direction.Forward);
+       break;
+     case ColorFlowRedReverse:
+       m_toAnimate = new ColorFlowAnimation(255, 0, 0, 0, 0.7, LedCount, Direction.Backward);
+       break; 
+     case ColorFlowBlue:
+       m_toAnimate = new ColorFlowAnimation(0, 0, 255,0 , 0.7, LedCount, Direction.Forward);
        break;
      case AnimationsOff:
          m_toAnimate = null;
