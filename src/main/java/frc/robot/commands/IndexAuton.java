@@ -7,23 +7,25 @@ import frc.robot.subsystems.IndexSubsystem;
  * Run Once or Continuously
  */
 public class IndexAuton extends Command {
-    private IndexSubsystem indexSub;
+    private IndexSubsystem index;
+    private double power;
 
-    public IndexAuton(IndexSubsystem indexSub) {
-        this.indexSub = indexSub;
-        addRequirements(this.indexSub);
+    public IndexAuton(IndexSubsystem index, double power) {
+        this.index = index;
+        this.power = power;
+        addRequirements(this.index);
     }
 
     @Override
     public void initialize() {
-      indexSub.SetPower(0.75);
+      index.SetPower(this.power);
     }
     @Override
     public void execute() {}
   
     @Override
     public void end(boolean interrupted) {
-      indexSub.SetPower(0);
+      index.SetPower(0);
     }
   
     @Override
@@ -31,4 +33,4 @@ public class IndexAuton extends Command {
       return false;
     }
 
-  }
+}

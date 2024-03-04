@@ -23,6 +23,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
         dutyCycle = new DutyCycleOut(0);
         motor.setControl(dutyCycle);
+//        motor.setInverted(false);
 
         // int noteDistanceCheck = Constants.NOTE_DISTANCE_CHECK;
 

@@ -101,6 +101,22 @@ public final class Constants {
 
   }
 
+  public static class IndexConstants {
+    public static final double INDEX_POWER = -1.0;
+    public static final double INDEX_POWER_REV = 0.75;
+
+  }
+
+  public static class IntakeConstants {
+    public static final double INTAKE_POWER = 0.75;
+    public static final double INTAKE_POWER_REV = -0.75;
+    
+  }
+
+  public static class ShooterConstants {
+    public static final double SHOOTER_VELOCITY = 60;
+  }
+
   public static class SystemConstants {
 
     public static final double MAX_SPEED = 6; // 6 meters per second desired top speed
