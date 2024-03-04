@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.5,
-        "y": 6.9
+        "x": 0.75,
+        "y": 6.65
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.9121552327215285,
-        "y": 6.9
+        "x": 1.5442307248250864,
+        "y": 6.79132703719953
       },
       "isLocked": false,
-      "linkedName": "NotePose3"
+      "linkedName": "PoseA"
     },
     {
       "anchor": {
@@ -66,6 +66,9 @@
   },
   "reversed": false,
   "folder": null,
-  "previewStartingState": null,
+  "previewStartingState": {
+    "rotation": -122.0,
+    "velocity": 0
+  },
   "useDefaultConstraints": false
 }

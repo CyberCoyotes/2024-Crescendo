@@ -18,7 +18,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "S1-Shoot0"
+                  "pathName": "S1-PoseA"
                 }
               },
               {
@@ -84,7 +84,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "Shoot0-N3"
+                        "pathName": "PoseA-N3"
                       }
                     }
                   ]
@@ -106,7 +106,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "N3-Shoot0"
+                  "pathName": "N3-PoseA"
                 }
               },
               {
@@ -118,7 +118,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Shoot0-N4"
+                  "pathName": "PoseA-N4"
                 }
               },
               {
@@ -130,7 +130,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "N4-Shoot0"
+                  "pathName": "N4-PoseA"
                 }
               }
             ]
