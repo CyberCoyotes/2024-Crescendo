@@ -29,3 +29,9 @@ Here's the changes that I really recall.
 ## Commit 4:
 
 - Made some adjustments to arm accel, velo, and stator current limit in accordance with Scoyoc testing
+
+# From SZ-W7_2-Classicer
+
+## Commit 1
+
+- See the todo list; pretty much just axing stuff

@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.configs.VoltageConfigs;
@@ -48,7 +49,8 @@ public class ShooterSubsystemVelocity extends SubsystemBase {
                     .withKV(0.12))
             .withVoltage(new VoltageConfigs().withPeakForwardVoltage(8).withPeakReverseVoltage(-8))
             .withCurrentLimits(
-                    new CurrentLimitsConfigs().withStatorCurrentLimit(100).withStatorCurrentLimitEnable(true));
+                    new CurrentLimitsConfigs().withStatorCurrentLimit(60).withStatorCurrentLimitEnable(true))
+            .withMotorOutput(new MotorOutputConfigs().withNeutralMode(NeutralModeValue.Coast));
 
     // ! Peak output of 8 volts
 
