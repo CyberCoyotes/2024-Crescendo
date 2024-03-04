@@ -18,7 +18,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "S1-Shoot0"
+                  "pathName": "S1-PoseA"
                 }
               },
               {
@@ -74,7 +74,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Shoot0-N3"
+                  "pathName": "PoseA-N3"
                 }
               }
             ]

@@ -18,10 +18,8 @@ public class IndexSubsystem extends SubsystemBase {
 
     }
 
-    double indexPower = 1.0;
-
     public void RunIndexing() {
-        motor.set(ControlMode.PercentOutput, indexPower);
+        motor.set(ControlMode.PercentOutput, Constants.IndexConstants.INDEX_POWER);
     }
 
     public boolean HasCargo() {
