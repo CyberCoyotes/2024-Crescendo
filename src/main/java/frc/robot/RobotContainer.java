@@ -27,6 +27,7 @@ import frc.robot.commands.RevAndShootCommand;
 import frc.robot.commands.RunShooter;
 import frc.robot.commands.SetArmPosition;
 import frc.robot.commands.SetIndex;
+import frc.robot.commands.ShootPoseA;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IndexSubsystem;
@@ -109,7 +110,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("Shoot", new RevAndShootCommand(index, shooter).withTimeout(.5));
     NamedCommands.registerCommand("ShootOff", new RevAndShootCommand(index, shooter));;
     // NamedCommands.registerCommand("Loaded", new (index, shooter));;
-    NamedCommands.registerCommand("Index", new IndexAuton(index));
+    NamedCommands.registerCommand("Index", new ShootPoseA(arm, index, intake, shooter));
     NamedCommands.registerCommand("IntakeOn", new IntakeCommandGroup(index, intake));
     NamedCommands.registerCommand("IntakeOff", new IntakeCommandGroup(index, intake));
     NamedCommands.registerCommand("ArmHome", new SetArmPosition(arm, Constants.ArmConstants.ARM_HOME_POSE));

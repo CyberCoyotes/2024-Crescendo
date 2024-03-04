@@ -24,16 +24,10 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Intake"
+                  "name": "Index"
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
           }
         }
       ]
