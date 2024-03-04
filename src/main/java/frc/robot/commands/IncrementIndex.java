@@ -3,11 +3,11 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IndexSubsystem;
 
-public class IncrementIndexCommand extends Command {
+public class IncrementIndex extends Command {
 
     IndexSubsystem indexer;
 
-    public IncrementIndexCommand(IndexSubsystem indexer) {
+    public IncrementIndex(IndexSubsystem indexer) {
         this.indexer = indexer;
 
         addRequirements(indexer);
@@ -15,13 +15,12 @@ public class IncrementIndexCommand extends Command {
 
     @Override
     public void execute() {
-        indexer.SetPower(-0.25);
+        indexer.SetPower(-0.1);
     }
 
     @Override
     public boolean isFinished() {
-        // Check if there is no note loaded
-        // Will return true if indexer.HasCargo() is false (i.e., there is no cargo)... if I understand this correctly?
+        // Check if there is no note loaded. i.e. HasCargo() returns false
         return !indexer.HasCargo();
     }
 

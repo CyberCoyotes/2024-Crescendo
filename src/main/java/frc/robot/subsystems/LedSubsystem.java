@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.led.Animation;
+
 /* Subsystem class for controlling the LEDs on the robot. used to indicate the status of other subsystems.
 * It will be use data from the Time of Flight sensor data (NoteSensorSubsystem) for determining the load status/position of a 'note'
 * It is also partially cosmetic
@@ -17,6 +19,9 @@ import com.ctre.phoenix.led.CANdle;
 import com.ctre.phoenix.led.CANdle.LEDStripType;
 import com.ctre.phoenix.led.CANdle.VBatOutputMode;
 import com.ctre.phoenix.led.CANdleConfiguration;
+import com.ctre.phoenix.led.ColorFlowAnimation;
+import com.ctre.phoenix.led.ColorFlowAnimation.Direction;
+
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -25,13 +30,29 @@ public class LedSubsystem extends SubsystemBase {
    private final CANdle m_candle = new CANdle(Constants.CANIDs.CANDLE_ID);
 
    /* Update once the LEDs are installed if using Animations */
-   // private final int LedCount = 69;
+   private final int LedCount = 69;
+   public enum AnimationTypes {
+      ColorFlowRed,
+      ColorFlowRedReverse,
+      ColorFlowBlue,
+      // Fire, 
+      // Larson, 
+      // Rainbow,
+      // RgbFade,
+      // SingleFade,
+      // Strobe,
+      // Twinkle,
+      // TwinkleOff,
+      AnimationsOff
+  }
 
    /* Constructor */
-   // private AnimationTypes m_currentAnimation;
+   private AnimationTypes m_currentAnimation;
+   public Animation m_toAnimate = null;
+
    public LedSubsystem() {
       // this.joystick = joy;
-      // changeAnimation(AnimationTypes.SetAll);
+      changeAnimation(AnimationTypes.AnimationsOff);
       CANdleConfiguration configAll = new CANdleConfiguration();
       configAll.statusLedOffWhenActive = true;
       configAll.disableWhenLOS = false;
@@ -74,17 +95,31 @@ public class LedSubsystem extends SubsystemBase {
    }
 
    public void ColorGreen() {
+      AnimeOFFMaybe();
       m_candle.setLEDs(0, 255, 0);
    }
 
    public void ColorBlue() {
+      AnimeOFFMaybe();
       m_candle.setLEDs(0, 0, 255);
    }
 
    public void ColorYellow() {
       m_candle.setLEDs(255, 255, 0);
    }
-
+  
+   public void ColorFlowRed() {
+      m_candle.animate(m_toAnimate);
+      changeAnimation(AnimationTypes.ColorFlowRed);
+   }
+    public void ColorFlowRedReverse() {
+      m_candle.animate(m_toAnimate);
+      changeAnimation(AnimationTypes.ColorFlowRedReverse);
+   }
+    public void ColorFlowBlue() {
+      m_candle.animate(m_toAnimate);
+      changeAnimation(AnimationTypes.ColorFlowBlue);
+   }
    /*******************************
     * Color | RGB Values
     * ----------------------------
@@ -96,5 +131,28 @@ public class LedSubsystem extends SubsystemBase {
     * Yellow | (255, 255,0)
     * 
     ********************************/
+    public void AnimeOFFMaybe() {
+      changeAnimation(AnimationTypes.AnimationsOff);
+  }
+    public void changeAnimation(AnimationTypes toChange) {
+      m_currentAnimation = toChange;
+      
+      switch(toChange)
+      {
+     case ColorFlowRed:
+       m_toAnimate = new ColorFlowAnimation(255, 0, 0, 0, 0.7, LedCount, Direction.Forward);
+       break;
+     case ColorFlowRedReverse:
+       m_toAnimate = new ColorFlowAnimation(255, 0, 0, 0, 0.7, LedCount, Direction.Backward);
+       break; 
+     case ColorFlowBlue:
+       m_toAnimate = new ColorFlowAnimation(0, 0, 255,0 , 0.7, LedCount, Direction.Forward);
+       break;
+     case AnimationsOff:
+         m_toAnimate = null;
+    break;
+   }
 
+   System.out.println("Changed to " + m_currentAnimation.toString());
+   }
 } // end of class LedSubsystem

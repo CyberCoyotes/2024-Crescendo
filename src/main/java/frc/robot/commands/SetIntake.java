@@ -6,11 +6,13 @@ import frc.robot.subsystems.IntakeSubsystem;
 /**
  * Run Once or Continuously
  */
-public class RunIntake extends Command {
+public class SetIntake extends Command {
     private IntakeSubsystem intake;
+    private double power;
 
-    public RunIntake(IntakeSubsystem intake) {
+    public SetIntake(IntakeSubsystem intake, double power) {
         this.intake = intake;
+        this.power = power;
         addRequirements(this.intake);
     }
 
@@ -21,7 +23,7 @@ public class RunIntake extends Command {
 
     @Override
     public void execute() {
-        intake.Run(-0.50);
+        intake.Run(power);
     }
 
     @Override

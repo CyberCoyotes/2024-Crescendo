@@ -3,61 +3,50 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.45,
-        "y": 7.0
+        "x": 2.3300790263552362,
+        "y": 4.1
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.449999999999995,
-        "y": 7.0
+        "x": 2.5324208394895664,
+        "y": 2.6448965573987486
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "N1"
     },
     {
       "anchor": {
-        "x": 2.5,
-        "y": 7.0
+        "x": 7.374171368061045,
+        "y": 0.7515553059275135
       },
       "prevControl": {
-        "x": 1.5,
-        "y": 7.0
+        "x": 4.469121050918157,
+        "y": 1.055068025629009
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "NotePose3"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [
-    {
-      "name": "Note3",
-      "waypointRelativePos": 0,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": []
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 2.0,
-    "maxAcceleration": 2.0,
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": 180.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Pose1Paths",
+  "folder": null,
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": 179.42418084794775,
     "velocity": 0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }
