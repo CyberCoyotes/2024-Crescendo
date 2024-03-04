@@ -126,11 +126,13 @@ public class RobotContainer {
 
     index.setDefaultCommand(index.run(() -> index.SetPower(BumperStatus(1))));
 
+    /* 
     arm.setDefaultCommand(
         arm.run(() -> arm.Drive(((m_operatorController.axisLessThan(Axis.kLeftY.value,
             -0.1).getAsBoolean() ||
             (m_operatorController.axisGreaterThan(Axis.kLeftY.value, 0.1))
                 .getAsBoolean()) ? m_operatorController.getLeftY() : 0))));
+    */
 
     // // intake run depending on driver bumper status
     // ORIGINAL intake.setDefaultCommand(intake.run(() -> intake.Run(0.75 *
@@ -208,9 +210,9 @@ public class RobotContainer {
     driverDiagnostics.add(autoChooser);
 
     driverDiagnostics.addBoolean("Note Detected", () -> index.HasCargo());
-    driverDiagnostics.addDouble("Arm Rot", () -> arm.GetArmPos().getValueAsDouble());
-    driverDiagnostics.addDouble("Arm Rot Deg", () -> arm.GetPositionDegrees());
-    arm.showArmTelemetry("Driver Diagnostics");
+    // driverDiagnostics.addDouble("Arm Rot", () -> arm.GetArmPos().getValueAsDouble());
+    // driverDiagnostics.addDouble("Arm Rot Deg", () -> arm.GetPositionDegrees());
+    // arm.showArmTelemetry("Driver Diagnostics");
 
     // #endregion Testing
   }
