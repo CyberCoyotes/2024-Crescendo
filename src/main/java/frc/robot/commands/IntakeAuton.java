@@ -8,21 +8,27 @@ import frc.robot.subsystems.IntakeSubsystem;
  */
 public class IntakeAuton extends Command {
     private IntakeSubsystem intake;
-    private double power;
 
-    public IntakeAuton(IntakeSubsystem intake, double power) {
+    public IntakeAuton(IntakeSubsystem intake) {
         this.intake = intake;
-        this.power = power;
         addRequirements(this.intake);
     }
 
     @Override
     public void initialize() {
-        intake.Run(power);
+        intake.Run(0.75);
     }
-
+    @Override
+    public void execute() {}
+  
+    @Override
+    public void end(boolean interrupted) {
+      intake.Run(0);
+    }
+  
     @Override
     public boolean isFinished() {
-        return true;
+      return false;
     }
-}
+
+  }
