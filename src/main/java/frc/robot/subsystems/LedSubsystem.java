@@ -153,6 +153,6 @@ public class LedSubsystem extends SubsystemBase {
     break;
    }
 
-   System.out.println("Changed to " + m_currentAnimation.toString());
+  // System.out.println("Changed to " + m_currentAnimation.toString());
    }
 } // end of class LedSubsystem

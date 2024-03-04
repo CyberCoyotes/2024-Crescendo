@@ -18,7 +18,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "S1-Shoot0"
+                  "pathName": "S1-PoseA"
                 }
               },
               {
@@ -34,6 +34,31 @@
           "type": "named",
           "data": {
             "name": "Shoot"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.25
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "ArmHome"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ShootOff"
+                }
+              }
+            ]
           }
         }
       ]

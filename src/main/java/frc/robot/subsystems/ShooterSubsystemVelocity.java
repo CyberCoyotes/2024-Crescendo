@@ -10,6 +10,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -101,12 +102,7 @@ public class ShooterSubsystemVelocity extends SubsystemBase {
 
     }
 
-    @Override
-    public void periodic() {
-        // System.out.println(m_main.getVelocity());
-        SmartDashboard.putNumber("Velocity", GetVelocity());
-    }
-
+  
     public void SetMaxOutput(double velo) {
         // percent = Math.max(0, Math.min(percent,1));
         this.runningVoltage = velo;
@@ -139,8 +135,22 @@ public class ShooterSubsystemVelocity extends SubsystemBase {
         return m_main.getVelocity().getValueAsDouble();
     }
 
-    public Boolean AtVelocity(double velo) {
+    public boolean AtVelocity(double velo) {
         return m_main.getVelocity().getValueAsDouble() >= (velo - 0.5);
+    }
+
+    public boolean isAtSetpoint() {
+        double currentVelocity = GetVelocity(); // Assuming GetVelocity() is a method that returns the current velocity
+        double setpoint = mainVeloCycle.Velocity; // Assuming mainVeloCycle.Velocity is the setpoint
+        double tolerance = 0.03; // You can adjust this value based on your needs
+    return Math.abs(currentVelocity - setpoint) >= tolerance;
+    }
+
+    @Override
+    public void periodic() {
+        // System.out.println(m_main.getVelocity());
+        SmartDashboard.putNumber("Velocity", GetVelocity());
+        SmartDashboard.putBoolean("Velocity Achieved", isAtSetpoint());
     }
 
 }

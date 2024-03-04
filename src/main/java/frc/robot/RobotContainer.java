@@ -21,10 +21,13 @@ import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.IntakeCommandGroup;
 import frc.robot.commands.IntakeRevCommandGroup;
+import frc.robot.commands.IntakeAuton;
+import frc.robot.commands.IndexAuton;
 import frc.robot.commands.RevAndShootCommand;
 import frc.robot.commands.RunShooter;
 import frc.robot.commands.SetArmPosition;
 import frc.robot.commands.SetIndex;
+import frc.robot.commands.ShootPoseA;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IndexSubsystem;
@@ -107,6 +110,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("Shoot", new RevAndShootCommand(index, shooter).withTimeout(.5));
     NamedCommands.registerCommand("ShootOff", new RevAndShootCommand(index, shooter));;
     // NamedCommands.registerCommand("Loaded", new (index, shooter));;
+    NamedCommands.registerCommand("Index", new ShootPoseA(arm, index, intake, shooter));
     NamedCommands.registerCommand("IntakeOn", new IntakeCommandGroup(index, intake));
     NamedCommands.registerCommand("IntakeOff", new IntakeCommandGroup(index, intake));
     NamedCommands.registerCommand("ArmHome", new SetArmPosition(arm, Constants.ArmConstants.ARM_HOME_POSE));
@@ -121,18 +125,19 @@ public class RobotContainer {
 
     // FIXME I don't know if this is needed but seems undefined 
     // indexIncrent = new IncrementIndex1Stage(index);
-
+    
     shooter = new ShooterSubsystemVelocity();
 
     index.setDefaultCommand(index.run(() -> index.SetPower(BumperStatus(1))));
 
-    /* 
+/* 
+
     arm.setDefaultCommand(
         arm.run(() -> arm.Drive(((m_operatorController.axisLessThan(Axis.kLeftY.value,
             -0.1).getAsBoolean() ||
             (m_operatorController.axisGreaterThan(Axis.kLeftY.value, 0.1))
                 .getAsBoolean()) ? m_operatorController.getLeftY() : 0))));
-    */
+*/
 
     // // intake run depending on driver bumper status
     // ORIGINAL intake.setDefaultCommand(intake.run(() -> intake.Run(0.75 *
@@ -190,7 +195,9 @@ public class RobotContainer {
     m_driverController.rightBumper().whileTrue(new IntakeCommandGroup(index, intake));
     m_driverController.leftBumper().whileTrue(new IntakeRevCommandGroup(index, intake));
 
+    // m_driverController.rightTrigger().whileTrue(new ShootPoseA(arm, index, intake, shooter));
     m_driverController.rightTrigger().whileTrue(new RevAndShootCommand(index, shooter));
+
     m_driverController.rightTrigger().whileFalse(new InstantCommand(() -> shooter.SetOutput(0)));
     m_driverController.leftTrigger().whileTrue(new SetIndex(index,-0.75));
 

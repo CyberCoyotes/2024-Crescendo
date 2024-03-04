@@ -3,60 +3,49 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.5,
-        "y": 6.9
-      },
-      "prevControl": null,
-      "nextControl": {
-        "x": 2.45,
-        "y": 6.9
-      },
-      "isLocked": false,
-      "linkedName": "NotePose3"
-    },
-    {
-      "anchor": {
         "x": 0.75,
         "y": 6.65
       },
-      "prevControl": {
-        "x": 0.8,
+      "prevControl": null,
+      "nextControl": {
+        "x": 0.8750000000000017,
         "y": 6.65
+      },
+      "isLocked": false,
+      "linkedName": "PoseA"
+    },
+    {
+      "anchor": {
+        "x": 6.33920613295772,
+        "y": 7.407024268593991
+      },
+      "prevControl": {
+        "x": 5.788810123074792,
+        "y": 7.407024268593991
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Shoot0"
+      "linkedName": "NotePose4"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [
-    {
-      "name": "ShotPoseA",
-      "waypointRelativePos": 1.0,
-      "command": {
-        "type": "sequential",
-        "data": {
-          "commands": []
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 2.0,
-    "maxAcceleration": 2.0,
+    "maxVelocity": 2.5,
+    "maxAcceleration": 2.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": -122.0,
+    "velocity": 0.0,
+    "rotation": 180.0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": null,
   "previewStartingState": {
-    "rotation": -179.7831094474177,
+    "rotation": -125.51629091665711,
     "velocity": 0
   },
   "useDefaultConstraints": false
