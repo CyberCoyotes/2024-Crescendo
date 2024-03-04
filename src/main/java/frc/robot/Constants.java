@@ -31,17 +31,17 @@ public final class Constants {
     public static final double ARM_STATOR_CURRENT_LIMIT = 20;
 
     /* Arm poses */
-    public static final int     ARM_REV_LIMIT = 0;
-    public static final double  ARM_HOME_POSE = 0;
-    public static final double  ARM_LOW_POSE = 10;
-    public static final double  ARM_MID_POSE = 20;
-    public static final double  ARM_HIGH_POSE = 55;
-    public static final double  ARM_AMP_POSE = 90;
-    public static final int     ARM_FWD_LIMIT = 91;
+    public static final int ARM_REV_LIMIT = 0;
+    public static final double ARM_HOME_POSE = 0;
+    public static final double ARM_LOW_POSE = 10;
+    public static final double ARM_MID_POSE = 20;
+    public static final double ARM_HIGH_POSE = 55;
+    public static final double ARM_AMP_POSE = 90;
+    public static final int ARM_FWD_LIMIT = 91;
 
-    public static final int     ARM_MAX_ACCEL = 100;
-    public static final int     ARM_MAX_VEL = 200;
-    public static final int     ARM_JERK = 0;
+    public static final int ARM_MAX_ACCEL = 100;
+    public static final int ARM_MAX_VEL = 200;
+    public static final int ARM_JERK = 0;
 
     public static final int ARM_STATOR_LIMIT = 15;
     public static final int ARM_SUPPLY_LIMIT = 15;
@@ -70,15 +70,15 @@ public final class Constants {
 
       // set Motion Magic settings
       static final MotionMagicConfigs armMotionMagic0 = new MotionMagicConfigs()
-          .withMotionMagicCruiseVelocity(Constants.ArmConstants.ARM_MAX_VEL / 5) // 80 rps cruise velocity //
-                                                                                 // FIMXE changed for safety
-                                                                                 // testing
-                                                                                 // 160 rps/s acceleration
-                                                                                 // (0.5 seconds) // FIMXE
-                                                                                 // changed for safety
-                                                                                 // testing
-          .withMotionMagicAcceleration(Constants.ArmConstants.ARM_MAX_ACCEL / 5)
-          .withMotionMagicJerk(Constants.ArmConstants.ARM_JERK / 5);
+          .withMotionMagicCruiseVelocity(Constants.ArmConstants.ARM_MAX_VEL) // 80 rps cruise velocity //
+                                                                             // FIMXE changed for safety
+                                                                             // testing
+                                                                             // 160 rps/s acceleration
+                                                                             // (0.5 seconds) // FIMXE
+                                                                             // changed for safety
+                                                                             // testing
+          .withMotionMagicAcceleration(Constants.ArmConstants.ARM_MAX_ACCEL)
+          .withMotionMagicJerk(Constants.ArmConstants.ARM_JERK);
 
       static final SoftwareLimitSwitchConfigs armSoftLimit0 = new SoftwareLimitSwitchConfigs()
           .withForwardSoftLimitEnable(true)

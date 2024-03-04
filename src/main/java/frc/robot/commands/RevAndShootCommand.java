@@ -19,8 +19,15 @@ public class RevAndShootCommand extends SequentialCommandGroup {
     IndexSubsystem indexer;
     ShooterSubsystemVelocity shooter;
     // component Commands
-
+    private IncrementIndex outtaMyWay;
+    private Command revUpShooter;
     private Command indexCommand;
+
+    public RevAndShootCommand(IndexSubsystem indexer) {
+        // Set up our subsystems
+        this.indexer = indexer;
+        outtaMyWay = new IncrementIndex(indexer);
+    }
 
     public RevAndShootCommand(IndexSubsystem indexer, ShooterSubsystemVelocity shooter) {
         addRequirements(indexer, shooter);
@@ -33,9 +40,9 @@ public class RevAndShootCommand extends SequentialCommandGroup {
     private void SetupCommands() {
         this.addCommands(
                 new ParallelCommandGroup(
-                    new RunCommand(() -> shooter.SetOutput(60), shooter),
-                    new SequentialCommandGroup(
-                        new WaitUntilCommand(() -> shooter.AtVelocity(59))).andThen(indexCommand)));
+                        new RunCommand(() -> shooter.SetOutput(60), shooter),
+                        new SequentialCommandGroup(
+                                new WaitUntilCommand(() -> shooter.AtVelocity(59))).andThen(indexCommand)));
 
     }
 }

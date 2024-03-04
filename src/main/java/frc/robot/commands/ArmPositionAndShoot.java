@@ -13,14 +13,16 @@ public class ArmPositionAndShoot extends SequentialCommandGroup {
     double velo = 60; // ideal velocity
 
     public ArmPositionAndShoot(ArmSubsystem arm, ShooterSubsystemVelocity shooter, IndexSubsystem index, int pose) {
-        // ORIGINAL addCommands(new ArmPose(arm, pose), new IncrementIndex1Stage(index), new ParallelCommandGroup(
-        
+        // ORIGINAL addCommands(new ArmPose(arm, pose), new IncrementIndex1Stage(index),
+        // new ParallelCommandGroup(
+
         // Updated arm reference to SetArmPose
         addCommands(
-            new SetArmPose(arm, pose), // Set the arm to the desired pose
-            new IncrementIndex1Stage(index), // Reverse index the note, presuming to clear the shooter wheels?
+                new SetArmPosition(arm, pose), // Set the arm to the desired pose
+                new IncrementIndex(index), // Reverse index the note, presuming to clear the shooter wheels?
                 new ParallelCommandGroup(
-                    new RunShooter(shooter),
-                    new WaitUntilCommand(() -> shooter.AtVelocity(50)).andThen(() -> index.RunIndexing(), index)));
+                        new RunShooter(shooter),
+                        new WaitUntilCommand(() -> shooter.AtVelocity(velo)).andThen(() -> index.RunIndexing(),
+                                index)));
     }
 }
