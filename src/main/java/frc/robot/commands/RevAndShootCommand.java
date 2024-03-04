@@ -15,14 +15,14 @@ public class RevAndShootCommand extends SequentialCommandGroup {
     // subsystems
     IndexSubsystem indexer;
     // component Commands
-    private IncrementIndex1Stage outtaMyWay;
+    private IncrementIndex outtaMyWay;
     private Command revUpShooter;
     private Command indexCommand;
 
     public RevAndShootCommand(IndexSubsystem indexer) {
         // Set up our subsystems
         this.indexer = indexer;
-        outtaMyWay = new IncrementIndex1Stage(indexer);
+        outtaMyWay = new IncrementIndex(indexer);
 
         SetupCommands();
 
