@@ -3,19 +3,19 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ShooterSubsystemVelocity;
 
-public class ShooterAuton extends Command {
+public class SetShooter extends Command {
     private ShooterSubsystemVelocity shooter;
-    private double output;
+    private double velocity;
 
-    public ShooterAuton(ShooterSubsystemVelocity shooter, double output) {
+    public SetShooter(ShooterSubsystemVelocity shooter, double velocity) {
         this.shooter = shooter;
-        this.output = output;
+        this.velocity = velocity;
         addRequirements(shooter);
     }
 
     @Override
     public void initialize() {
-        shooter.SetOutput(this.output);
+        shooter.SetOutput(this.velocity);
     }
 
     @Override
