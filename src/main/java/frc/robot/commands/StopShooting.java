@@ -1,5 +1,7 @@
 package frc.robot.commands;
 
+import java.util.Set;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -14,7 +16,7 @@ import frc.robot.subsystems.ShooterSubsystemVelocity;
 /**
  * RevAndShootCommand
  */
-public class ShooterOff extends SequentialCommandGroup {
+public class StopShooting extends SequentialCommandGroup {
     // The time to try to and shoot the cargo before executing..
     // subsystems
     IndexSubsystem indexer;
@@ -23,7 +25,7 @@ public class ShooterOff extends SequentialCommandGroup {
 
     private Command indexCommand;
 
-    public ShooterOff(IndexSubsystem indexer, ShooterSubsystemVelocity shooter) {
+    public StopShooting(IndexSubsystem indexer, ShooterSubsystemVelocity shooter) {
         addRequirements(indexer, shooter);
         indexCommand = new RunCommand(() -> indexer.RunIndexing(), indexer);
         this.shooter = shooter;
@@ -34,8 +36,8 @@ public class ShooterOff extends SequentialCommandGroup {
     private void SetupCommands() {
         this.addCommands(
                 new ParallelCommandGroup(
-                    new RunCommand(() -> shooter.SetOutput(0), shooter))
-                    );
-
+                    new SetShooter(shooter, 0),
+                    new SetIndex(indexer, 0)
+                ));
     }
 }

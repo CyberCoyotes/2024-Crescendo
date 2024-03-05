@@ -23,13 +23,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
         dutyCycle = new DutyCycleOut(0);
         motor.setControl(dutyCycle);
-//        motor.setInverted(false);
-
-        // int noteDistanceCheck = Constants.NOTE_DISTANCE_CHECK;
-
-        // notey = new NoteSensorSubsystem();
-        // Every 20ms it updates ()
-
+        // motor.setInverted(false);
     }
 
     public void Run(double input) {

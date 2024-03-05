@@ -17,17 +17,19 @@ public class SetIntake extends Command {
     }
 
     @Override
-    public InterruptionBehavior getInterruptionBehavior() {
-        return InterruptionBehavior.kCancelSelf;
+    public void initialize() {
+        intake.Run(this.power);
     }
-
     @Override
-    public void execute() {
-        intake.Run(power);
-    }
-
+    public void execute() {}
+  
     @Override
     public void end(boolean interrupted) {
-        intake.Run(0);
+      intake.Run(0);
+    }
+  
+    @Override
+    public boolean isFinished() {
+      return false;
     }
 }
