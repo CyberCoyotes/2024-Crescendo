@@ -21,13 +21,15 @@ import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.IntakeCommandGroup;
 import frc.robot.commands.IntakeRevCommandGroup;
-import frc.robot.commands.IntakeAuton;
-import frc.robot.commands.IndexAuton;
 import frc.robot.commands.RevAndShootCommand;
 import frc.robot.commands.RunShooter;
+import frc.robot.commands.ShooterIndex;
+import frc.robot.commands.StopShooting;
 import frc.robot.commands.SetArmPosition;
 import frc.robot.commands.SetIndex;
-import frc.robot.commands.ShootPoseA;
+import frc.robot.commands.ShootClose;
+import frc.robot.commands.IntakeIndex;
+import frc.robot.commands.StopIntakeIndex;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IndexSubsystem;
@@ -88,14 +90,9 @@ public class RobotContainer {
   private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
   private final Telemetry logger = new Telemetry(MaxSpeed);
 
-
- 
   private final IntakeCommandGroup intakeGroup = new IntakeCommandGroup(index, intake);
   private final IntakeRevCommandGroup intakeRevGroup = new IntakeRevCommandGroup(index, intake);
   //final SetIndex indexing = new SetIndex(index, power);
-
-  /* Manual testing autonomous files built with PathPlanner */
-  // private Command autonTesting = drivetrain.getAutoPath("S3-N1-N8-ShotC-N7");
 
   /* Autonomous Chooser*/
   SendableChooser<Command> autoChooser;
@@ -104,21 +101,18 @@ public class RobotContainer {
   public RobotContainer() {
 
 
-    /*Pathplanner Named Commands. 
-    See notes at end of class for more information */
-    
-    NamedCommands.registerCommand("Shoot", new RevAndShootCommand(index, shooter).withTimeout(.5));
-    NamedCommands.registerCommand("ShootOff", new RevAndShootCommand(index, shooter));;
-    // NamedCommands.registerCommand("Loaded", new (index, shooter));;
-    NamedCommands.registerCommand("Index", new ShootPoseA(arm, index, intake, shooter));
-    NamedCommands.registerCommand("IntakeOn", new IntakeCommandGroup(index, intake));
-    NamedCommands.registerCommand("IntakeOff", new IntakeCommandGroup(index, intake));
+    /*Pathplanner Named Commands*/       
+    NamedCommands.registerCommand("RunShooter", new RunShooter(shooter));
+    NamedCommands.registerCommand("Shoot", new ShooterIndex(shooter, index));
+    NamedCommands.registerCommand("ShootClose", new ShootClose(arm, index, intake, shooter));
+    NamedCommands.registerCommand("StopShooting", new StopShooting(index, shooter));;
+    NamedCommands.registerCommand("Intake", new IntakeIndex(index, intake));
+    NamedCommands.registerCommand("StopIntake", new StopIntakeIndex(index, intake));
     NamedCommands.registerCommand("ArmHome", new SetArmPosition(arm, Constants.ArmConstants.ARM_HOME_POSE));
     NamedCommands.registerCommand("ArmLow", new SetArmPosition(arm, Constants.ArmConstants.ARM_LOW_POSE));
-    NamedCommands.registerCommand("ArmMid", new SetArmPosition(arm, Constants.ArmConstants.ARM_MID_POSE)); 
-    NamedCommands.registerCommand("RunShooter", new RunShooter(shooter));
+    NamedCommands.registerCommand("ArmMid", new SetArmPosition(arm, Constants.ArmConstants.ARM_MID_POSE));
 
-    /* Autos */
+    /* Auto Chooser */
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", autoChooser);
     /* Unintended side effect is this will create EVERY auton file from the RIO deploy folder. See solution below */
@@ -181,23 +175,13 @@ public class RobotContainer {
 
     // reset the field-centric heading on left bumper press
     m_driverController.start().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
-
-    /*
-     * This command call works now. Not sure if there are advantages/disadvantages
-     * to one or the other
-     */
-    /* m_driverController.y().whileTrue(new SetArmPosition(arm, 15)); */
     m_driverController.a().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_HOME_POSE)));
     m_driverController.b().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_LOW_POSE)));
     m_driverController.x().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_AMP_POSE)));
     m_driverController.y().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_MID_POSE)));
-
     m_driverController.rightBumper().whileTrue(new IntakeCommandGroup(index, intake));
     m_driverController.leftBumper().whileTrue(new IntakeRevCommandGroup(index, intake));
-
-    // m_driverController.rightTrigger().whileTrue(new ShootPoseA(arm, index, intake, shooter));
     m_driverController.rightTrigger().whileTrue(new RevAndShootCommand(index, shooter));
-
     m_driverController.rightTrigger().whileFalse(new InstantCommand(() -> shooter.SetOutput(0)));
     m_driverController.leftTrigger().whileTrue(new SetIndex(index,-0.75));
 
@@ -240,20 +224,3 @@ public class RobotContainer {
     return autoChooser.getSelected();
   }
 } // End of class
-
-
-
-/* NOTES & REFERENCES
-/* Pathplanner
-/* Named commands must be registered before the creation of any 
-  PathPlanner Autos or Paths. It is recommended to do this in RobotContainer, 
-  after subsystem initialization, but before the creation of any other commands.
-  REFERENCE https://pathplanner.dev/pplib-named-commands.html
-  */
-
-  /* SSH into Rio
-  Using the easy button for auton has side effects.
-  (https://pathplanner.dev/pplib-build-an-auto.html#create-a-sendablechooser-with-all-autos-in-project)
-  Remedy is to SSH into the Rio and delete the autos you don't want.
-  https://docs.wpilib.org/en/stable/docs/software/roborio-info/roborio-ssh.html
-  */
