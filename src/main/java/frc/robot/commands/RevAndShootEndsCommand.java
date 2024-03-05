@@ -40,19 +40,13 @@ public class RevAndShootEndsCommand extends SequentialCommandGroup {
 
     private void SetupCommands() {
         this.addCommands(
-                // Start of parallel
                 new ParallelCommandGroup(
-                        // Run shooter in parallel with...
                         new RunCommand(() -> shooter.SetOutput(Constants.ShooterConstants.SHOOTER_VELOCITY), shooter),
-                        // ... Group that gets the shooter to velocity, then indexes.
-                        // That group will then wait for the cargo to be out of the shooter (with a
-                        // margin of error), and hopefully end
                         new SequentialCommandGroup(
                                 new WaitUntilCommand(
-                                        () -> shooter.AtVelocity(Constants.ShooterConstants.SHOOTER_VELOCITY)))
-                                .andThen(indexCommand).until(() -> !indexer.HasCargo()).andThen(new WaitCommand(0.1))));
-        // end of parallel
+                                        () -> shooter.AtVelocity(Constants.ShooterConstants.SHOOTER_VELOCITY - 1)))
+                                .andThen(indexCommand))
+                        .until(() -> !indexer.HasCargo()).andThen(new WaitCommand(.1)));
 
     }
-
 }
