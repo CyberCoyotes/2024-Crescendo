@@ -12,47 +12,27 @@
     "data": {
       "commands": [
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "S1-PoseA"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "ArmHome"
-                }
-              }
-            ]
+            "pathName": "S1-PoseA"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Shoot"
+            "name": "ShootClose"
           }
         },
         {
-          "type": "parallel",
+          "type": "wait",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "ArmHome"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShootOff"
-                }
-              }
-            ]
+            "waitTime": 0.25
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootOff"
           }
         }
       ]

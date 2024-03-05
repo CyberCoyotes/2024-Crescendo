@@ -8,11 +8,11 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.618860692266839,
-        "y": 5.6065763040617
+        "x": 1.621803913030637,
+        "y": 5.65
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "PoseB"
     },
     {
       "anchor": {
@@ -25,7 +25,7 @@
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "NotePose2"
     }
   ],
   "rotationTargets": [],

@@ -100,7 +100,6 @@ public class RobotContainer {
   // Constructor of the class
   public RobotContainer() {
 
-
     /*Pathplanner Named Commands*/       
     NamedCommands.registerCommand("RunShooter", new RunShooter(shooter));
     NamedCommands.registerCommand("Shoot", new ShooterIndex(shooter, index));

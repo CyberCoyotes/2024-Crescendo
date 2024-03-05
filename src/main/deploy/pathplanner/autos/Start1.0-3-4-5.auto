@@ -20,25 +20,81 @@
         {
           "type": "named",
           "data": {
-            "name": "SetArmLowPose"
+            "name": "ShootClose"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.15
+            "waitTime": 0.25
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootOff"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeOn"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "PoseA-N3"
+                }
+              }
+            ]
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "PoseA-N4"
+            "pathName": "N3-PoseA"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootClose"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.15
+            "waitTime": 0.25
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StopShooting"
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeOn"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "PoseA-N4"
+                }
+              }
+            ]
           }
         },
         {
@@ -48,27 +104,40 @@
           }
         },
         {
-          "type": "wait",
+          "type": "named",
           "data": {
-            "waitTime": 0.15
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "PoseA-N5"
+            "name": "ShootClose"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.15
+            "waitTime": 0.25
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "N5-PoseA"
+            "name": "StopShooting"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeOn"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "PoseA-N5"
+                }
+              }
+            ]
           }
         }
       ]

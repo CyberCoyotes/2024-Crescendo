@@ -3,50 +3,50 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.8,
-        "y": 5.81
+        "x": 2.5,
+        "y": 6.9
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.052631214353337,
-        "y": 6.764012053478652
+        "x": 2.0106680213360426,
+        "y": 6.847299512780844
       },
       "isLocked": false,
-      "linkedName": "NotePose5"
+      "linkedName": "NotePose3"
     },
     {
       "anchor": {
-        "x": 0.75,
-        "y": 6.65
+        "x": 1.3,
+        "y": 5.65
       },
       "prevControl": {
-        "x": 4.486623611469264,
-        "y": 6.650000000000001
+        "x": 1.8520741952238022,
+        "y": 5.77451654592646
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "PoseA"
+      "linkedName": "PoseB"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 2.5,
-    "maxAcceleration": 2.5,
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -121.63499860050405,
+    "rotation": 180.0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": null,
   "previewStartingState": {
-    "rotation": 179.763155359058,
+    "rotation": 180.0,
     "velocity": 0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }
