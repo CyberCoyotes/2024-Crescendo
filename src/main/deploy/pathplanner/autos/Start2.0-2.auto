@@ -14,7 +14,25 @@
         {
           "type": "named",
           "data": {
-            "name": "ShootNote"
+            "name": "ShootClose"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.25
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootOff"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeOn"
           }
         },
         {
@@ -24,9 +42,27 @@
           }
         },
         {
+          "type": "path",
+          "data": {
+            "pathName": "N2-PoseB"
+          }
+        },
+        {
           "type": "named",
           "data": {
-            "name": "IntakeOn"
+            "name": "ShootClose"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.25
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootOff"
           }
         }
       ]

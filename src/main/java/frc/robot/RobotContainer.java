@@ -104,19 +104,16 @@ public class RobotContainer {
   public RobotContainer() {
 
 
-    /*Pathplanner Named Commands. 
-    See notes at end of class for more information */
-    
-    NamedCommands.registerCommand("Shoot", new RevAndShootCommand(index, shooter).withTimeout(.5));
-    NamedCommands.registerCommand("ShootOff", new RevAndShootCommand(index, shooter));;
-    // NamedCommands.registerCommand("Loaded", new (index, shooter));;
-    NamedCommands.registerCommand("Index", new ShootPoseA(arm, index, intake, shooter));
-    NamedCommands.registerCommand("IntakeOn", new IntakeCommandGroup(index, intake));
-    NamedCommands.registerCommand("IntakeOff", new IntakeCommandGroup(index, intake));
+    /*Pathplanner Named Commands*/
+    NamedCommands.registerCommand("RunShooter", new RunShooter(shooter));
+    NamedCommands.registerCommand("Shoot", new ShooterIndex(shooter, index));
+    NamedCommands.registerCommand("ShootClose", new ShootClose(arm, index, intake, shooter));
+    NamedCommands.registerCommand("StopShooting", new StopShooting(index, shooter));;
+    NamedCommands.registerCommand("Intake", new IntakeIndex(index, intake));
+    NamedCommands.registerCommand("StopIntake", new StopIntakeIndex(index, intake));
     NamedCommands.registerCommand("ArmHome", new SetArmPosition(arm, Constants.ArmConstants.ARM_HOME_POSE));
     NamedCommands.registerCommand("ArmLow", new SetArmPosition(arm, Constants.ArmConstants.ARM_LOW_POSE));
-    NamedCommands.registerCommand("ArmMid", new SetArmPosition(arm, Constants.ArmConstants.ARM_MID_POSE)); 
-    NamedCommands.registerCommand("RunShooter", new RunShooter(shooter));
+    NamedCommands.registerCommand("ArmMid", new SetArmPosition(arm, Constants.ArmConstants.ARM_MID_POSE));
 
     /* Autos */
     autoChooser = AutoBuilder.buildAutoChooser();
