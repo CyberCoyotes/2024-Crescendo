@@ -108,13 +108,13 @@ public final class Constants {
   }
 
   public static class IntakeConstants {
-    public static final double INTAKE_POWER = 0.75;
-    public static final double INTAKE_POWER_REV = -0.75;
+    public static final double INTAKE_POWER = -0.1; // 0.75
+    public static final double INTAKE_POWER_REV = 0.75;
     
   }
 
   public static class ShooterConstants {
-    public static final double SHOOTER_VELOCITY = 60;
+    public static final double SHOOTER_VELOCITY = 10; // 60
   }
 
   public static class SystemConstants {

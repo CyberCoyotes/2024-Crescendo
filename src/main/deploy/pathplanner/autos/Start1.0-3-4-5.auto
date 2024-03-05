@@ -42,7 +42,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "IntakeOn"
+                  "name": "Intake"
                 }
               },
               {
@@ -85,7 +85,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "IntakeOn"
+                  "name": "Intake"
                 }
               },
               {
@@ -128,7 +128,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "IntakeOn"
+                  "name": "Intake"
                 }
               },
               {

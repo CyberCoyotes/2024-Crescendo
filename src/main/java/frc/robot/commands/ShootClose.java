@@ -9,10 +9,12 @@ import frc.robot.subsystems.ShooterSubsystemVelocity;
 
 public class ShootClose extends SequentialCommandGroup {
     public ShootClose(ArmSubsystem arm, IndexSubsystem index, IntakeSubsystem intake, ShooterSubsystemVelocity shooter) {
+
         addCommands(
             /* Moving the arm is shouldn't be necessary, but just in case */
             new SetArmPosition(arm, Constants.ArmConstants.ARM_HOME_POSE),
-            new ShooterIndex(shooter, index)
+            // new ShooterIndex(shooter, index).withTimeout(1.0)
+            new RevAndShootCommand(index, shooter).withTimeout(1.0)
         );
     }
 }

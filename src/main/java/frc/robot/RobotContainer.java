@@ -5,37 +5,32 @@
 package frc.robot;
 
 
-import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
-import edu.wpi.first.wpilibj.PS4Controller.Axis;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.commands.AutoPoseAToNote3;
 import frc.robot.commands.IntakeCommandGroup;
+import frc.robot.commands.IntakeIndex;
 import frc.robot.commands.IntakeRevCommandGroup;
 import frc.robot.commands.RevAndShootCommand;
 import frc.robot.commands.RunShooter;
-import frc.robot.commands.ShooterIndex;
-import frc.robot.commands.StopShooting;
-import frc.robot.commands.SetArmPosition;
 import frc.robot.commands.SetIndex;
 import frc.robot.commands.ShootClose;
-import frc.robot.commands.IntakeIndex;
-import frc.robot.commands.StopIntakeIndex;
+import frc.robot.commands.ShooterIndex;
+import frc.robot.commands.StopShooting;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystemVelocity;
-import com.pathplanner.lib.auto.NamedCommands;
 
 // Getting rid of the soft yelling
 @SuppressWarnings("unused")
@@ -100,17 +95,18 @@ public class RobotContainer {
   // Constructor of the class
   public RobotContainer() {
 
-    /*Pathplanner Named Commands*/       
-    NamedCommands.registerCommand("RunShooter", new RunShooter(shooter));
+    /*Pathplanner Named Commands*/
+            
+    // NamedCommands.registerCommand("RunShooter", new RunShooter(shooter));
     NamedCommands.registerCommand("Shoot", new ShooterIndex(shooter, index));
     NamedCommands.registerCommand("ShootClose", new ShootClose(arm, index, intake, shooter));
-    NamedCommands.registerCommand("StopShooting", new StopShooting(index, shooter));;
+    NamedCommands.registerCommand("StopShooting", new StopShooting(arm, index, intake, shooter));;
     NamedCommands.registerCommand("Intake", new IntakeIndex(index, intake));
-    NamedCommands.registerCommand("StopIntake", new StopIntakeIndex(index, intake));
-    NamedCommands.registerCommand("ArmHome", new SetArmPosition(arm, Constants.ArmConstants.ARM_HOME_POSE));
-    NamedCommands.registerCommand("ArmLow", new SetArmPosition(arm, Constants.ArmConstants.ARM_LOW_POSE));
-    NamedCommands.registerCommand("ArmMid", new SetArmPosition(arm, Constants.ArmConstants.ARM_MID_POSE));
-
+    // NamedCommands.registerCommand("StopIntake", new StopIntakeIndex(index, intake));
+    // NamedCommands.registerCommand("ArmHome", new SetArmPosition(arm, Constants.ArmConstants.ARM_HOME_POSE));
+    // NamedCommands.registerCommand("ArmLow", new SetArmPosition(arm, Constants.ArmConstants.ARM_LOW_POSE));
+    // NamedCommands.registerCommand("ArmMid", new SetArmPosition(arm, Constants.ArmConstants.ARM_MID_POSE));
+    
     /* Auto Chooser */
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", autoChooser);
@@ -177,7 +173,9 @@ public class RobotContainer {
     m_driverController.a().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_HOME_POSE)));
     m_driverController.b().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_LOW_POSE)));
     m_driverController.x().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_AMP_POSE)));
-    m_driverController.y().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_MID_POSE)));
+    // m_driverController.y().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_MID_POSE)));
+    // m_driverController.y().whileTrue(new AutoPoseAToNote3(index, intake, "PoseA-N3"));
+
     m_driverController.rightBumper().whileTrue(new IntakeCommandGroup(index, intake));
     m_driverController.leftBumper().whileTrue(new IntakeRevCommandGroup(index, intake));
     m_driverController.rightTrigger().whileTrue(new RevAndShootCommand(index, shooter));

@@ -21,7 +21,7 @@ public class AutoPoseAToNote3 extends ParallelCommandGroup {
     IntakeSubsystem intake;
     IndexSubsystem index;
 
-    public AutoPoseAToNote3(IndexSubsystem index, IntakeSubsystem intake, PathPlannerPath path) {
+    public AutoPoseAToNote3(IndexSubsystem index, IntakeSubsystem intake, String path) {
         this.index = index;
         this.intake = intake;
 
@@ -29,7 +29,7 @@ public class AutoPoseAToNote3 extends ParallelCommandGroup {
             new ParallelCommandGroup(
                 new SetIntake(intake, Constants.IntakeConstants.INTAKE_POWER), 
                 new SetIndex(index, Constants.IndexConstants.INDEX_POWER)).until(() -> index.HasCargo()),
-                new InstantCommand(() -> PathPlannerPath.fromPathFile("PoseA-N3"))
+               new InstantCommand(() -> PathPlannerPath.fromPathFile("PoseA-N3"))
                 );
     }
 
