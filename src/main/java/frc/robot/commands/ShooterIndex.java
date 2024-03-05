@@ -15,8 +15,7 @@ public class ShooterIndex extends SequentialCommandGroup {
             // new WaitUntilCommand(shooter::isAtSetpoint),
             new ParallelCommandGroup(
                 new SetShooter(shooter, Constants.ShooterConstants.SHOOTER_VELOCITY),
-                new SetIndex(index, Constants.IndexConstants.INDEX_POWER),
-                new WaitCommand(1) // Replace wait(500) with WaitCommand
+                new SetIndex(index, Constants.IndexConstants.INDEX_POWER)
             )
         );
     }

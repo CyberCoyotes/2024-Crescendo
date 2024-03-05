@@ -14,7 +14,8 @@ public class ShootClose extends SequentialCommandGroup {
             /* Moving the arm is shouldn't be necessary, but just in case */
             new SetArmPosition(arm, Constants.ArmConstants.ARM_HOME_POSE),
             // new ShooterIndex(shooter, index).withTimeout(1.0)
-            new RevAndShootCommand(index, shooter).withTimeout(1.0)
+            new RevAndShootCommand(index, shooter).withTimeout(1.0),
+            new SetIndex(index, 0).withTimeout(1.0)
         );
     }
 }
