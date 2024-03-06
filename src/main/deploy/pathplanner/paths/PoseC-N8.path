@@ -4,28 +4,28 @@
     {
       "anchor": {
         "x": 0.9,
-        "y": 6.65
+        "y": 4.344720358484939
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.0250000000000017,
-        "y": 6.65
+        "x": 1.0385312597900493,
+        "y": 4.104777178092051
       },
       "isLocked": false,
-      "linkedName": "PoseA"
+      "linkedName": "PoseC"
     },
     {
       "anchor": {
-        "x": 8.3,
-        "y": 7.38
+        "x": 8.6,
+        "y": 1.0
       },
       "prevControl": {
-        "x": 7.749603990117072,
-        "y": 7.38
+        "x": 6.989293606832575,
+        "y": 1.1551560871167381
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "NotePose4"
+      "linkedName": "N8"
     }
   ],
   "rotationTargets": [],
@@ -38,15 +38,15 @@
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
-    "velocity": 0.0,
-    "rotation": 180.0,
+    "velocity": 0,
+    "rotation": 162.2157725947844,
     "rotateFast": false
   },
   "reversed": false,
   "folder": null,
   "previewStartingState": {
-    "rotation": -125.51629091665711,
+    "rotation": 121.11399481513273,
     "velocity": 0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }
