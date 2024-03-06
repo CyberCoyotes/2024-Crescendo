@@ -3,24 +3,24 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 6.33920613295772,
-        "y": 7.407024268593991
+        "x": 8.3,
+        "y": 7.38
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.8796136494592535,
-        "y": 7.308663966074574
+        "x": 7.840407516501534,
+        "y": 7.281639697480583
       },
       "isLocked": false,
       "linkedName": "NotePose4"
     },
     {
       "anchor": {
-        "x": 0.75,
+        "x": 0.9,
         "y": 6.65
       },
       "prevControl": {
-        "x": 1.1245907128925179,
+        "x": 1.2745907128925178,
         "y": 6.65
       },
       "nextControl": null,
@@ -32,8 +32,8 @@
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 2.0,
-    "maxAcceleration": 2.0,
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },

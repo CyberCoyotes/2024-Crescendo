@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.commands.AutoPoseAToNote3;
 import frc.robot.commands.IntakeCommandGroup;
 import frc.robot.commands.IntakeIndex;
 import frc.robot.commands.IntakeRevCommandGroup;
@@ -100,7 +99,7 @@ public class RobotContainer {
     // NamedCommands.registerCommand("RunShooter", new RunShooter(shooter));
     // NamedCommands.registerCommand("Shoot", new ShooterIndex(shooter, index));
     NamedCommands.registerCommand("ShootClose", new ShootClose(arm, index, intake, shooter));
-    NamedCommands.registerCommand("StopShooting", new StopShooting(arm, index, intake, shooter));;
+    // NamedCommands.registerCommand("StopShooting", new StopShooting(arm, index, intake, shooter));;
     NamedCommands.registerCommand("Intake", new IntakeIndex(index, intake));
     // NamedCommands.registerCommand("StopIntake", new StopIntakeIndex(index, intake));
     // NamedCommands.registerCommand("ArmHome", new SetArmPosition(arm, Constants.ArmConstants.ARM_HOME_POSE));

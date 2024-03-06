@@ -29,6 +29,7 @@ public class RevAndShootCommand extends SequentialCommandGroup {
         this.indexer = indexer;
         outtaMyWay = new IncrementIndex(indexer);
     }
+   
 
     public RevAndShootCommand(IndexSubsystem indexer, ShooterSubsystemVelocity shooter) {
         addRequirements(indexer, shooter);
@@ -37,6 +38,7 @@ public class RevAndShootCommand extends SequentialCommandGroup {
         SetupCommands();
 
     }
+    
 
     private void SetupCommands() {
         this.addCommands(
