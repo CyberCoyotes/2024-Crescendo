@@ -1,25 +1,24 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants;
 import frc.robot.subsystems.ShooterSubsystemVelocity;
 
-public class RunShooter extends Command {
+public class KillShooterCommand extends Command {
     private ShooterSubsystemVelocity shooter;
 
-    public RunShooter(ShooterSubsystemVelocity shooter) {
-        this.shooter = shooter;
+    public KillShooterCommand(ShooterSubsystemVelocity shooterArg) {
+        shooter = shooterArg;
         addRequirements(shooter);
     }
 
     @Override
-    public void execute() {
-        shooter.SetOutput(Constants.ShooterConstants.SHOOTER_VELOCITY);
+    public void initialize() {
+        shooter.Disable();
     }
 
     @Override
     public boolean isFinished() {
-        return false;
+        return true;
     }
 
     @Override

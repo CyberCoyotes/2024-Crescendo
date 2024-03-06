@@ -3,24 +3,31 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IndexSubsystem;
 
-
 public class SetIndex extends Command {
-    final IndexSubsystem indexSub;
-    private final double power;
+    private IndexSubsystem index;
+    private double power;
 
-    public SetIndex(IndexSubsystem indexSub, double power) {
-        this.indexSub = indexSub;
+    public SetIndex(IndexSubsystem index, double power) {
+        this.index = index;
         this.power = power;
-        addRequirements(indexSub);
+        addRequirements(this.index);
     }
 
     @Override
-    public void execute() {
-        indexSub.SetPower(power);
+    public void initialize() {
+      index.SetPower(this.power);
     }
-
+    @Override
+    public void execute() {}
+  
     @Override
     public void end(boolean interrupted) {
-        indexSub.SetPower(0);
+      index.SetPower(0);
     }
-} // End of class Indexing
+  
+    @Override
+    public boolean isFinished() {
+      return false;
+    }
+
+}

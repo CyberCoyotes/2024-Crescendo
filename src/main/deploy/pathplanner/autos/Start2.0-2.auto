@@ -14,19 +14,38 @@
         {
           "type": "named",
           "data": {
-            "name": "ShootNote"
+            "name": "ShootClose"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "S2-0-2"
+                }
+              }
+            ]
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "S2-0-2"
+            "pathName": "N2-PoseB"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "IntakeOn"
+            "name": "ShootClose"
           }
         }
       ]

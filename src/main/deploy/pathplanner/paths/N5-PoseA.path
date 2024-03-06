@@ -3,24 +3,24 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.9,
-        "y": 5.8
+        "x": 7.8,
+        "y": 5.81
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.152631214353337,
-        "y": 6.754012053478652
+        "x": 6.052631214353337,
+        "y": 6.764012053478652
       },
       "isLocked": false,
       "linkedName": "NotePose5"
     },
     {
       "anchor": {
-        "x": 0.75,
+        "x": 0.9,
         "y": 6.65
       },
       "prevControl": {
-        "x": 4.486623611469264,
+        "x": 4.636623611469265,
         "y": 6.650000000000001
       },
       "nextControl": null,

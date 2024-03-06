@@ -8,7 +8,7 @@
         {
           "type": "named",
           "data": {
-            "name": "ShootNote"
+            "name": "ShootClose"
           }
         },
         {
@@ -24,7 +24,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "IntakeOn"
+                  "name": "Intake"
                 }
               }
             ]

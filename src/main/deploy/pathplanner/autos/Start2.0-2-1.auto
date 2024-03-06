@@ -2,63 +2,19 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.45,
-      "y": 7.0
+      "x": 1.3,
+      "y": 5.65
     },
-    "rotation": 180.0
+    "rotation": 179.57759928835716
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "deadline",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "S1-PoseA"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "ArmHome"
-                }
-              }
-            ]
-          }
-        },
-        {
           "type": "named",
           "data": {
-            "name": "Shoot"
-          }
-        },
-        {
-          "type": "deadline",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "ArmHome"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShootOff"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.25
-                }
-              }
-            ]
+            "name": "ShootClose"
           }
         },
         {
@@ -68,22 +24,59 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "IntakeOn"
+                  "name": "Intake"
                 }
               },
               {
                 "type": "path",
                 "data": {
-                  "pathName": "PoseA-N3"
+                  "pathName": "S2-0-2"
                 }
               }
             ]
           }
         },
         {
+          "type": "path",
+          "data": {
+            "pathName": "N2-PoseB"
+          }
+        },
+        {
           "type": "named",
           "data": {
-            "name": "IntakeOff"
+            "name": "ShootClose"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "PoseB-N1"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "N1-PoseB"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootClose"
           }
         }
       ]
