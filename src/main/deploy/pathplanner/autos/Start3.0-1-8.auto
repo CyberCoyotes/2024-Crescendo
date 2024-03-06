@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.5543072624606802,
-      "y": 4.065180438053184
+      "x": 0.45,
+      "y": 4.15
     },
-    "rotation": 180.0
+    "rotation": 179.1496343353474
   },
   "command": {
     "type": "sequential",
@@ -36,10 +36,16 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "PoseC-8Sweep"
+                  "pathName": "PoseC-N1"
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "N1-PoseC"
           }
         },
         {
@@ -61,60 +67,16 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "N8-N7"
+                  "pathName": "PoseC-N8"
                 }
               }
             ]
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "ShootClose"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "N7-N6"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ShootClose"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "N6-N5"
-                }
-              }
-            ]
+            "pathName": "N8-PoseC"
           }
         },
         {
