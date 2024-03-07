@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.7791849537187452,
-        "y": 4.067934003488759
+        "x": 0.9,
+        "y": 4.344720358484939
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.26106526631658,
-        "y": -0.32308501110741017
+        "x": 3.3818803125978345,
+        "y": -0.04629865611122974
       },
       "isLocked": false,
-      "linkedName": "ShotC"
+      "linkedName": "PoseC"
     },
     {
       "anchor": {
