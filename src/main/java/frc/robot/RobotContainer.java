@@ -24,6 +24,7 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystemVelocity;
+import frc.robot.subsystems.VisionSubsystem;
 
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.path.PathPlannerTrajectory;
@@ -50,6 +51,7 @@ public class RobotContainer {
   // OrchestraSubsystem daTunes;
   // WinchSubsystem winch;
   ArmSubsystem arm = new ArmSubsystem();
+  VisionSubsystem vision = new VisionSubsystem();
   // #endregion Subsystems
 
   // #region commands
@@ -139,7 +141,7 @@ public class RobotContainer {
     /* m_driverController.y().whileTrue(new SetArmPosition(arm, 15)); */
     m_driverController.a().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_HOME_POSE)));
     m_driverController.b().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_LOW_POSE)));
-    m_driverController.x().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_AMP_POSE)));
+    //m_driverController.x().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_AMP_POSE)));
     m_driverController.y().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_MID_POSE)));
 
     m_driverController.rightBumper().whileTrue(new IntakeCommandGroup(index, intake));
@@ -151,6 +153,8 @@ public class RobotContainer {
 
     // Needs to be reversed
     m_driverController.leftBumper().whileTrue(new IntakeCommandGroup(index, intake));
+
+    m_driverController.x().onTrue(new InstantCommand(() -> vision.turnLL()));
 
   };
 

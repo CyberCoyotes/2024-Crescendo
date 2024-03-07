@@ -133,6 +133,20 @@ public class ArmSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Arm Voltage", m_arm.getMotorVoltage().getValue());
     }
 
+    VisionSubsystem vision = new VisionSubsystem();
+
+    @Override
+    public void periodic(){
+    double TAG_ID = vision.getID();
+    double DISTANCE = vision.DISTANCE_CALCULATIONS();
+    //if tag ID = 6 or 5 and the tag is a meter or less away, set arm pose to high
+    if((TAG_ID == 1.0)
+    //&&(DISTANCE <= 100)
+    ){
+        setArmPose(55);
+    }
+
+}
 } // end of ArmSubsystem method
 
 /***************************
