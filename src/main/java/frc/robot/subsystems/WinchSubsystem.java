@@ -6,6 +6,7 @@ import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 /**
  * Made of a motor, connected to a pulley. Contains manual drive for now.
@@ -15,7 +16,7 @@ public class WinchSubsystem extends SubsystemBase {
     private DutyCycleOut controlRequest;
 
     public WinchSubsystem(TalonFX motor) {
-        m_motor = motor;
+        m_motor = new TalonFX(Constants.CANIDs.WINCH_ID);
         controlRequest = new DutyCycleOut(0);
         m_motor.setControl(controlRequest);
     }
@@ -28,4 +29,8 @@ public class WinchSubsystem extends SubsystemBase {
     public double GetControl() {
         return controlRequest.Output;
     }
-}
+
+    public void StopWinch() {
+        controlRequest.Output = 0;
+    }
+} // end of class WinchSubsystem

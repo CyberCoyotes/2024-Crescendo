@@ -7,9 +7,13 @@ import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.Slot1Configs;
 import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.controls.PositionDutyCycle;
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.GravityTypeValue;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -55,6 +59,7 @@ public class ArmSubsystem extends SubsystemBase {
         /* Gains or configuration of arm motor for config slot 1 */
         var armGains1 = new Slot1Configs();
         armGains1.GravityType = GravityTypeValue.Arm_Cosine; /* .Elevator_Static | .Arm_Cosine */
+        m_arm.setInverted(true); // Set to true if you want to invert the motor direction
         armGains1.kP = 0.50; /* Proportional Gain */
         armGains1.kI = 0.00; /* Integral Gain */
         armGains1.kD = 0.00; /* Derivative Gain */
@@ -121,6 +126,30 @@ public class ArmSubsystem extends SubsystemBase {
             
     }
 
+    // public void setArmForWinch(double armPose, Slot1Configs armGains1) {
+
+        // PositionVoltage armPose = new PositionVoltage(armPose);
+    public void setArmForClimb(double power) {
+        m_arm.setControl(new VoltageOut (power));
+        showArmTelemetry();
+
+
+    }
+
+    double targetPosition = 10;
+
+    public void moveArmToPositionAndStop(double targetPosition) {
+        // Move the arm to the target position
+        m_arm.setControl(new PositionDutyCycle(targetPosition));
+
+        // Wait until the arm reaches the target position
+        while (Math.abs(m_arm.getPosition().getValue() - targetPosition) > 1) {
+            // You might want to add a delay here to prevent the loop from running too fast
+    }
+
+    // Stop the arm
+    m_arm.setControl(new PositionDutyCycle(0));
+}
 
     /*
      * Currently only being called in subsystem-command;
@@ -131,6 +160,11 @@ public class ArmSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Arm Stator", m_arm.getStatorCurrent().getValue());
         SmartDashboard.putNumber("Arm Supply", m_arm.getSupplyCurrent().getValue());
         SmartDashboard.putNumber("Arm Voltage", m_arm.getMotorVoltage().getValue());
+    }
+
+    public void stopArm(double power) {
+        m_arm.setControl(new VoltageOut(0));
+
     }
 
 } // end of ArmSubsystem method
