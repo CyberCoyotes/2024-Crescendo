@@ -187,10 +187,8 @@ public class RobotContainer {
     // VoltageOut failed to stop the arm
     // PositionDutyCycle
 
-    m_driverController.povUp().whileTrue(new SetArmClimb(arm,Constants.ArmConstants.ARM_MANUAL_POWER));
-
     m_operatorController.y().whileTrue(new SetWinch(winch, Constants.WinchConstants.WINCH_POWER));
-    m_operatorController.b().whileTrue(new SetWinch(winch, 0.10));
+    m_operatorController.b().whileTrue(new SetArmClimb(arm,Constants.ArmConstants.ARM_MANUAL_POWER));
 
   };
 
