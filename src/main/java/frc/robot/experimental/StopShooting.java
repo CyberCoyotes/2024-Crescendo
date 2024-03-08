@@ -1,9 +1,10 @@
-package frc.robot.commands;
+package frc.robot.experimental;
 
 import javax.swing.GroupLayout.ParallelGroup;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
+import frc.robot.commands.SetIndex;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
