@@ -8,6 +8,7 @@ import com.ctre.phoenix6.configs.Slot1Configs;
 import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -55,6 +56,7 @@ public class ArmSubsystem extends SubsystemBase {
         /* Gains or configuration of arm motor for config slot 1 */
         var armGains1 = new Slot1Configs();
         armGains1.GravityType = GravityTypeValue.Arm_Cosine; /* .Elevator_Static | .Arm_Cosine */
+        m_arm.setInverted(true); // Set to true if you want to invert the motor direction
         armGains1.kP = 0.50; /* Proportional Gain */
         armGains1.kI = 0.00; /* Integral Gain */
         armGains1.kD = 0.00; /* Derivative Gain */
@@ -119,6 +121,14 @@ public class ArmSubsystem extends SubsystemBase {
             SmartDashboard.putNumber("Arm Stator", m_arm.getStatorCurrent().getValue());*/
             showArmTelemetry();
             
+    }
+
+    // public void setArmForWinch(double armPose, Slot1Configs armGains1) {
+
+    public void setArmForWinch(double armPose) {
+        m_arm.setControl(
+        new VoltageOut(armPose));
+        showArmTelemetry();
     }
 
 

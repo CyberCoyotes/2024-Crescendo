@@ -22,6 +22,7 @@ import frc.robot.commands.IntakeRevCommandGroup;
 import frc.robot.commands.RevAndShootCommand;
 import frc.robot.commands.RunShooter;
 import frc.robot.commands.SetIndex;
+import frc.robot.commands.SetWinch;
 import frc.robot.commands.ShootClose;
 import frc.robot.commands.ShooterIndex;
 import frc.robot.commands.StopShooting;
@@ -30,6 +31,7 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystemVelocity;
+import frc.robot.subsystems.WinchSubsystem;
 
 // Getting rid of the soft yelling
 @SuppressWarnings("unused")
@@ -52,9 +54,8 @@ public class RobotContainer {
   ShooterSubsystemVelocity shooter = new ShooterSubsystemVelocity();
   IntakeSubsystem intake = new IntakeSubsystem();
   IndexSubsystem index = new IndexSubsystem();
-
   // OrchestraSubsystem daTunes;
-  // WinchSubsystem winch;
+  WinchSubsystem winch; // TODO Test
   ArmSubsystem arm = new ArmSubsystem();
   // #endregion Subsystems
 
@@ -180,6 +181,10 @@ public class RobotContainer {
     m_driverController.rightTrigger().whileTrue(new RevAndShootCommand(index, shooter));
     m_driverController.rightTrigger().whileFalse(new InstantCommand(() -> shooter.SetOutput(0)));
     m_driverController.leftTrigger().whileTrue(new SetIndex(index,-0.75));
+
+    // TODO Moves the arm with VoltageOut which is open loop, so it shouldn't hold position
+    m_driverController.povUp().whileTrue(new InstantCommand(() -> arm.setArmForWinch(Constants.ArmConstants.ARM_AMP_POSE)));
+    m_driverController.povDown().whileTrue(new SetWinch(winch)); // TODO Test
 
   };
 

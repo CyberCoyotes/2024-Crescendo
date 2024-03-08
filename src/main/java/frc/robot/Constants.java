@@ -123,6 +123,10 @@ public final class Constants {
     public static final double MAX_ANGULAR_RATE = 1.5 * Math.PI; // 3/4 of a rotation per second max angular velocity
   }
 
+  public static class WinchConstants {
+    public static final double WINCH_POWER = 0.15; // Adjust this constant as needed, 15% according to Ryker
+  }
+  
   public static class CANIDs {
 
     /*
