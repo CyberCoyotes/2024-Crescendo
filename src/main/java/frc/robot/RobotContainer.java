@@ -21,6 +21,7 @@ import frc.robot.commands.IntakeIndex;
 import frc.robot.commands.IntakeRevCommandGroup;
 import frc.robot.commands.RevAndShootCommand;
 import frc.robot.commands.RunShooter;
+import frc.robot.commands.SetArmClimb;
 import frc.robot.commands.SetIndex;
 import frc.robot.commands.SetWinch;
 import frc.robot.commands.ShootClose;
@@ -182,11 +183,14 @@ public class RobotContainer {
     m_driverController.rightTrigger().whileFalse(new InstantCommand(() -> shooter.SetOutput(0)));
     m_driverController.leftTrigger().whileTrue(new SetIndex(index,-0.75));
 
-    // TODO Moves the arm with VoltageOut which is open loop, so it shouldn't hold position
-    // ArmPose doesn't stop
-    // m_driverController.povUp().whileTrue(new InstantCommand(() -> arm.setArmForWinch(Constants.ArmConstants.ARM_AMP_POSE)));
-    m_driverController.povDown().whileTrue(new SetWinch(winch, Constants.WinchConstants.WINCH_POWER));
-    m_driverController.povRight().whileTrue(new SetWinch(winch, 0.10));
+    // TODO Moves the arm with an open loop, so it shouldn't hold position
+    // VoltageOut failed to stop the arm
+    // PositionDutyCycle
+
+    m_driverController.povUp().whileTrue(new SetArmClimb(arm,Constants.ArmConstants.ARM_MANUAL_POWER));
+
+    m_operatorController.y().whileTrue(new SetWinch(winch, Constants.WinchConstants.WINCH_POWER));
+    m_operatorController.b().whileTrue(new SetWinch(winch, 0.10));
 
   };
 

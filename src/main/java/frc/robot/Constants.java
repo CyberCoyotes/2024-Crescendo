@@ -47,6 +47,8 @@ public final class Constants {
     public static final int ARM_SUPPLY_LIMIT = 15;
     public static final double ARM_ROTATION_LIMIT_NATIVE = 0;
 
+    public static final double ARM_MANUAL_POWER = 6; // for Voltage control
+
     public static final class ConstantsPlus {
 
       static final Slot0Configs armGains0 = new Slot0Configs().withGravityType(GravityTypeValue.Arm_Cosine)
@@ -124,7 +126,7 @@ public final class Constants {
   }
 
   public static class WinchConstants {
-    public static final double WINCH_POWER = -0.05; // Adjust this constant as needed, 15% according to Ryker
+    public static final double WINCH_POWER = -0.20; // Adjust this constant as needed, 15% according to Ryker
   }
   
   public static class CANIDs {
