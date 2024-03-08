@@ -124,7 +124,7 @@ public final class Constants {
   }
 
   public static class WinchConstants {
-    public static final double WINCH_POWER = 0.15; // Adjust this constant as needed, 15% according to Ryker
+    public static final double WINCH_POWER = -0.05; // Adjust this constant as needed, 15% according to Ryker
   }
   
   public static class CANIDs {

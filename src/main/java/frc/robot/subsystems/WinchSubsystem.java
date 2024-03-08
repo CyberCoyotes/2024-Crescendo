@@ -26,10 +26,6 @@ public class WinchSubsystem extends SubsystemBase {
         controlRequest.Output = Math.round(supplier.getAsDouble());
     }
 
-    public void RunWinch(double power) {
-        m_motor.setControl(controlRequest.withOutput(power));
-    }
-
     public double GetControl() {
         return controlRequest.Output;
     }
