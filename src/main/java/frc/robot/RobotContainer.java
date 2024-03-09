@@ -10,6 +10,8 @@ import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -145,6 +147,10 @@ public class RobotContainer {
     DebugMethodSingle();
   }
 
+  public static boolean isAllianceRed() {
+    return DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red;
+  }
+
   private void configureBindings() {
 
     drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
@@ -162,12 +168,11 @@ public class RobotContainer {
     */
     
     // reset the field-centric heading
-    /*
-     * m_driverController.b().whileTrue(drivetrain
-     * .applyRequest(() -> point
-     * .withModuleDirection(new Rotation2d(-m_driverController.getLeftY(),
-     * -m_driverController.getLeftX()))));
-     */
+    /* 
+    m_driverController.b().whileTrue(drivetrain.applyRequest(() -> point
+    .withModuleDirection(new Rotation2d(-m_driverController.getLeftY(),
+    -m_driverController.getLeftX()))));
+    */
 
     // reset the field-centric heading on left bumper press
     m_driverController.start().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
@@ -188,8 +193,9 @@ public class RobotContainer {
     // PositionDutyCycle
 
     m_operatorController.y().whileTrue(new SetWinch(winch, Constants.WinchConstants.WINCH_POWER));
+     // m_operatorController.x().whileTrue(new SetWinch(winch, 0.05)); // Only use in the pits
     m_operatorController.b().whileTrue(new SetArmClimb(arm,Constants.ArmConstants.ARM_MANUAL_POWER));
-
+   
   };
 
   public void DebugMethodSingle() {
