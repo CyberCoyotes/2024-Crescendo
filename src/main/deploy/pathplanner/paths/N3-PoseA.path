@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 2.754452527449989,
-        "y": 7.05
+        "y": 7.2
       },
       "prevControl": null,
       "nextControl": {
         "x": 2.7044525274499893,
-        "y": 7.05
+        "y": 7.2
       },
       "isLocked": false,
       "linkedName": "NotePose3"
