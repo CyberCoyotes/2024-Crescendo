@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.0385312597900493,
-        "y": 4.104777178092051
+        "x": 1.5131038535971493,
+        "y": 2.9042874633538145
       },
       "isLocked": false,
       "linkedName": "PoseC"
@@ -20,8 +20,8 @@
         "y": 1.0
       },
       "prevControl": {
-        "x": 6.989293606832575,
-        "y": 1.1551560871167381
+        "x": 4.358837134222056,
+        "y": 1.182794491123932
       },
       "nextControl": null,
       "isLocked": false,
@@ -39,7 +39,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 162.2157725947844,
+    "rotation": 167.32117640400168,
     "rotateFast": false
   },
   "reversed": false,
