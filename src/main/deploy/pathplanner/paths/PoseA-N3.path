@@ -8,27 +8,33 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.2536068360768096,
-        "y": 6.814889575638576
+        "x": 1.6419230556007463,
+        "y": 7.14361029292672
       },
       "isLocked": false,
       "linkedName": "PoseA"
     },
     {
       "anchor": {
-        "x": 2.754452527449989,
-        "y": 7.2
+        "x": 2.95,
+        "y": 7.05
       },
       "prevControl": {
-        "x": 2.4817807888945884,
-        "y": 7.2
+        "x": 1.0924295166707294,
+        "y": 7.0170319660182825
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "NotePose3"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.7,
+      "rotationDegrees": 180.0,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {

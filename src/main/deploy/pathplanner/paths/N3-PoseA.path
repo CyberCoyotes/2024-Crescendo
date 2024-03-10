@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.754452527449989,
-        "y": 7.2
+        "x": 2.95,
+        "y": 7.05
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.7044525274499893,
-        "y": 7.2
+        "x": 2.9000000000000004,
+        "y": 7.05
       },
       "isLocked": false,
       "linkedName": "NotePose3"
