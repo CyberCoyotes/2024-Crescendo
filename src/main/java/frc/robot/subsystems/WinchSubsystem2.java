@@ -19,6 +19,7 @@ public class WinchSubsystem2 extends SubsystemBase {
         // motor.setInverted(false);
     }
 
+    
     public void runWinch(double power) {
 
         motor.setControl(dutyCycle.withOutput(power));

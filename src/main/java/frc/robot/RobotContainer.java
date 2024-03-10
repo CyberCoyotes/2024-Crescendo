@@ -192,6 +192,8 @@ public class RobotContainer {
     // PositionDutyCycle
 
     m_operatorController.y().whileTrue(new SetWinch(winch, Constants.WinchConstants.WINCH_POWER));
+    m_operatorController.back().whileTrue(new SetWinch(winch, Constants.WinchConstants.WINCH_POWER_BOOST));
+
      // m_operatorController.x().whileTrue(new SetWinch(winch, 0.05)); // Only use in the pits
     m_operatorController.b().whileTrue(new SetArmClimb(arm,Constants.ArmConstants.ARM_MANUAL_POWER));
    
