@@ -95,12 +95,12 @@ public class LedSubsystem extends SubsystemBase {
    }
 
    public void ColorGreen() {
-      AnimeOFFMaybe();
+      // AnimeOFFMaybe();
       m_candle.setLEDs(0, 255, 0);
    }
 
    public void ColorBlue() {
-      AnimeOFFMaybe();
+      // AnimeOFFMaybe();
       m_candle.setLEDs(0, 0, 255);
    }
 
