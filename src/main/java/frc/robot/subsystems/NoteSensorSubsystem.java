@@ -77,11 +77,13 @@ public class NoteSensorSubsystem extends SubsystemBase {
             m_ledSubsystem.ColorGreen();
 
         } else if (isNoteLoaded() == false && AllianceColor.get() == Alliance.Red) {
-         m_ledSubsystem.ColorFlowRed();
+         // m_ledSubsystem.ColorFlowRed();
+         m_ledSubsystem.ColorRed();
             
            
         } else if(isNoteLoaded() == false && AllianceColor.get() == Alliance.Blue) {
-            m_ledSubsystem.ColorFlowBlue(); 
+         // m_ledSubsystem.ColorFlowBlue();
+         m_ledSubsystem.ColorBlue(); 
         }
         
     }
