@@ -147,6 +147,7 @@ public class RobotContainer {
     DebugMethodSingle();
   }
 
+
   public static boolean isAllianceRed() {
     return DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red;
   }
@@ -174,8 +175,7 @@ public class RobotContainer {
     -m_driverController.getLeftX()))));
     */
 
-    // reset the field-centric heading on left bumper press
-    m_driverController.start().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
+        m_driverController.start().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
     m_driverController.a().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_HOME_POSE)));
     m_driverController.b().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_MID_POSE)));
     m_driverController.x().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_AMP_POSE)));
@@ -187,14 +187,8 @@ public class RobotContainer {
     m_driverController.rightTrigger().whileFalse(new InstantCommand(() -> shooter.SetOutput(0)));
     m_driverController.leftTrigger().whileTrue(new SetIndex(index,-0.75));
 
-    // TODO Moves the arm with an open loop, so it shouldn't hold position
-    // VoltageOut failed to stop the arm
-    // PositionDutyCycle
-
     m_operatorController.y().whileTrue(new SetWinch(winch, Constants.WinchConstants.WINCH_POWER));
     m_operatorController.back().whileTrue(new SetWinch(winch, Constants.WinchConstants.WINCH_POWER_BOOST));
-
-     // m_operatorController.x().whileTrue(new SetWinch(winch, 0.05)); // Only use in the pits
     m_operatorController.b().whileTrue(new SetArmClimb(arm,Constants.ArmConstants.ARM_MANUAL_POWER));
    
   };
