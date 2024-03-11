@@ -12,6 +12,8 @@ import frc.robot.experimental.IncrementIndex;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.ShooterSubsystemVelocity;
 
+@SuppressWarnings("unused")
+
 /**
  * RevAndShootCommand
  */
