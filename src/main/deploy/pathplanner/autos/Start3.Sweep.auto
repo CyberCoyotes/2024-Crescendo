@@ -24,6 +24,12 @@
           }
         },
         {
+          "type": "path",
+          "data": {
+            "pathName": "PoseC-Approach8"
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
@@ -36,7 +42,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "PoseC-8Sweep"
+                  "pathName": "Approach8-N8"
                 }
               }
             ]
