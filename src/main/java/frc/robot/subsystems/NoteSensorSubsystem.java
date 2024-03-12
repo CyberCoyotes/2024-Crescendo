@@ -40,7 +40,7 @@ public class NoteSensorSubsystem extends SubsystemBase {
     /* Constructor */
     public NoteSensorSubsystem() {
         /*
-         * Initialize the sensor, and '.setRangingMode(RangingMode.Short)' for this
+         * Initialize the sensor, and '.setRangingMode(RangingMode.Short)' foDr this
          * usage.
          *
          * | Sample value | Time |
@@ -50,8 +50,11 @@ public class NoteSensorSubsystem extends SubsystemBase {
          * | 3 | 50 ms |
          * | 4 (default) | 100 ms |
          * | 5 | 200 ms |
+         *  | 6 | 400 ms | ?
+         * | 7 | 800 ms | ?
+         * | 8 | 1.6 s | ?
          *****************************/
-        noteDistance.setRangingMode(RangingMode.Short, 1);
+        noteDistance.setRangingMode(RangingMode.Short, 7);
     }
 
     public double getNoteDistance() {
