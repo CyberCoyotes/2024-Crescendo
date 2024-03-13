@@ -26,6 +26,8 @@ import com.ctre.phoenix.led.ColorFlowAnimation.Direction;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
+@SuppressWarnings("unused")
+
 public class LedSubsystem extends SubsystemBase {
    private final CANdle m_candle = new CANdle(Constants.CANIDs.CANDLE_ID);
 
