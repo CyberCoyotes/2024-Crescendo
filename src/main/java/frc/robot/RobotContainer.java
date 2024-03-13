@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.IntakeCommandGroup;
+import frc.robot.commands.IntakeIndex;
 import frc.robot.commands.IntakeRevCommandGroup;
 import frc.robot.commands.RevAndShootCommand;
 import frc.robot.commands.RunShooter;
@@ -25,9 +26,6 @@ import frc.robot.commands.SetArmClimb;
 import frc.robot.commands.SetIndex;
 import frc.robot.commands.SetWinch;
 import frc.robot.commands.ShootClose;
-import frc.robot.commands.ShooterIndex;
-import frc.robot.experimental.IntakeIndex;
-import frc.robot.experimental.StopShooting;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IndexSubsystem;
@@ -101,10 +99,10 @@ public class RobotContainer {
     * Unintended side effect is this will create EVERY auton file from the RIO deploy folder.
     * FTP into the the RIO to delete old auton options */
     autoChooser = AutoBuilder.buildAutoChooser();
-    SmartDashboard.putData("Auto Chooser", autoChooser);
+    // SmartDashboard.putData("Auto Chooser", autoChooser);
+    Shuffleboard.getTab("Auton").add("Auto Chooser", autoChooser);
 
     shooter = new ShooterSubsystemVelocity();
-    index.setDefaultCommand(index.run(() -> index.SetPower(BumperStatus(1))));
 
     /* Configure the Button Bindings */
     configureBindings();
@@ -163,7 +161,7 @@ public class RobotContainer {
     
   };
 
-  /* Use for Debugging purposes */
+  /* Use for Debugging and diagnostics purposes */
   public void DebugMethodSingle() {
     // #region Driving
 
@@ -172,29 +170,14 @@ public class RobotContainer {
 
     // Less useful logs that we still need to see for testing.
 
-    // var driverDiagnostics = Shuffleboard.getTab("Driver Diagnostics");
-    var driverDiagnostics = Shuffleboard.getTab("Driver Diagnostics");
-
-    driverDiagnostics.add(autoChooser);
-
-    driverDiagnostics.addBoolean("Note Detected", () -> index.HasCargo());
+    var driverDiagnostics = Shuffleboard.getTab("Diagnostics");
+    
     // driverDiagnostics.addDouble("Arm Rot", () -> arm.GetArmPos().getValueAsDouble());
     // driverDiagnostics.addDouble("Arm Rot Deg", () -> arm.GetPositionDegrees());
     // arm.showArmTelemetry("Driver Diagnostics");
+    // Shuffleboard.getTab("Arm").add("Arm Output", arm);
 
     // #endregion Testing
-  }
-
-  /**
-   * Schizophrenic method to quickly get an int indicating driver bumper status. 1
-   * if RB,-1 if LB, 0 if both or none
-   * 
-   * @param port controller port, 0 is driver, 1 is operaator
-   * @return an int indicating driver bumper status.
-   */
-  private double BumperStatus(int port) {
-    return (Controllers[port].rightBumper().getAsBoolean() ? 1 : 0)
-        + (Controllers[port].leftBumper().getAsBoolean() ? -1 : 0);
   }
 
   public Command getAutonomousCommand() {

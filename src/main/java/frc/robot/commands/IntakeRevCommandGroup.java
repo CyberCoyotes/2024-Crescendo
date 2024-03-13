@@ -9,7 +9,7 @@ public class IntakeRevCommandGroup extends SequentialCommandGroup {
     // LED to unloaded color
     // Intake + Index in parallel.
     // Note triggers the note sensor (ToF), turn off both intake and index,
-    // Set LED status to loaded (and shuffleboard)
+    // Set LED status to loaded and to dashboard
 
     SetIntake runIntake;
     IndexSubsystem index;

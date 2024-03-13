@@ -1,22 +1,21 @@
 package frc.robot.subsystems;
 
-/* Subsystem class to primarily use a Time of Flight sensor from 'Playing with Fusion'.
- * It will read the distance from the sensor to the 'note' and determine if the note is in a load position.
- * It should return an actual distance reading to the SmartDashboard and a boolean for a method 'isNoteLoaded'
- * This sensor data will change LED status and enable/disable intake and index motors
- */
-
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
 import java.util.Optional;
 
 import com.playingwithfusion.TimeOfFlight;
 import com.playingwithfusion.TimeOfFlight.RangingMode;
 
-import edu.wpi.first.hal.AllianceStationID;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+
+/* Subsystem class to primarily use a Time of Flight sensor from 'Playing with Fusion'.
+ * It will read the distance from the sensor to the 'note' and determine if the note is in a load position.
+ * It should return an actual distance reading to and a boolean for a method 'isNoteLoaded'
+ * This sensor data will change LED status and enable/disable intake and index motors
+ */
+
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class NoteSensorSubsystem extends SubsystemBase {
@@ -50,11 +49,9 @@ public class NoteSensorSubsystem extends SubsystemBase {
          * | 3 | 50 ms |
          * | 4 (default) | 100 ms |
          * | 5 | 200 ms |
-         *  | 6 | 400 ms | ?
-         * | 7 | 800 ms | ?
-         * | 8 | 1.6 s | ?
+
          *****************************/
-        noteDistance.setRangingMode(RangingMode.Short, 7);
+        noteDistance.setRangingMode(RangingMode.Short, 4);
     }
 
     public double getNoteDistance() {
@@ -101,8 +98,12 @@ public class NoteSensorSubsystem extends SubsystemBase {
         // ! Can be achieved with Shuffleboard call in
         // ! Constructor, per 
         setLEDColor();
-        SmartDashboard.putNumber("Note Distance", noteDistance.getRange());
-        SmartDashboard.putBoolean("Note Loaded", isNoteLoaded());
+
+        // Only needed for diagnostics
+        // Shuffleboard.getTab("Note").add("Note Distance", noteDistance.getRange());
+        // FIXME: This is not working as expected. Code crashes saying .add title is already in use, probably because it's being called periodically.
+        // Shuffleboard.getTab("Sensors").add("Note Loaded 2", isNoteLoaded());
+
     }
 }
 // end of class NoteSensorSubsystem

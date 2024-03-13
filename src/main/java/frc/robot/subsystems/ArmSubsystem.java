@@ -14,7 +14,7 @@ import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -102,10 +102,11 @@ public class ArmSubsystem extends SubsystemBase {
         m_arm.getConfigurator().apply(armCurrent0, 0.050);
 
         /*
-         * Send info about the arm to the Smart Dashboard
+         * Send info about the arm to the Shuffleboard
          * Defaults to percent output
+         * Only needed for diagnostics
          */
-        // SmartDashboard.putData("Arm Output", m_arm);
+        // Shuffleboard.getTab("Arm").add("Arm Output", m_arm);
 
     } /* End of the class-method */
 
@@ -115,14 +116,12 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     public void setArmPose(double armPose) {
+        m_arm.setControl(m_armPose.withPosition(armPose));
+        
+        // less effecient approach, shouldn't use this
+        // m_arm.setControl(new MotionMagicVoltage(armPose));
 
-        m_arm.setControl(
-          
-            new  MotionMagicVoltage(armPose));
-            /* 
-            SmartDashboard.putNumber("Arm Position", m_arm.getPosition().getValue());
-            SmartDashboard.putNumber("Arm Stator", m_arm.getStatorCurrent().getValue());*/
-            showArmTelemetry();
+        // showArmTelemetry();
             
     }
 
@@ -131,11 +130,13 @@ public class ArmSubsystem extends SubsystemBase {
         // PositionVoltage armPose = new PositionVoltage(armPose);
     public void setArmForClimb(double power) {
         m_arm.setControl(new VoltageOut (power));
-        showArmTelemetry();
+        // showArmTelemetry();
 
 
     }
 
+    /* I think this is all unused code */
+    /*
     double targetPosition = 10;
 
     public void moveArmToPositionAndStop(double targetPosition) {
@@ -149,22 +150,37 @@ public class ArmSubsystem extends SubsystemBase {
 
     // Stop the arm
     m_arm.setControl(new PositionDutyCycle(0));
-}
+    }
+    */
 
     /*
      * Currently only being called in subsystem-command;
      * inspite of my efforts it only appears once it's triggered at least once
      */
+    /* 
     public void showArmTelemetry() {
-        SmartDashboard.putNumber("Arm Position", m_arm.getPosition().getValue());
-        SmartDashboard.putNumber("Arm Stator", m_arm.getStatorCurrent().getValue());
-        SmartDashboard.putNumber("Arm Supply", m_arm.getSupplyCurrent().getValue());
-        SmartDashboard.putNumber("Arm Voltage", m_arm.getMotorVoltage().getValue());
+
+        Shuffleboard.getTab("Arm").add("Arm Position", m_arm.getPosition().getValue());
+        Shuffleboard.getTab("Arm").add("Arm Stator", m_arm.getStatorCurrent().getValue());
+        Shuffleboard.getTab("Arm").add("Arm Supply", m_arm.getSupplyCurrent().getValue());
+        Shuffleboard.getTab("Arm").add("Arm Voltage", m_arm.getMotorVoltage().getValue());
     }
+    */
 
     public void stopArm(double power) {
         m_arm.setControl(new VoltageOut(0));
 
+    }
+
+    @Override
+    public void periodic() {
+        /* Only needed for diagnostics */
+        /*
+        Shuffleboard.getTab("Arm").add("Arm Position", m_arm.getPosition().getValue());
+        Shuffleboard.getTab("Arm").add("Arm Stator", m_arm.getStatorCurrent().getValue());
+        Shuffleboard.getTab("Arm").add("Arm Supply", m_arm.getSupplyCurrent().getValue());
+        Shuffleboard.getTab("Arm").add("Arm Voltage", m_arm.getMotorVoltage().getValue());
+         */
     }
 
 } // end of ArmSubsystem method

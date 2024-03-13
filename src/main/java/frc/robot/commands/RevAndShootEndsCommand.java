@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Constants;
-import frc.robot.experimental.IncrementIndex;
+// import frc.robot.experimental.IncrementIndex;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.ShooterSubsystemVelocity;
 
@@ -23,14 +23,14 @@ public class RevAndShootEndsCommand extends SequentialCommandGroup {
     IndexSubsystem indexer;
     ShooterSubsystemVelocity shooter;
     // component Commands
-    private IncrementIndex outtaMyWay;
+    // private IncrementIndex outtaMyWay;
     private Command revUpShooter;
     private Command indexCommand;
 
     public RevAndShootEndsCommand(IndexSubsystem indexer) {
         // Set up our subsystems
         this.indexer = indexer;
-        outtaMyWay = new IncrementIndex(indexer);
+        // outtaMyWay = new IncrementIndex(indexer);
     }
 
     public RevAndShootEndsCommand(IndexSubsystem indexer, ShooterSubsystemVelocity shooter) {

@@ -10,7 +10,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -148,8 +148,8 @@ public class ShooterSubsystemVelocity extends SubsystemBase {
     @Override
     public void periodic() {
         // System.out.println(m_main.getVelocity());
-        SmartDashboard.putNumber("Velocity", GetVelocity());
-        SmartDashboard.putBoolean("Velocity Achieved", isAtSetpoint());
+        // Shuffleboard.getTab("Shooter").add("Velocity", GetVelocity());
+        // Shuffleboard.getTab("Shooter").add("Velocity Achieved", isAtSetpoint());
     }
 
 }
