@@ -37,7 +37,7 @@ public final class Constants {
     public static final double ARM_MID_POSE = 20;
     public static final double ARM_HIGH_POSE = 55;
     public static final double ARM_AMP_POSE = 90;
-    public static final int ARM_FWD_LIMIT = 91;
+    public static final int ARM_FWD_LIMIT = 100; // Previous event 91
 
     public static final int ARM_MAX_ACCEL = 100;
     public static final int ARM_MAX_VEL = 200;

@@ -170,7 +170,7 @@ public class RobotContainer {
 
     // Less useful logs that we still need to see for testing.
 
-    var driverDiagnostics = Shuffleboard.getTab("Diagnostics");
+    // var driverDiagnostics = Shuffleboard.getTab("Diagnostics");
     
     // driverDiagnostics.addDouble("Arm Rot", () -> arm.GetArmPos().getValueAsDouble());
     // driverDiagnostics.addDouble("Arm Rot Deg", () -> arm.GetPositionDegrees());
