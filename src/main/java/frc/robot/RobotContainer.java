@@ -99,8 +99,8 @@ public class RobotContainer {
     * Unintended side effect is this will create EVERY auton file from the RIO deploy folder.
     * FTP into the the RIO to delete old auton options */
     autoChooser = AutoBuilder.buildAutoChooser();
-    // SmartDashboard.putData("Auto Chooser", autoChooser);
-    Shuffleboard.getTab("Auton").add("Auto Chooser", autoChooser);
+    SmartDashboard.putData("Auto Chooser", autoChooser);
+    // Shuffleboard.getTab("Auton").add("Auto Chooser", autoChooser);
 
     shooter = new ShooterSubsystemVelocity();
 
