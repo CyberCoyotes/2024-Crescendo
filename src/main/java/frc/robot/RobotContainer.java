@@ -177,7 +177,7 @@ public class RobotContainer {
   /* Use for Debugging and diagnostics purposes */
   public void DebugMethodSingle() {
     // #region Driving
-
+    var driverDiagnostics = Shuffleboard.getTab("Driver Diagnostics");
     // #endregion Driving
     // #region Testing
 

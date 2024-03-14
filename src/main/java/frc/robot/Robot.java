@@ -10,6 +10,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.CvSink;
 import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.cscore.VideoSource;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -28,9 +29,10 @@ public class Robot extends TimedRobot {
     CameraServer.startAutomaticCapture();
     // Creates the CvSink and connects it to the UsbCamera
     CvSink cvSink = CameraServer.getVideo();
+        NetworkTableInstance.getDefault().getTable("limelight-speedy").getEntry("stream").setNumber(2);
 
     // Creates the CvSource and MjpegServer [2] and connects them
-    CvSource outputStream = CameraServer.putVideo("Blur", 640, 480);
+    
   }
 
   @Override

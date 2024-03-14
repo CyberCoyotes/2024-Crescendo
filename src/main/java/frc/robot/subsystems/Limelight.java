@@ -46,7 +46,6 @@ public class Limelight {
         camMode = limelightBack.getEntry("camMode");
         pipeline = limelightBack.getEntry("pipeline");
         solvePNP = limelightBack.getEntry("camtran");
-        NetworkTableInstance.getDefault().getTable("limelight-speedy").getEntry("stream").setNumber(2);
 
     }
 
