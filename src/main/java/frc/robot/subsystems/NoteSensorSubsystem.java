@@ -50,7 +50,7 @@ public class NoteSensorSubsystem extends SubsystemBase {
          * | 5 | 200 ms |
 
          *****************************/
-        noteDistance.setRangingMode(RangingMode.Short, 4);
+        noteDistance.setRangingMode(RangingMode.Short, 1);
     }
 
     public double getNoteDistance() {
