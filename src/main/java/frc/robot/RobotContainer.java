@@ -86,7 +86,7 @@ public class RobotContainer {
 
   private final IntakeCommandGroup intakeGroup = new IntakeCommandGroup(index, intake);
   private final IntakeRevCommandGroup intakeRevGroup = new IntakeRevCommandGroup(index, intake);
-  ChargeIntakeCommand chargeIntake = new ChargeIntakeCommand(drivetrain, intake, driveRequest);
+  // ChargeIntakeCommand chargeIntake = new ChargeIntakeCommand(drivetrain, intake, driveRequest);
 
   /* Autonomous Chooser */
   SendableChooser<Command> autoChooser;
@@ -131,7 +131,7 @@ public class RobotContainer {
 
   /* Method to configure the button bindings */
   private void configureBindings() {
-
+    index.setDefaultCommand(index.run(() -> index.SetPower(0)));
             driveRequest = drive.withVelocityX(-m_driverController.getLeftY() * MaxSpeed)
             .withVelocityY(-m_driverController.getLeftX() * MaxSpeed) // Drive left with negative X (left)
             .withRotationalRate(-m_driverController.getRightX() * MaxAngularRate) // Drive counterclockwise with
@@ -195,9 +195,10 @@ public class RobotContainer {
 
     // #endregion Testing
   }
+  
 
   public Command getAutonomousCommand() {
     return autoChooser.getSelected();
-  }
+  }  
 
 } // End of class
