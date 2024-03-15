@@ -23,7 +23,8 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
-    SignalLogger.setPath("/media/sda1/");
+    //DO NOT LEAVE THIS UNCOMMENTED DURING COMPETITION
+    // SignalLogger.setPath("/media/sda1/");
     // SignalLogger.start();
     CameraServer.startAutomaticCapture();
     // Creates the CvSink and connects it to the UsbCamera
