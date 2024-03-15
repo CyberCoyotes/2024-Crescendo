@@ -50,6 +50,7 @@ public class NoteSensorSubsystem extends SubsystemBase {
          * | 5 | 200 ms |
 
          *****************************/
+        // The refresh time at Lake City was 1, i.e. 20ms
         noteDistance.setRangingMode(RangingMode.Short, 1);
     }
 
