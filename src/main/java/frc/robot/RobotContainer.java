@@ -41,7 +41,7 @@ import frc.robot.subsystems.WinchSubsystem2;
 public class RobotContainer {
 
   RunShooter shooterRun;
-
+  SwerveRequest.FieldCentric driveRequest;
   // private final Telemetry logger = new
   // Telemetry(Constants.SystemConstants.MAX_SPEED);
   // #endregion
@@ -86,6 +86,7 @@ public class RobotContainer {
 
   private final IntakeCommandGroup intakeGroup = new IntakeCommandGroup(index, intake);
   private final IntakeRevCommandGroup intakeRevGroup = new IntakeRevCommandGroup(index, intake);
+  ChargeIntakeCommand chargeIntake = new ChargeIntakeCommand(drivetrain, intake, driveRequest);
 
   /* Autonomous Chooser */
   SendableChooser<Command> autoChooser;
@@ -131,13 +132,15 @@ public class RobotContainer {
   /* Method to configure the button bindings */
   private void configureBindings() {
 
-    drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
-        // Drive forward with negative Y (forward)
-        drivetrain.applyRequest(() -> drive.withVelocityX(-m_driverController.getLeftY() * MaxSpeed)
+            driveRequest = drive.withVelocityX(-m_driverController.getLeftY() * MaxSpeed)
             .withVelocityY(-m_driverController.getLeftX() * MaxSpeed) // Drive left with negative X (left)
             .withRotationalRate(-m_driverController.getRightX() * MaxAngularRate) // Drive counterclockwise with
                                                                                   // negative X (left)
-        ));
+        ;
+    drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
+        // Drive forward with negative Y (forward)
+
+        drivetrain.applyRequest(() -> driveRequest));
 
     // m_driverController.a().whileTrue(drivetrain.applyRequest(() -> brake));
     /*
@@ -171,6 +174,7 @@ public class RobotContainer {
     // m_operatorController.x().whileTrue (new));
     m_operatorController.y().whileTrue(new SetWinch(winch, Constants.WinchConstants.WINCH_POWER));
     m_operatorController.back().whileTrue(new SetWinch(winch, Constants.WinchConstants.WINCH_POWER_BOOST));
+    // m_operatorController.start().whileTrue();
 
   };
 
