@@ -185,8 +185,6 @@ public class RobotContainer {
     // #endregion Driving
     // #region Testing
 
-    // Less useful logs that we still need to see for testing.
-
     // driverDiagnostics.addDouble("Arm Rot", () ->
     // arm.GetArmPos().getValueAsDouble());
     // driverDiagnostics.addDouble("Arm Rot Deg", () -> arm.GetPositionDegrees());
