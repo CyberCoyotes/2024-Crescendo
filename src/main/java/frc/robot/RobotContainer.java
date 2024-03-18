@@ -28,6 +28,8 @@ import frc.robot.commands.SetArmClimb;
 import frc.robot.commands.SetIndex;
 import frc.robot.commands.SetWinch;
 import frc.robot.commands.ShootClose;
+import frc.robot.experimental.SetShooterVelocity;
+import frc.robot.experimental.ShootWhenReady;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IndexSubsystem;
@@ -35,6 +37,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.ShooterSubsystemVelocity;
 import frc.robot.subsystems.WinchSubsystem2;
+import frc.robot.subsystems.ShooterSubsystem2;
 
 // Getting rid of the soft unused warnings
 @SuppressWarnings("unused")
@@ -56,6 +59,7 @@ public class RobotContainer {
   IndexSubsystem index = new IndexSubsystem();
   WinchSubsystem2 winch = new WinchSubsystem2();
   ArmSubsystem arm = new ArmSubsystem();
+  ShooterSubsystem2 shooter2 = new ShooterSubsystem2();
   // #endregion Subsystems
 
   // #region commands
@@ -86,6 +90,9 @@ public class RobotContainer {
 
   private final IntakeCommandGroup intakeGroup = new IntakeCommandGroup(index, intake);
   private final IntakeRevCommandGroup intakeRevGroup = new IntakeRevCommandGroup(index, intake);
+  private final SetShooterVelocity setShooterVelocity = new SetShooterVelocity(shooter2, 10);
+  private final ShootWhenReady shootWhenReady = new ShootWhenReady(shooter2, index);
+
   // ChargeIntakeCommand chargeIntake = new ChargeIntakeCommand(drivetrain, intake, driveRequest);
 
   /* Autonomous Chooser */
@@ -111,7 +118,8 @@ public class RobotContainer {
     SmartDashboard.putData("Auto Chooser", autoChooser);
     // Shuffleboard.getTab("Auton").add("Auto Chooser", autoChooser);
 
-    shooter = new ShooterSubsystemVelocity();
+    // TODO removed
+    // shooter = new ShooterSubsystemVelocity();
 
     /* Configure the Button Bindings */
     configureBindings();
@@ -167,8 +175,16 @@ public class RobotContainer {
 
     m_driverController.rightBumper().whileTrue(new IntakeCommandGroup(index, intake));
     m_driverController.leftBumper().whileTrue(new IntakeRevCommandGroup(index, intake));
-    m_driverController.rightTrigger().whileTrue(new RevAndShootCommand(index, shooter));
-    m_driverController.rightTrigger().whileFalse(new InstantCommand(() -> shooter.SetOutput(0)));
+
+    /* Testing */
+    // m_driverController.rightTrigger().whileTrue(new RevAndShootCommand(index, shooter));
+    // m_driverController.rightTrigger().whileFalse(new InstantCommand(() -> shooter.SetOutput(0)));
+    
+    // TODO Test
+//    m_driverController.rightTrigger().whileTrue(setShooterVelocity); // (shootWhenReady);
+    m_driverController.rightTrigger().whileTrue(shootWhenReady); // (shootWhenReady);
+
+
     m_driverController.leftTrigger().whileTrue(new SetIndex(index, -0.75));
 
     // m_operatorController.a().whileTrue (new));

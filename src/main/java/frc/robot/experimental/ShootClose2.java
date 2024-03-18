@@ -8,7 +8,7 @@ import frc.robot.commands.SetIndex;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.experimental.ShooterSubsystem2;
+import frc.robot.subsystems.ShooterSubsystem2;
 
 
 public class ShootClose2 extends ParallelCommandGroup{
@@ -19,7 +19,7 @@ public class ShootClose2 extends ParallelCommandGroup{
             // new SetArmPosition(arm, Constants.ArmConstants.ARM_HOME_POSE),
             // new ShooterIndex(shooter, index).withTimeout(1.0)
 
-            new SetShooter(shooter, 60),
+            new SetShooterVelocity(shooter, 60),
             new ShootWhenReady(shooter, index)
 
         );
