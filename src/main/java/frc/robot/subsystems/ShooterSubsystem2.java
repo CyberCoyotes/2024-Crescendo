@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
@@ -22,9 +23,10 @@ public class ShooterSubsystem2 extends SubsystemBase{
     private VelocityVoltage m_primaryVelocity = new VelocityVoltage(0);
     private VelocityVoltage m_secondaryVelocity = new VelocityVoltage(0);
 
-    private double shooterVelocity = 10;
-    private boolean shooterlDisabled = false;
-    private double targetVelocity;
+    private double flywheelVelocity;
+    private double targetFlywheelVelocity;
+    private boolean shooterDisabled = false;
+    
 
     public ShooterSubsystem2() {
         /* Verbose? Absolutely. Effective? I hope so */
@@ -74,10 +76,10 @@ public class ShooterSubsystem2 extends SubsystemBase{
     } // end of constructor
 
     /* Sets the velocity the motors are using */
-    public void setShooterVelocity(double shooterVelocity) {
-        this.shooterVelocity = shooterVelocity;
-        // m_primaryMotor.setControl(m_primaryVelocity.withVelocity(shooterVelocity));
-        // m_secondaryMotor.setControl(m_secondaryVelocity.withVelocity(shooterVelocity * 0.95));
+    public void setTargetFlywheelVelocity(double targetFlywheelVelocity) {
+        // this.shooterVelocity = shooterVelocity;
+        m_primaryMotor.setControl(m_primaryVelocity.withVelocity(flywheelVelocity));
+//        m_secondaryMotor.setControl(m_secondaryVelocity.withVelocity(flywheelVelocity * 0.95));
     }
     /*
     public void setTargetFlywheelSpeed(double targetFlywheelSpeed) {
@@ -86,21 +88,17 @@ public class ShooterSubsystem2 extends SubsystemBase{
      */
 
     /* Returns the velocity of the flywheel */
-    public double getShooterVelocity() {
-        return shooterVelocity;
+    public double getTargetFlywheelVelocity() {
+        return targetFlywheelVelocity;
     }
 
-    /* Returns the velocity of the flywheel 
-    public double getShooterVelocity() {
-        if (Robot.isSimulation()) {
-            return flywheel.getAngularVelocityRadPerSec();
-        } else {
-            return flywheelPrimaryMotor.getSelectedSensorVelocity() * FLYWHEEL_SENSOR_VELOCITY_COEFFICIENT;
-        }
-    }*/
+    // Returns the velocity of the flywheel 
+    public StatusSignal<Double> getFlywheelVelocity() {
+        return m_primaryMotor.getVelocity(); // TODO check if this is the right method
+    }
 
-    public boolean isShooterAtTargetVelocity() {
-        return Math.abs(getShooterVelocity()) >= shooterVelocity;
+    public boolean isFlywheelAtTargetVelocity() {
+        return Math.abs(getFlywheelVelocity() - targetFlywheelVelocity) < 5; // TODO arbitrary error for now 
     }
 
 } // end of class ShooterSubsystem2
