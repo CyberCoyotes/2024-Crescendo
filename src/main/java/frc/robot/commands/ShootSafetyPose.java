@@ -16,7 +16,8 @@ public class ShootSafetyPose extends SequentialCommandGroup {
             new SetArmPosition(arm, Constants.ArmConstants.ARM_SAFETY_POSE),
             // new ShooterIndex(shooter, index).withTimeout(1.0)
             new RevAndShootCommand(index, shooter).withTimeout(1.25).andThen(new InstantCommand(() -> shooter.Disable(), shooter)),
-            new SetIndex(index, 0).withTimeout(.2)
+            new SetIndex(index, 0).withTimeout(.2),
+            new SetArmPosition(arm, Constants.ArmConstants.ARM_HOME_POSE)
         );
     }
 }
