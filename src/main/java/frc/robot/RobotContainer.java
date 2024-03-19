@@ -28,6 +28,7 @@ import frc.robot.commands.SetArmClimb;
 import frc.robot.commands.SetIndex;
 import frc.robot.commands.SetWinch;
 import frc.robot.commands.ShootClose;
+import frc.robot.commands.ShootSafetyPose;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IndexSubsystem;
@@ -87,6 +88,8 @@ public class RobotContainer {
   private final IntakeCommandGroup intakeGroup = new IntakeCommandGroup(index, intake);
   private final IntakeRevCommandGroup intakeRevGroup = new IntakeRevCommandGroup(index, intake);
   // ChargeIntakeCommand chargeIntake = new ChargeIntakeCommand(drivetrain, intake, driveRequest);
+
+  private final ShootSafetyPose shootSafetyPose = new ShootSafetyPose(arm, index, intake, shooter);
 
   /* Autonomous Chooser */
   SendableChooser<Command> autoChooser;
@@ -163,7 +166,9 @@ public class RobotContainer {
     m_driverController.a().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_HOME_POSE)));
     m_driverController.b().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_MID_POSE)));
     m_driverController.x().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_AMP_POSE)));
-    m_driverController.y().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_MID_POSE)));
+    
+    // FIXME Using this for Testing
+    m_driverController.y().whileTrue(shootSafetyPose);
 
     m_driverController.rightBumper().whileTrue(new IntakeCommandGroup(index, intake));
     m_driverController.leftBumper().whileTrue(new IntakeRevCommandGroup(index, intake));
