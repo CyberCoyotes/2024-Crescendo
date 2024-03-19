@@ -167,7 +167,7 @@ public class RobotContainer {
 
     // TODO Testing
     // m_driverController.b().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_SAFETY_POSE)));
-    m_driverController.b().whileTrue(new InstantCommand(() -> arm.setArmPose(32.5)));
+    m_driverController.b().whileTrue(new InstantCommand(() -> arm.setArmPose(20)));
     // 30 shots are too high, 35 is too slow shots at 160 inches.
     m_driverController.x().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_AMP_POSE)));
     

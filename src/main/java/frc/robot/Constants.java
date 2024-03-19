@@ -131,7 +131,7 @@ public final class Constants {
   }
 
   public static class ShooterConstants {
-    public static final double SHOOTER_VELOCITY = 70; // FIXME 60
+    public static final double SHOOTER_VELOCITY = 50; // FIXME 60
   }
 
   public static class SystemConstants {
