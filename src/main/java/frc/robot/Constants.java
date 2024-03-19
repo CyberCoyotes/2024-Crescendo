@@ -116,7 +116,7 @@ public final class Constants {
   }
 
   public static class ShooterConstants {
-    public static final double SHOOTER_VELOCITY = 60; // 60
+    public static final double SHOOTER_VELOCITY = 30; // FIXME 60
   }
 
   public static class SystemConstants {
@@ -159,8 +159,8 @@ public final class Constants {
      * | Intake | 20 |
      * | Index | 21 |
      * | Arm | 22 |
-     * | Launcher LT | 23 |
-     * | Launcher RT | 24 |
+     * | Launcher LT | 23 | TOP
+     * | Launcher RT | 24 | BOTTOM
      * | Winch | 25 |
      * | ToF Note | 42 |
      * 
@@ -172,8 +172,8 @@ public final class Constants {
     public static final int INTAKE_ID = 20;
     public static final int INDEX_ID = 21;
     public static final int ARM_ID = 22;
-    public static final int LEFT_FLYWHEEL_ID = 23;
-    public static final int RIGHT_FLYWHEEL_ID = 24;
+    public static final int LEFT_FLYWHEEL_ID = 23; // TOP
+    public static final int RIGHT_FLYWHEEL_ID = 24; // BOTTOM
     public static final int WINCH_ID = 25;
     public static final int NOTE_SENSOR_ID = 42; // Time of Flight sensor for the note
 
