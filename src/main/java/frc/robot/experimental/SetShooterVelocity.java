@@ -1,7 +1,6 @@
 package frc.robot.experimental;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.ShooterSubsystem2;
 
 public class SetShooterVelocity extends Command {
@@ -23,13 +22,13 @@ public class SetShooterVelocity extends Command {
 
     @Override
     public void execute() {
-        shooter.setShooterVelocity(velocity);
+        shooter.setTargetFlywheelVelocity(velocity);
 
     }
 
     @Override
     public void end(boolean interrupted) {
-        shooter.setShooterVelocity(0);
+        shooter.setTargetFlywheelVelocity(0);
     }
 
     @Override

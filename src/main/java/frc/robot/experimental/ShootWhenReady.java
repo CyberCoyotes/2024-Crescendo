@@ -1,6 +1,7 @@
 package frc.robot.experimental;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.ShooterSubsystem2;
 
@@ -23,8 +24,9 @@ public class ShootWhenReady extends Command {
 
     @Override
     public void execute() {
-        if (shooter.isShooterAtTargetVelocity() & index.HasCargo()) {
-            index.RunIndexing();
+        if (shooter.isFlywheelAtTarget() & index.HasCargo()) {
+            // index.RunIndexing();
+            index.SetPower(Constants.IndexConstants.INDEX_POWER);
         } else {
             index.SetPower(0);
         }
@@ -33,7 +35,7 @@ public class ShootWhenReady extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        shooter.setShooterVelocity(0);
+        shooter.setTargetFlywheelVelocity(0);
     }
 
     @Override
