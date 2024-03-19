@@ -34,7 +34,11 @@ public final class Constants {
     public static final int ARM_REV_LIMIT = 0;
     public static final double ARM_HOME_POSE = 0;
     public static final double ARM_LOW_POSE = 10;
-    public static final double ARM_MID_POSE = 20;
+    public static final double ARM_MID_POSE = 20; // 30 // 20
+    /* @202 inches
+     * 30 was too steep at 
+     * 40 was too flat
+     */
     public static final double ARM_HIGH_POSE = 55;
     public static final double ARM_AMP_POSE = 90;
     public static final int ARM_FWD_LIMIT = 100; // Previous event 91
@@ -116,7 +120,7 @@ public final class Constants {
   }
 
   public static class ShooterConstants {
-    public static final double SHOOTER_VELOCITY = 30; // FIXME 60
+    public static final double SHOOTER_VELOCITY = 70; // FIXME 60
   }
 
   public static class SystemConstants {

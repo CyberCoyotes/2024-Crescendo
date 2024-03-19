@@ -34,7 +34,7 @@ public class ShooterSubsystemVelocity extends SubsystemBase {
     private double runningVoltage = 20;
     // private double maxPower = 1;
     /** The multiplier that converts from "primary speed" to "secondary speed" */
-    private double ratio = .95;
+    private double ratio = 1.0;
     private VelocityVoltage mainVeloCycle;
     private VelocityVoltage subVeloCycle;
 
