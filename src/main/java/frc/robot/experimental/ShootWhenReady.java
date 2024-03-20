@@ -33,7 +33,8 @@ public class ShootWhenReady extends Command {
          */
 
         shooter2.setFlywheelVelocity(Constants.ShooterConstants.SHOOTER_VELOCITY);
-        if (shooter2.isFlywheelNominal() & notesensor.isNoteLoaded()==true) {
+
+        if (shooter2.isFlywheelNominal()) { // and unneeded check because in teleop this wouldn't fire without a button press & notesensor.isNoteLoaded()==true) {
             index.SetPower(Constants.IndexConstants.INDEX_POWER);
         } else {
             index.SetPower(0);

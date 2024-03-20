@@ -9,8 +9,8 @@ import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystemVelocity;
 
-public class ShootSafetyPose extends SequentialCommandGroup {
-    public ShootSafetyPose(ArmSubsystem arm, IndexSubsystem index, IntakeSubsystem intake, ShooterSubsystemVelocity shooter) {
+public class ShootFromStage extends SequentialCommandGroup {
+    public ShootFromStage(ArmSubsystem arm, IndexSubsystem index, IntakeSubsystem intake, ShooterSubsystemVelocity shooter) {
 
         addCommands(
             new SetArmPosition(arm, Constants.ArmConstants.ARM_MID_POSE),

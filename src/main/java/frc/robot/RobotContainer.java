@@ -29,8 +29,9 @@ import frc.robot.commands.SetIndex;
 import frc.robot.commands.SetFlywheel;
 import frc.robot.commands.SetWinch;
 import frc.robot.commands.ShootClose;
+import frc.robot.experimental.AutoShootWhenReady;
 import frc.robot.experimental.ShootWhenReady;
-import frc.robot.commands.ShootSafetyPose;
+import frc.robot.commands.ShootFromStage;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IndexSubsystem;
@@ -75,9 +76,7 @@ public class RobotContainer {
   /* Setting up bindings for necessary control of the swerve drive platform */
   private final CommandXboxController m_driverController = new CommandXboxController(0); // My joystick
   private final CommandXboxController m_operatorController = new CommandXboxController(1); // My joystick
-
   private final CommandSwerveDrivetrain drivetrain = TunerConstants.DriveTrain; // My drivetrain
-
   private final CommandXboxController[] Controllers = new CommandXboxController[] { m_driverController,
       m_operatorController
 
@@ -95,11 +94,13 @@ public class RobotContainer {
   private final IntakeCommandGroup intakeGroup = new IntakeCommandGroup(index, intake);
   private final IntakeRevCommandGroup intakeRevGroup = new IntakeRevCommandGroup(index, intake);
   private final SetFlywheel setShooterVelocity = new SetFlywheel(shooter2, arm, Constants.ShooterConstants.SHOOTER_VELOCITY);
+  private final SetFlywheel setShooterIdle = new SetFlywheel(shooter2, arm, Constants.ShooterConstants.SHOOTER_IDLE_VELOCITY);
   private final ShootWhenReady shootWhenReady = new ShootWhenReady(shooter2, index, notesensor);
+  private final AutoShootWhenReady autonShootWhenReady = new AutoShootWhenReady(shooter2, index, notesensor);
 
   // ChargeIntakeCommand chargeIntake = new ChargeIntakeCommand(drivetrain, intake, driveRequest);
 
-  private final ShootSafetyPose shootSafetyPose = new ShootSafetyPose(arm, index, intake, shooter);
+  // private final ShootFromStage shootSafetyPose = new ShootFromStage(arm, index, intake, shooter);
 
   /* Autonomous Chooser */
   SendableChooser<Command> autoChooser;
@@ -111,7 +112,8 @@ public class RobotContainer {
     /* Pathplanner Named Commands */
     NamedCommands.registerCommand("ShootClose", new ShootClose(arm, index, intake, shooter));
     NamedCommands.registerCommand("Intake", new IntakeIndex(index, intake));
-    // NamedCommands.registerCommand("ArmMid", new SetArmPosition(arm,
+    NamedCommands.registerCommand("AutoShootWhenReady", autonShootWhenReady);
+    NamedCommands.registerCommand("SetFlywheelToIdle", setShooterIdle);
     // Constants.ArmConstants.ARM_MID_POSE));
 
     /*
@@ -179,22 +181,27 @@ public class RobotContainer {
     m_driverController.a().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_HOME_POSE)));
     m_driverController.b().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_MID_POSE)));
     m_driverController.x().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_AMP_POSE)));
-    m_driverController.y().whileTrue(shootSafetyPose);  // TODO Test, should do the same as ARM_MID_POSE
+    // m_driverController.y().whileTrue(shootSafetyPose);  // TODO Test, should do the same as ARM_MID_POSE
                                                         // Use for long range shot with with higher shooter velocity
     m_driverController.rightBumper().whileTrue(new IntakeCommandGroup(index, intake));
     m_driverController.leftBumper().whileTrue(new IntakeRevCommandGroup(index, intake));
+    m_driverController.rightTrigger().whileTrue(shootWhenReady); // Works on cart
+
+    // m_driverController.rightTrigger().whileTrue(autonShootWhenReady); // Works on cart on a button
+
+    m_driverController.leftTrigger().whileTrue(new SetIndex(index, -0.75));
+
+    
+
+
     // m_driverController.rightTrigger().whileTrue(new RevAndShootCommand(index, shooter)); /* Previous bindings */
     // m_driverController.rightTrigger().whileFalse(new InstantCommand(() -> shooter.SetOutput(0))); /* Previous bindings */
-    m_driverController.rightTrigger().whileTrue(setShooterVelocity); // TODO Testing only
-    m_driverController.leftTrigger().whileTrue(new SetIndex(index, -0.75));
 
     /* OPERATOR BINDINGS */
     m_operatorController.b().whileTrue(new SetArmClimb(arm, Constants.ArmConstants.ARM_MANUAL_POWER));
-    // m_operatorController.x().whileTrue (new));
     m_operatorController.y().whileTrue(new SetWinch(winch, Constants.WinchConstants.WINCH_POWER));
     m_operatorController.back().whileTrue(new SetWinch(winch, Constants.WinchConstants.WINCH_POWER_BOOST));
     // m_operatorController.start().whileTrue();
-
   };
 
   /* Use for Debugging and diagnostics purposes */
