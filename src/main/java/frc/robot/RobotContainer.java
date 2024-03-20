@@ -26,9 +26,9 @@ import frc.robot.commands.RevAndShootCommand;
 import frc.robot.commands.RunShooter;
 import frc.robot.commands.SetArmClimb;
 import frc.robot.commands.SetIndex;
+import frc.robot.commands.SetFlywheel;
 import frc.robot.commands.SetWinch;
 import frc.robot.commands.ShootClose;
-import frc.robot.experimental.SetShooterVelocity;
 import frc.robot.experimental.ShootWhenReady;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ArmSubsystem;
@@ -38,6 +38,7 @@ import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.ShooterSubsystemVelocity;
 import frc.robot.subsystems.WinchSubsystem2;
 import frc.robot.subsystems.ShooterSubsystem2;
+import frc.robot.subsystems.NoteSensorSubsystem;
 
 // Getting rid of the soft unused warnings
 @SuppressWarnings("unused")
@@ -60,6 +61,7 @@ public class RobotContainer {
   WinchSubsystem2 winch = new WinchSubsystem2();
   ArmSubsystem arm = new ArmSubsystem();
   ShooterSubsystem2 shooter2 = new ShooterSubsystem2();
+  NoteSensorSubsystem notesensor = new NoteSensorSubsystem();
   // #endregion Subsystems
 
   // #region commands
@@ -91,8 +93,8 @@ public class RobotContainer {
 
   private final IntakeCommandGroup intakeGroup = new IntakeCommandGroup(index, intake);
   private final IntakeRevCommandGroup intakeRevGroup = new IntakeRevCommandGroup(index, intake);
-  private final SetShooterVelocity setShooterVelocity = new SetShooterVelocity(shooter2, Constants.ShooterConstants.SHOOTER_VELOCITY);
-  private final ShootWhenReady shootWhenReady = new ShootWhenReady(shooter2, index);
+  private final SetFlywheel setShooterVelocity = new SetFlywheel(shooter2, arm, Constants.ShooterConstants.SHOOTER_VELOCITY);
+  private final ShootWhenReady shootWhenReady = new ShootWhenReady(shooter2, index, notesensor);
 
   // ChargeIntakeCommand chargeIntake = new ChargeIntakeCommand(drivetrain, intake, driveRequest);
 
@@ -210,7 +212,6 @@ public class RobotContainer {
     // Shuffleboard.getTab("Arm").add("Arm Output", arm);
 
     // #endregion Testing
-    // SmartDashboard.putBoolean("Velocity Within Range", shooter2.isVelocityWithinRange());
   }
   
 
