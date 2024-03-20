@@ -24,6 +24,13 @@ public class ShootWhenReady extends Command {
 
     @Override
     public void execute() {
+        /* 
+        Turn on the shooter with setTargetFlywheelVelocity
+        After the flywheel is at target velocity, index the game piece forward
+        After index.HasCargo() is false, stop the shooter and index
+         */
+        
+        shooter.setTargetFlywheelVelocity(Constants.ShooterConstants.SHOOTER_VELOCITY);
         if (shooter.isFlywheelAtTarget() & index.HasCargo()) {
             // index.RunIndexing();
             index.SetPower(Constants.IndexConstants.INDEX_POWER);

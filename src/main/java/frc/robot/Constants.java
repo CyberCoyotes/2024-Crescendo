@@ -116,7 +116,8 @@ public final class Constants {
   }
 
   public static class ShooterConstants {
-    public static final double SHOOTER_VELOCITY = 60; // 60
+    public static final double SHOOTER_VELOCITY = 50; // 60
+    public static final double SHOOTER_VELOCITY_LONG_RANGE = 60; // 60
   }
 
   public static class SystemConstants {
