@@ -145,6 +145,8 @@ public class RobotContainer {
 
   /* Method to configure the button bindings */
   private void configureBindings() {
+
+  /* DRIVER BINDINGS */
     index.setDefaultCommand(index.run(() -> index.SetPower(0)));
             driveRequest = drive.withVelocityX(-m_driverController.getLeftY() * MaxSpeed)
             .withVelocityY(-m_driverController.getLeftX() * MaxSpeed) // Drive left with negative X (left)
@@ -175,30 +177,18 @@ public class RobotContainer {
 
     m_driverController.start().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
     m_driverController.a().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_HOME_POSE)));
-
-    // TODO Testing
-    // m_driverController.b().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_SAFETY_POSE)));
-    m_driverController.b().whileTrue(new InstantCommand(() -> arm.setArmPose(20)));
-    // 30 shots are too high, 35 is too slow shots at 160 inches.
+    m_driverController.b().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_MID_POSE)));
     m_driverController.x().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_AMP_POSE)));
-    
-    // FIXME Using this for Testing
-    m_driverController.y().whileTrue(shootSafetyPose);
-
+    m_driverController.y().whileTrue(shootSafetyPose);  // TODO Test, should do the same as ARM_MID_POSE
+                                                        // Use for long range shot with with higher shooter velocity
     m_driverController.rightBumper().whileTrue(new IntakeCommandGroup(index, intake));
     m_driverController.leftBumper().whileTrue(new IntakeRevCommandGroup(index, intake));
-
-    /* Testing */
-    // m_driverController.rightTrigger().whileTrue(new RevAndShootCommand(index, shooter));
-    // m_driverController.rightTrigger().whileFalse(new InstantCommand(() -> shooter.SetOutput(0)));
-    
-    // TODO Test
-   m_driverController.rightTrigger().whileTrue(setShooterVelocity);
-    // m_driverController.rightTrigger().whileTrue(shootWhenReady); // (shootWhenReady);
-    // m_driverController.rightTrigger().whileTrue(new SetShooterVelocity(shooter2, 50)); // (shootWhenReady);
+    // m_driverController.rightTrigger().whileTrue(new RevAndShootCommand(index, shooter)); /* Previous bindings */
+    // m_driverController.rightTrigger().whileFalse(new InstantCommand(() -> shooter.SetOutput(0))); /* Previous bindings */
+    m_driverController.rightTrigger().whileTrue(setShooterVelocity); // TODO Testing only
     m_driverController.leftTrigger().whileTrue(new SetIndex(index, -0.75));
 
-    // m_operatorController.a().whileTrue (new));
+    /* OPERATOR BINDINGS */
     m_operatorController.b().whileTrue(new SetArmClimb(arm, Constants.ArmConstants.ARM_MANUAL_POWER));
     // m_operatorController.x().whileTrue (new));
     m_operatorController.y().whileTrue(new SetWinch(winch, Constants.WinchConstants.WINCH_POWER));
@@ -210,7 +200,7 @@ public class RobotContainer {
   /* Use for Debugging and diagnostics purposes */
   public void DebugMethodSingle() {
     // #region Driving
-    var driverDiagnostics = Shuffleboard.getTab("Driver Diagnostics");
+    var driverDiagnostics = Shuffleboard.getTab("Diagnostics");
     // #endregion Driving
     // #region Testing
 
