@@ -34,10 +34,25 @@ public final class Constants {
     public static final int ARM_REV_LIMIT = 0;
     public static final double ARM_HOME_POSE = 0;
     public static final double ARM_LOW_POSE = 10;
-    public static final double ARM_MID_POSE = 20;
+    public static final double ARM_MID_POSE = 20; // 30 // 20
     public static final double ARM_HIGH_POSE = 55;
     public static final double ARM_AMP_POSE = 90;
+    public static final double ARM_SAFETY_POSE = 20;
     public static final int ARM_FWD_LIMIT = 100; // Previous event 91
+
+    /* Distances (inches) from front Bumper Speaker Base to front Bumper and arm in canon units
+    Pose 0 is at the base, Pose 1 is at the leg of the Stage, i.e. "Safety Pose"
+
+    | Pose  | Dist  | Arm |
+    |------ |-----  | --- |
+    | 0     | 0     | 0   |
+    | 1     | 126   | 20  | Safety Pose
+    | 2     | 150   | 00  |
+    | 3     | 180   | 00  |
+    | 4     | 200   | 00  |
+    
+    */
+
 
     public static final int ARM_MAX_ACCEL = 100;
     public static final int ARM_MAX_VEL = 200;
@@ -116,10 +131,12 @@ public final class Constants {
   }
 
   public static class ShooterConstants {
+    
     public static final double SHOOTER_VELOCITY = 50; // 60
     public static final double SHOOTER_VELOCITY_LONG_RANGE = 60; // 60
     public static final double SHOOTER_IDLE_VELOCITY = SHOOTER_VELOCITY * 0.30;
     public static final double VELOCITY_ERROR_MARGIN = SHOOTER_VELOCITY * 0.05;
+
   }
 
   public static class SystemConstants {
@@ -162,8 +179,8 @@ public final class Constants {
      * | Intake | 20 |
      * | Index | 21 |
      * | Arm | 22 |
-     * | Launcher LT | 23 |
-     * | Launcher RT | 24 |
+     * | Launcher LT | 23 | TOP
+     * | Launcher RT | 24 | BOTTOM
      * | Winch | 25 |
      * | ToF Note | 42 |
      * 
@@ -175,8 +192,8 @@ public final class Constants {
     public static final int INTAKE_ID = 20;
     public static final int INDEX_ID = 21;
     public static final int ARM_ID = 22;
-    public static final int LEFT_FLYWHEEL_ID = 23;
-    public static final int RIGHT_FLYWHEEL_ID = 24;
+    public static final int LEFT_FLYWHEEL_ID = 23; // TOP
+    public static final int RIGHT_FLYWHEEL_ID = 24; // BOTTOM
     public static final int WINCH_ID = 25;
     public static final int NOTE_SENSOR_ID = 42; // Time of Flight sensor for the note
 

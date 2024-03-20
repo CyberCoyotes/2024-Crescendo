@@ -34,7 +34,7 @@ public class ShooterSubsystemVelocity extends SubsystemBase {
     private double runningVoltage = 20;
     // private double maxPower = 1;
     /** The multiplier that converts from "primary speed" to "secondary speed" */
-    private double ratio = .95;
+    private double ratio = 1.0;
     private VelocityVoltage mainVeloCycle;
     private VelocityVoltage subVeloCycle;
 
@@ -63,8 +63,8 @@ public class ShooterSubsystemVelocity extends SubsystemBase {
         m_sub = new TalonFX(Constants.CANIDs.LEFT_FLYWHEEL_ID);
         m_main.getConfigurator().apply(motorConfigs);
         m_sub.getConfigurator().apply(motorConfigs);
-        m_main.setInverted(true);
-        m_sub.setInverted(false);
+        m_main.setInverted(true); // Switched based on Tuner, was true
+        m_sub.setInverted(true);// Switched based on Tuner, was false
         m_main.setNeutralMode(NeutralModeValue.Coast);
         m_sub.setNeutralMode(NeutralModeValue.Coast);
 
