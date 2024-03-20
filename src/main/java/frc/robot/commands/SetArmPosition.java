@@ -15,17 +15,15 @@ public class SetArmPosition extends Command {
         addRequirements(armSub);
         }
 
-        @Override
+    @Override
     public void initialize() {
             // Adjust the arm position here
             armSub.setArmPose(armPosition);
     }
 
-
     @Override
     public boolean isFinished() {
-        return true; // Command finishes immediately 
-                    // Does this give enough time for the arm to move?
+        return true;
    }
 
 } // end of class

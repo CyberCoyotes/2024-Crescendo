@@ -118,6 +118,8 @@ public final class Constants {
   public static class ShooterConstants {
     public static final double SHOOTER_VELOCITY = 50; // 60
     public static final double SHOOTER_VELOCITY_LONG_RANGE = 60; // 60
+    public static final double SHOOTER_IDLE_VELOCITY = SHOOTER_VELOCITY * 0.30;
+    public static final double VELOCITY_ERROR_MARGIN = SHOOTER_VELOCITY * 0.05;
   }
 
   public static class SystemConstants {

@@ -14,13 +14,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-@SuppressWarnings("unused")
+// @SuppressWarnings("unused")
 
-/* Defining a new class named ShooterSubsystem2 in Java.
-This class is extending SubsystemBase, which means ShooterSubsystem2 is a subclass of SubsystemBase. */
 public class ShooterSubsystem2 extends SubsystemBase{
-    private static final double FLYWHEEL_VELOCITY = 60;
-    private static final double FLYWHEEL_IDLE_VELOCITY = 5;
 
     // Declare variables for the motors to be controlled
     private TalonFX m_primaryMotor = new TalonFX(Constants.CANIDs.RIGHT_FLYWHEEL_ID, "rio"); // Right
@@ -28,11 +24,6 @@ public class ShooterSubsystem2 extends SubsystemBase{
 
     // Class member variables
     private VelocityVoltage m_velocityVoltage = new VelocityVoltage(0);
-
-    private double flywheelVelocity;
-    private boolean flywheelDisabled = false;
-    private double targetFlywheelVelocity;
-    
 
     public ShooterSubsystem2() {
         /* Verbose? Absolutely. Effective? I hope so */
@@ -84,53 +75,18 @@ public class ShooterSubsystem2 extends SubsystemBase{
 
     } // end of constructor
 
-    /* 
-    // Reference: 1
-    /* Sets the velocity the motors are using */
     public void setFlywheelVelocity(double velocity) {
         m_primaryMotor.setControl(m_velocityVoltage.withVelocity(velocity));
         m_secondaryMotor.setControl(m_velocityVoltage.withVelocity(velocity));
         }
     
-    public void setTargetFlywheelVelocity(double targetFlywheelVelocity) {
-        // this.targetFlywheelVelocity = targetFlywheelVelocity;
-        
-        // m_primaryMotor.setControl(m_velocity.withVelocity(flywheelVelocity));
-        // m_secondaryMotor.setControl(m_secondaryVelocity.withVelocity(flywheelVelocity * 0.95));
-        
-    }
-    
-    // Reference: 2
-    /* 
-    public void setTargetFlywheelSpeed(double targetFlywheelSpeed) {
-        this.targetFlywheelSpeed = targetFlywheelSpeed;
-    }
-    */
-    
-    // Reference: 3
-    /* Returns the velocity of the flywheel */
-    /*
-    public double getTargetFlywheelSpeed(double targetFlywheelSpeed) {
-        return targetFlywheelSpeed;
-    }
-     */
-
-    // Reference: 4
-    // Returns the velocity of the flywheel 
-
-    
     public StatusSignal<Double> getFlywheelVelocity() {
         return m_primaryMotor.getVelocity();
     }
  
-    // StatusSignal<Double> currentFlywheelVelocity = getFlywheelVelocity();
-
-    // currentFlywheelVelocity = getFlywheelVelocity();
-    /* */
-    double velocityErrorMargin = Constants.ShooterConstants.SHOOTER_VELOCITY * 0.05;
-    public boolean isVelocityWithinRange() {
+    public boolean isFlywheelNominal() {
         // double setVelocity = Constants.ShooterConstants.SHOOTER_VELOCITY;
-        if (m_primaryMotor.getVelocity().getValue() >= (Math.abs(Constants.ShooterConstants.SHOOTER_VELOCITY - (velocityErrorMargin)))) {
+        if (m_primaryMotor.getVelocity().getValue() >= (Math.abs(Constants.ShooterConstants.SHOOTER_VELOCITY - (Constants.ShooterConstants.VELOCITY_ERROR_MARGIN)))) {
             return true;
         } else {
             return false;
@@ -139,13 +95,9 @@ public class ShooterSubsystem2 extends SubsystemBase{
 
     @Override
     public void periodic() {
-        // TODO Auto-generated method stub
-        super.periodic();
-        SmartDashboard.putBoolean("SUB Velocity Within Range", isVelocityWithinRange());
+        // super.periodic(); // Suggested by VSCode
+        SmartDashboard.putBoolean("Flywheel Nominal", isFlywheelNominal());
         // SmartDashboard.putNumber("Flywheel Velocity", m_primaryMotor.getVelocity());
     }
-
-    // call this method with the target velocity as an argument
-    // boolean isAtTarget = isFlywheelAtTarget(targetFlywheelSpeed);
 
 } // end of class ShooterSubsystem2
