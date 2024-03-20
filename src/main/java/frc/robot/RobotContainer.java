@@ -80,17 +80,18 @@ public class RobotContainer {
 
   };
 
-  private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-  .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
-  .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
-                                                           // driving in open loop
+  private final SwerveRequest.FieldCentric drive = new SwerveRequest
+    .FieldCentric()
+    .withDeadband(MaxSpeed * 0.1).
+    withRotationalDeadband(MaxAngularRate * 0.1)
+    .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
   private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
   private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
   private final Telemetry logger = new Telemetry(MaxSpeed);
 
   private final IntakeCommandGroup intakeGroup = new IntakeCommandGroup(index, intake);
   private final IntakeRevCommandGroup intakeRevGroup = new IntakeRevCommandGroup(index, intake);
-  private final SetShooterVelocity setShooterVelocity = new SetShooterVelocity(shooter2, 10);
+  private final SetShooterVelocity setShooterVelocity = new SetShooterVelocity(shooter2, Constants.ShooterConstants.SHOOTER_VELOCITY);
   private final ShootWhenReady shootWhenReady = new ShootWhenReady(shooter2, index);
 
   // ChargeIntakeCommand chargeIntake = new ChargeIntakeCommand(drivetrain, intake, driveRequest);
@@ -181,10 +182,9 @@ public class RobotContainer {
     // m_driverController.rightTrigger().whileFalse(new InstantCommand(() -> shooter.SetOutput(0)));
     
     // TODO Test
-//    m_driverController.rightTrigger().whileTrue(setShooterVelocity); // (shootWhenReady);
-    m_driverController.rightTrigger().whileTrue(shootWhenReady); // (shootWhenReady);
-    m_driverController.rightTrigger().whileTrue(new SetShooterVelocity(shooter2, 50)); // (shootWhenReady);
-    
+   m_driverController.rightTrigger().whileTrue(setShooterVelocity);
+    // m_driverController.rightTrigger().whileTrue(shootWhenReady); // (shootWhenReady);
+    // m_driverController.rightTrigger().whileTrue(new SetShooterVelocity(shooter2, 50)); // (shootWhenReady);
     m_driverController.leftTrigger().whileTrue(new SetIndex(index, -0.75));
 
     // m_operatorController.a().whileTrue (new));
@@ -210,6 +210,7 @@ public class RobotContainer {
     // Shuffleboard.getTab("Arm").add("Arm Output", arm);
 
     // #endregion Testing
+    // SmartDashboard.putBoolean("Velocity Within Range", shooter2.isVelocityWithinRange());
   }
   
 

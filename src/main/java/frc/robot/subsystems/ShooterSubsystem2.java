@@ -10,6 +10,7 @@ import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -26,7 +27,8 @@ public class ShooterSubsystem2 extends SubsystemBase{
     private TalonFX m_secondaryMotor = new TalonFX(Constants.CANIDs.LEFT_FLYWHEEL_ID, "rio"); // Left
 
     // Class member variables
-    private VelocityVoltage m_velocity = new VelocityVoltage(0);
+    private VelocityVoltage m_velocityVoltage = new VelocityVoltage(0);
+
     private double flywheelVelocity;
     private boolean flywheelDisabled = false;
     private double targetFlywheelVelocity;
@@ -34,8 +36,9 @@ public class ShooterSubsystem2 extends SubsystemBase{
 
     public ShooterSubsystem2() {
         /* Verbose? Absolutely. Effective? I hope so */
-        m_primaryMotor = new TalonFX(Constants.CANIDs.RIGHT_FLYWHEEL_ID);
-        m_secondaryMotor = new TalonFX(Constants.CANIDs.LEFT_FLYWHEEL_ID);
+
+        m_primaryMotor.setControl(m_velocityVoltage);
+        m_secondaryMotor.setControl(m_velocityVoltage);
 
         m_primaryMotor.getConfigurator().apply(new TalonFXConfiguration());
         m_secondaryMotor.getConfigurator().apply(new TalonFXConfiguration());
@@ -84,12 +87,17 @@ public class ShooterSubsystem2 extends SubsystemBase{
     /* 
     // Reference: 1
     /* Sets the velocity the motors are using */
+    public void setFlywheelVelocity(double velocity) {
+        m_primaryMotor.setControl(m_velocityVoltage.withVelocity(velocity));
+        m_secondaryMotor.setControl(m_velocityVoltage.withVelocity(velocity));
+        }
+    
     public void setTargetFlywheelVelocity(double targetFlywheelVelocity) {
-        this.targetFlywheelVelocity = targetFlywheelVelocity;
-        /*
-        m_primaryMotor.setControl(m_primaryVelocity.withVelocity(flywheelVelocity));
-        m_secondaryMotor.setControl(m_secondaryVelocity.withVelocity(flywheelVelocity * 0.95));
-        */
+        // this.targetFlywheelVelocity = targetFlywheelVelocity;
+        
+        // m_primaryMotor.setControl(m_velocity.withVelocity(flywheelVelocity));
+        // m_secondaryMotor.setControl(m_secondaryVelocity.withVelocity(flywheelVelocity * 0.95));
+        
     }
     
     // Reference: 2
@@ -110,23 +118,34 @@ public class ShooterSubsystem2 extends SubsystemBase{
     // Reference: 4
     // Returns the velocity of the flywheel 
 
+    
     public StatusSignal<Double> getFlywheelVelocity() {
         return m_primaryMotor.getVelocity();
     }
-   
-    StatusSignal<Double> currentFlywheelVelocity = getFlywheelVelocity();
+ 
+    // StatusSignal<Double> currentFlywheelVelocity = getFlywheelVelocity();
 
     // currentFlywheelVelocity = getFlywheelVelocity();
-
-    public boolean isFlywheelAtTarget() {
-        double velocityMarginOfError = 5.0; // TODO: Adjust this value as needed
-        if (Math.abs(targetFlywheelVelocity - currentFlywheelVelocity.getValue()) < velocityMarginOfError)
+    /* */
+    double velocityErrorMargin = Constants.ShooterConstants.SHOOTER_VELOCITY * 0.05;
+    public boolean isVelocityWithinRange() {
+        // double setVelocity = Constants.ShooterConstants.SHOOTER_VELOCITY;
+        if (m_primaryMotor.getVelocity().getValue() >= (Math.abs(Constants.ShooterConstants.SHOOTER_VELOCITY - (velocityErrorMargin)))) {
             return true;
-        else
+        } else {
             return false;
-        } // end of logic test
+        }
+    }
+
+    @Override
+    public void periodic() {
+        // TODO Auto-generated method stub
+        super.periodic();
+        SmartDashboard.putBoolean("SUB Velocity Within Range", isVelocityWithinRange());
+        // SmartDashboard.putNumber("Flywheel Velocity", m_primaryMotor.getVelocity());
+    }
 
     // call this method with the target velocity as an argument
     // boolean isAtTarget = isFlywheelAtTarget(targetFlywheelSpeed);
-    
+
 } // end of class ShooterSubsystem2

@@ -5,14 +5,14 @@ import frc.robot.subsystems.ShooterSubsystem2;
 
 public class SetShooterVelocity extends Command {
     // private ShooterSubsystemVelocity shooter;
-    private final ShooterSubsystem2 shooter;
+    private final ShooterSubsystem2 shooter2;
     private final double velocity;
 
-    public SetShooterVelocity(ShooterSubsystem2 shooter, double velocity) {
-        this.shooter = shooter;
+    public SetShooterVelocity(ShooterSubsystem2 shooter2, double velocity) {
+        this.shooter2 = shooter2;
         this.velocity = velocity;
 
-        addRequirements(shooter);
+        addRequirements(shooter2);
          
     }
 
@@ -22,13 +22,13 @@ public class SetShooterVelocity extends Command {
 
     @Override
     public void execute() {
-        shooter.setTargetFlywheelVelocity(velocity);
+        shooter2.setFlywheelVelocity(velocity);
 
     }
 
     @Override
     public void end(boolean interrupted) {
-        shooter.setTargetFlywheelVelocity(0);
+        shooter2.setFlywheelVelocity(0);
     }
 
     @Override

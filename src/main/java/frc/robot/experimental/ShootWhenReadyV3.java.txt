@@ -18,7 +18,7 @@ public class ShootWhenReadyV3 {
         shooter.setTargetFlywheelVelocity(Constants.ShooterConstants.SHOOTER_VELOCITY);
 
         // After the flywheel is at target velocity, index the game piece forward
-        if (shooter.isFlywheelAtTarget() && index.HasCargo()) {
+        if (shooter.isFlywheelAtTarget() && index.HasCargo()==true) {
             index.SetPower(Constants.IndexConstants.INDEX_POWER);
         }
 

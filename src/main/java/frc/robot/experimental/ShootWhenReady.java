@@ -30,8 +30,10 @@ public class ShootWhenReady extends Command {
         After index.HasCargo() is false, stop the shooter and index
          */
         
+         
         shooter.setTargetFlywheelVelocity(Constants.ShooterConstants.SHOOTER_VELOCITY);
-        if (shooter.isFlywheelAtTarget() & index.HasCargo()) {
+        if (// shooter.isFlywheelAtTarget() & 
+                index.HasCargo()==true) {
             // index.RunIndexing();
             index.SetPower(Constants.IndexConstants.INDEX_POWER);
         } else {
