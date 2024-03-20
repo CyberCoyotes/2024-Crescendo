@@ -35,13 +35,24 @@ public final class Constants {
     public static final double ARM_HOME_POSE = 0;
     public static final double ARM_LOW_POSE = 10;
     public static final double ARM_MID_POSE = 20; // 30 // 20
-    /* @202 inches
-     * 30 was too steep at 
-     * 40 was too flat
-     */
     public static final double ARM_HIGH_POSE = 55;
     public static final double ARM_AMP_POSE = 90;
+    public static final double ARM_SAFETY_POSE = 20;
     public static final int ARM_FWD_LIMIT = 100; // Previous event 91
+
+    /* Distances (inches) from front Bumper Speaker Base to front Bumper and arm in canon units
+    Pose 0 is at the base, Pose 1 is at the leg of the Stage, i.e. "Safety Pose"
+
+    | Pose  | Dist  | Arm |
+    |------ |-----  | --- |
+    | 0     | 0     | 0   |
+    | 1     | 126   | 20  | Safety Pose
+    | 2     | 150   | 00  |
+    | 3     | 180   | 00  |
+    | 4     | 200   | 00  |
+    
+    */
+
 
     public static final int ARM_MAX_ACCEL = 100;
     public static final int ARM_MAX_VEL = 200;
@@ -120,7 +131,12 @@ public final class Constants {
   }
 
   public static class ShooterConstants {
-    public static final double SHOOTER_VELOCITY = 70; // FIXME 60
+    
+    public static final double SHOOTER_VELOCITY = 50; // 60
+    public static final double SHOOTER_VELOCITY_LONG_RANGE = 60; // 60
+    public static final double SHOOTER_IDLE_VELOCITY = SHOOTER_VELOCITY * 0.30;
+    public static final double VELOCITY_ERROR_MARGIN = SHOOTER_VELOCITY * 0.05;
+
   }
 
   public static class SystemConstants {

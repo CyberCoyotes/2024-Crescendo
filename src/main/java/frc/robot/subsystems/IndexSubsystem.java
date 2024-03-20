@@ -26,9 +26,9 @@ public class IndexSubsystem extends SubsystemBase {
         return NoteSensor.isNoteLoaded();
     }
 
-    public void SetPower(double input) {
+    public void SetPower(double percent) {
 
-        motor.set(ControlMode.PercentOutput, input);
+        motor.set(ControlMode.PercentOutput, percent);
     }
 
     public void StopIndexing() {

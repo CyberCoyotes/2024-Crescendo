@@ -26,8 +26,11 @@ import frc.robot.commands.RevAndShootCommand;
 import frc.robot.commands.RunShooter;
 import frc.robot.commands.SetArmClimb;
 import frc.robot.commands.SetIndex;
+import frc.robot.commands.SetFlywheel;
 import frc.robot.commands.SetWinch;
 import frc.robot.commands.ShootClose;
+import frc.robot.experimental.ShootWhenReady;
+import frc.robot.commands.ShootSafetyPose;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IndexSubsystem;
@@ -35,6 +38,8 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.ShooterSubsystemVelocity;
 import frc.robot.subsystems.WinchSubsystem2;
+import frc.robot.subsystems.ShooterSubsystem2;
+import frc.robot.subsystems.NoteSensorSubsystem;
 
 // Getting rid of the soft unused warnings
 @SuppressWarnings("unused")
@@ -56,6 +61,8 @@ public class RobotContainer {
   IndexSubsystem index = new IndexSubsystem();
   WinchSubsystem2 winch = new WinchSubsystem2();
   ArmSubsystem arm = new ArmSubsystem();
+  ShooterSubsystem2 shooter2 = new ShooterSubsystem2();
+  NoteSensorSubsystem notesensor = new NoteSensorSubsystem();
   // #endregion Subsystems
 
   // #region commands
@@ -76,17 +83,23 @@ public class RobotContainer {
 
   };
 
-  private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-  .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
-  .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
-                                                           // driving in open loop
+  private final SwerveRequest.FieldCentric drive = new SwerveRequest
+    .FieldCentric()
+    .withDeadband(MaxSpeed * 0.1).
+    withRotationalDeadband(MaxAngularRate * 0.1)
+    .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
   private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
   private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
   private final Telemetry logger = new Telemetry(MaxSpeed);
 
   private final IntakeCommandGroup intakeGroup = new IntakeCommandGroup(index, intake);
   private final IntakeRevCommandGroup intakeRevGroup = new IntakeRevCommandGroup(index, intake);
+  private final SetFlywheel setShooterVelocity = new SetFlywheel(shooter2, arm, Constants.ShooterConstants.SHOOTER_VELOCITY);
+  private final ShootWhenReady shootWhenReady = new ShootWhenReady(shooter2, index, notesensor);
+
   // ChargeIntakeCommand chargeIntake = new ChargeIntakeCommand(drivetrain, intake, driveRequest);
+
+  private final ShootSafetyPose shootSafetyPose = new ShootSafetyPose(arm, index, intake, shooter);
 
   /* Autonomous Chooser */
   SendableChooser<Command> autoChooser;
@@ -111,7 +124,8 @@ public class RobotContainer {
     SmartDashboard.putData("Auto Chooser", autoChooser);
     // Shuffleboard.getTab("Auton").add("Auto Chooser", autoChooser);
 
-    shooter = new ShooterSubsystemVelocity();
+    // TODO removed
+    // shooter = new ShooterSubsystemVelocity();
 
     /* Configure the Button Bindings */
     configureBindings();
@@ -161,14 +175,27 @@ public class RobotContainer {
 
     m_driverController.start().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
     m_driverController.a().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_HOME_POSE)));
-    m_driverController.b().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_MID_POSE)));
+
+    // TODO Testing
+    // m_driverController.b().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_SAFETY_POSE)));
+    m_driverController.b().whileTrue(new InstantCommand(() -> arm.setArmPose(20)));
+    // 30 shots are too high, 35 is too slow shots at 160 inches.
     m_driverController.x().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_AMP_POSE)));
-    m_driverController.y().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_MID_POSE)));
+    
+    // FIXME Using this for Testing
+    m_driverController.y().whileTrue(shootSafetyPose);
 
     m_driverController.rightBumper().whileTrue(new IntakeCommandGroup(index, intake));
     m_driverController.leftBumper().whileTrue(new IntakeRevCommandGroup(index, intake));
-    m_driverController.rightTrigger().whileTrue(new RevAndShootCommand(index, shooter));
-    m_driverController.rightTrigger().whileFalse(new InstantCommand(() -> shooter.SetOutput(0)));
+
+    /* Testing */
+    // m_driverController.rightTrigger().whileTrue(new RevAndShootCommand(index, shooter));
+    // m_driverController.rightTrigger().whileFalse(new InstantCommand(() -> shooter.SetOutput(0)));
+    
+    // TODO Test
+   m_driverController.rightTrigger().whileTrue(setShooterVelocity);
+    // m_driverController.rightTrigger().whileTrue(shootWhenReady); // (shootWhenReady);
+    // m_driverController.rightTrigger().whileTrue(new SetShooterVelocity(shooter2, 50)); // (shootWhenReady);
     m_driverController.leftTrigger().whileTrue(new SetIndex(index, -0.75));
 
     // m_operatorController.a().whileTrue (new));
