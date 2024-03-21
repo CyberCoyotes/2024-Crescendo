@@ -38,15 +38,15 @@ public class ShooterSubsystem2 extends SubsystemBase{
         var flywheelConfigs0 = new Slot0Configs();        
             flywheelConfigs0
                 // https://github.com/CrossTheRoadElec/Phoenix6-Examples/blob/main/java/VelocityClosedLoop/src/main/java/frc/robot/Robot.java
-                .withKP(0.11) 
-                .withKI(0.5)
-                .withKS(0.0001)
-                .withKV(0.12);
+                .withKP(0.1) 
+                .withKI(0.0)
+                .withKS(0.000)
+                .withKV(0.0);
 
         var flywheelVelocityConfig = new VoltageConfigs();
             flywheelVelocityConfig
-                .withPeakForwardVoltage(8)  // FRC 2910 running 12
-                .withPeakReverseVoltage(8); // Originally -8, with negative the "helper" text goes away
+                .withPeakForwardVoltage(12)  // FRC 2910 running 12
+                .withPeakReverseVoltage(12); // Originally -8, with negative the "helper" text goes away
                 
         var flywheelCurrentConfigs = new CurrentLimitsConfigs();
         flywheelCurrentConfigs
