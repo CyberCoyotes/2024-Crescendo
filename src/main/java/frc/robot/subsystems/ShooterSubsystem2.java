@@ -38,10 +38,10 @@ public class ShooterSubsystem2 extends SubsystemBase{
         var flywheelConfigs0 = new Slot0Configs();        
             flywheelConfigs0
                 // https://github.com/CrossTheRoadElec/Phoenix6-Examples/blob/main/java/VelocityClosedLoop/src/main/java/frc/robot/Robot.java
-                .withKP(0.11) 
-                .withKI(0.5)
-                .withKS(0.0001)
-                .withKV(0.12);
+                .withKP(0.11)   // TODO Needs tuning
+                .withKI(0.5)    // TODO Needs tuning
+                .withKS(0.0001) // TODO Needs tuning
+                .withKV(0.12);  // TODO Needs tuning
 
         var flywheelVelocityConfig = new VoltageConfigs();
             flywheelVelocityConfig
