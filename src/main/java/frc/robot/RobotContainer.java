@@ -193,7 +193,7 @@ public class RobotContainer {
     // m_driverController.rightTrigger().whileFalse(new InstantCommand(() -> shooter.SetOutput(0)));
     
     // TODO Test
-   m_driverController.rightTrigger().whileTrue(setShooterVelocity);
+   m_driverController.rightTrigger().whileTrue(shootWhenReady);
     // m_driverController.rightTrigger().whileTrue(shootWhenReady); // (shootWhenReady);
     // m_driverController.rightTrigger().whileTrue(new SetShooterVelocity(shooter2, 50)); // (shootWhenReady);
     m_driverController.leftTrigger().whileTrue(new SetIndex(index, -0.75));
