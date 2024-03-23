@@ -17,7 +17,7 @@ public class IntakeIndex extends SequentialCommandGroup {
         addCommands(
                 new ParallelCommandGroup(
                     new SetIntake(intake, Constants.IntakeConstants.INTAKE_POWER), 
-                    new SetIndex(index, Constants.IndexConstants.INDEX_POWER)).until(() -> index.HasCargo()));
+                    new SetIndex(index, Constants.IndexConstants.INDEX_POWER)).until(() -> index.hasCargo()));
     }
 
 }

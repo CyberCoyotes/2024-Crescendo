@@ -7,8 +7,8 @@ import frc.robot.subsystems.ShooterSubsystem2;
 import frc.robot.subsystems.NoteSensorSubsystem;
 
 public class ShootWhenReady extends Command {
-    // private ShooterSubsystemVelocity shooter;
-    private final ShooterSubsystem2 shooter2;
+    // TODO note that this using ShooterSubsystem2, remove this comment after testing works
+    private final ShooterSubsystem2 shooter2; 
     private final IndexSubsystem index;
     private final NoteSensorSubsystem notesensor;
 
@@ -27,17 +27,19 @@ public class ShootWhenReady extends Command {
     @Override
     public void execute() {
         /* 
-        Turn on the shooter with setTargetFlywheelVelocity
-        After the flywheel is at target velocity, index the game piece forward
-        After index.HasCargo() is false, stop the shooter and index
+        Turn on the flywheel `setTargetFlywheelVelocity`
+        Check if flywheel has reached target velocity `isFlywheelNominal`
+        If true, index the game piece forward
+        Else if false, continue running the flywheel until `isFlywheelNominal` is true
          */
 
-        shooter2.setFlywheelVelocity(Constants.ShooterConstants.SHOOTER_VELOCITY);
+        shooter2.setFlywheelVelocity(shooter2.FLYWHEEL_VELOCITY);
 
-        if (shooter2.isFlywheelNominal()) { // and unneeded check because in teleop this wouldn't fire without a button press & notesensor.isNoteLoaded()==true) {
-            index.SetPower(Constants.IndexConstants.INDEX_POWER);
-        } else {
-            index.SetPower(0);
+        if (shooter2.isFlywheelNominal3()) {
+            index.setPower(Constants.IndexConstants.INDEX_POWER);
+        } else if (!shooter2.isFlywheelNominal3()) {
+            index.setPower(0);
+            shooter2.setFlywheelVelocity(shooter2.FLYWHEEL_VELOCITY);
 
         }
 
@@ -52,4 +54,4 @@ public class ShootWhenReady extends Command {
     public boolean isFinished() {
         return false;
     }
-}
+} // end of class ShootWhenReady

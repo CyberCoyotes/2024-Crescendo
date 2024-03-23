@@ -22,11 +22,21 @@ public class ShooterSubsystem2 extends SubsystemBase{
     private TalonFX m_primaryMotor = new TalonFX(Constants.CANIDs.RIGHT_FLYWHEEL_ID, "rio"); // Right
     private TalonFX m_secondaryMotor = new TalonFX(Constants.CANIDs.LEFT_FLYWHEEL_ID, "rio"); // Left
 
+    // TODO Tune this value
+    public final double FLYWHEEL_VELOCITY = 100; // rotations per second (rps)
+    public final double FLYWHEEL_VELOCITY_SHORT_RANGE = 40; // Not currently in use anywhere
+    public final double FLYWHEEL_VELOCITY_LONG_RANGE = 60; // Not currently in use anywhere, Flywheel speed for long range shots only
+    public final double FLYWHEEL_IDLE_VELOCITY = FLYWHEEL_VELOCITY * 0.30; // 30% of max speed
+    public final double VELOCITY_ERROR_MARGIN = FLYWHEEL_VELOCITY * 0.10; // 5% of max speed
+    
+
     // Class member variables
     private VelocityVoltage m_velocityVoltage = new VelocityVoltage(0);
 
     public ShooterSubsystem2() {
         /* Verbose? Absolutely. Effective? I hope so */
+
+                var currentFlywheelVel = m_primaryMotor.getVelocity().getValue();
 
         m_primaryMotor.setControl(m_velocityVoltage);
         m_secondaryMotor.setControl(m_velocityVoltage);
@@ -35,14 +45,33 @@ public class ShooterSubsystem2 extends SubsystemBase{
         m_secondaryMotor.getConfigurator().apply(new TalonFXConfiguration());
 
         /* Various Configs */
+        /*
+        | Ks    |   output to overcome static friction (output)
+        | Kv    |   output per unit of velocity (output/rps)
+        | Ka    |   output per unit of acceleration; unused, as there is no target acceleration (output/(rps/s))
+        | Kp    |   output per unit of error (output/rps)
+        | Ki    |   output per unit of integrated error in velocity (output/rotation)
+        | kd    |   output per unit of error derivative in velocity (output/(rps/s))
+        */
+
+        /* Example provided by CTRE */
+        /*
+        slot0Configs.kS = 0.05; // Add 0.05 V output to overcome static friction
+        slot0Configs.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
+        slot0Configs.kP = 0.11; // An error of 1 rps results in 0.11 V output
+        slot0Configs.kI = 0; // no output for integrated error
+        slot0Configs.kD = 0; // no output for error derivative
+         */
+
         var flywheelConfigs0 = new Slot0Configs();        
             flywheelConfigs0
                 // https://github.com/CrossTheRoadElec/Phoenix6-Examples/blob/main/java/VelocityClosedLoop/src/main/java/frc/robot/Robot.java
-                .withKP(0.1) 
-                .withKI(0.0)
-                .withKS(0.000)
-                .withKV(0.0);
+                .withKP(0.10)
+                .withKI(0.00)
+                .withKS(0.00) // Should low for a light flywheel? Maybe the pulley strength would impact it though?
+                .withKV(0.00);
 
+    
         var flywheelVelocityConfig = new VoltageConfigs();
             flywheelVelocityConfig
                 .withPeakForwardVoltage(12)  // FRC 2910 running 12
@@ -71,7 +100,7 @@ public class ShooterSubsystem2 extends SubsystemBase{
         m_secondaryMotor.getConfigurator().apply(flywheelMotorOutput);
 
         m_primaryMotor.setInverted(true);
-        m_secondaryMotor.setInverted(true);       
+        m_secondaryMotor.setInverted(true);     
 
     } // end of constructor
 
@@ -80,13 +109,44 @@ public class ShooterSubsystem2 extends SubsystemBase{
         m_secondaryMotor.setControl(m_velocityVoltage.withVelocity(velocity));
         }
     
+        // 
     public StatusSignal<Double> getFlywheelVelocity() {
         return m_primaryMotor.getVelocity();
     }
  
+
     public boolean isFlywheelNominal() {
         // double setVelocity = Constants.ShooterConstants.SHOOTER_VELOCITY;
-        if (m_primaryMotor.getVelocity().getValue() >= (Math.abs(Constants.ShooterConstants.SHOOTER_VELOCITY - (Constants.ShooterConstants.VELOCITY_ERROR_MARGIN)))) {
+        if (getFlywheelVelocity().getValue() >= (Math.abs(FLYWHEEL_VELOCITY - (VELOCITY_ERROR_MARGIN)))) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isFlywheelNominal2() {
+        // Method to check if the flywheel is at target velocity within a range of error of 3% of the target velocity
+        double targetVelocity = FLYWHEEL_VELOCITY; // replace with your target velocity
+        double currentVelocity = getFlywheelVelocity().getValue();
+        double threePercentOfTarget = targetVelocity * 0.03;
+        return Math.abs(currentVelocity - targetVelocity) <= threePercentOfTarget;
+        }
+
+    double FLYWHEEL_MIN = FLYWHEEL_VELOCITY * .95;
+    double FLYWHEEL_MAX = FLYWHEEL_VELOCITY * 1.05;
+
+
+    public boolean isFlywheelNominal3() { 
+        if (getFlywheelVelocity().getValue() >= FLYWHEEL_MIN && getFlywheelVelocity().getValue() <= FLYWHEEL_MAX ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isFlywheelNominal4() { 
+        var currentFlywheelVel = m_primaryMotor.getVelocity().getValue();
+        if (currentFlywheelVel >= FLYWHEEL_MIN && getFlywheelVelocity().getValue() <= FLYWHEEL_MAX ) {
             return true;
         } else {
             return false;
@@ -96,8 +156,35 @@ public class ShooterSubsystem2 extends SubsystemBase{
     @Override
     public void periodic() {
         // super.periodic(); // Suggested by VSCode
-        SmartDashboard.putBoolean("Flywheel Nominal", isFlywheelNominal());
+        SmartDashboard.putBoolean("Flywheel 1.0 version", isFlywheelNominal());
+        SmartDashboard.putBoolean("Flywheel 2.0 version", isFlywheelNominal2());
+        SmartDashboard.putBoolean("Flywheel 3.0 version", isFlywheelNominal3());
+        SmartDashboard.putBoolean("Flywheel 4.0 version", isFlywheelNominal4());
+
         // SmartDashboard.putNumber("Flywheel Velocity", m_primaryMotor.getVelocity());
+
+        // acquire a refreshed TalonFX rotor position signal
+        // var rotorPosSignal = m_talonFX.getRotorPosition();
+
+        // because we are calling getRotorPosition() every loop,
+        // we do not need to call refresh()
+        //rotorPosSignal.refresh();
+
+        // retrieve position value that we just refreshed
+        // units are rotations
+        // var rotorPos = rotorPosSignal.getValue();
+
+        // get latency of the signal
+        // var rotorPosLatency = rotorPosSignal.getTimestamp().getLatency();
+
+        // synchronously wait 20 ms for new data
+        // rotorPosSignal.waitForUpdate(0.020);
+
+        var currentFlywheelVel = m_primaryMotor.getVelocity().getValue();
+
+        // var currentFlywheelVel2 = flywheelVel.getValue();
+
+
     }
 
 } // end of class ShooterSubsystem2

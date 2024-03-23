@@ -36,7 +36,7 @@ public class RevAndShootCommand extends SequentialCommandGroup {
 
     public RevAndShootCommand(IndexSubsystem indexer, ShooterSubsystemVelocity shooter) {
         addRequirements(indexer, shooter);
-        indexCommand = new RunCommand(() -> indexer.RunIndexing(), indexer);
+        indexCommand = new RunCommand(() -> indexer.runIndexing(), indexer);
         this.shooter = shooter;
         SetupCommands();
 

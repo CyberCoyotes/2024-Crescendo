@@ -7,13 +7,13 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem2;
 import frc.robot.subsystems.NoteSensorSubsystem;
 
-public class AutoShootWhenReady extends Command {
+public class ShootWhenReadyAuton extends Command {
     // private ShooterSubsystemVelocity shooter;
     private final ShooterSubsystem2 shooter2;
     private final IndexSubsystem index;
     private final NoteSensorSubsystem notesensor;
 
-    public AutoShootWhenReady(ShooterSubsystem2 shooter2, IndexSubsystem index, NoteSensorSubsystem notesensor) {
+    public ShootWhenReadyAuton(ShooterSubsystem2 shooter2, IndexSubsystem index, NoteSensorSubsystem notesensor) {
         this.shooter2 = shooter2;
         this.index = index;
         this.notesensor = notesensor;
@@ -34,22 +34,24 @@ public class AutoShootWhenReady extends Command {
         */
 
         // Turn on the shooter with setTargetFlywheelVelocity
-        shooter2.setFlywheelVelocity(Constants.ShooterConstants.SHOOTER_VELOCITY);
+        shooter2.setFlywheelVelocity(shooter2.FLYWHEEL_VELOCITY);
 
         // Check if the flywheel is at target velocity AND if a game piece is loaded
-        if (shooter2.isFlywheelNominal()==true && notesensor.isNoteLoaded()==true) {
+        if (shooter2.isFlywheelNominal3() && notesensor.isNoteLoaded()) {
     
             // If the flywheel is at target velocity AND a game piece is loaded, index the game piece forward
-             index.SetPower(Constants.IndexConstants.INDEX_POWER);
+             index.setPower(Constants.IndexConstants.INDEX_POWER);
 
-                // If a game piece is not loaded, slow down flywheel to idle and stop the indexer   
-                } if (notesensor.isNoteLoaded()==false) {
-                    index.SetPower(0);
-                    shooter2.setFlywheelVelocity(Constants.ShooterConstants.SHOOTER_IDLE_VELOCITY);
+                /* If a game piece is not loaded,
+                Set flywheel to idle speed
+                stop the indexer */ 
+                } if (!notesensor.isNoteLoaded()) {
+                    index.setPower(0);
+                    shooter2.setFlywheelVelocity(shooter2.FLYWHEEL_IDLE_VELOCITY);
 
                     // Has to be called a second time 
-                    } if (shooter2.isFlywheelNominal()==true && notesensor.isNoteLoaded()==true) {
-                            index.SetPower(Constants.IndexConstants.INDEX_POWER);  
+                    } if (shooter2.isFlywheelNominal() && notesensor.isNoteLoaded()) {
+                            index.setPower(Constants.IndexConstants.INDEX_POWER);  
             
         } // end of if statement
 
@@ -65,4 +67,4 @@ public class AutoShootWhenReady extends Command {
         return false;
     }
 
-} // End of AutonShootWhenReady.java
+} // End of AutonShootWhenReady

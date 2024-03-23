@@ -29,7 +29,7 @@ import frc.robot.commands.SetIndex;
 import frc.robot.commands.SetFlywheel;
 import frc.robot.commands.SetWinch;
 import frc.robot.commands.ShootClose;
-import frc.robot.experimental.AutoShootWhenReady;
+import frc.robot.experimental.ShootWhenReadyAuton;
 import frc.robot.experimental.ShootWhenReady;
 import frc.robot.commands.ShootFromStage;
 import frc.robot.generated.TunerConstants;
@@ -58,11 +58,11 @@ public class RobotContainer {
 
   /* Subsystems */
   ShooterSubsystemVelocity shooter = new ShooterSubsystemVelocity();
+  ShooterSubsystem2 shooter2 = new ShooterSubsystem2(); 
   IntakeSubsystem intake = new IntakeSubsystem();
   IndexSubsystem index = new IndexSubsystem();
   WinchSubsystem2 winch = new WinchSubsystem2();
   ArmSubsystem arm = new ArmSubsystem();
-  ShooterSubsystem2 shooter2 = new ShooterSubsystem2();
   NoteSensorSubsystem notesensor = new NoteSensorSubsystem();
   // #endregion Subsystems
 
@@ -93,10 +93,13 @@ public class RobotContainer {
 
   private final IntakeCommandGroup intakeGroup = new IntakeCommandGroup(index, intake);
   private final IntakeRevCommandGroup intakeRevGroup = new IntakeRevCommandGroup(index, intake);
-  private final SetFlywheel setShooterVelocity = new SetFlywheel(shooter2, arm, Constants.ShooterConstants.SHOOTER_VELOCITY);
-  private final SetFlywheel setShooterIdle = new SetFlywheel(shooter2, arm, Constants.ShooterConstants.SHOOTER_IDLE_VELOCITY);
+
+  // Only Sets the flywheel to target velocity, no index
+  private final SetFlywheel setShooterVelocity = new SetFlywheel(shooter2, arm, shooter2.FLYWHEEL_VELOCITY);
+  // Only Sets the flywheel to idle velocity, no index
+  private final SetFlywheel setShooterIdle = new SetFlywheel(shooter2, arm, shooter2.FLYWHEEL_IDLE_VELOCITY);
   private final ShootWhenReady shootWhenReady = new ShootWhenReady(shooter2, index, notesensor);
-  private final AutoShootWhenReady autonShootWhenReady = new AutoShootWhenReady(shooter2, index, notesensor);
+  private final ShootWhenReadyAuton autonShootWhenReady = new ShootWhenReadyAuton(shooter2, index, notesensor);
 
   // ChargeIntakeCommand chargeIntake = new ChargeIntakeCommand(drivetrain, intake, driveRequest);
 
@@ -149,9 +152,10 @@ public class RobotContainer {
   private void configureBindings() {
 
   /* DRIVER BINDINGS */
-    index.setDefaultCommand(index.run(() -> index.SetPower(0)));
-            driveRequest = drive.withVelocityX(-m_driverController.getLeftY() * MaxSpeed)
-            .withVelocityY(-m_driverController.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+    index.setDefaultCommand(index.run(() -> index.setPower(0)));
+
+    driveRequest = drive.withVelocityX(-m_driverController.getLeftY() * MaxSpeed)
+          .withVelocityY(-m_driverController.getLeftX() * MaxSpeed) // Drive left with negative X (left)
             .withRotationalRate(-m_driverController.getRightX() * MaxAngularRate) // Drive counterclockwise with
                                                                                   // negative X (left)
         ;
@@ -181,18 +185,13 @@ public class RobotContainer {
     m_driverController.a().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_HOME_POSE)));
     m_driverController.b().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_MID_POSE)));
     m_driverController.x().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_AMP_POSE)));
-    // m_driverController.y().whileTrue(shootSafetyPose);  // TODO Test, should do the same as ARM_MID_POSE
-                                                        // Use for long range shot with with higher shooter velocity
+    // m_driverController.y().whileTrue(shootSafetyPose); // TODO Test, should do the same as ARM_MID_POSE
+                                                          // Use for long range shot with with higher shooter velocity
     m_driverController.rightBumper().whileTrue(new IntakeCommandGroup(index, intake));
     m_driverController.leftBumper().whileTrue(new IntakeRevCommandGroup(index, intake));
-    m_driverController.rightTrigger().whileTrue(shootWhenReady); // Works on cart
-
-    // m_driverController.rightTrigger().whileTrue(autonShootWhenReady); // Works on cart on a button
-
+    m_driverController.rightTrigger().whileTrue(shootWhenReady);
+    // m_driverController.rightTrigger().whileTrue(autonShootWhenReady);
     m_driverController.leftTrigger().whileTrue(new SetIndex(index, -0.75));
-
-    
-
 
     // m_driverController.rightTrigger().whileTrue(new RevAndShootCommand(index, shooter)); /* Previous bindings */
     // m_driverController.rightTrigger().whileFalse(new InstantCommand(() -> shooter.SetOutput(0))); /* Previous bindings */

@@ -24,8 +24,8 @@ public class IntakeCommandGroup extends SequentialCommandGroup {
         addCommands(
                 new ParallelCommandGroup(
                     runIntake, 
-                    (new RunCommand(() -> index.RunIndexing(), 
-                    index))).until(() -> index.HasCargo()));
+                    (new RunCommand(() -> index.runIndexing(), 
+                    index))).until(() -> index.hasCargo()));
                     // new IncrementIndex1Stage(index)); // too finicky at momement
 
     }
