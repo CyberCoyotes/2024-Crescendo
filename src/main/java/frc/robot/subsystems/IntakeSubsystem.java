@@ -31,4 +31,8 @@ public class IntakeSubsystem extends SubsystemBase {
         motor.setControl(dutyCycle.withOutput(input));
     }
 
+    public void stopIntake() {
+        motor.setControl(dutyCycle.withOutput(0));
+    }
+
 }

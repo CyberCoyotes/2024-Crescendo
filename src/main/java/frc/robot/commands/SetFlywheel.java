@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ShooterSubsystem2;
 import frc.robot.subsystems.ArmSubsystem;
 
+@SuppressWarnings("unused")
+
 public class SetFlywheel extends Command {
     private final ShooterSubsystem2 shooter2;
     private final ArmSubsystem arm;

@@ -1,21 +1,23 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.experimental.ShootWhenReady;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.ShooterSubsystemVelocity;
+import frc.robot.subsystems.NoteSensorSubsystem;
+import frc.robot.subsystems.ShooterSubsystem2;
 
 public class ShootFromStage extends SequentialCommandGroup {
-    public ShootFromStage(ArmSubsystem arm, IndexSubsystem index, IntakeSubsystem intake, ShooterSubsystemVelocity shooter) {
+    public ShootFromStage(ArmSubsystem arm, IndexSubsystem index, IntakeSubsystem intake, ShooterSubsystem2 shooter2, NoteSensorSubsystem notesensor) {
 
         addCommands(
+            // Set the arm to the middle position for shooting from the closest Stage leg
             new SetArmPosition(arm, Constants.ArmConstants.ARM_MID_POSE),
-            // new ShooterIndex(shooter, index).withTimeout(1.0)
-            new ShootWhenReady(null, index, null),
+            // Check target velocity and index the game piece forward
+            new ShootWhenReady(shooter2, index, notesensor),
+            // Set arm back to home position
             new SetArmPosition(arm, Constants.ArmConstants.ARM_HOME_POSE)
         );
     }

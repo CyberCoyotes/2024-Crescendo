@@ -98,8 +98,13 @@ public class RobotContainer {
   private final SetFlywheel setShooterVelocity = new SetFlywheel(shooter2, arm, shooter2.FLYWHEEL_VELOCITY);
   // Only Sets the flywheel to idle velocity, no index
   private final SetFlywheel setShooterIdle = new SetFlywheel(shooter2, arm, shooter2.FLYWHEEL_IDLE_VELOCITY);
+
+  // An updated version of the RevAndShootCommand
   private final ShootWhenReady shootWhenReady = new ShootWhenReady(shooter2, index, notesensor);
-  private final ShootWhenReadyAuton autonShootWhenReady = new ShootWhenReadyAuton(shooter2, index, notesensor);
+  // Autonomous version of the Shoot When Ready command that addeds notesensor checks for ending the command
+  private final ShootWhenReadyAuton shootWhenReadyAuton = new ShootWhenReadyAuton(shooter2, index, notesensor);
+  private final ShootFromStage shootFromStage = new ShootFromStage(arm, index, intake, shooter2, notesensor);
+  
 
   // ChargeIntakeCommand chargeIntake = new ChargeIntakeCommand(drivetrain, intake, driveRequest);
 
@@ -114,8 +119,11 @@ public class RobotContainer {
 
     /* Pathplanner Named Commands */
     NamedCommands.registerCommand("ShootClose", new ShootClose(arm, index, intake, shooter));
+    NamedCommands.registerCommand("ShootClose2", shootWhenReadyAuton);
+    NamedCommands.registerCommand("ShootFromStage", shootFromStage);
     NamedCommands.registerCommand("Intake", new IntakeIndex(index, intake));
-    NamedCommands.registerCommand("AutoShootWhenReady", autonShootWhenReady);
+    NamedCommands.registerCommand("AutoShootWhenReady", shootWhenReadyAuton);
+        NamedCommands.registerCommand("ShootWhenReady", shootWhenReadyAuton); // Autonomous 
     NamedCommands.registerCommand("SetFlywheelToIdle", setShooterIdle);
     // Constants.ArmConstants.ARM_MID_POSE));
 
@@ -185,12 +193,11 @@ public class RobotContainer {
     m_driverController.a().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_HOME_POSE)));
     m_driverController.b().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_MID_POSE)));
     m_driverController.x().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_AMP_POSE)));
-    // m_driverController.y().whileTrue(shootSafetyPose); // TODO Test, should do the same as ARM_MID_POSE
-                                                          // Use for long range shot with with higher shooter velocity
     m_driverController.rightBumper().whileTrue(new IntakeCommandGroup(index, intake));
     m_driverController.leftBumper().whileTrue(new IntakeRevCommandGroup(index, intake));
     m_driverController.rightTrigger().whileTrue(shootWhenReady);
-    // m_driverController.rightTrigger().whileTrue(autonShootWhenReady);
+    // m_driverController.rightTrigger().whileTrue(setShooterVelocity); // TODO Testing purposes, remove later
+    // m_driverController.rightTrigger().whileTrue(autonShootWhenReady); // TODO Testing purposes, remove later
     m_driverController.leftTrigger().whileTrue(new SetIndex(index, -0.75));
 
     // m_driverController.rightTrigger().whileTrue(new RevAndShootCommand(index, shooter)); /* Previous bindings */

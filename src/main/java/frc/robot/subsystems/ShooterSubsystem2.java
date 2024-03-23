@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-// @SuppressWarnings("unused")
+@SuppressWarnings("unused")
 
 public class ShooterSubsystem2 extends SubsystemBase{
 
@@ -27,16 +27,21 @@ public class ShooterSubsystem2 extends SubsystemBase{
     public final double FLYWHEEL_VELOCITY_SHORT_RANGE = 40; // Not currently in use anywhere
     public final double FLYWHEEL_VELOCITY_LONG_RANGE = 60; // Not currently in use anywhere, Flywheel speed for long range shots only
     public final double FLYWHEEL_IDLE_VELOCITY = FLYWHEEL_VELOCITY * 0.30; // 30% of max speed
-    public final double VELOCITY_ERROR_MARGIN = FLYWHEEL_VELOCITY * 0.10; // 5% of max speed
+    public final double FLYWHEEL_MARGIN_ERROR = FLYWHEEL_VELOCITY * 0.10; // 5% of max speed
+    public final double FLYWHEEL_MIN = FLYWHEEL_VELOCITY * .95;
+    public final double FLYWHEEL_MAX = FLYWHEEL_VELOCITY * 1.05;
     
 
     // Class member variables
     private VelocityVoltage m_velocityVoltage = new VelocityVoltage(0);
 
+    private double currentFlywheelVel = m_primaryMotor.getVelocity().getValue();
+
     public ShooterSubsystem2() {
         /* Verbose? Absolutely. Effective? I hope so */
 
-                var currentFlywheelVel = m_primaryMotor.getVelocity().getValue();
+
+        
 
         m_primaryMotor.setControl(m_velocityVoltage);
         m_secondaryMotor.setControl(m_velocityVoltage);
@@ -100,24 +105,37 @@ public class ShooterSubsystem2 extends SubsystemBase{
         m_secondaryMotor.getConfigurator().apply(flywheelMotorOutput);
 
         m_primaryMotor.setInverted(true);
-        m_secondaryMotor.setInverted(true);     
+        m_secondaryMotor.setInverted(true);
+        
+        // Alternate way to get the current flywheel velocity?
 
     } // end of constructor
 
+    
     public void setFlywheelVelocity(double velocity) {
         m_primaryMotor.setControl(m_velocityVoltage.withVelocity(velocity));
         m_secondaryMotor.setControl(m_velocityVoltage.withVelocity(velocity));
-        }
+    }
+
+    public void setFlywheelToIdle() {
+        m_primaryMotor.setControl(m_velocityVoltage.withVelocity(FLYWHEEL_IDLE_VELOCITY));
+        m_secondaryMotor.setControl(m_velocityVoltage.withVelocity(FLYWHEEL_IDLE_VELOCITY));
+    }
+    public void stopFlywheel() {
+        m_primaryMotor.setControl(m_velocityVoltage.withVelocity(0));
+        m_secondaryMotor.setControl(m_velocityVoltage.withVelocity(0));
+    }
     
-        // 
+    
+    // See also `var currentFlywheelVel = m_primaryMotor.getVelocity().getValue()` in the Constructor
+
     public StatusSignal<Double> getFlywheelVelocity() {
         return m_primaryMotor.getVelocity();
     }
  
-
     public boolean isFlywheelNominal() {
         // double setVelocity = Constants.ShooterConstants.SHOOTER_VELOCITY;
-        if (getFlywheelVelocity().getValue() >= (Math.abs(FLYWHEEL_VELOCITY - (VELOCITY_ERROR_MARGIN)))) {
+        if (getFlywheelVelocity().getValue() >= (Math.abs(FLYWHEEL_VELOCITY - (FLYWHEEL_MARGIN_ERROR)))) {
             return true;
         } else {
             return false;
@@ -132,10 +150,6 @@ public class ShooterSubsystem2 extends SubsystemBase{
         return Math.abs(currentVelocity - targetVelocity) <= threePercentOfTarget;
         }
 
-    double FLYWHEEL_MIN = FLYWHEEL_VELOCITY * .95;
-    double FLYWHEEL_MAX = FLYWHEEL_VELOCITY * 1.05;
-
-
     public boolean isFlywheelNominal3() { 
         if (getFlywheelVelocity().getValue() >= FLYWHEEL_MIN && getFlywheelVelocity().getValue() <= FLYWHEEL_MAX ) {
             return true;
@@ -144,8 +158,7 @@ public class ShooterSubsystem2 extends SubsystemBase{
         }
     }
 
-    public boolean isFlywheelNominal4() { 
-        var currentFlywheelVel = m_primaryMotor.getVelocity().getValue();
+    public boolean isFlywheelNominal4() {
         if (currentFlywheelVel >= FLYWHEEL_MIN && getFlywheelVelocity().getValue() <= FLYWHEEL_MAX ) {
             return true;
         } else {
