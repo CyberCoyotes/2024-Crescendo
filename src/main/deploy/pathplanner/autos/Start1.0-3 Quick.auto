@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3,
-      "y": 5.65
+      "x": 0.45,
+      "y": 7.0
     },
     "rotation": 180.0
   },
@@ -12,9 +12,9 @@
     "data": {
       "commands": [
         {
-          "type": "wait",
+          "type": "path",
           "data": {
-            "waitTime": 0.0
+            "pathName": "S1-PoseA"
           }
         },
         {
@@ -36,7 +36,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "S2-0-2"
+                  "pathName": "PoseA-N3"
                 }
               }
             ]
@@ -45,18 +45,12 @@
         {
           "type": "path",
           "data": {
-            "pathName": "N2-PoseB"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ShootClose"
+            "pathName": "N3-N3Quick"
           }
         }
       ]
     }
   },
-  "folder": "Start Position 2",
+  "folder": "Start Position 1",
   "choreoAuto": false
 }

@@ -1,0 +1,70 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.1,
+        "y": 7.15
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 3.0500000000000003,
+        "y": 7.15
+      },
+      "isLocked": false,
+      "linkedName": "NotePose3"
+    },
+    {
+      "anchor": {
+        "x": 3.1,
+        "y": 6.75
+      },
+      "prevControl": {
+        "x": 3.15,
+        "y": 6.75
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "N3Quick"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "Shoot",
+      "waypointRelativePos": 1.0,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "ShootFromStage"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 4.0,
+    "maxAcceleration": 4.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -160.0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Experimental",
+  "previewStartingState": {
+    "rotation": 180.0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}
