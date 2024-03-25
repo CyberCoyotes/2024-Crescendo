@@ -122,8 +122,9 @@ public class RobotContainer {
     NamedCommands.registerCommand("ShootClose2", shootWhenReadyAuton);
     NamedCommands.registerCommand("ShootFromStage", shootFromStage);
     NamedCommands.registerCommand("Intake", new IntakeIndex(index, intake));
+    
     NamedCommands.registerCommand("AutoShootWhenReady", shootWhenReadyAuton);
-        NamedCommands.registerCommand("ShootWhenReady", shootWhenReadyAuton); // Autonomous 
+    NamedCommands.registerCommand("ShootWhenReady", shootWhenReadyAuton); // Autonomous 
     NamedCommands.registerCommand("SetFlywheelToIdle", setShooterIdle);
     // Constants.ArmConstants.ARM_MID_POSE));
 
