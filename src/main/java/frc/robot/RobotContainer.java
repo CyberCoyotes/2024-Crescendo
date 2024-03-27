@@ -5,6 +5,7 @@
 package frc.robot;
 
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
+import com.ctre.phoenix6.hardware.Pigeon2;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -34,6 +35,7 @@ import frc.robot.experimental.ShootWhenReady;
 import frc.robot.commands.ShootFromStage;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.Gyro;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.Limelight;
@@ -64,6 +66,8 @@ public class RobotContainer {
   WinchSubsystem2 winch = new WinchSubsystem2();
   ArmSubsystem arm = new ArmSubsystem();
   NoteSensorSubsystem notesensor = new NoteSensorSubsystem();
+  Gyro pidgey = new Gyro();
+
   // #endregion Subsystems
 
   // #region commands
@@ -223,6 +227,11 @@ public class RobotContainer {
     // driverDiagnostics.addDouble("Arm Rot Deg", () -> arm.GetPositionDegrees());
     // arm.showArmTelemetry("Driver Diagnostics");
     // Shuffleboard.getTab("Arm").add("Arm Output", arm);
+
+
+    SmartDashboard.putNumber("Yaw", pidgey.getYaw());
+    SmartDashboard.putNumber("Angle", pidgey.getAngle());
+    SmartDashboard.putNumber("Rotation2d", pidgey.Rotation2d());
 
     // #endregion Testing
   }
