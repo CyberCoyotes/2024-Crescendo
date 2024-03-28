@@ -71,9 +71,8 @@ public class ShooterSubsystem2 extends SubsystemBase{
         var flywheelConfigs0 = new Slot0Configs();        
             flywheelConfigs0
                 // https://github.com/CrossTheRoadElec/Phoenix6-Examples/blob/main/java/VelocityClosedLoop/src/main/java/frc/robot/Robot.java
-                // https://docs.wpilib.org/en/latest/docs/software/advanced-controls/introduction/tuning-flywheel.html
-                .withKP(0.10) // P and V are the most important for a flywheel
-                .withKI(0.00) // Should not be needed for a flywheel
+                .withKP(0.10)
+                .withKI(0.00)
                 .withKS(0.00) // Should low for a light flywheel? Maybe the pulley strength would impact it though?
                 .withKV(0.00);
 
