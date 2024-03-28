@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
  */
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
+import frc.util.Constants;
 
 public class NoteSensorSubsystem extends SubsystemBase {
 

@@ -6,7 +6,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 // import com.playingwithfusion.TimeOfFlight.RangingMode;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
+import frc.util.Constants;
 
 /**
  * Using a ToF sensor and a single motor

@@ -6,7 +6,7 @@ import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
+import frc.util.Constants;
 
 /**
  * Made of a motor, connected to a pulley. Contains manual drive for now.

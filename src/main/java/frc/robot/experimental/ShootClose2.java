@@ -3,7 +3,6 @@ package frc.robot.experimental;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.Constants;
 import frc.robot.commands.SetIndex;
 import frc.robot.commands.SetFlywheel;
 import frc.robot.subsystems.ArmSubsystem;
@@ -11,6 +10,7 @@ import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.NoteSensorSubsystem;
 import frc.robot.subsystems.ShooterSubsystem2;
+import frc.util.Constants;
 
 
 public class ShootClose2 extends ParallelCommandGroup{
