@@ -1,9 +1,9 @@
 package frc.robot.experimental;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.ShooterSubsystem2;
+import frc.robot.util.Constants;
 import frc.robot.subsystems.NoteSensorSubsystem;
 
 @SuppressWarnings("unused")

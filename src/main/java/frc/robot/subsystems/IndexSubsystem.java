@@ -4,7 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
+import frc.robot.util.Constants;
 
 /*For indexing cargo. That is, taking cargo from a stored position and proceeding it to the shooter.*/
 public class IndexSubsystem extends SubsystemBase {

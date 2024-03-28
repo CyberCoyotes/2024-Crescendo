@@ -1,11 +1,11 @@
 package frc.robot.experimental;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import frc.robot.Constants;
 import frc.robot.commands.SetIndex;
 import frc.robot.commands.SetIntake;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.util.Constants;
 
 public class IntakeIndexTimer extends ParallelCommandGroup {
     IndexSubsystem index;
