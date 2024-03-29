@@ -1,0 +1,58 @@
+package frc.robot.subsystems;
+
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.configs.MotionMagicConfigs;
+import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.GravityTypeValue;
+import frc.robot.util.Constants;
+
+public class ArmIO {
+    private final TalonFX m_arm;
+
+    public ArmIO() {
+        m_arm = new TalonFX(Constants.CANIDs.ARM_ID);
+        m_arm.getConfigurator().apply(new TalonFXConfiguration());
+
+        /* Gains or configuration of arm motor for config slot 0 */
+        var armGains0 = new Slot0Configs();
+        armGains0.GravityType = GravityTypeValue.Arm_Cosine; /* .Elevator_Static | .Arm_Cosine */
+        m_arm.setInverted(true); // Set to true if you want to invert the motor direction
+        armGains0.kP = 0.50; /* Proportional Gain */
+        armGains0.kI = 0.00; /* Integral Gain */
+        armGains0.kD = 0.00; /* Derivative Gain */
+        armGains0.kV = 0.00; /* Velocity Feed Forward Gain */
+        armGains0.kS = 0.00; /* Static Feed Forward Gain */
+        armGains0.kA = 0.00; /* Acceleration Feedforward */
+        armGains0.kG = 0.00; /* Gravity Feedfoward */
+
+        // set Motion Magic settings
+        var armMotionMagic0 = new MotionMagicConfigs();
+        armMotionMagic0.MotionMagicCruiseVelocity = Constants.ArmConstants.ARM_MAX_VEL; 
+        armMotionMagic0.MotionMagicAcceleration = Constants.ArmConstants.ARM_MAX_ACCEL; 
+        armMotionMagic0.MotionMagicJerk = Constants.ArmConstants.ARM_JERK;
+
+        var armSoftLimit0 = new SoftwareLimitSwitchConfigs();
+        armSoftLimit0.ForwardSoftLimitEnable = true;
+        armSoftLimit0.ForwardSoftLimitThreshold = Constants.ArmConstants.ARM_FWD_LIMIT;
+        armSoftLimit0.ReverseSoftLimitEnable = true;
+        armSoftLimit0.ReverseSoftLimitThreshold = Constants.ArmConstants.ARM_REV_LIMIT;
+
+        var armCurrent0 = new CurrentLimitsConfigs();
+        armCurrent0.StatorCurrentLimitEnable = true;
+        armCurrent0.StatorCurrentLimit = Constants.ArmConstants.ARM_STATOR_LIMIT;
+        armCurrent0.SupplyCurrentLimitEnable = true;
+        armCurrent0.SupplyCurrentLimit = Constants.ArmConstants.ARM_SUPPLY_LIMIT;
+
+        /*
+         * Long form (better for my learning): Applies gains with an optional 50 ms
+         * timeout (I think)
+         */
+        m_arm.getConfigurator().apply(armGains0, 0.050);
+        m_arm.getConfigurator().apply(armMotionMagic0, 0.050);
+        m_arm.getConfigurator().apply(armSoftLimit0, 0.050);
+        m_arm.getConfigurator().apply(armCurrent0, 0.050);
+    }        
+} // end of class ArmIO
