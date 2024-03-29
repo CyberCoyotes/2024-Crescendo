@@ -192,7 +192,7 @@ public class ShooterSubsystem2 extends SubsystemBase{
         // synchronously wait 20 ms for new data
         // rotorPosSignal.waitForUpdate(0.020);
 
-        var currentFlywheelVel = m_primaryMotor.getVelocity().getValue();
+        // var currentFlywheelVel = m_primaryMotor.getVelocity().getValue();
 
         // var currentFlywheelVel2 = flywheelVel.getValue();
 
