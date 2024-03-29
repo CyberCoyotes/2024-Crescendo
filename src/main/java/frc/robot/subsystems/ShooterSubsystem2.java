@@ -6,6 +6,7 @@ import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.configs.VoltageConfigs;
+import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -14,7 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.Constants;
 
-@SuppressWarnings("unused")
+// @SuppressWarnings("unused")
 
 public class ShooterSubsystem2 extends SubsystemBase{
 
@@ -34,14 +35,13 @@ public class ShooterSubsystem2 extends SubsystemBase{
 
     // Class member variables
     private VelocityVoltage m_velocityVoltage = new VelocityVoltage(0);
+    // TODO Something to try
+    private MotionMagicVelocityVoltage mmVelocityVoltage = new MotionMagicVelocityVoltage(0);
 
     private double currentFlywheelVel = m_primaryMotor.getVelocity().getValue();
 
     public ShooterSubsystem2() {
         /* Verbose? Absolutely. Effective? I hope so */
-
-
-        
 
         m_primaryMotor.setControl(m_velocityVoltage);
         m_secondaryMotor.setControl(m_velocityVoltage);
@@ -59,18 +59,10 @@ public class ShooterSubsystem2 extends SubsystemBase{
         | kd    |   output per unit of error derivative in velocity (output/(rps/s))
         */
 
-        /* Example provided by CTRE */
-        /*
-        slot0Configs.kS = 0.05; // Add 0.05 V output to overcome static friction
-        slot0Configs.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
-        slot0Configs.kP = 0.11; // An error of 1 rps results in 0.11 V output
-        slot0Configs.kI = 0; // no output for integrated error
-        slot0Configs.kD = 0; // no output for error derivative
-         */
+        // https://github.com/CrossTheRoadElec/Phoenix6-Examples/blob/main/java/VelocityClosedLoop/src/main/java/frc/robot/Robot.java
 
         var flywheelConfigs0 = new Slot0Configs();        
             flywheelConfigs0
-                // https://github.com/CrossTheRoadElec/Phoenix6-Examples/blob/main/java/VelocityClosedLoop/src/main/java/frc/robot/Robot.java
                 .withKP(0.10)
                 .withKI(0.00)
                 .withKS(0.00) // Should low for a light flywheel? Maybe the pulley strength would impact it though?
@@ -79,8 +71,8 @@ public class ShooterSubsystem2 extends SubsystemBase{
     
         var flywheelVelocityConfig = new VoltageConfigs();
             flywheelVelocityConfig
-                .withPeakForwardVoltage(12)  // FRC 2910 running 12
-                .withPeakReverseVoltage(12); // Originally -8, with negative the "helper" text goes away
+                .withPeakForwardVoltage(12)  
+                .withPeakReverseVoltage(12);
                 
         var flywheelCurrentConfigs = new CurrentLimitsConfigs();
         flywheelCurrentConfigs
@@ -106,11 +98,8 @@ public class ShooterSubsystem2 extends SubsystemBase{
 
         m_primaryMotor.setInverted(true);
         m_secondaryMotor.setInverted(true);
-        
-        // Alternate way to get the current flywheel velocity?
 
     } // end of constructor
-
     
     public void setFlywheelVelocity(double velocity) {
         m_primaryMotor.setControl(m_velocityVoltage.withVelocity(velocity));
@@ -124,6 +113,16 @@ public class ShooterSubsystem2 extends SubsystemBase{
     public void stopFlywheel() {
         m_primaryMotor.setControl(m_velocityVoltage.withVelocity(0));
         m_secondaryMotor.setControl(m_velocityVoltage.withVelocity(0));
+    }
+
+    /* A set of methods using MotionMagicVelocityVoltage */
+    public void setFlywheelVelocityMM(double velocity) {
+        m_primaryMotor.setControl(mmVelocityVoltage.withVelocity(velocity));
+        m_secondaryMotor.setControl(mmVelocityVoltage.withVelocity(velocity));
+    }
+    public void setFlywheelToIdleMM() {
+        m_primaryMotor.setControl(mmVelocityVoltage.withVelocity(FLYWHEEL_IDLE_VELOCITY));
+        m_secondaryMotor.setControl(mmVelocityVoltage.withVelocity(FLYWHEEL_IDLE_VELOCITY));
     }
     
     
