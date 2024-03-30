@@ -16,12 +16,6 @@
           "data": {
             "commands": [
               {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
-              },
-              {
                 "type": "path",
                 "data": {
                   "pathName": "Test"
@@ -34,12 +28,6 @@
           "type": "parallel",
           "data": {
             "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "SetFlywheelToIdle"
-                }
-              },
               {
                 "type": "path",
                 "data": {
