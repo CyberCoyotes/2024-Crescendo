@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.IntakeCommandGroup;
 import frc.robot.commands.IntakeIndex;
@@ -109,8 +110,7 @@ public class RobotContainer {
   private final ShootWhenReady shootWhenReady = new ShootWhenReady(shooter2, index, notesensor);
   // Autonomous version of the Shoot When Ready command that addeds notesensor checks for ending the command
   private final ShootWhenReadyAuton shootWhenReadyAuton = new ShootWhenReadyAuton(shooter2, index, notesensor);
-  private final ShootFromStage shootFromStage = new ShootFromStage(arm, index, intake, shooter2, notesensor);
-  
+  private final ShootFromStage shootFromStage = new ShootFromStage(arm, index, intake, shooter2, notesensor); 
 
   // ChargeIntakeCommand chargeIntake = new ChargeIntakeCommand(drivetrain, intake, driveRequest);
 
@@ -125,13 +125,16 @@ public class RobotContainer {
 
     /* Pathplanner Named Commands */
     NamedCommands.registerCommand("ShootClose", new ShootClose(arm, index, intake, shooter));
-    NamedCommands.registerCommand("ShootClose2", shootWhenReadyAuton);
     NamedCommands.registerCommand("ShootFromStage", shootFromStage);
     NamedCommands.registerCommand("Intake", new IntakeIndex(index, intake));
-    
-    NamedCommands.registerCommand("AutoShootWhenReady", shootWhenReadyAuton);
-    NamedCommands.registerCommand("ShootWhenReady", shootWhenReadyAuton); // Autonomous 
+    NamedCommands.registerCommand("AutonShootWhenReady", shootWhenReadyAuton);
     NamedCommands.registerCommand("SetFlywheelToIdle", setShooterIdle);
+    
+    // FIXME Use this approach if wanting a custom set starting pose command
+    // NamedCommands.registerCommand("SetStartingPose180", new InstantCommand()) -> Gyro.setAutonStartingPose(180));
+    // NamedCommands.registerCommand("SetAutonStartingPose180", new InstantCommand(Gyro::setAutonStartingPose, Gyro, 180));
+
+
     // Constants.ArmConstants.ARM_MID_POSE));
 
     /*

@@ -5,12 +5,20 @@ import com.ctre.phoenix6.configs.MountPoseConfigs;
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.hardware.Pigeon2;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.util.Units;
+
 public class Gyro {
        
     private final Pigeon2 pidgey;
 
+    private final double startingPose;
+
     public Gyro() {
         pidgey = new Pigeon2(14); // ID from Change the ID as needed
+        
+        this.startingPose = 180;
     
         // StatusSignal<Double> yawSignal;
 
@@ -51,10 +59,16 @@ public class Gyro {
         * Maybe, but not 100% sure
         */
 
-        public void resetGyro() {
-            pidgey.reset();
+
+        public void setAutonStartingPose(double startingPose) {
+            pidgey.setYaw(startingPose);
         }
-        
+
+                
+        public void setAutonStartingPose180(double startingPose) {
+            pidgey.setYaw(180);
+        }
+
 
 
     } // end of class Gyro
