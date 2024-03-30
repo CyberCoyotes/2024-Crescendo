@@ -119,8 +119,9 @@ public final class Constants {
   }
 
   public static class IndexConstants {
-    public static final double INDEX_POWER = 1.0;
-    public static final double INDEX_POWER_REV = -0.75;
+    // Tested in Tuner: Negative value is red, and brings in the note
+    public static final double INDEX_POWER = -1.0;
+    public static final double INDEX_POWER_REV = 0.75;
 
   }
 
