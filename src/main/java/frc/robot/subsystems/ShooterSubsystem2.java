@@ -2,14 +2,15 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
-import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.Slot1Configs;
+import com.ctre.phoenix6.configs.Slot2Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.configs.VoltageConfigs;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
+import com.ctre.phoenix6.controls.TorqueCurrentFOC;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -20,8 +21,8 @@ import frc.robot.util.Constants;
 public class ShooterSubsystem2 extends SubsystemBase{
 
     // Declare variables for the motors to be controlled
-    private TalonFX m_primaryMotor = new TalonFX(Constants.CANIDs.RIGHT_FLYWHEEL_ID, "rio"); // Right
-    private TalonFX m_secondaryMotor = new TalonFX(Constants.CANIDs.LEFT_FLYWHEEL_ID, "rio"); // Left
+    private TalonFX m_primaryMotor = new TalonFX(Constants.CANIDs.BOTTOM_FLYWHEEL_ID, "rio"); // BOTTOM / RIGHT
+    private TalonFX m_secondaryMotor = new TalonFX(Constants.CANIDs.TOP_FLYWHEEL_ID, "rio"); // TOP / LEFT
 
     // TODO Tune this value
     public final double FLYWHEEL_VELOCITY = 100; // rotations per second (rps)
@@ -35,9 +36,48 @@ public class ShooterSubsystem2 extends SubsystemBase{
     
 
     // Class member variables
-    private VelocityVoltage m_velocityVoltage = new VelocityVoltage(0);
+    private VelocityVoltage m_velocityVoltage 
+        = new VelocityVoltage(
+            0, // Velocity to drive toward in rotations per second
+            0, // Acceleration to drive toward in rotations per second squared
+            true, // EnableFOC
+            0, // Feedforward to apply in volts
+            0, // Slot Select which gains are applied by selecting the slot
+            false, // OverrideBrakeDurNeutral Set to false to use the NeutralMode configuration setting
+            false, // LimitForwardMotion
+            false // LimitReverseMotion
+        );
+
     // TODO Something to try
-    private MotionMagicVelocityVoltage mmVelocityVoltage = new MotionMagicVelocityVoltage(0);
+    private MotionMagicVelocityVoltage mmVelocityVoltage 
+        = new MotionMagicVelocityVoltage(
+            0, // Velocity to drive toward in rotations per second
+            0, // Acceleration to drive toward in rotations per second squared
+            true, // EnableFOC
+            0, // Feedforward to apply in volts
+            1, // Slot Select which gains are applied by selecting the slot
+            false, // OverrideBrakeDurNeutral Set to false to use the NeutralMode configuration setting
+            false, // LimitForwardMotion
+            false // LimitReverseMotion
+        );
+
+        // TODO Something to try
+        private TorqueCurrentFOC m_TorqueCurrent
+        = new TorqueCurrentFOC(
+            0, // Amount of motor current in Amperes
+            0, /* MaxAbsDutyCycle 
+            * Maximum absolute motor output that can be applied, which effectively limits the velocity.
+            * For example, 0.50 means no more than 50% output in  either direction. 
+            * This is useful for preventing the motor from spinning to its terminal velocity
+            */
+            0, // Deadband
+            /* Set to true to coast the rotor when output is zero (or within deadband).
+             * Set to false to use the NeutralMode configuration setting (default).
+             */
+            false, // OverrideCoastDurNeutral
+            false, // LimitForwardMotion
+            false // LimitReverseMotion
+        );
 
     private double currentFlywheelVel = m_primaryMotor.getVelocity().getValue();
 
@@ -52,40 +92,44 @@ public class ShooterSubsystem2 extends SubsystemBase{
         m_primaryMotor.getConfigurator().apply(new TalonFXConfiguration());
         m_secondaryMotor.getConfigurator().apply(new TalonFXConfiguration());
 
-        /* Various Configs */
-        /*
-        | Ks    |   output to overcome static friction (output)
-        | Kv    |   output per unit of velocity (output/rps)
-        | Ka    |   output per unit of acceleration; unused, as there is no target acceleration (output/(rps/s))
-        | Kp    |   output per unit of error (output/rps)
-        | Ki    |   output per unit of integrated error in velocity (output/rotation)
-        | kd    |   output per unit of error derivative in velocity (output/(rps/s))
-        */
-
-        // https://github.com/CrossTheRoadElec/Phoenix6-Examples/blob/main/java/VelocityClosedLoop/src/main/java/frc/robot/Robot.java
-
         var flywheelConfigs0 = new Slot0Configs();        
             flywheelConfigs0
                 .withKP(0.10) // <-
                 .withKI(0.00)
                 .withKS(0.00) // Should low for a light flywheel? Maybe the pulley strength would impact it though?
                 .withKV(0.005); // <-
-
+        
+        var flywheelConfigs1 = new Slot1Configs();        
+        flywheelConfigs1
+            .withKP(0.00) // <-
+            .withKI(0.00)
+            .withKS(0.00) // Should low for a light flywheel? Maybe the pulley strength would impact it though?
+            .withKV(0.00); // <-
     
+        var flywheelConfigs2 = new Slot2Configs();        
+        flywheelConfigs2
+            .withKP(0.00) // <-
+            .withKI(0.00)
+            .withKS(0.00) // Should low for a light flywheel? Maybe the pulley strength would impact it though?
+            .withKV(0.00); // <-
+        
         var flywheelVelocityConfig = new VoltageConfigs();
+
             flywheelVelocityConfig
-                .withPeakForwardVoltage(12)  
-                .withPeakReverseVoltage(12);
+            .withPeakForwardVoltage(12)
+            .withPeakReverseVoltage(-12); 
                 
         var flywheelCurrentConfigs = new CurrentLimitsConfigs();
         flywheelCurrentConfigs
                 .withStatorCurrentLimit(60) 
                 .withStatorCurrentLimitEnable(true);
 
-        var flywheelMotorOutput = new MotorOutputConfigs();
+        /*
+        var flywhevelMotorOutput = new MotorOutputConfigs();
         flywheelMotorOutput
                 .withNeutralMode(NeutralModeValue.Coast);
-                
+        */
+
         /* Apply Configs */
         m_primaryMotor.getConfigurator().apply(flywheelConfigs0);
         m_secondaryMotor.getConfigurator().apply(flywheelConfigs0);
@@ -96,8 +140,8 @@ public class ShooterSubsystem2 extends SubsystemBase{
         m_primaryMotor.getConfigurator().apply(flywheelCurrentConfigs);
         m_secondaryMotor.getConfigurator().apply(flywheelCurrentConfigs);
        
-        m_primaryMotor.getConfigurator().apply(flywheelMotorOutput);
-        m_secondaryMotor.getConfigurator().apply(flywheelMotorOutput);
+        // m_primaryMotor.getConfigurator().apply(flywheelMotorOutput);
+        // m_secondaryMotor.getConfigurator().apply(flywheelMotorOutput);
 
         m_primaryMotor.setInverted(true);
         m_secondaryMotor.setInverted(true);
@@ -128,13 +172,27 @@ public class ShooterSubsystem2 extends SubsystemBase{
         m_secondaryMotor.setControl(mmVelocityVoltage.withVelocity(FLYWHEEL_IDLE_VELOCITY));
     }
     
+    public void setFlywheelTorqueCurrent(double amps) {
+        m_primaryMotor.setControl(m_TorqueCurrent.withOutput(amps));
+        m_secondaryMotor.setControl(m_TorqueCurrent.withOutput(amps));
+    }
+    
     
     // See also `var currentFlywheelVel = m_primaryMotor.getVelocity().getValue()` in the Constructor
 
     public StatusSignal<Double> getFlywheelVelocity() {
         return m_primaryMotor.getVelocity();
     }
- 
+    
+    public StatusSignal<Double> getFlywheelVelocitySecondary() {
+        return m_primaryMotor.getVelocity();
+    }
+
+    public double getFlywheelVelocityAverage() {
+        return (getFlywheelVelocity().getValue() + getFlywheelVelocitySecondary().getValue()) / 2;
+    }
+
+
     public boolean isFlywheelNominal() {
         // double setVelocity = Constants.ShooterConstants.SHOOTER_VELOCITY;
         if (getFlywheelVelocity().getValue() >= (Math.abs(FLYWHEEL_VELOCITY - (FLYWHEEL_MARGIN_ERROR)))) {
@@ -161,7 +219,7 @@ public class ShooterSubsystem2 extends SubsystemBase{
     }
 
     public boolean isFlywheelNominal4() {
-        if (currentFlywheelVel >= FLYWHEEL_MIN && getFlywheelVelocity().getValue() <= FLYWHEEL_MAX ) {
+        if (currentFlywheelVel >= FLYWHEEL_MIN && currentFlywheelVel <= FLYWHEEL_MAX ) {
             return true;
         } else {
             return false;
@@ -175,8 +233,9 @@ public class ShooterSubsystem2 extends SubsystemBase{
         SmartDashboard.putBoolean("Flywheel 2.0 version", isFlywheelNominal2());
         SmartDashboard.putBoolean("Flywheel 3.0 version", isFlywheelNominal3());
         SmartDashboard.putBoolean("Flywheel 4.0 version", isFlywheelNominal4());
-
-        // SmartDashboard.putNumber("Flywheel Velocity", m_primaryMotor.getVelocity());
+        SmartDashboard.putNumber("RIGHT Flywheel Velocity", getFlywheelVelocity().getValue());
+        SmartDashboard.putNumber("LEFT Flywheel Velocity", getFlywheelVelocitySecondary().getValue());
+        SmartDashboard.putNumber("AVE Flywheel Velocity", getFlywheelVelocityAverage());
 
         // acquire a refreshed TalonFX rotor position signal
         // var rotorPosSignal = m_talonFX.getRotorPosition();
@@ -203,3 +262,28 @@ public class ShooterSubsystem2 extends SubsystemBase{
     }
 
 } // end of class ShooterSubsystem2
+
+
+/*
+ *
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class ShooterSubsystem2 {
+    private static final int SAMPLE_SIZE = 20;
+    private Queue<Double> velocitySamples = new LinkedList<>();
+
+    public double getAverageFlywheelVelocity() {
+        double primaryVelocity = getFlywheelVelocity().getValue();
+        double secondaryVelocity = getFlywheelVelocitySecondary().getValue();
+        double averageVelocity = (primaryVelocity + secondaryVelocity) / 2;
+
+        velocitySamples.add(averageVelocity);
+        if (velocitySamples.size() > SAMPLE_SIZE) {
+            velocitySamples.remove();
+        }
+
+        return velocitySamples.stream().mapToDouble(val -> val).average().orElse(0.0);
+    }
+}
+ */

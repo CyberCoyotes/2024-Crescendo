@@ -59,8 +59,8 @@ public class ShooterSubsystemVelocity extends SubsystemBase {
 
         singleMotor = false;
 
-        m_main = new TalonFX(Constants.CANIDs.RIGHT_FLYWHEEL_ID);
-        m_sub = new TalonFX(Constants.CANIDs.LEFT_FLYWHEEL_ID);
+        m_main = new TalonFX(Constants.CANIDs.BOTTOM_FLYWHEEL_ID);
+        m_sub = new TalonFX(Constants.CANIDs.TOP_FLYWHEEL_ID);
         m_main.getConfigurator().apply(motorConfigs);
         m_sub.getConfigurator().apply(motorConfigs);
         m_main.setInverted(true); // Switched based on Tuner, was true

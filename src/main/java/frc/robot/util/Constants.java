@@ -145,8 +145,8 @@ public final class Constants {
     public static final int INTAKE_ID =         20;
     public static final int INDEX_ID =          21;
     public static final int ARM_ID =            22;
-    public static final int LEFT_FLYWHEEL_ID =  23; // TOP
-    public static final int RIGHT_FLYWHEEL_ID = 24; // BOTTOM
+    public static final int TOP_FLYWHEEL_ID =  23; // TOP
+    public static final int BOTTOM_FLYWHEEL_ID = 24; // BOTTOM
     public static final int WINCH_ID =          25;
     public static final int NOTE_SENSOR_ID =    42; // Time of Flight sensor for the note
 
