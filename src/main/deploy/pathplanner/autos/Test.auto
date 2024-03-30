@@ -16,12 +16,6 @@
           "data": {
             "commands": [
               {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
-              },
-              {
                 "type": "path",
                 "data": {
                   "pathName": "Test"
@@ -35,24 +29,12 @@
           "data": {
             "commands": [
               {
-                "type": "named",
-                "data": {
-                  "name": "SetFlywheelToIdle"
-                }
-              },
-              {
                 "type": "path",
                 "data": {
                   "pathName": "TestReturn"
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoShootWhenReady"
           }
         }
       ]

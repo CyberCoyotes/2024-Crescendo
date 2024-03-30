@@ -29,8 +29,9 @@ public class ShooterSubsystem2 extends SubsystemBase{
     public final double FLYWHEEL_VELOCITY_LONG_RANGE = 60; // Not currently in use anywhere, Flywheel speed for long range shots only
     public final double FLYWHEEL_IDLE_VELOCITY = FLYWHEEL_VELOCITY * 0.30; // 30% of max speed
     public final double FLYWHEEL_MARGIN_ERROR = FLYWHEEL_VELOCITY * 0.10; // 5% of max speed
-    public final double FLYWHEEL_MIN = FLYWHEEL_VELOCITY * .95;
-    public final double FLYWHEEL_MAX = FLYWHEEL_VELOCITY * 1.05;
+    public final double FLYWHEEL_CONSTANT = 46; // rotations per second (rps)
+    public final double FLYWHEEL_MIN = FLYWHEEL_CONSTANT * .95;
+    public final double FLYWHEEL_MAX = FLYWHEEL_CONSTANT * 1.20;
     
 
     // Class member variables
@@ -45,6 +46,8 @@ public class ShooterSubsystem2 extends SubsystemBase{
 
         m_primaryMotor.setControl(m_velocityVoltage);
         m_secondaryMotor.setControl(m_velocityVoltage);
+
+       //  m_primaryMotor.setNeutralMode(coast);
 
         m_primaryMotor.getConfigurator().apply(new TalonFXConfiguration());
         m_secondaryMotor.getConfigurator().apply(new TalonFXConfiguration());
@@ -63,10 +66,10 @@ public class ShooterSubsystem2 extends SubsystemBase{
 
         var flywheelConfigs0 = new Slot0Configs();        
             flywheelConfigs0
-                .withKP(0.10)
+                .withKP(0.10) // <-
                 .withKI(0.00)
                 .withKS(0.00) // Should low for a light flywheel? Maybe the pulley strength would impact it though?
-                .withKV(0.00);
+                .withKV(0.005); // <-
 
     
         var flywheelVelocityConfig = new VoltageConfigs();
