@@ -43,6 +43,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "ShootFromStage"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "N3-N3Quick"
