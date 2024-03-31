@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.ShooterSubsystem2;
 import frc.robot.util.IndexConstants;
+import frc.robot.util.ShooterConstants;
 import frc.robot.subsystems.NoteSensorSubsystem;
 
 public class ShootWhenReady2 extends Command{
@@ -25,7 +26,7 @@ public class ShootWhenReady2 extends Command{
 
     public void execute() {
         // Turn on the shooter with setTargetFlywheelVelocity
-        shooter2.setFlywheelVelocity(shooter2.FLYWHEEL_VELOCITY);
+        shooter2.setFlywheelVelocity(ShooterConstants.FLYWHEEL_VELOCITY);
 
         // After the flywheel is at target velocity, index the game piece forward
         if (shooter2.isFlywheelNominal() && notesensor.isNoteLoaded()) {

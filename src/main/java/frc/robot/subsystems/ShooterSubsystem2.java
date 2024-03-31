@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import java.lang.annotation.Target;
+
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
@@ -15,6 +17,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.Constants;
+import frc.robot.util.ShooterConstants;
 
 // @SuppressWarnings("unused")
 
@@ -24,18 +27,11 @@ public class ShooterSubsystem2 extends SubsystemBase{
     private TalonFX m_primaryMotor = new TalonFX(Constants.CANIDs.BOTTOM_FLYWHEEL_ID, "rio"); // BOTTOM / RIGHT
     private TalonFX m_secondaryMotor = new TalonFX(Constants.CANIDs.TOP_FLYWHEEL_ID, "rio"); // TOP / LEFT
 
-    // TODO Tune this value
-    public final double FLYWHEEL_VELOCITY = 100; // rotations per second (rps)
-    public final double FLYWHEEL_VELOCITY_SHORT_RANGE = 40; // Not currently in use anywhere
-    public final double FLYWHEEL_VELOCITY_LONG_RANGE = 60; // Not currently in use anywhere, Flywheel speed for long range shots only
-    public final double FLYWHEEL_IDLE_VELOCITY = FLYWHEEL_VELOCITY * 0.30; // 30% of max speed
-    public final double FLYWHEEL_MARGIN_ERROR = FLYWHEEL_VELOCITY * 0.10; // 5% of max speed
-    public final double FLYWHEEL_CONSTANT = 46; // rotations per second (rps)
-    public final double FLYWHEEL_MIN = FLYWHEEL_CONSTANT * .95;
-    public final double FLYWHEEL_MAX = FLYWHEEL_CONSTANT * 1.20;
-    
-
-    // Class member variables
+    /* 
+    This is an instance of the `VelocityVoltage` class being created and assigned 
+    to the `m_velocityVoltage` variable with parameters being passed to the `VelocityVoltage` constructor.
+    TODO See if the `VelocityVoltage` class parameters can replace some of the specifically assigned values such as 
+    */
     private VelocityVoltage m_velocityVoltage 
         = new VelocityVoltage(
             0, // Velocity to drive toward in rotations per second
@@ -82,69 +78,7 @@ public class ShooterSubsystem2 extends SubsystemBase{
     private double currentFlywheelVel = m_primaryMotor.getVelocity().getValue();
 
     public ShooterSubsystem2() {
-        /* Verbose? Absolutely. Effective? I hope so */
-
-        m_primaryMotor.setControl(m_velocityVoltage);
-        m_secondaryMotor.setControl(m_velocityVoltage);
-
-       //  m_primaryMotor.setNeutralMode(coast);
-
-        m_primaryMotor.getConfigurator().apply(new TalonFXConfiguration());
-        m_secondaryMotor.getConfigurator().apply(new TalonFXConfiguration());
-
-        var flywheelConfigs0 = new Slot0Configs();        
-            flywheelConfigs0
-                .withKP(0.10) // <-
-                .withKI(0.00)
-                .withKS(0.00) // Should low for a light flywheel? Maybe the pulley strength would impact it though?
-                .withKV(0.005); // <-
         
-        var flywheelConfigs1 = new Slot1Configs();        
-        flywheelConfigs1
-            .withKP(0.00) // <-
-            .withKI(0.00)
-            .withKS(0.00) // Should low for a light flywheel? Maybe the pulley strength would impact it though?
-            .withKV(0.00); // <-
-    
-        var flywheelConfigs2 = new Slot2Configs();        
-        flywheelConfigs2
-            .withKP(0.00) // <-
-            .withKI(0.00)
-            .withKS(0.00) // Should low for a light flywheel? Maybe the pulley strength would impact it though?
-            .withKV(0.00); // <-
-        
-        var flywheelVelocityConfig = new VoltageConfigs();
-
-            flywheelVelocityConfig
-            .withPeakForwardVoltage(12)
-            .withPeakReverseVoltage(-12); 
-                
-        var flywheelCurrentConfigs = new CurrentLimitsConfigs();
-        flywheelCurrentConfigs
-                .withStatorCurrentLimit(60) 
-                .withStatorCurrentLimitEnable(true);
-
-        /*
-        var flywhevelMotorOutput = new MotorOutputConfigs();
-        flywheelMotorOutput
-                .withNeutralMode(NeutralModeValue.Coast);
-        */
-
-        /* Apply Configs */
-        m_primaryMotor.getConfigurator().apply(flywheelConfigs0);
-        m_secondaryMotor.getConfigurator().apply(flywheelConfigs0);
-       
-        m_primaryMotor.getConfigurator().apply(flywheelVelocityConfig);
-        m_secondaryMotor.getConfigurator().apply(flywheelVelocityConfig);
-       
-        m_primaryMotor.getConfigurator().apply(flywheelCurrentConfigs);
-        m_secondaryMotor.getConfigurator().apply(flywheelCurrentConfigs);
-       
-        // m_primaryMotor.getConfigurator().apply(flywheelMotorOutput);
-        // m_secondaryMotor.getConfigurator().apply(flywheelMotorOutput);
-
-        m_primaryMotor.setInverted(true);
-        m_secondaryMotor.setInverted(true);
 
     } // end of constructor
     
@@ -154,8 +88,8 @@ public class ShooterSubsystem2 extends SubsystemBase{
     }
 
     public void setFlywheelToIdle() {
-        m_primaryMotor.setControl(m_velocityVoltage.withVelocity(FLYWHEEL_IDLE_VELOCITY));
-        m_secondaryMotor.setControl(m_velocityVoltage.withVelocity(FLYWHEEL_IDLE_VELOCITY));
+        m_primaryMotor.setControl(m_velocityVoltage.withVelocity(ShooterConstants.FLYWHEEL_IDLE_VELOCITY));
+        m_secondaryMotor.setControl(m_velocityVoltage.withVelocity(ShooterConstants.FLYWHEEL_IDLE_VELOCITY));
     }
     public void stopFlywheel() {
         m_primaryMotor.setControl(m_velocityVoltage.withVelocity(0));
@@ -168,8 +102,8 @@ public class ShooterSubsystem2 extends SubsystemBase{
         m_secondaryMotor.setControl(mmVelocityVoltage.withVelocity(velocity));
     }
     public void setFlywheelToIdleMM() {
-        m_primaryMotor.setControl(mmVelocityVoltage.withVelocity(FLYWHEEL_IDLE_VELOCITY));
-        m_secondaryMotor.setControl(mmVelocityVoltage.withVelocity(FLYWHEEL_IDLE_VELOCITY));
+        m_primaryMotor.setControl(mmVelocityVoltage.withVelocity(ShooterConstants.FLYWHEEL_IDLE_VELOCITY));
+        m_secondaryMotor.setControl(mmVelocityVoltage.withVelocity(ShooterConstants.FLYWHEEL_IDLE_VELOCITY));
     }
     
     public void setFlywheelTorqueCurrent(double amps) {
@@ -195,7 +129,7 @@ public class ShooterSubsystem2 extends SubsystemBase{
 
     public boolean isFlywheelNominal() {
         // double setVelocity = Constants.ShooterConstants.SHOOTER_VELOCITY;
-        if (getFlywheelVelocity().getValue() >= (Math.abs(FLYWHEEL_VELOCITY - (FLYWHEEL_MARGIN_ERROR)))) {
+        if (getFlywheelVelocity().getValue() >= (Math.abs(ShooterConstants.FLYWHEEL_VELOCITY - (ShooterConstants.FLYWHEEL_MARGIN_ERROR)))) {
             return true;
         } else {
             return false;
@@ -204,14 +138,14 @@ public class ShooterSubsystem2 extends SubsystemBase{
 
     public boolean isFlywheelNominal2() {
         // Method to check if the flywheel is at target velocity within a range of error of 3% of the target velocity
-        double targetVelocity = FLYWHEEL_VELOCITY; // replace with your target velocity
+        double targetVelocity = ShooterConstants.FLYWHEEL_VELOCITY; // replace with your target velocity
         double currentVelocity = getFlywheelVelocity().getValue();
         double threePercentOfTarget = targetVelocity * 0.03;
         return Math.abs(currentVelocity - targetVelocity) <= threePercentOfTarget;
         }
 
     public boolean isFlywheelNominal3() { 
-        if (getFlywheelVelocity().getValue() >= FLYWHEEL_MIN && getFlywheelVelocity().getValue() <= FLYWHEEL_MAX ) {
+        if (getFlywheelVelocity().getValue() >= ShooterConstants.FLYWHEEL_MIN && getFlywheelVelocity().getValue() <= ShooterConstants.FLYWHEEL_MAX ) {
             return true;
         } else {
             return false;
@@ -219,7 +153,7 @@ public class ShooterSubsystem2 extends SubsystemBase{
     }
 
     public boolean isFlywheelNominal4() {
-        if (currentFlywheelVel >= FLYWHEEL_MIN && currentFlywheelVel <= FLYWHEEL_MAX ) {
+        if (currentFlywheelVel >= ShooterConstants.FLYWHEEL_MIN && currentFlywheelVel <= ShooterConstants.FLYWHEEL_MAX ) {
             return true;
         } else {
             return false;
@@ -229,10 +163,10 @@ public class ShooterSubsystem2 extends SubsystemBase{
     @Override
     public void periodic() {
         // super.periodic(); // Suggested by VSCode
-        SmartDashboard.putBoolean("Flywheel 1.0 version", isFlywheelNominal());
-        SmartDashboard.putBoolean("Flywheel 2.0 version", isFlywheelNominal2());
+        // SmartDashboard.putBoolean("Flywheel 1.0 version", isFlywheelNominal());
+        // SmartDashboard.putBoolean("Flywheel 2.0 version", isFlywheelNominal2());
         SmartDashboard.putBoolean("Flywheel 3.0 version", isFlywheelNominal3());
-        SmartDashboard.putBoolean("Flywheel 4.0 version", isFlywheelNominal4());
+        // SmartDashboard.putBoolean("Flywheel 4.0 version", isFlywheelNominal4());
         SmartDashboard.putNumber("RIGHT Flywheel Velocity", getFlywheelVelocity().getValue());
         SmartDashboard.putNumber("LEFT Flywheel Velocity", getFlywheelVelocitySecondary().getValue());
         SmartDashboard.putNumber("AVE Flywheel Velocity", getFlywheelVelocityAverage());
@@ -262,28 +196,3 @@ public class ShooterSubsystem2 extends SubsystemBase{
     }
 
 } // end of class ShooterSubsystem2
-
-
-/*
- *
-import java.util.LinkedList;
-import java.util.Queue;
-
-public class ShooterSubsystem2 {
-    private static final int SAMPLE_SIZE = 20;
-    private Queue<Double> velocitySamples = new LinkedList<>();
-
-    public double getAverageFlywheelVelocity() {
-        double primaryVelocity = getFlywheelVelocity().getValue();
-        double secondaryVelocity = getFlywheelVelocitySecondary().getValue();
-        double averageVelocity = (primaryVelocity + secondaryVelocity) / 2;
-
-        velocitySamples.add(averageVelocity);
-        if (velocitySamples.size() > SAMPLE_SIZE) {
-            velocitySamples.remove();
-        }
-
-        return velocitySamples.stream().mapToDouble(val -> val).average().orElse(0.0);
-    }
-}
- */

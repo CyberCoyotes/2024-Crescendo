@@ -104,10 +104,10 @@ public class RobotContainer {
   private final IntakeRevCommandGroup intakeRevGroup = new IntakeRevCommandGroup(index, intake);
 
   // Only Sets the flywheel to target velocity, no index
-  private final SetFlywheel setShooterVelocity = new SetFlywheel(shooter2, arm, shooter2.FLYWHEEL_VELOCITY);
+  private final SetFlywheel setShooterVelocity = new SetFlywheel(shooter2, arm, ShooterConstants.FLYWHEEL_VELOCITY);
 
   // Only Sets the flywheel to idle velocity, no index
-  private final SetFlywheel setShooterIdle = new SetFlywheel(shooter2, arm, shooter2.FLYWHEEL_IDLE_VELOCITY);
+  private final SetFlywheel setShooterIdle = new SetFlywheel(shooter2, arm, ShooterConstants.FLYWHEEL_IDLE_VELOCITY);
 
   // An updated version of the RevAndShootCommand
   private final ShootWhenReady shootWhenReady = new ShootWhenReady(shooter2, index, notesensor);

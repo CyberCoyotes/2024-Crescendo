@@ -6,6 +6,7 @@ import frc.robot.subsystems.ShooterSubsystem2;
 import frc.robot.util.Constants;
 import frc.robot.util.IndexConstants;
 import frc.robot.subsystems.NoteSensorSubsystem;
+import frc.robot.util.ShooterConstants;
 
 @SuppressWarnings("unused")
 
@@ -35,7 +36,7 @@ public class ShootWhenReady extends Command {
         * Else, setPower of Index to zero and continue running the flywheel until `isFlywheelNominal` is true
          */
 
-        shooter2.setFlywheelVelocity(shooter2.FLYWHEEL_VELOCITY);
+        shooter2.setFlywheelVelocity(ShooterConstants.FLYWHEEL_VELOCITY);
 
         if (shooter2.isFlywheelNominal3()) {
             index.setIndexPower(IndexConstants.INDEX_POWER);
