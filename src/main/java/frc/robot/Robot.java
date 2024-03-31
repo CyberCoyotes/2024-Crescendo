@@ -12,7 +12,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.subsystems.Gyro; // TODO Added by Scoy
+import frc.robot.subsystems.Gyro; // Gyro added for some auton-teleop control // Added by Scoy
 
 @SuppressWarnings("unused")
 
@@ -59,7 +59,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
 
     // gyro.setAutonStartingPose180(180);
-    // gyro.setAutonStartingPose(-180); // TODO Seems to impact Teleop and auton
+    // gyro.setAutonStartingPose(-180); // TODO Seems to impact Teleop more than auton
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     if (m_autonomousCommand != null) {
