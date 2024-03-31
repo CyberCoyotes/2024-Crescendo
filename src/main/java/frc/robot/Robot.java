@@ -58,9 +58,8 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
 
-    // gyro.setAutonStartingPose180(180); // TODO Added by Scoy, value already set
-    gyro.setAutonStartingPose(180); // TODO Added by Scoy
-
+    // gyro.setAutonStartingPose180(180);
+    // gyro.setAutonStartingPose(-180); // TODO Seems to impact Teleop and auton
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     if (m_autonomousCommand != null) {
