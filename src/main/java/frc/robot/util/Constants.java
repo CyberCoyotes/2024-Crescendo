@@ -2,19 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-<<<<<<< HEAD:src/main/java/frc/robot/util/Constants.java
 package frc.robot.util;
-=======
-package frc.util;
-
-import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
-import com.ctre.phoenix6.configs.MotionMagicConfigs;
-import com.ctre.phoenix6.configs.Slot0Configs;
-import com.ctre.phoenix6.configs.Slot1Configs;
-import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.signals.GravityTypeValue;
->>>>>>> event-ready:src/main/java/frc/util/Constants.java
 
 public final class Constants {
 
@@ -134,19 +122,10 @@ public final class Constants {
     // TODO Tune this value
     public static final double SHOOTER_VELOCITY = 60; // rotations per second
     
-<<<<<<< HEAD:src/main/java/frc/robot/util/Constants.java
     // public static final double SHOOTER_VELOCITY_SHORT_RANGE = 40; // Not currently in use anywhere
     // public static final double SHOOTER_VELOCITY_LONG_RANGE = 60; // Not currently in use anywhere, Flywheel speed for long range shots only
     // public static final double SHOOTER_IDLE_VELOCITY = SHOOTER_VELOCITY * 0.30; // 30% of max speed
     // public static final double VELOCITY_ERROR_MARGIN = SHOOTER_VELOCITY * 0.10; // 5% of max speed
-=======
-    // TODO Change this value for shooting "power" adjustments
-    public static final double SHOOTER_VELOCITY = 90; // 60
-
-    public static final double SHOOTER_VELOCITY_LONG_RANGE = 60; // 60
-    public static final double SHOOTER_IDLE_VELOCITY = SHOOTER_VELOCITY * 0.30;
-    public static final double VELOCITY_ERROR_MARGIN = SHOOTER_VELOCITY * 0.05;
->>>>>>> event-ready:src/main/java/frc/util/Constants.java
 
   }
 

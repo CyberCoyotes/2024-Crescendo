@@ -1,8 +1,4 @@
-<<<<<<< HEAD:src/main/java/frc/robot/util/TunerConstants.java
 package frc.robot.util;
-=======
-package frc.util;
->>>>>>> event-ready:src/main/java/frc/util/TunerConstants.java
 
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrainConstants;

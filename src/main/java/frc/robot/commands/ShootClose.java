@@ -6,11 +6,7 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystemVelocity;
-<<<<<<< HEAD
 import frc.robot.util.Constants;
-=======
-import frc.util.Constants;
->>>>>>> event-ready
 
 public class ShootClose extends SequentialCommandGroup {
     public ShootClose(ArmSubsystem arm, IndexSubsystem index, IntakeSubsystem intake, ShooterSubsystemVelocity shooter) {
