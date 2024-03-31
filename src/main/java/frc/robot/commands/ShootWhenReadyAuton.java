@@ -7,6 +7,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem2;
 import frc.robot.subsystems.ShooterSubsystemVelocity;
 import frc.robot.util.Constants;
+import frc.robot.util.IndexConstants;
 import frc.robot.subsystems.NoteSensorSubsystem;
 
 @SuppressWarnings("unused")
@@ -38,7 +39,7 @@ public class ShootWhenReadyAuton extends Command {
         if (shooter2.isFlywheelNominal3() && notesensor.isNoteLoaded()) {
     
             // If the flywheel is at target velocity AND a game piece is loaded, index the game piece forward into the flywheel
-             index.setPower(Constants.IndexConstants.INDEX_POWER);
+             index.setIndexPower(IndexConstants.INDEX_POWER);
 
         } else {
             // Stop the indexer and continue to power the flywheel

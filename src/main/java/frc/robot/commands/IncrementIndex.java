@@ -15,7 +15,7 @@ public class IncrementIndex extends Command {
 
     @Override
     public void execute() {
-        indexer.setPower(-0.1);
+        indexer.setIndexPower(-0.1);
     }
 
     @Override

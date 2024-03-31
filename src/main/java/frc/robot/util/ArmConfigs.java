@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.robot.util;
 
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
@@ -7,12 +7,11 @@ import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.GravityTypeValue;
-import frc.robot.util.Constants;
 
-public class ArmIO {
+public class ArmConfigs {
     private final TalonFX m_arm;
 
-    public ArmIO() {
+    public ArmConfigs() {
         m_arm = new TalonFX(Constants.CANIDs.ARM_ID);
         m_arm.getConfigurator().apply(new TalonFXConfiguration());
 
@@ -30,21 +29,21 @@ public class ArmIO {
 
         // set Motion Magic settings
         var armMotionMagic0 = new MotionMagicConfigs();
-        armMotionMagic0.MotionMagicCruiseVelocity = Constants.ArmConstants.ARM_MAX_VEL; 
-        armMotionMagic0.MotionMagicAcceleration = Constants.ArmConstants.ARM_MAX_ACCEL; 
-        armMotionMagic0.MotionMagicJerk = Constants.ArmConstants.ARM_JERK;
+        armMotionMagic0.MotionMagicCruiseVelocity = ArmConstants.ARM_MAX_VEL; 
+        armMotionMagic0.MotionMagicAcceleration = ArmConstants.ARM_MAX_ACCEL; 
+        armMotionMagic0.MotionMagicJerk = ArmConstants.ARM_JERK;
 
         var armSoftLimit0 = new SoftwareLimitSwitchConfigs();
         armSoftLimit0.ForwardSoftLimitEnable = true;
-        armSoftLimit0.ForwardSoftLimitThreshold = Constants.ArmConstants.ARM_FWD_LIMIT;
+        armSoftLimit0.ForwardSoftLimitThreshold = ArmConstants.ARM_FWD_LIMIT;
         armSoftLimit0.ReverseSoftLimitEnable = true;
-        armSoftLimit0.ReverseSoftLimitThreshold = Constants.ArmConstants.ARM_REV_LIMIT;
+        armSoftLimit0.ReverseSoftLimitThreshold = ArmConstants.ARM_REV_LIMIT;
 
         var armCurrent0 = new CurrentLimitsConfigs();
         armCurrent0.StatorCurrentLimitEnable = true;
-        armCurrent0.StatorCurrentLimit = Constants.ArmConstants.ARM_STATOR_LIMIT;
+        armCurrent0.StatorCurrentLimit = ArmConstants.ARM_STATOR_LIMIT;
         armCurrent0.SupplyCurrentLimitEnable = true;
-        armCurrent0.SupplyCurrentLimit = Constants.ArmConstants.ARM_SUPPLY_LIMIT;
+        armCurrent0.SupplyCurrentLimit = ArmConstants.ARM_SUPPLY_LIMIT;
 
         /*
          * Long form (better for my learning): Applies gains with an optional 50 ms

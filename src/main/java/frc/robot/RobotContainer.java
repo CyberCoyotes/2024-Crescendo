@@ -38,11 +38,14 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Gyro;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.ShooterSubsystemVelocity;
 import frc.robot.subsystems.WinchSubsystem2;
 import frc.robot.util.Constants;
+import frc.robot.util.ArmConstants;
+import frc.robot.util.ShooterConstants;
+import frc.robot.util.Limelight;
 import frc.robot.util.TunerConstants;
+import frc.robot.util.WinchConstants;
 import frc.robot.subsystems.ShooterSubsystem2;
 import frc.robot.subsystems.NoteSensorSubsystem;
 
@@ -163,7 +166,7 @@ public class RobotContainer {
   private void configureBindings() {
 
   /* DRIVER BINDINGS */
-    index.setDefaultCommand(index.run(() -> index.setPower(0)));
+    index.setDefaultCommand(index.run(() -> index.setIndexPower(0)));
 
     driveRequest = drive.withVelocityX(-m_driverController.getLeftY() * MaxSpeed)
           .withVelocityY(-m_driverController.getLeftX() * MaxSpeed) // Drive left with negative X (left)
@@ -193,9 +196,9 @@ public class RobotContainer {
      */
 
     m_driverController.start().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
-    m_driverController.a().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_HOME_POSE)));
-    m_driverController.b().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_MID_POSE)));
-    m_driverController.x().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_AMP_POSE)));
+    m_driverController.a().whileTrue(new InstantCommand(() -> arm.setArmPose(ArmConstants.ARM_HOME_POSE)));
+    m_driverController.b().whileTrue(new InstantCommand(() -> arm.setArmPose(ArmConstants.ARM_MID_POSE)));
+    m_driverController.x().whileTrue(new InstantCommand(() -> arm.setArmPose(ArmConstants.ARM_AMP_POSE)));
     m_driverController.rightBumper().whileTrue(new IntakeCommandGroup(index, intake));
     m_driverController.leftBumper().whileTrue(new IntakeRevCommandGroup(index, intake));
     m_driverController.rightTrigger().whileTrue(shootWhenReady);
@@ -214,9 +217,9 @@ public class RobotContainer {
     // m_driverController.rightTrigger().whileFalse(new InstantCommand(() -> shooter.SetOutput(0)));
 
     /* OPERATOR BINDINGS */
-    m_operatorController.b().whileTrue(new SetArmClimb(arm, Constants.ArmConstants.ARM_MANUAL_POWER));
-    m_operatorController.y().whileTrue(new SetWinch(winch, Constants.WinchConstants.WINCH_POWER));
-    m_operatorController.back().whileTrue(new SetWinch(winch, Constants.WinchConstants.WINCH_POWER_BOOST));
+    m_operatorController.b().whileTrue(new SetArmClimb(arm, ArmConstants.ARM_MANUAL_POWER));
+    m_operatorController.y().whileTrue(new SetWinch(winch, WinchConstants.WINCH_POWER));
+    m_operatorController.back().whileTrue(new SetWinch(winch, WinchConstants.WINCH_POWER_BOOST));
   };
 
   /* Use for Debugging and diagnostics purposes */

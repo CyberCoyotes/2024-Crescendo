@@ -9,7 +9,7 @@ import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
-public class FlywheelIO {
+public class FlywheelConfigs {
     
     // Declare variables for the motors to be controlled
     private TalonFX m_primaryMotor = new TalonFX(Constants.CANIDs.BOTTOM_FLYWHEEL_ID, "rio"); // Right
@@ -29,7 +29,7 @@ public class FlywheelIO {
 
     private double currentFlywheelVel = m_primaryMotor.getVelocity().getValue();
 
-    public FlywheelIO() {
+    public FlywheelConfigs() {
         /* Verbose? Absolutely. Effective? I hope so */
 
         m_primaryMotor.setControl(m_velocityVoltage);

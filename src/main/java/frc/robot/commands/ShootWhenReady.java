@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.ShooterSubsystem2;
 import frc.robot.util.Constants;
+import frc.robot.util.IndexConstants;
 import frc.robot.subsystems.NoteSensorSubsystem;
 
 @SuppressWarnings("unused")
@@ -37,7 +38,7 @@ public class ShootWhenReady extends Command {
         shooter2.setFlywheelVelocity(shooter2.FLYWHEEL_VELOCITY);
 
         if (shooter2.isFlywheelNominal3()) {
-            index.setPower(Constants.IndexConstants.INDEX_POWER);
+            index.setIndexPower(IndexConstants.INDEX_POWER);
         } else {
             index.stopIndexing();
             // shooter2.setFlywheelVelocity(shooter2.FLYWHEEL_VELOCITY);

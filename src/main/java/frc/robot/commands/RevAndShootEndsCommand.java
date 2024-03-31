@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.ShooterSubsystemVelocity;
 import frc.robot.util.Constants;
+import frc.robot.util.ShooterConstants;
 
 @SuppressWarnings("unused")
 
@@ -44,10 +45,10 @@ public class RevAndShootEndsCommand extends SequentialCommandGroup {
     private void SetupCommands() {
         this.addCommands(
                 new ParallelCommandGroup(
-                        new RunCommand(() -> shooter.SetOutput(Constants.ShooterConstants.SHOOTER_VELOCITY), shooter),
+                        new RunCommand(() -> shooter.SetOutput(ShooterConstants.SHOOTER_VELOCITY), shooter),
                         new SequentialCommandGroup(
                                 new WaitUntilCommand(
-                                        () -> shooter.AtVelocity(Constants.ShooterConstants.SHOOTER_VELOCITY - 1)))
+                                        () -> shooter.AtVelocity(ShooterConstants.SHOOTER_VELOCITY - 1)))
                                 .andThen(indexCommand))
                         .until(() -> !indexer.hasCargo()).andThen(new WaitCommand(.1)));
 

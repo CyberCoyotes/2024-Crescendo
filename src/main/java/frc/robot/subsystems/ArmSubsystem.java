@@ -12,6 +12,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.util.ArmConstants;
 import frc.robot.util.Constants;
 
 public class ArmSubsystem extends SubsystemBase {
@@ -54,21 +55,21 @@ public class ArmSubsystem extends SubsystemBase {
 
         // set Motion Magic settings
         var armMotionMagic0 = new MotionMagicConfigs();
-        armMotionMagic0.MotionMagicCruiseVelocity = Constants.ArmConstants.ARM_MAX_VEL; 
-        armMotionMagic0.MotionMagicAcceleration = Constants.ArmConstants.ARM_MAX_ACCEL; 
-        armMotionMagic0.MotionMagicJerk = Constants.ArmConstants.ARM_JERK;
+        armMotionMagic0.MotionMagicCruiseVelocity = ArmConstants.ARM_MAX_VEL; 
+        armMotionMagic0.MotionMagicAcceleration = ArmConstants.ARM_MAX_ACCEL; 
+        armMotionMagic0.MotionMagicJerk = ArmConstants.ARM_JERK;
 
         var armSoftLimit0 = new SoftwareLimitSwitchConfigs();
         armSoftLimit0.ForwardSoftLimitEnable = true;
-        armSoftLimit0.ForwardSoftLimitThreshold = Constants.ArmConstants.ARM_FWD_LIMIT;
+        armSoftLimit0.ForwardSoftLimitThreshold = ArmConstants.ARM_FWD_LIMIT;
         armSoftLimit0.ReverseSoftLimitEnable = true;
-        armSoftLimit0.ReverseSoftLimitThreshold = Constants.ArmConstants.ARM_REV_LIMIT;
+        armSoftLimit0.ReverseSoftLimitThreshold = ArmConstants.ARM_REV_LIMIT;
 
         var armCurrent0 = new CurrentLimitsConfigs();
         armCurrent0.StatorCurrentLimitEnable = true;
-        armCurrent0.StatorCurrentLimit = Constants.ArmConstants.ARM_STATOR_LIMIT;
+        armCurrent0.StatorCurrentLimit = ArmConstants.ARM_STATOR_LIMIT;
         armCurrent0.SupplyCurrentLimitEnable = true;
-        armCurrent0.SupplyCurrentLimit = Constants.ArmConstants.ARM_SUPPLY_LIMIT;
+        armCurrent0.SupplyCurrentLimit = ArmConstants.ARM_SUPPLY_LIMIT;
 
         /*
          * Long form (better for my learning): Applies gains with an optional 50 ms

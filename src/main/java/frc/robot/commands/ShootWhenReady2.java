@@ -3,7 +3,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.ShooterSubsystem2;
-import frc.robot.util.Constants;
+import frc.robot.util.IndexConstants;
 import frc.robot.subsystems.NoteSensorSubsystem;
 
 public class ShootWhenReady2 extends Command{
@@ -29,7 +29,7 @@ public class ShootWhenReady2 extends Command{
 
         // After the flywheel is at target velocity, index the game piece forward
         if (shooter2.isFlywheelNominal() && notesensor.isNoteLoaded()) {
-            index.setPower(Constants.IndexConstants.INDEX_POWER);
+            index.setIndexPower(IndexConstants.INDEX_POWER);
         }
 
         // After index.HasCargo() is false, stop the shooter and index
