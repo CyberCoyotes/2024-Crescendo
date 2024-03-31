@@ -48,7 +48,7 @@ public class ShooterSubsystem2 extends SubsystemBase{
             false // LimitReverseMotion
         );
 
-    // TODO Something to try
+    // FIXME Motion Magic Vel Volt - something to try; does not work when tested 3/30, not essential
     private MotionMagicVelocityVoltage mmVelocityVoltage 
         = new MotionMagicVelocityVoltage(
             0, // Velocity to drive toward in rotations per second
@@ -61,7 +61,7 @@ public class ShooterSubsystem2 extends SubsystemBase{
             false // LimitReverseMotion
         );
 
-        // TODO Something to try
+        // TODO Torque Current - Something to try, not essential
         private TorqueCurrentFOC m_TorqueCurrent
         = new TorqueCurrentFOC(
             0, // Amount of motor current in Amperes
