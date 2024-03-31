@@ -1,0 +1,110 @@
+package frc.robot.subsystems;
+
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
+import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.VoltageConfigs;
+import com.ctre.phoenix6.controls.VelocityVoltage;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.StatusSignal;
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
+import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.configs.VoltageConfigs;
+import com.ctre.phoenix6.controls.VelocityVoltage;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+
+import frc.robot.Constants;
+
+public class ShooterConstants {
+    
+    // Declare variables for the motors to be controlled
+    private TalonFX m_primaryMotor = new TalonFX(Constants.CANIDs.RIGHT_FLYWHEEL_ID, "rio"); // Right
+    private TalonFX m_secondaryMotor = new TalonFX(Constants.CANIDs.LEFT_FLYWHEEL_ID, "rio"); // Left
+
+    // TODO Tune this value
+    public final double FLYWHEEL_VELOCITY = 100; // rotations per second (rps)
+    public final double FLYWHEEL_VELOCITY_SHORT_RANGE = 40; // Not currently in use anywhere
+    public final double FLYWHEEL_VELOCITY_LONG_RANGE = 60; // Not currently in use anywhere, Flywheel speed for long range shots only
+    public final double FLYWHEEL_IDLE_VELOCITY = FLYWHEEL_VELOCITY * 0.30; // 30% of max speed
+    public final double FLYWHEEL_MARGIN_ERROR = FLYWHEEL_VELOCITY * 0.10; // 5% of max speed
+    public final double FLYWHEEL_MIN = FLYWHEEL_VELOCITY * .95;
+    public final double FLYWHEEL_MAX = FLYWHEEL_VELOCITY * 1.05;
+    
+
+    // Class member variables
+    private VelocityVoltage m_velocityVoltage = new VelocityVoltage(0);
+
+    private double currentFlywheelVel = m_primaryMotor.getVelocity().getValue();
+        m_primaryMotor.setControl(m_velocityVoltage);
+        m_secondaryMotor.setControl(m_velocityVoltage);
+
+        m_primaryMotor.getConfigurator().apply(new TalonFXConfiguration());
+        m_secondaryMotor.getConfigurator().apply(new TalonFXConfiguration());
+
+        /* Various Configs */
+        /*
+        | Ks    |   output to overcome static friction (output)
+        | Kv    |   output per unit of velocity (output/rps)
+        | Ka    |   output per unit of acceleration; unused, as there is no target acceleration (output/(rps/s))
+        | Kp    |   output per unit of error (output/rps)
+        | Ki    |   output per unit of integrated error in velocity (output/rotation)
+        | kd    |   output per unit of error derivative in velocity (output/(rps/s))
+        */
+
+        /* Example provided by CTRE */
+        /*
+        slot0Configs.kS = 0.05; // Add 0.05 V output to overcome static friction
+        slot0Configs.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
+        slot0Configs.kP = 0.11; // An error of 1 rps results in 0.11 V output
+        slot0Configs.kI = 0; // no output for integrated error
+        slot0Configs.kD = 0; // no output for error derivative
+         */
+
+        var flywheelConfigs0 = new Slot0Configs();        
+            flywheelConfigs0
+                // https://github.com/CrossTheRoadElec/Phoenix6-Examples/blob/main/java/VelocityClosedLoop/src/main/java/frc/robot/Robot.java
+                .withKP(0.10)
+                .withKI(0.00)
+                .withKS(0.00) // Should low for a light flywheel? Maybe the pulley strength would impact it though?
+                .withKV(0.00);
+
+    
+        var flywheelVelocityConfig = new VoltageConfigs();
+            flywheelVelocityConfig
+                .withPeakForwardVoltage(12)  // FRC 2910 running 12
+                .withPeakReverseVoltage(12); // Originally -8, with negative the "helper" text goes away
+                
+        var flywheelCurrentConfigs = new CurrentLimitsConfigs();
+        flywheelCurrentConfigs
+                .withStatorCurrentLimit(60) 
+                .withStatorCurrentLimitEnable(true);
+
+        var flywheelMotorOutput = new MotorOutputConfigs();
+        flywheelMotorOutput
+                .withNeutralMode(NeutralModeValue.Coast);
+                
+        /* Apply Configs */
+        m_primaryMotor.getConfigurator().apply(flywheelConfigs0);
+        m_secondaryMotor.getConfigurator().apply(flywheelConfigs0);
+       
+        m_primaryMotor.getConfigurator().apply(flywheelVelocityConfig);
+        m_secondaryMotor.getConfigurator().apply(flywheelVelocityConfig);
+       
+        m_primaryMotor.getConfigurator().apply(flywheelCurrentConfigs);
+        m_secondaryMotor.getConfigurator().apply(flywheelCurrentConfigs);
+       
+        m_primaryMotor.getConfigurator().apply(flywheelMotorOutput);
+        m_secondaryMotor.getConfigurator().apply(flywheelMotorOutput);
+
+        m_primaryMotor.setInverted(true);
+        m_secondaryMotor.setInverted(true);
+        
+        // Alternate way to get the current flywheel velocity?
+}
