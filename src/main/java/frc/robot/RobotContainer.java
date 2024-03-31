@@ -129,9 +129,8 @@ public class RobotContainer {
     NamedCommands.registerCommand("ShootClose", new ShootClose(arm, index, intake, shooter));
     NamedCommands.registerCommand("ShootFromStage", shootFromStage);
     NamedCommands.registerCommand("Intake", new IntakeIndex(index, intake));
-    NamedCommands.registerCommand("AutoShootWhenReady", shootWhenReadyAuton); // Autonomous
+    NamedCommands.registerCommand("AutoShootWhenReady", shootWhenReadyAuton);
     NamedCommands.registerCommand("SetFlywheelToIdle", setShooterIdle);
-    // Constants.ArmConstants.ARM_MID_POSE));
 
     /*
      * Auto Chooser
@@ -204,16 +203,13 @@ public class RobotContainer {
     // TODO Test "setShooterVelocity" only, then remove
     // m_driverController.rightTrigger().whileTrue(setShooterVelocity); 
 
-    // TODO Testing "autonShootWhenReady" Remove later
-    m_driverController.leftTrigger().whileTrue(shootWhenReadyAuton); 
-
     // TODO Test MotionMagicVelocityVoltage" only, then remove
     // m_driverController.leftTrigger().whileTrue(new InstantCommand(() -> shooter2.setFlywheelVelocityMM(shooter2.FLYWHEEL_VELOCITY))); 
     
     // TODO Remove comment out after testing the MotionMagic Velocity Voltage
     // m_driverController.leftTrigger().whileTrue(new SetIndex(index, -0.75));
 
-    /* TODO These are the rrevious event commands and bindings */
+    /* TODO These are the previous event commands and bindings */
     // m_driverController.rightTrigger().whileTrue(new RevAndShootCommand(index, shooter)); 
     // m_driverController.rightTrigger().whileFalse(new InstantCommand(() -> shooter.SetOutput(0)));
 
@@ -243,7 +239,6 @@ public class RobotContainer {
     // #endregion Testing
   }
   
-
   public Command getAutonomousCommand() {
     return autoChooser.getSelected();
   }  
