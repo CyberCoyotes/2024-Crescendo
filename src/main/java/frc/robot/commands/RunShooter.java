@@ -2,7 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ShooterSubsystemVelocity;
-import frc.util.Constants;
+import frc.robot.util.Constants;
 
 public class RunShooter extends Command {
     private ShooterSubsystemVelocity shooter;

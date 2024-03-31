@@ -4,7 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.util.Constants;
+import frc.robot.util.Constants;
 
 /*For indexing cargo. That is, taking cargo from a stored position and proceeding it to the shooter.*/
 public class IndexSubsystem extends SubsystemBase {
@@ -18,20 +18,20 @@ public class IndexSubsystem extends SubsystemBase {
 
     }
 
-    public void RunIndexing() {
+    public void runIndexing() {
         motor.set(ControlMode.PercentOutput, Constants.IndexConstants.INDEX_POWER);
     }
 
-    public boolean HasCargo() {
+    public boolean hasCargo() {
         return NoteSensor.isNoteLoaded();
     }
 
-    public void SetPower(double percent) {
+    public void setPower(double percent) {
 
         motor.set(ControlMode.PercentOutput, percent);
     }
 
-    public void StopIndexing() {
+    public void stopIndexing() {
         motor.set(ControlMode.PercentOutput, 0);
     }
 

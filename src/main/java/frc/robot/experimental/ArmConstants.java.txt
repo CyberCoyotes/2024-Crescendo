@@ -1,0 +1,10 @@
+/*
+Use this approach in offseason.
+See TunerConstants.java for an example of how to setup
+*/
+
+package frc.robot.subsystems;
+
+public class ArmConstants {
+    
+}

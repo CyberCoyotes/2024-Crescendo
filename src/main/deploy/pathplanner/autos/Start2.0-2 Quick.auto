@@ -14,13 +14,13 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.01
+            "waitTime": 0.0
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "ShootClose"
+            "name": "ShootWhenReady"
           }
         },
         {
@@ -43,46 +43,9 @@
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "N2-PoseB"
-          }
-        },
-        {
           "type": "named",
           "data": {
-            "name": "ShootClose"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "PoseB-N1"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "N1-PoseB"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ShootClose"
+            "name": "ShootFromStage"
           }
         }
       ]

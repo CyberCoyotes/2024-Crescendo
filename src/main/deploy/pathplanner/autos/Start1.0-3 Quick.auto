@@ -20,7 +20,7 @@
         {
           "type": "named",
           "data": {
-            "name": "ShootClose"
+            "name": "AutoShootWhenReady"
           }
         },
         {
@@ -45,50 +45,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "N3-PoseA"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ShootClose"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.1
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "PoseA-N4"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "N4-PoseA"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ShootClose"
+            "pathName": "N3-N3Quick"
           }
         }
       ]

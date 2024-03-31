@@ -4,7 +4,6 @@ import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
-import com.ctre.phoenix6.configs.Slot1Configs;
 import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
@@ -13,7 +12,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.util.Constants;
+import frc.robot.util.Constants;
 
 public class ArmSubsystem extends SubsystemBase {
 
@@ -53,29 +52,11 @@ public class ArmSubsystem extends SubsystemBase {
         armGains0.kA = 0.00; /* Acceleration Feedforward */
         armGains0.kG = 0.00; /* Gravity Feedfoward */
 
-        /* Gains or configuration of arm motor for config slot 1 */
-        var armGains1 = new Slot1Configs();
-        armGains1.GravityType = GravityTypeValue.Arm_Cosine; /* .Elevator_Static | .Arm_Cosine */
-        m_arm.setInverted(true); // Set to true if you want to invert the motor direction
-        armGains1.kP = 0.50; /* Proportional Gain */
-        armGains1.kI = 0.00; /* Integral Gain */
-        armGains1.kD = 0.00; /* Derivative Gain */
-        armGains1.kV = 0.00; /* Velocity Feed Forward Gain */
-        armGains1.kS = 0.00; /*
-                              * Static Feed Forward Gain // Approximately 0.25V to get the mechanism moving
-                              */
-        armGains1.kA = 0.00; /* Acceleration Feedforward */
-        armGains1.kG = 0.00; /* Gravity Feedfoward */
-
         // set Motion Magic settings
         var armMotionMagic0 = new MotionMagicConfigs();
-        armMotionMagic0.MotionMagicCruiseVelocity = Constants.ArmConstants.ARM_MAX_VEL; // 80 rps cruise velocity //
-                                                                                        // FIMXE changed for safety
-                                                                                        // testing
-        armMotionMagic0.MotionMagicAcceleration = Constants.ArmConstants.ARM_MAX_ACCEL; // 160 rps/s acceleration (0.5
-                                                                                        // seconds) // FIMXE changed for
-                                                                                        // safety testing
-        armMotionMagic0.MotionMagicJerk = Constants.ArmConstants.ARM_JERK; // 1600 rps/s^2 jerk (0.1 seconds)
+        armMotionMagic0.MotionMagicCruiseVelocity = Constants.ArmConstants.ARM_MAX_VEL; 
+        armMotionMagic0.MotionMagicAcceleration = Constants.ArmConstants.ARM_MAX_ACCEL; 
+        armMotionMagic0.MotionMagicJerk = Constants.ArmConstants.ARM_JERK;
 
         var armSoftLimit0 = new SoftwareLimitSwitchConfigs();
         armSoftLimit0.ForwardSoftLimitEnable = true;
@@ -131,29 +112,6 @@ public class ArmSubsystem extends SubsystemBase {
 
 
     }
-
-    /* I think this is all unused code */
-    /*
-    double targetPosition = 10;
-
-    public void moveArmToPositionAndStop(double targetPosition) {
-        // Move the arm to the target position
-        m_arm.setControl(new PositionDutyCycle(targetPosition));
-
-        // Wait until the arm reaches the target position
-        while (Math.abs(m_arm.getPosition().getValue() - targetPosition) > 1) {
-            // You might want to add a delay here to prevent the loop from running too fast
-    }
-
-    // Stop the arm
-    m_arm.setControl(new PositionDutyCycle(0));
-    }
-    */
-
-    /*
-     * Currently only being called in subsystem-command;
-     * inspite of my efforts it only appears once it's triggered at least once
-     */
     /* 
     public void showArmTelemetry() {
 

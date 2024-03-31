@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.util.Constants;
+import frc.robot.util.Constants;
 
 public class IntakeIndex extends SequentialCommandGroup {
     IndexSubsystem index;
@@ -17,7 +17,7 @@ public class IntakeIndex extends SequentialCommandGroup {
         addCommands(
                 new ParallelCommandGroup(
                     new SetIntake(intake, Constants.IntakeConstants.INTAKE_POWER), 
-                    new SetIndex(index, Constants.IndexConstants.INDEX_POWER)).until(() -> index.HasCargo()));
+                    new SetIndex(index, Constants.IndexConstants.INDEX_POWER)).until(() -> index.hasCargo()));
     }
 
 }

@@ -15,13 +15,13 @@ public class IncrementIndex extends Command {
 
     @Override
     public void execute() {
-        indexer.SetPower(-0.1);
+        indexer.setPower(-0.1);
     }
 
     @Override
     public boolean isFinished() {
         // Check if there is no note loaded. i.e. HasCargo() returns false
-        return !indexer.HasCargo();
+        return !indexer.hasCargo();
     }
 
 }

@@ -3,49 +3,49 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.46,
-        "y": 2.0
+        "x": 0.7,
+        "y": 4.34
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.686015547392543,
-        "y": 2.0
+        "x": 2.034348684081985,
+        "y": 0.858424024540357
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "PoseC"
     },
     {
       "anchor": {
-        "x": 2.5,
-        "y": 2.0
+        "x": 7.767042457161838,
+        "y": 0.9965612238916797
       },
       "prevControl": {
-        "x": 2.097240603164239,
-        "y": 2.0
+        "x": 6.15873077900002,
+        "y": 0.029600828432426184
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "N8Push"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 2.0,
-    "maxAcceleration": 2.0,
+    "maxVelocity": 5.0,
+    "maxAcceleration": 5.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": 0.0,
-    "rotateFast": false
+    "velocity": 2.0,
+    "rotation": -160.0,
+    "rotateFast": true
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Experimental",
   "previewStartingState": {
-    "rotation": 180.0,
+    "rotation": 122.0,
     "velocity": 0
   },
   "useDefaultConstraints": false

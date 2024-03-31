@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 // import frc.robot.experimental.IncrementIndex;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.ShooterSubsystemVelocity;
-import frc.util.Constants;
+import frc.robot.util.Constants;
 
 @SuppressWarnings("unused")
 
@@ -35,7 +35,7 @@ public class RevAndShootEndsCommand extends SequentialCommandGroup {
 
     public RevAndShootEndsCommand(IndexSubsystem indexer, ShooterSubsystemVelocity shooter) {
         addRequirements(indexer, shooter);
-        indexCommand = new RunCommand(() -> indexer.RunIndexing(), indexer);
+        indexCommand = new RunCommand(() -> indexer.runIndexing(), indexer);
         this.shooter = shooter;
         SetupCommands();
 
@@ -49,7 +49,7 @@ public class RevAndShootEndsCommand extends SequentialCommandGroup {
                                 new WaitUntilCommand(
                                         () -> shooter.AtVelocity(Constants.ShooterConstants.SHOOTER_VELOCITY - 1)))
                                 .andThen(indexCommand))
-                        .until(() -> !indexer.HasCargo()).andThen(new WaitCommand(.1)));
+                        .until(() -> !indexer.hasCargo()).andThen(new WaitCommand(.1)));
 
     }
 }

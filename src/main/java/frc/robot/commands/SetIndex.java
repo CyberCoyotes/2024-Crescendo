@@ -15,14 +15,14 @@ public class SetIndex extends Command {
 
     @Override
     public void initialize() {
-      index.SetPower(this.power);
+      index.setPower(this.power);
     }
     @Override
     public void execute() {}
   
     @Override
     public void end(boolean interrupted) {
-      index.SetPower(0);
+      index.setPower(0);
     }
   
     @Override

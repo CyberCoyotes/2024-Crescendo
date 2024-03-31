@@ -6,7 +6,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 // import com.playingwithfusion.TimeOfFlight.RangingMode;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.util.Constants;
+import frc.robot.util.Constants;
 
 /**
  * Using a ToF sensor and a single motor
@@ -29,6 +29,10 @@ public class IntakeSubsystem extends SubsystemBase {
     public void Run(double input) {
 
         motor.setControl(dutyCycle.withOutput(input));
+    }
+
+    public void stopIntake() {
+        motor.setControl(dutyCycle.withOutput(0));
     }
 
 }

@@ -5,10 +5,10 @@
 package frc.robot;
 
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
+import com.ctre.phoenix6.hardware.Pigeon2;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.VideoSource;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -29,17 +29,20 @@ import frc.robot.commands.SetIndex;
 import frc.robot.commands.SetFlywheel;
 import frc.robot.commands.SetWinch;
 import frc.robot.commands.ShootClose;
-import frc.robot.experimental.ShootWhenReady;
-import frc.robot.commands.ShootSafetyPose;
+import frc.robot.commands.ShootFromStage;
+import frc.robot.commands.ShootWhenReady;
+import frc.robot.commands.ShootWhenReady2;
+import frc.robot.commands.ShootWhenReadyAuton;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.Gyro;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.ShooterSubsystemVelocity;
 import frc.robot.subsystems.WinchSubsystem2;
-import frc.util.Constants;
-import frc.util.TunerConstants;
+import frc.robot.util.Constants;
+import frc.robot.util.TunerConstants;
 import frc.robot.subsystems.ShooterSubsystem2;
 import frc.robot.subsystems.NoteSensorSubsystem;
 
@@ -59,12 +62,14 @@ public class RobotContainer {
 
   /* Subsystems */
   ShooterSubsystemVelocity shooter = new ShooterSubsystemVelocity();
+  ShooterSubsystem2 shooter2 = new ShooterSubsystem2(); 
   IntakeSubsystem intake = new IntakeSubsystem();
   IndexSubsystem index = new IndexSubsystem();
   WinchSubsystem2 winch = new WinchSubsystem2();
   ArmSubsystem arm = new ArmSubsystem();
-  ShooterSubsystem2 shooter2 = new ShooterSubsystem2();
   NoteSensorSubsystem notesensor = new NoteSensorSubsystem();
+  Gyro pidgey = new Gyro();
+
   // #endregion Subsystems
 
   // #region commands
@@ -77,9 +82,7 @@ public class RobotContainer {
   /* Setting up bindings for necessary control of the swerve drive platform */
   private final CommandXboxController m_driverController = new CommandXboxController(0); // My joystick
   private final CommandXboxController m_operatorController = new CommandXboxController(1); // My joystick
-
   private final CommandSwerveDrivetrain drivetrain = TunerConstants.DriveTrain; // My drivetrain
-
   private final CommandXboxController[] Controllers = new CommandXboxController[] { m_driverController,
       m_operatorController
 
@@ -96,12 +99,24 @@ public class RobotContainer {
 
   private final IntakeCommandGroup intakeGroup = new IntakeCommandGroup(index, intake);
   private final IntakeRevCommandGroup intakeRevGroup = new IntakeRevCommandGroup(index, intake);
-  private final SetFlywheel setShooterVelocity = new SetFlywheel(shooter2, arm, Constants.ShooterConstants.SHOOTER_VELOCITY);
+
+  // Only Sets the flywheel to target velocity, no index
+  private final SetFlywheel setShooterVelocity = new SetFlywheel(shooter2, arm, shooter2.FLYWHEEL_VELOCITY);
+
+  // Only Sets the flywheel to idle velocity, no index
+  private final SetFlywheel setShooterIdle = new SetFlywheel(shooter2, arm, shooter2.FLYWHEEL_IDLE_VELOCITY);
+
+  // An updated version of the RevAndShootCommand
   private final ShootWhenReady shootWhenReady = new ShootWhenReady(shooter2, index, notesensor);
 
-  // ChargeIntakeCommand chargeIntake = new ChargeIntakeCommand(drivetrain, intake, driveRequest);
+  // Autonomous version of the Shoot When Ready command that addeds notesensor checks for ending the command
+  private final ShootWhenReadyAuton shootWhenReadyAuton = new ShootWhenReadyAuton(shooter2, index, notesensor);
+  
+  // TODO Test Shoot from stage command. If it works, add to auton
+  private final ShootFromStage shootFromStage = new ShootFromStage(arm, index, intake, shooter2, notesensor);
+  
 
-  private final ShootSafetyPose shootSafetyPose = new ShootSafetyPose(arm, index, intake, shooter);
+  // ChargeIntakeCommand chargeIntake = new ChargeIntakeCommand(drivetrain, intake, driveRequest);
 
   /* Autonomous Chooser */
   SendableChooser<Command> autoChooser;
@@ -112,9 +127,10 @@ public class RobotContainer {
 
     /* Pathplanner Named Commands */
     NamedCommands.registerCommand("ShootClose", new ShootClose(arm, index, intake, shooter));
+    NamedCommands.registerCommand("ShootFromStage", shootFromStage);
     NamedCommands.registerCommand("Intake", new IntakeIndex(index, intake));
-    // NamedCommands.registerCommand("ArmMid", new SetArmPosition(arm,
-    // Constants.ArmConstants.ARM_MID_POSE));
+    NamedCommands.registerCommand("AutoShootWhenReady", shootWhenReadyAuton);
+    NamedCommands.registerCommand("SetFlywheelToIdle", setShooterIdle);
 
     /*
      * Auto Chooser
@@ -126,8 +142,6 @@ public class RobotContainer {
     SmartDashboard.putData("Auto Chooser", autoChooser);
     // Shuffleboard.getTab("Auton").add("Auto Chooser", autoChooser);
 
-    // TODO removed
-    // shooter = new ShooterSubsystemVelocity();
 
     /* Configure the Button Bindings */
     configureBindings();
@@ -147,9 +161,12 @@ public class RobotContainer {
 
   /* Method to configure the button bindings */
   private void configureBindings() {
-    index.setDefaultCommand(index.run(() -> index.SetPower(0)));
-            driveRequest = drive.withVelocityX(-m_driverController.getLeftY() * MaxSpeed)
-            .withVelocityY(-m_driverController.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+
+  /* DRIVER BINDINGS */
+    index.setDefaultCommand(index.run(() -> index.setPower(0)));
+
+    driveRequest = drive.withVelocityX(-m_driverController.getLeftY() * MaxSpeed)
+          .withVelocityY(-m_driverController.getLeftX() * MaxSpeed) // Drive left with negative X (left)
             .withRotationalRate(-m_driverController.getRightX() * MaxAngularRate) // Drive counterclockwise with
                                                                                   // negative X (left)
         ;
@@ -177,42 +194,35 @@ public class RobotContainer {
 
     m_driverController.start().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
     m_driverController.a().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_HOME_POSE)));
-
-    // TODO Testing
-    // m_driverController.b().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_SAFETY_POSE)));
-    m_driverController.b().whileTrue(new InstantCommand(() -> arm.setArmPose(20)));
-    // 30 shots are too high, 35 is too slow shots at 160 inches.
+    m_driverController.b().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_MID_POSE)));
     m_driverController.x().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_AMP_POSE)));
-    
-    // FIXME Using this for Testing
-    m_driverController.y().whileTrue(shootSafetyPose);
-
     m_driverController.rightBumper().whileTrue(new IntakeCommandGroup(index, intake));
     m_driverController.leftBumper().whileTrue(new IntakeRevCommandGroup(index, intake));
+    m_driverController.rightTrigger().whileTrue(shootWhenReady);
 
-    /* Testing */
-    // m_driverController.rightTrigger().whileTrue(new RevAndShootCommand(index, shooter));
-    // m_driverController.rightTrigger().whileFalse(new InstantCommand(() -> shooter.SetOutput(0)));
+    // TODO Test "setShooterVelocity" only, then remove
+    // m_driverController.rightTrigger().whileTrue(setShooterVelocity); 
+
+    // TODO Test MotionMagicVelocityVoltage" only, then remove
+    // m_driverController.leftTrigger().whileTrue(new InstantCommand(() -> shooter2.setFlywheelVelocityMM(shooter2.FLYWHEEL_VELOCITY))); 
     
-    // TODO Test
-   m_driverController.rightTrigger().whileTrue(shootWhenReady);
-    // m_driverController.rightTrigger().whileTrue(shootWhenReady); // (shootWhenReady);
-    // m_driverController.rightTrigger().whileTrue(new SetShooterVelocity(shooter2, 50)); // (shootWhenReady);
-    m_driverController.leftTrigger().whileTrue(new SetIndex(index, -0.75));
+    // TODO Remove comment out after testing the MotionMagic Velocity Voltage
+    // m_driverController.leftTrigger().whileTrue(new SetIndex(index, -0.75));
 
-    // m_operatorController.a().whileTrue (new));
+    /* TODO These are the previous event commands and bindings */
+    // m_driverController.rightTrigger().whileTrue(new RevAndShootCommand(index, shooter)); 
+    // m_driverController.rightTrigger().whileFalse(new InstantCommand(() -> shooter.SetOutput(0)));
+
+    /* OPERATOR BINDINGS */
     m_operatorController.b().whileTrue(new SetArmClimb(arm, Constants.ArmConstants.ARM_MANUAL_POWER));
-    // m_operatorController.x().whileTrue (new));
     m_operatorController.y().whileTrue(new SetWinch(winch, Constants.WinchConstants.WINCH_POWER));
     m_operatorController.back().whileTrue(new SetWinch(winch, Constants.WinchConstants.WINCH_POWER_BOOST));
-    // m_operatorController.start().whileTrue();
-
   };
 
   /* Use for Debugging and diagnostics purposes */
   public void DebugMethodSingle() {
     // #region Driving
-    var driverDiagnostics = Shuffleboard.getTab("Driver Diagnostics");
+    var driverDiagnostics = Shuffleboard.getTab("Diagnostics");
     // #endregion Driving
     // #region Testing
 
@@ -222,10 +232,13 @@ public class RobotContainer {
     // arm.showArmTelemetry("Driver Diagnostics");
     // Shuffleboard.getTab("Arm").add("Arm Output", arm);
 
+    SmartDashboard.putNumber("Yaw", pidgey.getYaw());
+    SmartDashboard.putNumber("Angle", pidgey.getAngle());
+    SmartDashboard.putNumber("Rotation2d", pidgey.Rotation2d());
+
     // #endregion Testing
   }
   
-
   public Command getAutonomousCommand() {
     return autoChooser.getSelected();
   }  
