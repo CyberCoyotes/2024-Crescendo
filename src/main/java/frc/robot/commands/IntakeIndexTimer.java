@@ -1,8 +1,6 @@
-package frc.robot.experimental;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import frc.robot.commands.SetIndex;
-import frc.robot.commands.SetIntake;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.util.Constants;

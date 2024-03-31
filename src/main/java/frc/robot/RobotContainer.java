@@ -9,7 +9,6 @@ import com.ctre.phoenix6.hardware.Pigeon2;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.VideoSource;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -19,7 +18,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.IntakeCommandGroup;
 import frc.robot.commands.IntakeIndex;
@@ -31,9 +29,10 @@ import frc.robot.commands.SetIndex;
 import frc.robot.commands.SetFlywheel;
 import frc.robot.commands.SetWinch;
 import frc.robot.commands.ShootClose;
-import frc.robot.experimental.ShootWhenReadyAuton;
-import frc.robot.experimental.ShootWhenReady;
 import frc.robot.commands.ShootFromStage;
+import frc.robot.commands.ShootWhenReady;
+import frc.robot.commands.ShootWhenReady2;
+import frc.robot.commands.ShootWhenReadyAuton;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Gyro;
@@ -103,18 +102,21 @@ public class RobotContainer {
 
   // Only Sets the flywheel to target velocity, no index
   private final SetFlywheel setShooterVelocity = new SetFlywheel(shooter2, arm, shooter2.FLYWHEEL_VELOCITY);
+
   // Only Sets the flywheel to idle velocity, no index
   private final SetFlywheel setShooterIdle = new SetFlywheel(shooter2, arm, shooter2.FLYWHEEL_IDLE_VELOCITY);
 
   // An updated version of the RevAndShootCommand
   private final ShootWhenReady shootWhenReady = new ShootWhenReady(shooter2, index, notesensor);
+
   // Autonomous version of the Shoot When Ready command that addeds notesensor checks for ending the command
   private final ShootWhenReadyAuton shootWhenReadyAuton = new ShootWhenReadyAuton(shooter2, index, notesensor);
-  private final ShootFromStage shootFromStage = new ShootFromStage(arm, index, intake, shooter2, notesensor); 
+  
+  // TODO Test Shoot from stage command. If it works, add to auton
+  private final ShootFromStage shootFromStage = new ShootFromStage(arm, index, intake, shooter2, notesensor);
+  
 
   // ChargeIntakeCommand chargeIntake = new ChargeIntakeCommand(drivetrain, intake, driveRequest);
-
-  // private final ShootFromStage shootSafetyPose = new ShootFromStage(arm, index, intake, shooter);
 
   /* Autonomous Chooser */
   SendableChooser<Command> autoChooser;
@@ -127,14 +129,8 @@ public class RobotContainer {
     NamedCommands.registerCommand("ShootClose", new ShootClose(arm, index, intake, shooter));
     NamedCommands.registerCommand("ShootFromStage", shootFromStage);
     NamedCommands.registerCommand("Intake", new IntakeIndex(index, intake));
-    NamedCommands.registerCommand("AutonShootWhenReady", shootWhenReadyAuton);
+    NamedCommands.registerCommand("AutoShootWhenReady", shootWhenReadyAuton); // Autonomous
     NamedCommands.registerCommand("SetFlywheelToIdle", setShooterIdle);
-    
-    // FIXME Use this approach if wanting a custom set starting pose command
-    // NamedCommands.registerCommand("SetStartingPose180", new InstantCommand()) -> Gyro.setAutonStartingPose(180));
-    // NamedCommands.registerCommand("SetAutonStartingPose180", new InstantCommand(Gyro::setAutonStartingPose, Gyro, 180));
-
-
     // Constants.ArmConstants.ARM_MID_POSE));
 
     /*
@@ -147,8 +143,6 @@ public class RobotContainer {
     SmartDashboard.putData("Auto Chooser", autoChooser);
     // Shuffleboard.getTab("Auton").add("Auto Chooser", autoChooser);
 
-    // TODO removed
-    // shooter = new ShooterSubsystemVelocity();
 
     /* Configure the Button Bindings */
     configureBindings();
@@ -206,18 +200,27 @@ public class RobotContainer {
     m_driverController.rightBumper().whileTrue(new IntakeCommandGroup(index, intake));
     m_driverController.leftBumper().whileTrue(new IntakeRevCommandGroup(index, intake));
     m_driverController.rightTrigger().whileTrue(shootWhenReady);
-    // m_driverController.rightTrigger().whileTrue(setShooterVelocity); // TODO Testing purposes, remove later
-    // m_driverController.rightTrigger().whileTrue(autonShootWhenReady); // TODO Testing purposes, remove later
-    m_driverController.leftTrigger().whileTrue(new SetIndex(index, -0.75));
 
-    // m_driverController.rightTrigger().whileTrue(new RevAndShootCommand(index, shooter)); /* Previous bindings */
-    // m_driverController.rightTrigger().whileFalse(new InstantCommand(() -> shooter.SetOutput(0))); /* Previous bindings */
+    // TODO Test "setShooterVelocity" only, then remove
+    // m_driverController.rightTrigger().whileTrue(setShooterVelocity); 
+
+    // TODO Testing "autonShootWhenReady" Remove later
+    m_driverController.leftTrigger().whileTrue(shootWhenReadyAuton); 
+
+    // TODO Test MotionMagicVelocityVoltage" only, then remove
+    // m_driverController.leftTrigger().whileTrue(new InstantCommand(() -> shooter2.setFlywheelVelocityMM(shooter2.FLYWHEEL_VELOCITY))); 
+    
+    // TODO Remove comment out after testing the MotionMagic Velocity Voltage
+    // m_driverController.leftTrigger().whileTrue(new SetIndex(index, -0.75));
+
+    /* TODO These are the rrevious event commands and bindings */
+    // m_driverController.rightTrigger().whileTrue(new RevAndShootCommand(index, shooter)); 
+    // m_driverController.rightTrigger().whileFalse(new InstantCommand(() -> shooter.SetOutput(0)));
 
     /* OPERATOR BINDINGS */
     m_operatorController.b().whileTrue(new SetArmClimb(arm, Constants.ArmConstants.ARM_MANUAL_POWER));
     m_operatorController.y().whileTrue(new SetWinch(winch, Constants.WinchConstants.WINCH_POWER));
     m_operatorController.back().whileTrue(new SetWinch(winch, Constants.WinchConstants.WINCH_POWER_BOOST));
-    // m_operatorController.start().whileTrue();
   };
 
   /* Use for Debugging and diagnostics purposes */
@@ -232,7 +235,6 @@ public class RobotContainer {
     // driverDiagnostics.addDouble("Arm Rot Deg", () -> arm.GetPositionDegrees());
     // arm.showArmTelemetry("Driver Diagnostics");
     // Shuffleboard.getTab("Arm").add("Arm Output", arm);
-
 
     SmartDashboard.putNumber("Yaw", pidgey.getYaw());
     SmartDashboard.putNumber("Angle", pidgey.getAngle());

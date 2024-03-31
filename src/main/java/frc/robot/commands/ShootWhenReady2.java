@@ -1,12 +1,10 @@
-package frc.robot.experimental;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.ShooterSubsystem2;
 import frc.robot.util.Constants;
 import frc.robot.subsystems.NoteSensorSubsystem;
-
-@SuppressWarnings("unused")
 
 public class ShootWhenReady2 extends Command{
     private ShooterSubsystem2 shooter2;

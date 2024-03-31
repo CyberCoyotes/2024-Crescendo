@@ -4,14 +4,6 @@
 
 package frc.robot.util;
 
-import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
-import com.ctre.phoenix6.configs.MotionMagicConfigs;
-import com.ctre.phoenix6.configs.Slot0Configs;
-import com.ctre.phoenix6.configs.Slot1Configs;
-import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.signals.GravityTypeValue;
-
 public final class Constants {
 
   public static class OperatorConstants {
@@ -46,7 +38,7 @@ public final class Constants {
     | Pose  | Dist  | Arm |
     |------ |-----  | --- |
     | 0     | 0     | 0   |
-    | 1     | 126   | 20  | Safety Pose
+    | 1     | 126   | 20  | Stage / Safety Pose
     | 2     | 150   | 00  |
     | 3     | 180   | 00  |
     | 4     | 200   | 00  |
@@ -64,6 +56,7 @@ public final class Constants {
 
     public static final double ARM_MANUAL_POWER = 6; // for Voltage control
 
+    /* Consider removing this class
     public static final class ConstantsPlus {
 
       static final Slot0Configs armGains0 = new Slot0Configs().withGravityType(GravityTypeValue.Arm_Cosine)
@@ -74,16 +67,8 @@ public final class Constants {
           .withKS(0.00)
           .withKA(0.00)
           .withKG(0.00);
-      static final Slot1Configs armGains1 = new Slot1Configs().withGravityType(GravityTypeValue.Arm_Cosine)
-          .withKP(0.50)
-          .withKI(0.00)
-          .withKD(0.00)
-          .withKV(0.00)
-          .withKS(0.00)
-          .withKA(0.00)
-          .withKG(0.00);
 
-      /* Gains or configuration of arm motor for config slot 1 */
+      
 
       // set Motion Magic settings
       static final MotionMagicConfigs armMotionMagic0 = new MotionMagicConfigs()
@@ -115,6 +100,7 @@ public final class Constants {
           .withMotionMagic(armMotionMagic0).withSoftwareLimitSwitch(armSoftLimit0).withCurrentLimits(armSoftLimit1);
 
     }
+    */
 
   }
 
@@ -126,8 +112,8 @@ public final class Constants {
   }
 
   public static class IntakeConstants {
-    public static final double INTAKE_POWER = 0.75; // 0.75
-    public static final double INTAKE_POWER_REV = -0.75;
+    public static final double INTAKE_POWER = -0.75; // 0.75
+    public static final double INTAKE_POWER_REV = 0.75;
     
   }
 
@@ -155,51 +141,48 @@ public final class Constants {
   }
   
   public static class CANIDs {
+    public static final int CANDLE_ID =         15; // Mini LED and LED strip controller
+    public static final int INTAKE_ID =         20;
+    public static final int INDEX_ID =          21;
+    public static final int ARM_ID =            22;
+    public static final int TOP_FLYWHEEL_ID =  23; // TOP
+    public static final int BOTTOM_FLYWHEEL_ID = 24; // BOTTOM
+    public static final int WINCH_ID =          25;
+    public static final int NOTE_SENSOR_ID =    42; // Time of Flight sensor for the note
 
     /*
      * CAN IDs
-     * | Object | ID |
+     * | Object      | ID |
      * |------------ |----|
-     * | Drive FL | 01 |
-     * | Steer FL | 02 |
-     * | Drive FR | 03 |
-     * | Steer FR | 04 |
-     * | Drive RL | 05 |
-     * | Steer RL | 06 |
-     * | Drive RR | 07 |
-     * | Steer RR | 08 |
+     * | Drive FL    | 01 |
+     * | Steer FL    | 02 |
+     * | Drive FR    | 03 |
+     * | Steer FR    | 04 |
+     * | Drive RL    | 05 |
+     * | Steer RL    | 06 |
+     * | Drive RR    | 07 |
+     * | Steer RR    | 08 |
      * | CANCoder FL | 09 |
      * | CANCoder FR | 10 |
      * | CANCoder RL | 11 |
      * | CANCoder RR | 12 |
      * | -Hard pass- | 13 |
-     * | Pidgeon | 14 |
-     * | Candle | 15 |
-     * 
-     * /*
+     * | Pidgeon     | 14 |
+     * | Candle      | 15 |
+     */
+    
+     /*
      * Season Specific
-     * | Object | ID |
+     * | Object      | ID |
      * |------------ |----|
-     * | Intake | 20 |
-     * | Index | 21 |
-     * | Arm | 22 |
+     * | Intake      | 20 |
+     * | Index       | 21 |
+     * | Arm         | 22 |
      * | Launcher LT | 23 | TOP
      * | Launcher RT | 24 | BOTTOM
-     * | Winch | 25 |
-     * | ToF Note | 42 |
-     * 
+     * | Winch       | 25 |
+     * | ToF Note    | 42 |
      */
-
-    /* Taz 4: L3 Gear Ratio */
-
-    public static final int CANDLE_ID = 15; // Mini LED and LED strip controller
-    public static final int INTAKE_ID = 20;
-    public static final int INDEX_ID = 21;
-    public static final int ARM_ID = 22;
-    public static final int LEFT_FLYWHEEL_ID = 23; // TOP
-    public static final int RIGHT_FLYWHEEL_ID = 24; // BOTTOM
-    public static final int WINCH_ID = 25;
-    public static final int NOTE_SENSOR_ID = 42; // Time of Flight sensor for the note
-
   }
-}
+
+} // end of class Constants

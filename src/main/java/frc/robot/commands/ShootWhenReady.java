@@ -1,4 +1,4 @@
-package frc.robot.experimental;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IndexSubsystem;
@@ -22,7 +22,7 @@ public class ShootWhenReady extends Command {
 
     @Override
     public void initialize() {
-        // shooter2.setFlywheelToIdle();
+        shooter2.setFlywheelToIdle();
     }
 
     @Override
