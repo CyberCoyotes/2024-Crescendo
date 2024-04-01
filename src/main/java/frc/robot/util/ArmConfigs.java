@@ -46,10 +46,7 @@ public class ArmConfigs {
         armCurrent0.SupplyCurrentLimitEnable = true;
         armCurrent0.SupplyCurrentLimit = ArmConstants.ARM_SUPPLY_LIMIT;
 
-        /*
-         * Long form (better for my learning): Applies gains with an optional 50 ms
-         * timeout (I think)
-         */
+        /* Apply Configs */
         m_arm.getConfigurator().apply(armGains0, 0.050);
         m_arm.getConfigurator().apply(armMotionMagic0, 0.050);
         m_arm.getConfigurator().apply(armSoftLimit0, 0.050);
