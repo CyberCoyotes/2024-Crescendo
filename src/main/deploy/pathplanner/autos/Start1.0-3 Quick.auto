@@ -47,6 +47,12 @@
           "data": {
             "pathName": "N3-N3Quick"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootFromStage"
+          }
         }
       ]
     }

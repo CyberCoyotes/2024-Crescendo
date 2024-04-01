@@ -114,7 +114,7 @@ public class RobotContainer {
   private final ShootWhenReady shootWhenReady = new ShootWhenReady(shooter2, index, notesensor);
 
   // Autonomous version of the Shoot When Ready command that addeds notesensor checks for ending the command
-  private final ShootWhenReadyAuton shootWhenReadyAuton = new ShootWhenReadyAuton(shooter2, index, notesensor);
+  private final ShootWhenReadyAuton shootWhenReadyAuton = new ShootWhenReadyAuton(arm, index, intake, shooter2, notesensor);
   
   // TODO Test Shoot from stage command. If it works, add to auton
   private final ShootFromStage shootFromStage = new ShootFromStage(arm, index, intake, shooter2, notesensor);

@@ -8,8 +8,8 @@ import frc.robot.subsystems.NoteSensorSubsystem;
 import frc.robot.subsystems.ShooterSubsystem2;
 import frc.robot.util.ArmConstants;
 
-public class ShootWhenReadyAuton extends SequentialCommandGroup {
-    public ShootWhenReadyAuton (ArmSubsystem arm, IndexSubsystem index, IntakeSubsystem intake, ShooterSubsystem2 shooter2, NoteSensorSubsystem notesensor) {
+public class ShootClose2 extends SequentialCommandGroup {
+    public ShootClose2(ArmSubsystem arm, IndexSubsystem index, IntakeSubsystem intake, ShooterSubsystem2 shooter2, NoteSensorSubsystem notesensor) {
 
         addCommands(
             // Set the arm to the middle position for shooting from the closest Stage leg
