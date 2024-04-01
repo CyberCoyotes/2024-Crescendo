@@ -1,19 +1,12 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.StatusSignal;
-import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
-import com.ctre.phoenix6.configs.MotionMagicConfigs;
-import com.ctre.phoenix6.configs.Slot0Configs;
-import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.GravityTypeValue;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.ArmConfigs;
-import frc.robot.util.ArmConstants;
 import frc.robot.util.Constants;
 
 public class ArmSubsystem extends SubsystemBase {
@@ -86,29 +79,3 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
 } // end of ArmSubsystem method
-
-/***************************
- * NOTES
- ***************************/
-/*
- * TalonFXConfiguration configuration = new TalonFXConfiguration();
- * configuration.motionCruiseVelocity = FAST_MOTION_CONSTRAINTS.maxVelocity /
- * SENSOR_VELOCITY_COEFFICIENT;
- * configuration.motionAcceleration = FAST_MOTION_CONSTRAINTS.maxAcceleration /
- * SENSOR_VELOCITY_COEFFICIENT;
- * configuration.slot0.kP = 0.25;
- * configuration.slot0.kI = 0.0;
- * configuration.slot0.kD = 0.0;
- * configuration.primaryPID.selectedFeedbackSensor =
- * TalonFXFeedbackDevice.IntegratedSensor.toFeedbackDevice();
- * configuration.voltageCompSaturation = 12.0;
- */
-/*
- * https://github.com/FRCTeam2910/2023CompetitionRobot-Public/blob/main/src/main
- * /java/org/frcteam2910/c2023/subsystems/arm/ArmIOFalcon500.java
- */
-
-// REREFENCES
-// https://github.com/CrossTheRoadElec/Phoenix6-Examples/blob/main/java/CommanddDrive/src/main/java/frc/robot/subsystems/DriveSubsystem.java
-// See also
-// https://github.com/FRCTeam2910/2023CompetitionRobot-Public/blob/main/src/main/java/org/frcteam2910/c2023/subsystems/intake/IntakeIOHardware.java

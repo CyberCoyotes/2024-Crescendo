@@ -11,13 +11,6 @@ import com.ctre.phoenix6.hardware.TalonFX;
 public class FlywheelConfigs {
 
     public static void applyFlywheelConfigs(TalonFX primaryMotor, TalonFX secondaryMotor) {
-        
-        // TODO I think this is not needed because of control modes being set in the ShooterSubsystem2
-        // VelocityVoltage m_velocityVoltage = new VelocityVoltage(0);
-        // primaryMotor.setControl(m_velocityVoltage);
-        // secondaryMotor.setControl(m_velocityVoltage);
-
-       //  m_primaryMotor.setNeutralMode(coast);
 
         // any unmodified configs in a configuration object are *automatically* factory-defaulted;
         // user can perform a full factory default by passing a new device configuration object

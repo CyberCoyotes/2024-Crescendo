@@ -1,24 +1,29 @@
 package frc.robot.util;
 
 public class ShooterConstants {
-     // TODO Tune this value
-     public static final double SHOOTER_VELOCITY = 60; // rotations per second
     
-     // public static final double SHOOTER_VELOCITY_SHORT_RANGE = 40; // Not currently in use anywhere
-     // public static final double SHOOTER_VELOCITY_LONG_RANGE = 60; // Not currently in use anywhere, Flywheel speed for long range shots only
-     // public static final double SHOOTER_IDLE_VELOCITY = SHOOTER_VELOCITY * 0.30; // 30% of max speed
-     // public static final double VELOCITY_ERROR_MARGIN = SHOOTER_VELOCITY * 0.10; // 5% of max speed
-    
-    // TODO Tune this value
+    // TODO Tune the flysheel/shooter velocity value as needed
     public static final double FLYWHEEL_VELOCITY = 100; // rotations per second (rps)
-    
-    public static final double FLYWHEEL_VELOCITY_SHORT_RANGE = 40; // Not currently in use anywhere
-    public static final double FLYWHEEL_VELOCITY_LONG_RANGE = 60; // Not currently in use anywhere, Flywheel speed for long range shots only
+    public static final double FLYWHEEL_VELOCITY_STAGE = 120;
     public static final double FLYWHEEL_IDLE_VELOCITY = FLYWHEEL_VELOCITY * 0.30; // 30% of max speed
     public static final double FLYWHEEL_MARGIN_ERROR = FLYWHEEL_VELOCITY * 0.10; // 5% of max speed
 
-    // TODO Tune this value for nominal flywheel checks
-    public static final double FLYWHEEL_CONSTANT = 45.5; // rotations per second (rps)
-    public static final double FLYWHEEL_MIN = FLYWHEEL_CONSTANT * .95;
-    public static final double FLYWHEEL_MAX = FLYWHEEL_CONSTANT * 1.20;
+    /*  TODO Tune this value for nominal flywheel velocity checks
+    This value is NOT the same as the FLYWHEEL_VELOCITY value and was determined empirically
+    using Phoenix Tuner and the velocity measurement.
+    */
+    public static final double FLYWHEEL_VELOCITY_CHECK_FACTOR = 2.2; // rotations per second (rps)
+    /* 
+    |   velocity    |   actual      |
+    |   100         |   45.5 +/- 1  |
+    |   120         |   54.5 +/- 1  |
+     * 
+    */
+    public static final double FLYWHEEL_VELOCITY_CHECK = (FLYWHEEL_VELOCITY/FLYWHEEL_VELOCITY_CHECK_FACTOR); // rotations per second (rps)
+    public static final double FLYWHEEL_MIN = FLYWHEEL_VELOCITY_CHECK * .97;
+    public static final double FLYWHEEL_MAX = FLYWHEEL_VELOCITY_CHECK * 1.10;
+
+    public static final double FLYWHEEL_VELOCITY_STAGE_CHECK = (FLYWHEEL_VELOCITY_STAGE/FLYWHEEL_VELOCITY_CHECK_FACTOR); // rotations per second (rps)
+    public static final double FLYWHEEL_STAGE_MIN = FLYWHEEL_VELOCITY_STAGE_CHECK * .97;
+    public static final double FLYWHEEL_STAGE_MAX = FLYWHEEL_VELOCITY_STAGE_CHECK * 1.10;
 }

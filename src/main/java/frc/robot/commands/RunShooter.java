@@ -14,7 +14,7 @@ public class RunShooter extends Command {
 
     @Override
     public void execute() {
-        shooter.SetOutput(ShooterConstants.SHOOTER_VELOCITY);
+        shooter.SetOutput(ShooterConstants.FLYWHEEL_VELOCITY);
     }
 
     @Override

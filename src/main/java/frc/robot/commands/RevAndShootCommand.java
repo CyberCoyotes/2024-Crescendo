@@ -47,9 +47,9 @@ public class RevAndShootCommand extends SequentialCommandGroup {
     private void SetupCommands() {
         this.addCommands(
                 new ParallelCommandGroup(
-                        new RunCommand(() -> shooter.SetOutput(ShooterConstants.SHOOTER_VELOCITY), shooter),
+                        new RunCommand(() -> shooter.SetOutput(ShooterConstants.FLYWHEEL_VELOCITY), shooter),
                         new SequentialCommandGroup(
-                                new WaitUntilCommand(() -> shooter.AtVelocity(ShooterConstants.SHOOTER_VELOCITY-1))).andThen(indexCommand)));
+                                new WaitUntilCommand(() -> shooter.AtVelocity(ShooterConstants.FLYWHEEL_VELOCITY-1))).andThen(indexCommand)));
 
     }
 }
