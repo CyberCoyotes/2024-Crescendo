@@ -200,25 +200,28 @@ public class RobotContainer {
     m_driverController.a().whileTrue(new InstantCommand(() -> arm.setArmPose(ArmConstants.ARM_HOME_POSE)));
     m_driverController.b().whileTrue(new InstantCommand(() -> arm.setArmPose(ArmConstants.ARM_MID_POSE)));
     m_driverController.x().whileTrue(new InstantCommand(() -> arm.setArmPose(ArmConstants.ARM_AMP_POSE)));
+
+    // m_driverController.y().whileTrue(new InstantCommand(() -> ( )));
+
     m_driverController.rightBumper().whileTrue(new IntakeCommandGroup(index, intake));
     m_driverController.leftBumper().whileTrue(new IntakeRevCommandGroup(index, intake));
+    
     m_driverController.rightTrigger().whileTrue(shootWhenReady);
-
-    // TODO Test "setShooterVelocity" only, then remove
-    // m_driverController.rightTrigger().whileTrue(setShooterVelocity); 
+    m_driverController.leftTrigger().whileTrue(new SetIndex(index, -0.75));
 
     // TODO Test MotionMagicVelocityVoltage" only, then remove
     // m_driverController.leftTrigger().whileTrue(new InstantCommand(() -> shooter2.setFlywheelVelocityMM(shooter2.FLYWHEEL_VELOCITY))); 
     
-    // TODO Remove comment out after testing the MotionMagic Velocity Voltage
-    // m_driverController.leftTrigger().whileTrue(new SetIndex(index, -0.75));
 
     /* TODO These are the previous event commands and bindings */
     // m_driverController.rightTrigger().whileTrue(new RevAndShootCommand(index, shooter)); 
     // m_driverController.rightTrigger().whileFalse(new InstantCommand(() -> shooter.SetOutput(0)));
 
     /* OPERATOR BINDINGS */
+
+    // m_operatorController.a().whileTrue());
     m_operatorController.b().whileTrue(new SetArmClimb(arm, ArmConstants.ARM_MANUAL_POWER));
+    // m_operatorController.x().whileTrue());
     m_operatorController.y().whileTrue(new SetWinch(winch, WinchConstants.WINCH_POWER));
     m_operatorController.back().whileTrue(new SetWinch(winch, WinchConstants.WINCH_POWER_BOOST));
   };

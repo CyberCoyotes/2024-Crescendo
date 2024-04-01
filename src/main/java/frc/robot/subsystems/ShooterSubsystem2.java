@@ -23,7 +23,6 @@ public class ShooterSubsystem2 extends SubsystemBase{
     /* 
     This is an instance of the `VelocityVoltage` class being created and assigned 
     to the `m_velocityVoltage` variable with parameters being passed to the `VelocityVoltage` constructor.
-    TODO See if the `VelocityVoltage` class parameters can replace some of the specifically assigned values such as 
     */
     private VelocityVoltage m_velocityVoltage = new VelocityVoltage(
             0, // Velocity to drive toward in rotations per second
