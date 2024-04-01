@@ -9,6 +9,8 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.Constants;
+import frc.robot.util.FlywheelConfigs;
+import frc.robot.util.FlywheelConfigs3;
 import frc.robot.util.ShooterConstants;
 
 // @SuppressWarnings("unused")
@@ -24,8 +26,7 @@ public class ShooterSubsystem2 extends SubsystemBase{
     to the `m_velocityVoltage` variable with parameters being passed to the `VelocityVoltage` constructor.
     TODO See if the `VelocityVoltage` class parameters can replace some of the specifically assigned values such as 
     */
-    private VelocityVoltage m_velocityVoltage 
-        = new VelocityVoltage(
+    private VelocityVoltage m_velocityVoltage = new VelocityVoltage(
             0, // Velocity to drive toward in rotations per second
             0, // Acceleration to drive toward in rotations per second squared
             true, // EnableFOC
@@ -37,8 +38,7 @@ public class ShooterSubsystem2 extends SubsystemBase{
         );
 
     // FIXME Motion Magic Vel Volt - something to try; does not work when tested 3/30, not essential
-    private MotionMagicVelocityVoltage mmVelocityVoltage 
-        = new MotionMagicVelocityVoltage(
+    private MotionMagicVelocityVoltage mmVelocityVoltage = new MotionMagicVelocityVoltage(
             0, // Velocity to drive toward in rotations per second
             0, // Acceleration to drive toward in rotations per second squared
             true, // EnableFOC
@@ -50,8 +50,7 @@ public class ShooterSubsystem2 extends SubsystemBase{
         );
 
         // TODO Torque Current - Something to try, not essential
-        private TorqueCurrentFOC m_TorqueCurrent
-        = new TorqueCurrentFOC(
+        private TorqueCurrentFOC m_TorqueCurrent = new TorqueCurrentFOC(
             0, // Amount of motor current in Amperes
             0, /* MaxAbsDutyCycle 
             * Maximum absolute motor output that can be applied, which effectively limits the velocity.
@@ -67,10 +66,17 @@ public class ShooterSubsystem2 extends SubsystemBase{
             false // LimitReverseMotion
         );
 
-    private double currentFlywheelVel = m_primaryMotor.getVelocity().getValue();
+    // private double currentFlywheelVel = m_primaryMotor.getVelocity().getValue();
 
-    public ShooterSubsystem2() {
-        
+    public ShooterSubsystem2(TalonFX m_primaryMotor, TalonFX m_secondaryMotor) {
+        this.m_primaryMotor = m_primaryMotor;
+        this.m_secondaryMotor = m_secondaryMotor;
+
+        // Apply configurations from the FlywheelConfigs file to the two motors
+        FlywheelConfigs.applyFlywheelConfigs(m_primaryMotor, m_secondaryMotor);
+
+        // Apply configurations to motors
+        // FlywheelConfigs3.applyFlywheelConfigs(m_primaryMotor, m_secondaryMotor); // Second approach to applying configurations
 
     } // end of constructor
     
@@ -103,9 +109,6 @@ public class ShooterSubsystem2 extends SubsystemBase{
         m_secondaryMotor.setControl(m_TorqueCurrent.withOutput(amps));
     }
     
-    
-    // See also `var currentFlywheelVel = m_primaryMotor.getVelocity().getValue()` in the Constructor
-
     public StatusSignal<Double> getFlywheelVelocity() {
         return m_primaryMotor.getVelocity();
     }
@@ -118,7 +121,7 @@ public class ShooterSubsystem2 extends SubsystemBase{
         return (getFlywheelVelocity().getValue() + getFlywheelVelocitySecondary().getValue()) / 2;
     }
 
-
+    /*
     public boolean isFlywheelNominal() {
         // double setVelocity = Constants.ShooterConstants.SHOOTER_VELOCITY;
         if (getFlywheelVelocity().getValue() >= (Math.abs(ShooterConstants.FLYWHEEL_VELOCITY - (ShooterConstants.FLYWHEEL_MARGIN_ERROR)))) {
@@ -127,7 +130,9 @@ public class ShooterSubsystem2 extends SubsystemBase{
             return false;
         }
     }
+    */
 
+    /*
     public boolean isFlywheelNominal2() {
         // Method to check if the flywheel is at target velocity within a range of error of 3% of the target velocity
         double targetVelocity = ShooterConstants.FLYWHEEL_VELOCITY; // replace with your target velocity
@@ -135,6 +140,7 @@ public class ShooterSubsystem2 extends SubsystemBase{
         double threePercentOfTarget = targetVelocity * 0.03;
         return Math.abs(currentVelocity - targetVelocity) <= threePercentOfTarget;
         }
+    */
 
     public boolean isFlywheelNominal3() { 
         if (getFlywheelVelocity().getValue() >= ShooterConstants.FLYWHEEL_MIN && getFlywheelVelocity().getValue() <= ShooterConstants.FLYWHEEL_MAX ) {
@@ -144,13 +150,15 @@ public class ShooterSubsystem2 extends SubsystemBase{
         }
     }
 
+    /*
     public boolean isFlywheelNominal4() {
         if (currentFlywheelVel >= ShooterConstants.FLYWHEEL_MIN && currentFlywheelVel <= ShooterConstants.FLYWHEEL_MAX ) {
             return true;
         } else {
             return false;
         }
-    }
+    } 
+    */
 
     @Override
     public void periodic() {
