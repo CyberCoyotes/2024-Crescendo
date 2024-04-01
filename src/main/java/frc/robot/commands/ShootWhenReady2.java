@@ -29,7 +29,7 @@ public class ShootWhenReady2 extends Command{
         shooter2.setFlywheelVelocity(ShooterConstants.FLYWHEEL_VELOCITY);
 
         // After the flywheel is at target velocity, index the game piece forward
-        if (shooter2.isFlywheelNominal3() && notesensor.isNoteLoaded()) {
+        if (shooter2.isFlywheelNominal() && notesensor.isNoteLoaded()) {
             index.setIndexPower(IndexConstants.INDEX_POWER);
         }
 

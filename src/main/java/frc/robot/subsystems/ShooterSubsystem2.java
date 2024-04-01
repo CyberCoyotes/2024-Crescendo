@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.Constants;
 import frc.robot.util.FlywheelConfigs;
-// import frc.robot.util.FlywheelConfigs3;
 import frc.robot.util.ShooterConstants;
 
 // @SuppressWarnings("unused")
@@ -76,8 +75,8 @@ public class ShooterSubsystem2 extends SubsystemBase{
         // Apply configurations from the FlywheelConfigs file to the two motors
         FlywheelConfigs.applyFlywheelConfigs(m_primaryMotor, m_secondaryMotor);
 
-        // Apply configurations to motors
-        // FlywheelConfigs3.applyFlywheelConfigs(m_primaryMotor, m_secondaryMotor); // Second approach to applying configurations
+        // Apply configurations from FlywheelConfig2 to motors; using FlywheelConfigs.java approach for now
+        // FlywheelConfigs2.applyFlywheelConfigs(m_primaryMotor, m_secondaryMotor); // Second approach to applying configurations
 
     } // end of constructor
     
@@ -143,7 +142,7 @@ public class ShooterSubsystem2 extends SubsystemBase{
         }
     */
 
-    public boolean isFlywheelNominal3() { 
+    public boolean isFlywheelNominal() { 
         if (getFlywheelVelocity().getValue() >= ShooterConstants.FLYWHEEL_MIN && getFlywheelVelocity().getValue() <= ShooterConstants.FLYWHEEL_MAX ) {
             return true;
         } else {
@@ -166,7 +165,7 @@ public class ShooterSubsystem2 extends SubsystemBase{
         // super.periodic(); // Suggested by VSCode
         // SmartDashboard.putBoolean("Flywheel 1.0 version", isFlywheelNominal());
         // SmartDashboard.putBoolean("Flywheel 2.0 version", isFlywheelNominal2());
-        SmartDashboard.putBoolean("Flywheel 3.0 version", isFlywheelNominal3());
+        SmartDashboard.putBoolean("Flywheel 3.0 version", isFlywheelNominal());
         // SmartDashboard.putBoolean("Flywheel 4.0 version", isFlywheelNominal4());
         SmartDashboard.putNumber("RIGHT Flywheel Velocity", getFlywheelVelocity().getValue());
         SmartDashboard.putNumber("LEFT Flywheel Velocity", getFlywheelVelocitySecondary().getValue());

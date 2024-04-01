@@ -37,7 +37,7 @@ public class ShootWhenReadyAuton extends Command {
         shooter2.setFlywheelVelocity(ShooterConstants.FLYWHEEL_VELOCITY);
 
         // Check if the flywheel is at target velocity AND if a game piece is loaded
-        if (shooter2.isFlywheelNominal3() && notesensor.isNoteLoaded()) {
+        if (shooter2.isFlywheelNominal() && notesensor.isNoteLoaded()) {
     
             // If the flywheel is at target velocity AND a game piece is loaded, index the game piece forward into the flywheel
              index.setIndexPower(IndexConstants.INDEX_POWER);

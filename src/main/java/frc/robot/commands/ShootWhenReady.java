@@ -38,7 +38,7 @@ public class ShootWhenReady extends Command {
 
         shooter2.setFlywheelVelocity(ShooterConstants.FLYWHEEL_VELOCITY);
 
-        if (shooter2.isFlywheelNominal3()) {
+        if (shooter2.isFlywheelNominal()) {
             index.setIndexPower(IndexConstants.INDEX_POWER);
         } else {
             index.stopIndexing();

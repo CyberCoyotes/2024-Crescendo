@@ -29,7 +29,7 @@ public class FlywheelConfigs {
             .withKP(0.10) // <-
             .withKI(0.00)
             .withKS(0.00)
-            .withKV(0.005); // <-
+            .withKV(0.004); // <-
         
         var flywheelConfigs1 = new Slot1Configs();        
         flywheelConfigs1
@@ -48,13 +48,6 @@ public class FlywheelConfigs {
         flywheelCurrentConfigs
             .withStatorCurrentLimit(60) 
             .withStatorCurrentLimitEnable(true);
-
-        /* TODO Test neutral mode with the class being called in Configs file */
-        /*
-        var flywhevelMotorOutput = new MotorOutputConfigs();
-        flywheelMotorOutput
-                .withNeutralMode(NeutralModeValue.Coast);
-         */
 
         primaryMotor.setInverted(true);
         secondaryMotor.setInverted(true); 
