@@ -12,8 +12,10 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.util.ArmConfigs;
 import frc.robot.util.ArmConstants;
 import frc.robot.util.Constants;
+import frc.robot.util.FlywheelConfigs;
 
 public class ArmSubsystem extends SubsystemBase {
 
@@ -72,7 +74,7 @@ public class ArmSubsystem extends SubsystemBase {
         armCurrent0.SupplyCurrentLimit = ArmConstants.ARM_SUPPLY_LIMIT;
 
         /*
-         * Long form (better for my learning): Applies gains with an optional 50 ms
+         * Long form (better for my learning): Applies with an optional 50 ms
          * timeout (I think)
          */
         m_arm.getConfigurator().apply(armGains0, 0.050);
@@ -87,6 +89,9 @@ public class ArmSubsystem extends SubsystemBase {
          */
         // Shuffleboard.getTab("Arm").add("Arm Output", m_arm);
 
+        // TODO Apply configurations from the ArmConfigs file to the motor
+        // ArmConfigs.applyArmConfigs(m_arm);
+
     } /* End of the class-method */
 
     public StatusSignal<Double> getArmPos() {
@@ -96,10 +101,6 @@ public class ArmSubsystem extends SubsystemBase {
 
     public void setArmPose(double armPose) {
         m_arm.setControl(m_armPose.withPosition(armPose));
-        
-        // less effecient approach, shouldn't use this
-        // m_arm.setControl(new MotionMagicVoltage(armPose));
-
         // showArmTelemetry();
             
     }

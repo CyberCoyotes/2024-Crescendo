@@ -9,16 +9,17 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 
 public class ArmConfigs {
-    private final TalonFX m_arm;
 
-    public ArmConfigs() {
-        m_arm = new TalonFX(Constants.CANIDs.ARM_ID);
+    public static void applyArmConfigs(TalonFX m_arm) {
+
+        // Set the default configuration for the arm motor
         m_arm.getConfigurator().apply(new TalonFXConfiguration());
+
+        m_arm.setInverted(true); // Set to true if you want to invert the motor direction
 
         /* Gains or configuration of arm motor for config slot 0 */
         var armGains0 = new Slot0Configs();
         armGains0.GravityType = GravityTypeValue.Arm_Cosine; /* .Elevator_Static | .Arm_Cosine */
-        m_arm.setInverted(true); // Set to true if you want to invert the motor direction
         armGains0.kP = 0.50; /* Proportional Gain */
         armGains0.kI = 0.00; /* Integral Gain */
         armGains0.kD = 0.00; /* Derivative Gain */
