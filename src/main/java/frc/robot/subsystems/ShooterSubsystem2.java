@@ -65,12 +65,7 @@ public class ShooterSubsystem2 extends SubsystemBase{
             false // LimitReverseMotion
         );
 
-    // private double currentFlywheelVel = m_primaryMotor.getVelocity().getValue();
-    // public ShooterSubsystem2(TalonFX m_primaryMotor, TalonFX m_secondaryMotor) {
-
     public ShooterSubsystem2() {
-        // this.m_primaryMotor = m_primaryMotor;
-        // this.m_secondaryMotor = m_secondaryMotor;
 
         // Apply configurations from the FlywheelConfigs file to the two motors
         FlywheelConfigs.applyFlywheelConfigs(m_primaryMotor, m_secondaryMotor);
