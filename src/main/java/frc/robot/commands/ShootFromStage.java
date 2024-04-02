@@ -14,8 +14,9 @@ public class ShootFromStage extends SequentialCommandGroup {
         addCommands(
             // Set the arm to the middle position for shooting from the closest Stage leg
             new SetArmPosition(arm, ArmConstants.ARM_MID_POSE),
+            
             // Check target velocity and index the game piece forward
-            new ShootWhenReady(shooter2, index, notesensor).withTimeout(.75),
+            new ShootWhenReadyStage(shooter2, index, notesensor).withTimeout(1), // TODO Tune this timeout for stage
             
             // Set arm back to home position
             new SetArmPosition(arm, ArmConstants.ARM_HOME_POSE)

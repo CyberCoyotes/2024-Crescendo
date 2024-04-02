@@ -8,27 +8,70 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.034348684081985,
-        "y": 0.858424024540357
+        "x": 3.8058091143015926,
+        "y": 1.4685682323064113
       },
       "isLocked": false,
       "linkedName": "PoseC"
     },
     {
       "anchor": {
-        "x": 7.767042457161838,
-        "y": 0.9965612238916797
+        "x": 5.171577570346555,
+        "y": 0.9105123040299752
       },
       "prevControl": {
-        "x": 6.15873077900002,
-        "y": 0.029600828432426184
+        "x": 3.278684946610224,
+        "y": 1.222527571678821
+      },
+      "nextControl": {
+        "x": 6.507974661745388,
+        "y": 0.6902270691840136
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 8.354215253885053,
+        "y": 1.19407947906805
+      },
+      "prevControl": {
+        "x": 8.295066081357135,
+        "y": 0.4747492196156108
+      },
+      "nextControl": {
+        "x": 8.643406377721846,
+        "y": 4.711016694760662
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 8.534598822328235,
+        "y": 7.151927291332221
+      },
+      "prevControl": {
+        "x": 8.505227457682107,
+        "y": 5.786158835287259
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "N8Push"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.0,
+      "rotationDegrees": 180.0,
+      "rotateFast": true
+    },
+    {
+      "waypointRelativePos": 1.4,
+      "rotationDegrees": -157.61845260822227,
+      "rotateFast": true
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -39,7 +82,7 @@
   },
   "goalEndState": {
     "velocity": 2.0,
-    "rotation": -160.0,
+    "rotation": -135.00000000000009,
     "rotateFast": true
   },
   "reversed": false,
