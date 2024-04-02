@@ -13,6 +13,7 @@ import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
@@ -22,7 +23,8 @@ import frc.robot.RobotContainer;
 import frc.robot.util.TunerConstants;
 
 /**
- * Class that extends the Phoenix SwerveDrivetrain class and implements subsystem
+ * Class that extends the Phoenix SwerveDrivetrain class and implements
+ * subsystem
  * so it can be used in command-based projects easily.
  */
 public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsystem {
@@ -30,15 +32,26 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
     private Notifier m_simNotifier = null;
     private double m_lastSimTime;
 
+    public void saltFieldRelative() {
+        try {
+            m_stateLock.writeLock().lock();
+            m_fieldRelativeOffset = new Rotation2d(getState().Pose.getRotation().getDegrees() + 180);
+        } finally {
+            m_stateLock.writeLock().unlock();
+        }
+    }
+
     private final SwerveRequest.ApplyChassisSpeeds autoRequest = new SwerveRequest.ApplyChassisSpeeds();
 
-    public CommandSwerveDrivetrain(SwerveDrivetrainConstants driveTrainConstants, double OdometryUpdateFrequency, SwerveModuleConstants... modules) {
+    public CommandSwerveDrivetrain(SwerveDrivetrainConstants driveTrainConstants, double OdometryUpdateFrequency,
+            SwerveModuleConstants... modules) {
         super(driveTrainConstants, OdometryUpdateFrequency, modules);
         configurePathPlanner();
         if (Utils.isSimulation()) {
             startSimThread();
         }
     }
+
     public CommandSwerveDrivetrain(SwerveDrivetrainConstants driveTrainConstants, SwerveModuleConstants... modules) {
         super(driveTrainConstants, modules);
         configurePathPlanner();
@@ -49,23 +62,25 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 
     private void configurePathPlanner() {
         double driveBaseRadius = 0.8; // meters
-        for (var moduleLocation : m_moduleLocations)    {
+        for (var moduleLocation : m_moduleLocations) {
             driveBaseRadius = Math.max(driveBaseRadius, moduleLocation.getNorm());
         }
 
-
-    AutoBuilder.configureHolonomic(
-        ()->this.getState().Pose,
-        this::seedFieldRelative, // TODO This probably has something to do with the robot's orientation AFTER the end of auton.
-        this::getCurrentRobotChassisSpeeds,
-        (speeds)->this.setControl(autoRequest.withSpeeds(speeds)),
-        new HolonomicPathFollowerConfig(new PIDConstants(10,0,0),
-                                        new PIDConstants(10,0,0),
-                                        TunerConstants.kSpeedAt12VoltsMps,
-                                        driveBaseRadius,
-                                        new ReplanningConfig()),
-        ()->{return RobotContainer.isAllianceRed();},
-        this);
+        AutoBuilder.configureHolonomic(
+                () -> this.getState().Pose,
+                this::seedFieldRelative, // TODO This probably has something to do with the robot's orientation AFTER
+                                         // the end of auton.
+                this::getCurrentRobotChassisSpeeds,
+                (speeds) -> this.setControl(autoRequest.withSpeeds(speeds)),
+                new HolonomicPathFollowerConfig(new PIDConstants(10, 0, 0),
+                        new PIDConstants(10, 0, 0),
+                        TunerConstants.kSpeedAt12VoltsMps,
+                        driveBaseRadius,
+                        new ReplanningConfig()),
+                () -> {
+                    return RobotContainer.isAllianceRed();
+                },
+                this);
     }
 
     public Command applyRequest(Supplier<SwerveRequest> requestSupplier) {

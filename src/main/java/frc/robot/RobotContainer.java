@@ -66,7 +66,7 @@ public class RobotContainer {
 
   /* Subsystems */
   ShooterSubsystemVelocity shooter = new ShooterSubsystemVelocity();
-  ShooterSubsystem2 shooter2 = new ShooterSubsystem2(); 
+  ShooterSubsystem2 shooter2 = new ShooterSubsystem2();
   IntakeSubsystem intake = new IntakeSubsystem();
   IndexSubsystem index = new IndexSubsystem();
   WinchSubsystem2 winch = new WinchSubsystem2();
@@ -86,17 +86,16 @@ public class RobotContainer {
   /* Setting up bindings for necessary control of the swerve drive platform */
   private final CommandXboxController m_driverController = new CommandXboxController(0); // My joystick
   private final CommandXboxController m_operatorController = new CommandXboxController(1); // My joystick
-  private final CommandSwerveDrivetrain drivetrain = TunerConstants.DriveTrain; // My drivetrain
+  public final CommandSwerveDrivetrain drivetrain = TunerConstants.DriveTrain; // My drivetrain
   private final CommandXboxController[] Controllers = new CommandXboxController[] { m_driverController,
       m_operatorController
 
   };
 
-  private final SwerveRequest.FieldCentric drive = new SwerveRequest
-    .FieldCentric()
-    .withDeadband(MaxSpeed * 0.1)
-    .withRotationalDeadband(MaxAngularRate * 0.1)
-    .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+  private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
+      .withDeadband(MaxSpeed * 0.1)
+      .withRotationalDeadband(MaxAngularRate * 0.1)
+      .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
   private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
   private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
   private final Telemetry logger = new Telemetry(MaxSpeed);
@@ -114,12 +113,14 @@ public class RobotContainer {
   private final ShootWhenReadyAmp shootWhenReadyAmp = new ShootWhenReadyAmp(shooter2, index, notesensor);
 
   // Current work around uses a version of `ShootWhenReady` in command group
-  // Autonomous version of the Shoot When Ready command that adds notesensor checks for ending the command
-  private final ShootWhenReadyAuton shootWhenReadyAuton = new ShootWhenReadyAuton(arm, index, intake, shooter2, notesensor);
-  
+  // Autonomous version of the Shoot When Ready command that adds notesensor
+  // checks for ending the command
+  private final ShootWhenReadyAuton shootWhenReadyAuton = new ShootWhenReadyAuton(arm, index, intake, shooter2,
+      notesensor);
+
   // TODO Test Shoot from stage command. If it works, add to auton
   private final ShootFromStage shootFromStage = new ShootFromStage(arm, index, intake, shooter2, notesensor);
-  
+
   /* Autonomous Chooser */
   SendableChooser<Command> autoChooser;
 
@@ -144,7 +145,6 @@ public class RobotContainer {
     SmartDashboard.putData("Auto Chooser", autoChooser);
     // Shuffleboard.getTab("Auton").add("Auto Chooser", autoChooser);
 
-
     /* Configure the Button Bindings */
     configureBindings();
 
@@ -164,15 +164,15 @@ public class RobotContainer {
   /* Method to configure the button bindings */
   private void configureBindings() {
 
-  /* DRIVER BINDINGS */
+    /* DRIVER BINDINGS */
     index.setDefaultCommand(index.run(() -> index.setIndexPower(0)));
 
     driveRequest = drive.withVelocityX(-m_driverController.getLeftY() * MaxSpeed)
-          .withVelocityY(-m_driverController.getLeftX() * MaxSpeed) // Drive left with negative X (left)
-            .withRotationalRate(-m_driverController.getRightX() * MaxAngularRate) // Drive counterclockwise with
-                                                                                  // negative X (left)
-        ;
-        drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
+        .withVelocityY(-m_driverController.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+        .withRotationalRate(-m_driverController.getRightX() * MaxAngularRate) // Drive counterclockwise with
+                                                                              // negative X (left)
+    ;
+    drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
         // Drive forward with negative Y (forward)
         drivetrain.applyRequest(() -> drive.withVelocityX(-m_driverController.getLeftY() * MaxSpeed)
             .withVelocityY(-m_driverController.getLeftX() * MaxSpeed) // Drive left with negative X (left)
@@ -194,11 +194,15 @@ public class RobotContainer {
      * -m_driverController.getLeftX()))));
      */
 
-     // FIXME automate this at the start of teleop
-     /* This button does nothing UNLESS the robot is manual rotated in teleop
-    to the proper "forward" position. THEN and ONLY THEN, the button can be triggered
-    and the forward orientation is properly set. If not triggered, the robot forward and backwards
-    on the joysticks as are left and right */
+    // FIXME automate this at the start of teleop
+    /*
+     * This button does nothing UNLESS the robot is manual rotated in teleop
+     * to the proper "forward" position. THEN and ONLY THEN, the button can be
+     * triggered
+     * and the forward orientation is properly set. If not triggered, the robot
+     * forward and backwards
+     * on the joysticks as are left and right
+     */
     m_driverController.start().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
 
     m_driverController.a().whileTrue(new InstantCommand(() -> arm.setArmPose(ArmConstants.ARM_HOME_POSE)));
@@ -208,7 +212,7 @@ public class RobotContainer {
 
     m_driverController.rightBumper().whileTrue(new IntakeCommandGroup(index, intake));
     m_driverController.leftBumper().whileTrue(new IntakeRevCommandGroup(index, intake));
-    
+
     m_driverController.rightTrigger().whileTrue(shootWhenReady);
     m_driverController.leftTrigger().whileTrue(shootWhenReadyAmp);
 
@@ -242,9 +246,9 @@ public class RobotContainer {
 
     // #endregion Testing
   }
-  
+
   public Command getAutonomousCommand() {
     return autoChooser.getSelected();
-  }  
+  }
 
 } // End of class
