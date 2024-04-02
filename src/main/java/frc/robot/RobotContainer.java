@@ -194,7 +194,13 @@ public class RobotContainer {
      * -m_driverController.getLeftX()))));
      */
 
+     // FIXME automate this at the start of teleop
+     /* This button does nothing UNLESS the robot is manual rotated in teleop
+    to the proper "forward" position. THEN and ONLY THEN, the button can be triggered
+    and the forward orientation is properly set. If not triggered, the robot forward and backwards
+    on the joysticks as are left and right */
     m_driverController.start().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
+
     m_driverController.a().whileTrue(new InstantCommand(() -> arm.setArmPose(ArmConstants.ARM_HOME_POSE)));
     m_driverController.b().whileTrue(new InstantCommand(() -> arm.setArmPose(ArmConstants.ARM_MID_POSE)));
     m_driverController.x().whileTrue(new InstantCommand(() -> arm.setArmPose(ArmConstants.ARM_AMP_POSE)));

@@ -59,7 +59,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
 
     // gyro.setAutonStartingPose180(180);
-    // gyro.setAutonStartingPose(-180); // TODO Seems to impact Teleop more than auton
+    // gyro.setAutonStartingPose(-180); // Seems to impact Teleop more than auton
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     if (m_autonomousCommand != null) {

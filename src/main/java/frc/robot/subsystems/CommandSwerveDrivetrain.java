@@ -7,12 +7,9 @@ import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrain;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
-
-
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
-
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
@@ -59,7 +56,7 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 
     AutoBuilder.configureHolonomic(
         ()->this.getState().Pose,
-        this::seedFieldRelative,
+        this::seedFieldRelative, // TODO This probably has something to do with the robot's orientation AFTER the end of auton.
         this::getCurrentRobotChassisSpeeds,
         (speeds)->this.setControl(autoRequest.withSpeeds(speeds)),
         new HolonomicPathFollowerConfig(new PIDConstants(10,0,0),
@@ -97,4 +94,5 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
         });
         m_simNotifier.startPeriodic(kSimLoopPeriod);
     }
+
 }
