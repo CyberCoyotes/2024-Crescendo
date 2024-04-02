@@ -3,8 +3,9 @@ package frc.robot.util;
 public class ShooterConstants {
     
     // TODO Tune the flysheel/shooter velocity value as needed
-    public static final double FLYWHEEL_VELOCITY = 100; // rotations per second (rps)
-    public static final double FLYWHEEL_VELOCITY_STAGE = 120;
+    public static final double FLYWHEEL_VELOCITY = 100; // rotations per second (rps) // 100
+    public static final double FLYWHEEL_VELOCITY_STAGE = 120; // Greater than regular
+    public static final double FLYWHEEL_VELOCITY_AMP = 30; // Slower than regular
     public static final double FLYWHEEL_IDLE_VELOCITY = FLYWHEEL_VELOCITY * 0.30; // 30% of max speed
     public static final double FLYWHEEL_MARGIN_ERROR = FLYWHEEL_VELOCITY * 0.10; // 5% of max speed
 
@@ -26,4 +27,8 @@ public class ShooterConstants {
     public static final double FLYWHEEL_VELOCITY_STAGE_CHECK = (FLYWHEEL_VELOCITY_STAGE/FLYWHEEL_VELOCITY_CHECK_FACTOR); // rotations per second (rps)
     public static final double FLYWHEEL_STAGE_MIN = FLYWHEEL_VELOCITY_STAGE_CHECK * .97;
     public static final double FLYWHEEL_STAGE_MAX = FLYWHEEL_VELOCITY_STAGE_CHECK * 1.10;
+
+    public static final double FLYWHEEL_VELOCITY_AMP_CHECK = (FLYWHEEL_VELOCITY_AMP/FLYWHEEL_VELOCITY_CHECK_FACTOR); // rotations per second (rps)
+    public static final double FLYWHEEL_AMP_MIN = FLYWHEEL_VELOCITY_AMP_CHECK * .97;
+    public static final double FLYWHEEL_AMP_MAX = FLYWHEEL_VELOCITY_AMP_CHECK * 1.10;
 }

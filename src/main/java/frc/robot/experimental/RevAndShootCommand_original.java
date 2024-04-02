@@ -1,13 +1,12 @@
-package frc.robot.commands;
+package frc.robot.experimental;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
+
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
-// import frc.robot.experimental.IncrementIndex;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.ShooterSubsystemVelocity;
 import frc.robot.util.Constants;
@@ -18,39 +17,38 @@ import frc.robot.util.ShooterConstants;
 /**
  * RevAndShootCommand
  */
-public class RevAndShootEndsCommand extends SequentialCommandGroup {
+public class RevAndShootCommand_original extends SequentialCommandGroup {
     // The time to try to and shoot the cargo before executing..
     // subsystems
     IndexSubsystem indexer;
     ShooterSubsystemVelocity shooter;
     // component Commands
-    // private IncrementIndex outtaMyWay;
+    private IncrementIndex outtaMyWay;
     private Command revUpShooter;
     private Command indexCommand;
 
-    public RevAndShootEndsCommand(IndexSubsystem indexer) {
+    public RevAndShootCommand_original(IndexSubsystem indexer) {
         // Set up our subsystems
         this.indexer = indexer;
-        // outtaMyWay = new IncrementIndex(indexer);
+        outtaMyWay = new IncrementIndex(indexer);
     }
+   
 
-    public RevAndShootEndsCommand(IndexSubsystem indexer, ShooterSubsystemVelocity shooter) {
+    public RevAndShootCommand_original(IndexSubsystem indexer, ShooterSubsystemVelocity shooter) {
         addRequirements(indexer, shooter);
         indexCommand = new RunCommand(() -> indexer.runIndexing(), indexer);
         this.shooter = shooter;
         SetupCommands();
 
     }
+    
 
     private void SetupCommands() {
         this.addCommands(
                 new ParallelCommandGroup(
                         new RunCommand(() -> shooter.SetOutput(ShooterConstants.FLYWHEEL_VELOCITY), shooter),
                         new SequentialCommandGroup(
-                                new WaitUntilCommand(
-                                        () -> shooter.AtVelocity(ShooterConstants.FLYWHEEL_VELOCITY_CHECK - 1))) // Changed to velocity check 
-                                .andThen(indexCommand))
-                        .until(() -> !indexer.hasCargo()).andThen(new WaitCommand(.1)));
+                                new WaitUntilCommand(() -> shooter.AtVelocity(ShooterConstants.FLYWHEEL_VELOCITY-1))).andThen(indexCommand)));
 
     }
 }

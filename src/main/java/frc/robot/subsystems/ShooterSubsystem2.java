@@ -35,7 +35,7 @@ public class ShooterSubsystem2 extends SubsystemBase{
             false // LimitReverseMotion
         );
 
-    // FIXME Motion Magic Vel Volt - something to try; does not work when tested 3/30, not essential
+    // Motion Magic Vel Volt - something to try; does not work when tested 3/30, not essential
     private MotionMagicVelocityVoltage mmVelocityVoltage = new MotionMagicVelocityVoltage(
             0, // Velocity to drive toward in rotations per second
             0, // Acceleration to drive toward in rotations per second squared
@@ -47,7 +47,7 @@ public class ShooterSubsystem2 extends SubsystemBase{
             false // LimitReverseMotion
         );
 
-        // TODO Torque Current - Something to try, not essential
+        // Torque Current - Something to try, not essential
         private TorqueCurrentFOC m_TorqueCurrent = new TorqueCurrentFOC(
             0, // Amount of motor current in Amperes
             0, /* MaxAbsDutyCycle 
@@ -77,6 +77,11 @@ public class ShooterSubsystem2 extends SubsystemBase{
     public void setFlywheelVelocity(double velocity) {
         m_primaryMotor.setControl(m_velocityVoltage.withVelocity(velocity));
         m_secondaryMotor.setControl(m_velocityVoltage.withVelocity(velocity));
+    }
+
+    public void setFlywheelVelocityAmp(double velocity) {
+        m_primaryMotor.setControl(m_velocityVoltage.withVelocity(velocity));
+        m_secondaryMotor.setControl(m_velocityVoltage.withVelocity(velocity*0.80));
     }
 
     public void setFlywheelToIdle() {
@@ -138,6 +143,14 @@ public class ShooterSubsystem2 extends SubsystemBase{
 
     public boolean isFlywheelNominal() { 
         if (getFlywheelVelocity().getValue() >= ShooterConstants.FLYWHEEL_MIN && getFlywheelVelocity().getValue() <= ShooterConstants.FLYWHEEL_MAX ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+        public boolean isFlywheelNominalAmp() { 
+        if (getFlywheelVelocity().getValue() >= (ShooterConstants.FLYWHEEL_AMP_MIN-0.5) && getFlywheelVelocity().getValue() <= ShooterConstants.FLYWHEEL_AMP_MAX) {
             return true;
         } else {
             return false;

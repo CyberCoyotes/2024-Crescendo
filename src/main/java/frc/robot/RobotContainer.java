@@ -21,9 +21,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.IntakeCommandGroup;
-import frc.robot.commands.IntakeIndex;
 import frc.robot.commands.IntakeRevCommandGroup;
-import frc.robot.commands.RevAndShootCommand;
 import frc.robot.commands.RunShooter;
 import frc.robot.commands.SetArmClimb;
 import frc.robot.commands.SetIndex;
@@ -33,7 +31,9 @@ import frc.robot.commands.ShootClose;
 import frc.robot.commands.ShootFromStage;
 import frc.robot.commands.ShootWhenReady;
 import frc.robot.commands.ShootWhenReady2;
+import frc.robot.commands.ShootWhenReadyAmp;
 import frc.robot.commands.ShootWhenReadyAuton;
+import frc.robot.commands.IntakeIndex;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Gyro;
@@ -94,8 +94,8 @@ public class RobotContainer {
 
   private final SwerveRequest.FieldCentric drive = new SwerveRequest
     .FieldCentric()
-    .withDeadband(MaxSpeed * 0.1).
-    withRotationalDeadband(MaxAngularRate * 0.1)
+    .withDeadband(MaxSpeed * 0.1)
+    .withRotationalDeadband(MaxAngularRate * 0.1)
     .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
   private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
   private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
@@ -104,24 +104,22 @@ public class RobotContainer {
   private final IntakeCommandGroup intakeGroup = new IntakeCommandGroup(index, intake);
   private final IntakeRevCommandGroup intakeRevGroup = new IntakeRevCommandGroup(index, intake);
 
-  // Only Sets the flywheel to target velocity, no index
-  private final SetFlywheel setShooterVelocity = new SetFlywheel(shooter2, arm, ShooterConstants.FLYWHEEL_VELOCITY);
-
   // Only Sets the flywheel to idle velocity, no index
   private final SetFlywheel setShooterIdle = new SetFlywheel(shooter2, arm, ShooterConstants.FLYWHEEL_IDLE_VELOCITY);
 
   // An updated version of the RevAndShootCommand
   private final ShootWhenReady shootWhenReady = new ShootWhenReady(shooter2, index, notesensor);
 
-  // Autonomous version of the Shoot When Ready command that addeds notesensor checks for ending the command
+  // An updated version of the RevAndShootCommand
+  private final ShootWhenReadyAmp shootWhenReadyAmp = new ShootWhenReadyAmp(shooter2, index, notesensor);
+
+  // Current work around uses a version of `ShootWhenReady` in command group
+  // Autonomous version of the Shoot When Ready command that adds notesensor checks for ending the command
   private final ShootWhenReadyAuton shootWhenReadyAuton = new ShootWhenReadyAuton(arm, index, intake, shooter2, notesensor);
   
   // TODO Test Shoot from stage command. If it works, add to auton
   private final ShootFromStage shootFromStage = new ShootFromStage(arm, index, intake, shooter2, notesensor);
   
-
-  // ChargeIntakeCommand chargeIntake = new ChargeIntakeCommand(drivetrain, intake, driveRequest);
-
   /* Autonomous Chooser */
   SendableChooser<Command> autoChooser;
 
@@ -200,22 +198,15 @@ public class RobotContainer {
     m_driverController.a().whileTrue(new InstantCommand(() -> arm.setArmPose(ArmConstants.ARM_HOME_POSE)));
     m_driverController.b().whileTrue(new InstantCommand(() -> arm.setArmPose(ArmConstants.ARM_MID_POSE)));
     m_driverController.x().whileTrue(new InstantCommand(() -> arm.setArmPose(ArmConstants.ARM_AMP_POSE)));
-
     // m_driverController.y().whileTrue(new InstantCommand(() -> ( )));
 
     m_driverController.rightBumper().whileTrue(new IntakeCommandGroup(index, intake));
     m_driverController.leftBumper().whileTrue(new IntakeRevCommandGroup(index, intake));
     
     m_driverController.rightTrigger().whileTrue(shootWhenReady);
-    m_driverController.leftTrigger().whileTrue(new SetIndex(index, -0.75));
+    m_driverController.leftTrigger().whileTrue(shootWhenReadyAmp);
 
-    // TODO Test MotionMagicVelocityVoltage" only, then remove
-    // m_driverController.leftTrigger().whileTrue(new InstantCommand(() -> shooter2.setFlywheelVelocityMM(shooter2.FLYWHEEL_VELOCITY))); 
-    
-
-    /* TODO These are the previous event commands and bindings */
-    // m_driverController.rightTrigger().whileTrue(new RevAndShootCommand(index, shooter)); 
-    // m_driverController.rightTrigger().whileFalse(new InstantCommand(() -> shooter.SetOutput(0)));
+    // m_driverController.leftTrigger().whileTrue(new SetIndex(index, -0.75));
 
     /* OPERATOR BINDINGS */
 

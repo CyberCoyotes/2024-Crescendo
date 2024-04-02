@@ -12,10 +12,10 @@ public class ArmConstants {
       public static final int ARM_REV_LIMIT = 0;
       public static final double ARM_HOME_POSE = 0;
       public static final double ARM_LOW_POSE = 10;
-      public static final double ARM_MID_POSE = 20; // 30 // 20
+      public static final double ARM_MID_POSE = 25.5; // 30 // 20
       public static final double ARM_HIGH_POSE = 55;
-      public static final double ARM_AMP_POSE = 90;
-      public static final double ARM_SAFETY_POSE = 20;
+      public static final double ARM_AMP_POSE = 90; // 90 -> 85 -> 80 -> 70
+      // public static final double ARM_SAFETY_POSE = 27.5;
       public static final int ARM_FWD_LIMIT = 100; // Previous event 91
   
       /* Distances (inches) from front Bumper Speaker Base to front Bumper and arm in canon units
