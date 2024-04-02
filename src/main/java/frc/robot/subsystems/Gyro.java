@@ -67,6 +67,21 @@ public class Gyro {
             pidgey.setYaw(180);
         }
 
+        public double STAGE_YAW_RANGE = 5;
+        public double LEFT_YAW_MIN = 142;
+        public double LEFT_YAW_MAX = 148;
+
+        public double RIGHT_YAW_MIN = 312;
+        public double RIGHT_YAW_MAX = 318;
+
+        public boolean isStageYawNominalLeft() {
+            return getYaw() >= LEFT_YAW_MIN && getYaw() <= LEFT_YAW_MAX;
+        }
+
+        public boolean isStageYawNominalRight() {
+            return getYaw() >= RIGHT_YAW_MIN && getYaw() <= RIGHT_YAW_MAX;
+        }
+
 
 
     } // end of class Gyro

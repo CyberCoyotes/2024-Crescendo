@@ -28,11 +28,10 @@ import frc.robot.commands.SetIndex;
 import frc.robot.commands.SetFlywheel;
 import frc.robot.commands.SetWinch;
 import frc.robot.commands.ShootClose;
-import frc.robot.commands.ShootFromStage;
 import frc.robot.commands.ShootWhenReady;
-import frc.robot.commands.ShootWhenReady2;
 import frc.robot.commands.ShootWhenReadyAmp;
-import frc.robot.commands.ShootWhenReadyAuton;
+import frc.robot.experimental.ShootFromStageMacro;
+import frc.robot.experimental.ShootWhenReadyAuton;
 import frc.robot.commands.IntakeIndex;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -118,8 +117,11 @@ public class RobotContainer {
   private final ShootWhenReadyAuton shootWhenReadyAuton = new ShootWhenReadyAuton(arm, index, intake, shooter2, notesensor);
   
   // TODO Test Shoot from stage command. If it works, add to auton
-  private final ShootFromStage shootFromStage = new ShootFromStage(arm, index, intake, shooter2, notesensor);
+  private final ShootFromStageMacro shootFromStage = new ShootFromStageMacro(arm, index, intake, shooter2, notesensor);
   
+  // TODO Test Shoot from stage command. If it works, add to auton
+  // private final ShootFromStageMacro shootLongRange = new ShootFromStageMacro(arm, index, intake, shooter2, notesensor);
+
   /* Autonomous Chooser */
   SendableChooser<Command> autoChooser;
 
@@ -221,6 +223,10 @@ public class RobotContainer {
     // m_operatorController.x().whileTrue());
     m_operatorController.y().whileTrue(new SetWinch(winch, WinchConstants.WINCH_POWER));
     m_operatorController.back().whileTrue(new SetWinch(winch, WinchConstants.WINCH_POWER_BOOST));
+
+    m_operatorController.rightTrigger().whileTrue(shootFromStage); // Shoot Stage
+    m_operatorController.leftTrigger().whileTrue(new SetFlywheel(shooter2, arm, ShooterConstants.FLYWHEEL_VELOCITY_STAGE)); // Lob shot
+
   };
 
   /* Use for Debugging and diagnostics purposes */
@@ -239,6 +245,9 @@ public class RobotContainer {
     SmartDashboard.putNumber("Yaw", pidgey.getYaw());
     SmartDashboard.putNumber("Angle", pidgey.getAngle());
     SmartDashboard.putNumber("Rotation2d", pidgey.Rotation2d());
+    SmartDashboard.getBoolean("Left Nominal", pidgey.isStageYawNominalLeft());
+    SmartDashboard.getBoolean("Left Nominal", pidgey.isStageYawNominalRight());
+
 
     // #endregion Testing
   }

@@ -149,13 +149,16 @@ public class ShooterSubsystem2 extends SubsystemBase{
         }
     }
 
-        public boolean isFlywheelNominalAmp() { 
+    public boolean isFlywheelNominalAmp() { 
         if (getFlywheelVelocity().getValue() >= (ShooterConstants.FLYWHEEL_AMP_MIN-0.5) && getFlywheelVelocity().getValue() <= ShooterConstants.FLYWHEEL_AMP_MAX) {
             return true;
         } else {
             return false;
         }
     }
+
+    // Check the yaw of the robot to see if its within a certain range
+    
 
     /*
     public boolean isFlywheelNominal4() {
