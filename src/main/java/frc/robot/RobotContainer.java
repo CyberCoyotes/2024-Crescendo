@@ -33,6 +33,7 @@ import frc.robot.commands.ShootWhenReadyAmp;
 import frc.robot.experimental.ShootFromStageMacro;
 import frc.robot.experimental.ShootWhenReadyAuton;
 import frc.robot.commands.IntakeIndex;
+import frc.robot.commands.IntakeIndexTimer;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Gyro;
@@ -133,6 +134,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("ShootClose", new ShootClose(arm, index, intake, shooter));
     NamedCommands.registerCommand("ShootFromStage", shootFromStage);
     NamedCommands.registerCommand("Intake", new IntakeIndex(index, intake));
+    NamedCommands.registerCommand("IntakeTimer", new IntakeIndexTimer(index, intake));
     NamedCommands.registerCommand("AutoShootWhenReady", shootWhenReadyAuton);
     NamedCommands.registerCommand("SetFlywheelToIdle", setShooterIdle);
 

@@ -2,37 +2,32 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.5543072624606802,
-      "y": 4.065180438053184
+      "x": 0.7,
+      "y": 4.34
     },
-    "rotation": 180.0
+    "rotation": 122.0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "path",
-          "data": {
-            "pathName": "S3-PoseC"
-          }
-        },
-        {
           "type": "named",
           "data": {
-            "name": "ShootClose"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "PoseC-N8Bulldoze"
+            "name": "AutoShootWhenReady"
           }
         },
         {
           "type": "parallel",
           "data": {
-            "commands": []
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "PoseC-N8Bulldoze"
+                }
+              }
+            ]
           }
         },
         {
