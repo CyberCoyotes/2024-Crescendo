@@ -245,8 +245,8 @@ public class RobotContainer {
     // Shuffleboard.getTab("Arm").add("Arm Output", arm);
 
     SmartDashboard.putNumber("Yaw", pidgey.getYaw());
-    SmartDashboard.putNumber("Angle", pidgey.getAngle());
-    SmartDashboard.putNumber("Rotation2d", pidgey.Rotation2d());
+    // SmartDashboard.putNumber("Angle", pidgey.getAngle());
+    // SmartDashboard.putNumber("Rotation2d", pidgey.Rotation2d());
     SmartDashboard.getBoolean("Left Nominal", pidgey.isStageYawNominalLeft());
     SmartDashboard.getBoolean("Left Nominal", pidgey.isStageYawNominalRight());
 
