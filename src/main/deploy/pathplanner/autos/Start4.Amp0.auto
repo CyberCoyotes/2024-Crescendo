@@ -1,0 +1,43 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.55,
+      "y": 7.6
+    },
+    "rotation": 90.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "S4-PreAmp"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "PreAmp-Amp"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AmpShot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Amp-Park"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

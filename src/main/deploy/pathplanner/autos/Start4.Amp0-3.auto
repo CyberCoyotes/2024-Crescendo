@@ -1,0 +1,68 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.55,
+      "y": 7.6
+    },
+    "rotation": 90.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "S4-PreAmp"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "PreAmp-Amp"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AmpShot"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Amp-3"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "N3Amp-PoseA"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoShootWhenReady"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

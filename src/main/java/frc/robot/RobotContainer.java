@@ -137,6 +137,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("IntakeTimer", new IntakeIndexTimer(index, intake));
     NamedCommands.registerCommand("AutoShootWhenReady", shootWhenReadyAuton);
     NamedCommands.registerCommand("SetFlywheelToIdle", setShooterIdle);
+    NamedCommands.registerCommand("AmpShot", shootWhenReadyAmp);
 
     /*
      * Auto Chooser
