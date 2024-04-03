@@ -72,4 +72,4 @@ public class ShootWhenReadyAuton_original extends Command {
         return !notesensor.isNoteLoaded();
     }
 
-} // End of AutonShootWhenReady
+} // End of AutoShootWhenReady

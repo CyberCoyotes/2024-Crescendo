@@ -10,12 +10,12 @@ import frc.robot.util.ShooterConstants;
 
 @SuppressWarnings("unused")
 
-public class ShootWhenReady extends Command {
+public class Shoot extends Command {
     private ShooterSubsystem2 shooter2; 
     private IndexSubsystem index;
     private NoteSensorSubsystem notesensor;
 
-    public ShootWhenReady(ShooterSubsystem2 shooter2, IndexSubsystem index, NoteSensorSubsystem notesensor) {
+    public Shoot(ShooterSubsystem2 shooter2, IndexSubsystem index, NoteSensorSubsystem notesensor) {
         this.shooter2 = shooter2;
         this.index = index;
         this.notesensor = notesensor;
@@ -55,4 +55,4 @@ public class ShootWhenReady extends Command {
     public boolean isFinished() {
         return false;
     }
-} // end of class ShootWhenReady
+} // end of class Shoot

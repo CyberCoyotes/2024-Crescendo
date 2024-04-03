@@ -1,7 +1,7 @@
 package frc.robot.experimental;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.ShootWhenReady;
+import frc.robot.commands.Shoot;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -14,7 +14,7 @@ public class ShootClose2 extends SequentialCommandGroup {
         addCommands(
             // Set the arm to the middle position for shooting from the closest Stage leg
             // Check target velocity and index the game piece forward
-            new ShootWhenReady(shooter2, index, notesensor).withTimeout(.75)
+            new Shoot(shooter2, index, notesensor).withTimeout(.75)
             
             // Set arm back to home position
         );
