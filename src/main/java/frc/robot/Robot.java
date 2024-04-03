@@ -10,8 +10,10 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.CvSink;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.Gyro; // Gyro added for some auton-teleop control // Added by Scoy
 
 @SuppressWarnings("unused")
@@ -82,21 +84,28 @@ public class Robot extends TimedRobot {
     }
     // Shaun's Pre-Field Additions: 4-2-24
     // Some things to try to reset the gyro
+
     // This one probably won't work; it's equivalent to Rkyer just pressing Start.
-    m_robotContainer.drivetrain.seedFieldRelative();
+    // m_robotContainer.drivetrain.seedFieldRelative();
+    
     // This one also probably won't work.
-    m_robotContainer.drivetrain.getPigeon2().setYaw(0);
+    // m_robotContainer.drivetrain.getPigeon2().setYaw(0);
+    
     // I have some hope for this!
-    m_robotContainer.drivetrain.getPigeon2().setYaw(180);
+    // m_robotContainer.drivetrain.getPigeon2().setYaw(180);
+    
     // This one is nasty, and I don't have a great understanding of it; delete this
     // method if we don't use it. It pretty much does the same as seedFieldRelative
     // but with an additional 180 degrees
-    m_robotContainer.drivetrain.saltFieldRelative();
+    // m_robotContainer.drivetrain.saltFieldRelative();
 
-  }
+  // new InstantCommand(gyro::setStartingPoseBasedOnAlliance);
+  
+}
 
   @Override
   public void teleopPeriodic() {
+    // SmartDashboard.putNumber("Gyro Pose", gyro.getYaw());
   }
 
   @Override

@@ -4,7 +4,11 @@ import com.ctre.phoenix6.configs.MountPoseConfigs;
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.hardware.Pigeon2;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import frc.robot.RobotContainer;
 
 
 @SuppressWarnings("unused")
@@ -13,15 +17,17 @@ public class Gyro {
        
     private final Pigeon2 pidgey;
 
+    private RobotContainer m_robotContainer;
+
     // TODO Keep for good Blue Alliance
-    private final double startingPose;
+    private double startingPose;
 
     public Gyro() {
         pidgey = new Pigeon2(14); // ID from Change the ID as needed
         
         // TODO Keep for good Blue Alliance
         this.startingPose = 180;
-    
+       
         // StatusSignal<Double> yawSignal;
 
         /* User can change the configs if they want, or leave it empty for factory-default */
@@ -54,7 +60,18 @@ public class Gyro {
         public double Rotation2d() {
             return pidgey.getRotation2d().getDegrees();
         }
-          
+        
+        /*
+        public void setStartingPoseBasedOnAlliance() {
+            RobotContainer robotContainer = new RobotContainer();
+            if (RobotContainer.isAllianceRed()) {
+                this.startingPose = 0;
+            } else {
+                this.startingPose = 180;
+            }
+        }
+         */
+        
         /* 
         * The Pigeon2 class has a default reset method `reset()`
         * So can it be called directly without this method?
@@ -84,11 +101,6 @@ public class Gyro {
 
         public boolean isStageYawNominalRight() {
             return getYaw() >= RIGHT_YAW_MIN && getYaw() <= RIGHT_YAW_MAX;
-        }
-
-        
-        public void periodic() {
-            SmartDashboard.putNumber("Yaw", getYaw());
         }
 
         /*
