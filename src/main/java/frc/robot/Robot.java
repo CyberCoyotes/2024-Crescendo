@@ -26,16 +26,16 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
-    //DO NOT LEAVE THIS UNCOMMENTED DURING COMPETITION
+    // DO NOT LEAVE THIS UNCOMMENTED DURING COMPETITION
     // SignalLogger.setPath("/media/sda1/");
     // SignalLogger.start();
     CameraServer.startAutomaticCapture();
     // Creates the CvSink and connects it to the UsbCamera
     CvSink cvSink = CameraServer.getVideo();
-        NetworkTableInstance.getDefault().getTable("limelight-speedy").getEntry("stream").setNumber(2);
+    NetworkTableInstance.getDefault().getTable("limelight-speedy").getEntry("stream").setNumber(2);
 
     // Creates the CvSource and MjpegServer [2] and connects them
-    
+
   }
 
   @Override
@@ -80,6 +80,19 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    // Shaun's Pre-Field Additions: 4-2-24
+    // Some things to try to reset the gyro
+    // This one probably won't work; it's equivalent to Rkyer just pressing Start.
+    m_robotContainer.drivetrain.seedFieldRelative();
+    // This one also probably won't work.
+    m_robotContainer.drivetrain.getPigeon2().setYaw(0);
+    // I have some hope for this!
+    m_robotContainer.drivetrain.getPigeon2().setYaw(180);
+    // This one is nasty, and I don't have a great understanding of it; delete this
+    // method if we don't use it. It pretty much does the same as seedFieldRelative
+    // but with an additional 180 degrees
+    m_robotContainer.drivetrain.saltFieldRelative();
+
   }
 
   @Override
