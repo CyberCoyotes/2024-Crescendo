@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.5543072624606802,
-      "y": 4.065180438053184
+      "x": 0.55,
+      "y": 7.6
     },
-    "rotation": 180.0
+    "rotation": 90.0
   },
   "command": {
     "type": "sequential",
@@ -14,36 +14,30 @@
         {
           "type": "path",
           "data": {
-            "pathName": "S3-PoseC"
+            "pathName": "S4-PreAmp"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "PreAmp-Amp"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "ShootClose"
+            "name": "AutoShootAmp"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "PoseC-N8Bulldoze"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": []
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "N8-Bulldozer"
+            "pathName": "Amp-Park"
           }
         }
       ]
     }
   },
-  "folder": "Start Position 3",
+  "folder": null,
   "choreoAuto": false
 }

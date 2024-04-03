@@ -8,66 +8,61 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.8058091143015926,
-        "y": 1.4685682323064113
+        "x": 4.361511995751264,
+        "y": 2.0429953587179908
       },
       "isLocked": false,
       "linkedName": "PoseC"
     },
     {
       "anchor": {
-        "x": 5.171577570346555,
-        "y": 0.9
+        "x": 5.9287413120280785,
+        "y": 1.6885030133696637
       },
       "prevControl": {
-        "x": 3.253141745972596,
-        "y": 0.9
+        "x": 4.5760731521463045,
+        "y": 1.539243078486157
       },
       "nextControl": {
-        "x": 6.526008362447207,
-        "y": 0.9
+        "x": 6.518181410533987,
+        "y": 1.7535446794116951
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.35,
-        "y": 0.9
+        "x": 8.307571524233957,
+        "y": 2.4348026877871947
       },
       "prevControl": {
-        "x": 7.422917684296907,
-        "y": 0.7696215392430785
+        "x": 6.423164846329692,
+        "y": 2.453460179647632
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "N8BulldozePose"
+      "linkedName": "N7"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1.0,
+      "waypointRelativePos": 0.45,
       "rotationDegrees": 180.0,
-      "rotateFast": true
-    },
-    {
-      "waypointRelativePos": 1.4,
-      "rotationDegrees": -157.61845260822227,
       "rotateFast": true
     }
   ],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 5.0,
-    "maxAcceleration": 5.0,
+    "maxVelocity": 4.0,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
-    "velocity": 2.0,
+    "velocity": 0,
     "rotation": 180.0,
-    "rotateFast": true
+    "rotateFast": false
   },
   "reversed": false,
   "folder": null,

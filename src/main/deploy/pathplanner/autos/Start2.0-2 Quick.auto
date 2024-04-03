@@ -20,7 +20,7 @@
         {
           "type": "named",
           "data": {
-            "name": "ShootWhenReady"
+            "name": "AutoShoot"
           }
         },
         {
@@ -45,7 +45,7 @@
         {
           "type": "named",
           "data": {
-            "name": "ShootFromStage"
+            "name": "AutoShootStage"
           }
         }
       ]

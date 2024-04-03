@@ -7,11 +7,11 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.NoteSensorSubsystem;
 import frc.robot.subsystems.ShooterSubsystem2;
 
-public class ShootWhenReadyAuton extends SequentialCommandGroup {
-    public ShootWhenReadyAuton (ArmSubsystem arm, IndexSubsystem index, IntakeSubsystem intake, ShooterSubsystem2 shooter2, NoteSensorSubsystem notesensor) {
+public class AutoShoot extends SequentialCommandGroup {
+    public AutoShoot (ArmSubsystem arm, IndexSubsystem index, IntakeSubsystem intake, ShooterSubsystem2 shooter2, NoteSensorSubsystem notesensor) {
 
         addCommands(
-            new ShootWhenReady(shooter2, index, notesensor).withTimeout(1.0)
+            new Shoot(shooter2, index, notesensor).withTimeout(1.0)
         );
     }
 }

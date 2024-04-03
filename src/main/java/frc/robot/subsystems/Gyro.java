@@ -4,6 +4,8 @@ import com.ctre.phoenix6.configs.MountPoseConfigs;
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.hardware.Pigeon2;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 @SuppressWarnings("unused")
 
@@ -11,11 +13,13 @@ public class Gyro {
        
     private final Pigeon2 pidgey;
 
+    // TODO Keep for good Blue Alliance
     private final double startingPose;
 
     public Gyro() {
         pidgey = new Pigeon2(14); // ID from Change the ID as needed
         
+        // TODO Keep for good Blue Alliance
         this.startingPose = 180;
     
         // StatusSignal<Double> yawSignal;
@@ -57,16 +61,42 @@ public class Gyro {
         * Maybe, but not 100% sure
         */
 
-
+/*
         public void setAutonStartingPose(double startingPose) {
             pidgey.setYaw(startingPose);
         }
-
-                
+ */
+/*               
         public void setAutonStartingPose180(double startingPose) {
             pidgey.setYaw(180);
         }
+ */
+        public double STAGE_YAW_RANGE = 5;
+        public double LEFT_YAW_MIN = 142;
+        public double LEFT_YAW_MAX = 148;
 
+        public double RIGHT_YAW_MIN = 312;
+        public double RIGHT_YAW_MAX = 318;
+
+        public boolean isStageYawNominalLeft() {
+            return getYaw() >= LEFT_YAW_MIN && getYaw() <= LEFT_YAW_MAX;
+        }
+
+        public boolean isStageYawNominalRight() {
+            return getYaw() >= RIGHT_YAW_MIN && getYaw() <= RIGHT_YAW_MAX;
+        }
+
+        
+        public void periodic() {
+            SmartDashboard.putNumber("Yaw", getYaw());
+        }
+
+        /*
+         @Override
+        public void robotPeriodic() {
+            gyro.periodic();
+        }
+         */
 
 
     } // end of class Gyro

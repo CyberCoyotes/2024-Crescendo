@@ -27,12 +27,10 @@ import frc.robot.commands.SetArmClimb;
 import frc.robot.commands.SetIndex;
 import frc.robot.commands.SetFlywheel;
 import frc.robot.commands.SetWinch;
-import frc.robot.commands.ShootClose;
-import frc.robot.commands.ShootFromStage;
-import frc.robot.commands.ShootWhenReady;
-import frc.robot.commands.ShootWhenReady2;
-import frc.robot.commands.ShootWhenReadyAmp;
-import frc.robot.commands.ShootWhenReadyAuton;
+import frc.robot.commands.Shoot;
+import frc.robot.commands.AutoShoot;
+import frc.robot.commands.ShootAmp;
+import frc.robot.commands.ShootStage;
 import frc.robot.commands.IntakeIndex;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -49,6 +47,11 @@ import frc.robot.util.TunerConstants;
 import frc.robot.util.WinchConstants;
 import frc.robot.subsystems.ShooterSubsystem2;
 import frc.robot.subsystems.NoteSensorSubsystem;
+import frc.robot.experimental.AutoShootAmp;
+import frc.robot.experimental.AutoShootStage;
+import frc.robot.experimental.AutoShootStage2;
+import frc.robot.experimental.IntakeIndexSmartTimer;
+import frc.robot.experimental.IntakeIndexTimer;
 
 // Getting rid of the soft unused warnings
 @SuppressWarnings("unused")
@@ -106,21 +109,15 @@ public class RobotContainer {
   // Only Sets the flywheel to idle velocity, no index
   private final SetFlywheel setShooterIdle = new SetFlywheel(shooter2, arm, ShooterConstants.FLYWHEEL_IDLE_VELOCITY);
 
-  // An updated version of the RevAndShootCommand
-  private final ShootWhenReady shootWhenReady = new ShootWhenReady(shooter2, index, notesensor);
+  private final Shoot shoot = new Shoot(shooter2, index, notesensor);
+  private final ShootAmp shootAmp = new ShootAmp(shooter2, index, notesensor);
+  private final ShootStage shootStage = new ShootStage(shooter2, index, notesensor);
 
-  // An updated version of the RevAndShootCommand
-  private final ShootWhenReadyAmp shootWhenReadyAmp = new ShootWhenReadyAmp(shooter2, index, notesensor);
-
-  // Current work around uses a version of `ShootWhenReady` in command group
-  // Autonomous version of the Shoot When Ready command that adds notesensor
-  // checks for ending the command
-  private final ShootWhenReadyAuton shootWhenReadyAuton = new ShootWhenReadyAuton(arm, index, intake, shooter2,
-      notesensor);
-
-  // TODO Test Shoot from stage command. If it works, add to auton
-  private final ShootFromStage shootFromStage = new ShootFromStage(arm, index, intake, shooter2, notesensor);
-
+  /* Auton Specific Commands */
+  private final AutoShoot autoShoot = new AutoShoot(arm, index, intake, shooter2, notesensor);
+  private final AutoShootAmp autoShootAmp = new AutoShootAmp(shooter2, index, notesensor);
+  private final AutoShootStage autoShootStage = new AutoShootStage(arm, index, intake, notesensor, shooter2);
+  
   /* Autonomous Chooser */
   SendableChooser<Command> autoChooser;
 
@@ -129,11 +126,12 @@ public class RobotContainer {
     Limelight lime = new Limelight();
 
     /* Pathplanner Named Commands */
-    NamedCommands.registerCommand("ShootClose", new ShootClose(arm, index, intake, shooter));
-    NamedCommands.registerCommand("ShootFromStage", shootFromStage);
+    NamedCommands.registerCommand("AutoShoot", autoShoot); // AutoShootWhenReady --> AutoShoot
+    NamedCommands.registerCommand("AutoShootAmp", autoShootAmp); // shootWhenReadyAmp --> autoShootAmp 
+    NamedCommands.registerCommand("AutoShootStage", autoShootStage);
     NamedCommands.registerCommand("Intake", new IntakeIndex(index, intake));
-    NamedCommands.registerCommand("AutoShootWhenReady", shootWhenReadyAuton);
-    NamedCommands.registerCommand("SetFlywheelToIdle", setShooterIdle);
+    NamedCommands.registerCommand("IntakeTimer", new IntakeIndexTimer(index, intake));
+    NamedCommands.registerCommand("IntakeSmartTimer", new IntakeIndexSmartTimer(index, intake));
 
     /*
      * Auto Chooser
@@ -212,10 +210,9 @@ public class RobotContainer {
 
     m_driverController.rightBumper().whileTrue(new IntakeCommandGroup(index, intake));
     m_driverController.leftBumper().whileTrue(new IntakeRevCommandGroup(index, intake));
-
-    m_driverController.rightTrigger().whileTrue(shootWhenReady);
-    m_driverController.leftTrigger().whileTrue(shootWhenReadyAmp);
-
+    
+    m_driverController.rightTrigger().whileTrue(shoot);
+    m_driverController.leftTrigger().whileTrue(shootAmp);
     // m_driverController.leftTrigger().whileTrue(new SetIndex(index, -0.75));
 
     /* OPERATOR BINDINGS */
@@ -225,6 +222,10 @@ public class RobotContainer {
     // m_operatorController.x().whileTrue());
     m_operatorController.y().whileTrue(new SetWinch(winch, WinchConstants.WINCH_POWER));
     m_operatorController.back().whileTrue(new SetWinch(winch, WinchConstants.WINCH_POWER_BOOST));
+
+    m_operatorController.rightTrigger().whileTrue(shootStage); // Shoot Stage
+    m_operatorController.leftTrigger().whileTrue(new SetFlywheel(shooter2, arm, ShooterConstants.FLYWHEEL_VELOCITY_STAGE)); // Lob shot
+
   };
 
   /* Use for Debugging and diagnostics purposes */
@@ -241,8 +242,11 @@ public class RobotContainer {
     // Shuffleboard.getTab("Arm").add("Arm Output", arm);
 
     SmartDashboard.putNumber("Yaw", pidgey.getYaw());
-    SmartDashboard.putNumber("Angle", pidgey.getAngle());
-    SmartDashboard.putNumber("Rotation2d", pidgey.Rotation2d());
+    // SmartDashboard.putNumber("Angle", pidgey.getAngle());
+    // SmartDashboard.putNumber("Rotation2d", pidgey.Rotation2d());
+    SmartDashboard.getBoolean("Left Nominal", pidgey.isStageYawNominalLeft());
+    SmartDashboard.getBoolean("Left Nominal", pidgey.isStageYawNominalRight());
+
 
     // #endregion Testing
   }

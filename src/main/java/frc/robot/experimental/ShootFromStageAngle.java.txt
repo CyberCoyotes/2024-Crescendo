@@ -1,0 +1,47 @@
+/* Taxi and Dock; PathPlanner based drive */
+
+package frc.robot.experimental;
+
+import java.util.List;
+
+import com.pathplanner.lib.path.PathPlannerTrajectory;
+import com.pathplanner.lib.path.PathConstraints;
+import com.pathplanner.lib.path.PathPlannerPath;
+
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.RobotContainer;
+import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.IndexSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ShooterSubsystem2;
+
+public class AutoShootStageAngle extends SequentialCommandGroup
+{
+    private CommandSwerveDrivetrain m_drive;
+    private ArmSubsystem m_arm;
+    private IndexSubsystem m_index;
+    private IntakeSubsystem m_intake;
+    private ShooterSubsystem2 m_shooter2;
+
+
+    public AutoShootStageAngle(CommandSwerveDrivetrain drive, ArmSubsystem arm, IndexSubsystem index, IntakeSubsystem intake, ShooterSubsystem2 shooter2) {
+
+            this.m_arm = arm; 
+            this.m_intake = intake;
+            this.m_index = index;
+            this.m_shooter2 = shooter2;
+            this.m_drive = drive;
+            
+        List<PathPlannerTrajectory> AutoShootStageAngle = PathPlannerPath.loadPathGroup("AutoShootStage", new PathConstraints(4, 1));
+    
+            addRequirements();
+
+        addCommands(
+            new CubeLowCG(arm, extend, wrist, intake).withTimeout(1.0),
+            
+            // RobotContainer.buildAuton(taxiDock)
+
+        );
+    }
+}

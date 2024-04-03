@@ -2,19 +2,19 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.45,
-      "y": 4.15
+      "x": 0.7,
+      "y": 4.34
     },
-    "rotation": 180.0
+    "rotation": 122.0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "wait",
           "data": {
-            "pathName": "S3-PoseC"
+            "waitTime": 0.01
           }
         },
         {
@@ -36,7 +36,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "PoseC-N1"
+                  "pathName": "PoseC-N7"
                 }
               }
             ]
@@ -45,19 +45,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "N1-PoseC"
+            "pathName": "N7-PoseStage"
           }
         },
         {
           "type": "named",
           "data": {
             "name": "AutoShoot"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "PoseC-Approach8"
           }
         },
         {
@@ -73,22 +67,10 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Approach8-N8"
+                  "pathName": "Stage-N6"
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "N8-PoseC"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoShoot"
           }
         }
       ]
