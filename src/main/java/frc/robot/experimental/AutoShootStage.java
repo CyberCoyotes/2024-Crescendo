@@ -1,21 +1,22 @@
-package frc.robot.commands;
+package frc.robot.experimental;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IndexSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem2;
-import frc.robot.util.Constants;
 import frc.robot.util.IndexConstants;
 import frc.robot.subsystems.NoteSensorSubsystem;
 import frc.robot.util.ShooterConstants;
 
 @SuppressWarnings("unused")
 
-public class ShootWhenReadyAmp extends Command {
+public class AutoShootStage extends Command {
     private ShooterSubsystem2 shooter2; 
     private IndexSubsystem index;
     private NoteSensorSubsystem notesensor;
 
-    public ShootWhenReadyAmp(ShooterSubsystem2 shooter2, IndexSubsystem index, NoteSensorSubsystem notesensor) {
+    public AutoShootStage(ArmSubsystem arm, IndexSubsystem index, IntakeSubsystem intake, NoteSensorSubsystem notesensor, ShooterSubsystem2 shooter2) {
         this.shooter2 = shooter2;
         this.index = index;
         this.notesensor = notesensor;
@@ -36,9 +37,9 @@ public class ShootWhenReadyAmp extends Command {
         * Else, setPower of Index to zero and continue running the flywheel until `isFlywheelNominal` is true
          */
 
-        shooter2.setFlywheelVelocityAmp(ShooterConstants.FLYWHEEL_VELOCITY_AMP);
+        shooter2.setFlywheelVelocity(ShooterConstants.FLYWHEEL_VELOCITY_STAGE);
 
-        if (shooter2.isFlywheelNominalAmp()) {
+        if (shooter2.isFlywheelNominal()) {
             index.setIndexPower(IndexConstants.INDEX_POWER);
         } else {
             index.stopIndexing();

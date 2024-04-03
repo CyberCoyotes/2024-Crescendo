@@ -15,7 +15,7 @@ public class ShootClose2 extends SequentialCommandGroup{
 
         addCommands(
             new SetArmPosition(arm, ArmConstants.ARM_HOME_POSE),
-            new ShootWhenReady(shooter2, index, notesensor)
+            new AutoShoot(shooter2, index, notesensor)
 
         );
     }

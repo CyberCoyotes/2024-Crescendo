@@ -7,8 +7,8 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystemVelocity;
 import frc.robot.util.ArmConstants;
 
-public class ShootClose extends SequentialCommandGroup {
-    public ShootClose(ArmSubsystem arm, IndexSubsystem index, IntakeSubsystem intake, ShooterSubsystemVelocity shooter) {
+public class ShootCloseAuton extends SequentialCommandGroup {
+    public ShootCloseAuton(ArmSubsystem arm, IndexSubsystem index, IntakeSubsystem intake, ShooterSubsystemVelocity shooter) {
 
         addCommands(
             /* Moving the arm is shouldn't be necessary, but just in case */
