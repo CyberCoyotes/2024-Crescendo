@@ -25,7 +25,8 @@ public class Gyro {
     public Gyro() {
         pidgey = new Pigeon2(14); // ID from Change the ID as needed
         
-        // TODO Keep for good Blue Alliance
+        // TODO Set to "180" for good Blue Alliance
+        // Set to "0" for Red Alliance
         this.startingPose = 180;
        
         // StatusSignal<Double> yawSignal;
