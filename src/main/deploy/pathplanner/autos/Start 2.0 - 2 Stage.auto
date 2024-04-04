@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.45,
-      "y": 4.15
+      "x": 1.3,
+      "y": 5.65
     },
     "rotation": 180.0
   },
@@ -14,25 +14,13 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.5
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "S3-PoseC"
+            "waitTime": 0.0
           }
         },
         {
           "type": "named",
           "data": {
             "name": "AutoShoot"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "PoseC-Approach8"
           }
         },
         {
@@ -48,27 +36,21 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "PoseC-N8"
+                  "pathName": "S2-0-2"
                 }
               }
             ]
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "N8-PoseC"
-          }
-        },
-        {
           "type": "named",
           "data": {
-            "name": "AutoShoot"
+            "name": "AutoShootStage"
           }
         }
       ]
     }
   },
-  "folder": "Start Position 3",
+  "folder": "Start 2",
   "choreoAuto": false
 }

@@ -2,19 +2,19 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.45,
-      "y": 7.0
+      "x": 0.7,
+      "y": 4.34
     },
-    "rotation": 180.0
+    "rotation": 122.0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "wait",
           "data": {
-            "pathName": "S1-PoseA"
+            "waitTime": 0.01
           }
         },
         {
@@ -36,7 +36,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "PoseA-N3"
+                  "pathName": "PoseC-N7"
                 }
               }
             ]
@@ -45,18 +45,37 @@
         {
           "type": "path",
           "data": {
-            "pathName": "N3-N3Quick"
+            "pathName": "N7-PoseStage"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "AutoShootStage"
+            "name": "AutoShoot"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Stage-N6"
+                }
+              }
+            ]
           }
         }
       ]
     }
   },
-  "folder": "Start Position 1",
+  "folder": "Start 3",
   "choreoAuto": false
 }

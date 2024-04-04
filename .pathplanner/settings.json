@@ -6,9 +6,10 @@
     "Experimental"
   ],
   "autoFolders": [
-    "Start Position 3",
-    "Start Position 1",
-    "Start Position 2"
+    "Start 4",
+    "Start 1",
+    "Start 2",
+    "Start 3"
   ],
   "defaultMaxVel": 4.0,
   "defaultMaxAccel": 4.0,

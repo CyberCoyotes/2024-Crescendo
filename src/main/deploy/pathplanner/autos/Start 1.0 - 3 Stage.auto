@@ -45,55 +45,18 @@
         {
           "type": "path",
           "data": {
-            "pathName": "N3-PoseA"
+            "pathName": "N3-N3Quick"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "AutoShoot"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.1
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "PoseA-N4"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "N4-PoseA"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoShoot"
+            "name": "AutoShootStage"
           }
         }
       ]
     }
   },
-  "folder": "Start Position 1",
+  "folder": "Start 1",
   "choreoAuto": false
 }

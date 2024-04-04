@@ -2,25 +2,31 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3,
-      "y": 5.65
+      "x": 0.55,
+      "y": 7.6
     },
-    "rotation": 180.0
+    "rotation": 90.0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "wait",
+          "type": "path",
           "data": {
-            "waitTime": 0.01
+            "pathName": "S4-PreAmp"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "PreAmp-Amp"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "AutoShoot"
+            "name": "AutoShootAmp"
           }
         },
         {
@@ -36,7 +42,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "S2-0-2"
+                  "pathName": "Amp-3"
                 }
               }
             ]
@@ -45,49 +51,24 @@
         {
           "type": "path",
           "data": {
-            "pathName": "N2-PoseB"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoShoot"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "PoseB-N1"
-                }
-              }
-            ]
+            "pathName": "N3-PreAmp"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "N1-PoseB"
+            "pathName": "PreAmp-Amp"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "AutoShoot"
+            "name": "AutoShootAmp"
           }
         }
       ]
     }
   },
-  "folder": "Start Position 2",
+  "folder": "Start 4",
   "choreoAuto": false
 }
