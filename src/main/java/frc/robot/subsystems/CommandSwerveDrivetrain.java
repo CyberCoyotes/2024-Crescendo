@@ -68,8 +68,7 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 
         AutoBuilder.configureHolonomic(
                 () -> this.getState().Pose,
-                this::seedFieldRelative, // TODO This probably has something to do with the robot's orientation AFTER
-                                         // the end of auton.
+                this::seedFieldRelative,
                 this::getCurrentRobotChassisSpeeds,
                 (speeds) -> this.setControl(autoRequest.withSpeeds(speeds)),
                 new HolonomicPathFollowerConfig(new PIDConstants(10, 0, 0),

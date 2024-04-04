@@ -2,14 +2,13 @@ package frc.robot.util;
 
 public class ShooterConstants {
     
-    // TODO Tune the flysheel/shooter velocity value as needed
     public static final double FLYWHEEL_VELOCITY = 100; // rotations per second (rps) // 100
     public static final double FLYWHEEL_VELOCITY_STAGE = 120; // Greater than regular
     public static final double FLYWHEEL_VELOCITY_AMP = 30; // Slower than regular
     public static final double FLYWHEEL_IDLE_VELOCITY = FLYWHEEL_VELOCITY * 0.30; // 30% of max speed
     public static final double FLYWHEEL_MARGIN_ERROR = FLYWHEEL_VELOCITY * 0.10; // 5% of max speed
 
-    /*  TODO Tune this value for nominal flywheel velocity checks
+    /*  Tune this value for nominal flywheel velocity checks
     This value is NOT the same as the FLYWHEEL_VELOCITY value and was determined empirically
     using Phoenix Tuner and the velocity measurement.
     */

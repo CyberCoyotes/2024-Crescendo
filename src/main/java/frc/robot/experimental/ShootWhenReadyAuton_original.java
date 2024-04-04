@@ -40,7 +40,7 @@ public class ShootWhenReadyAuton_original extends Command {
         if (shooter2.isFlywheelNominal() && notesensor.isNoteLoaded()) {
     
             // If the flywheel is at target velocity AND a game piece is loaded, index the game piece forward into the flywheel
-             index.setIndexPower(IndexConstants.INDEX_POWER); // FIXME index turns off before it can index the game piece
+             index.setIndexPower(IndexConstants.INDEX_POWER); // index turns off before it can index the game piece
 
         } else {
             // Stop the indexer and continue to power the flywheel

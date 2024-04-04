@@ -192,7 +192,6 @@ public class RobotContainer {
      * -m_driverController.getLeftX()))));
      */
 
-    // FIXME automate this at the start of teleop
     /*
      * This button does nothing UNLESS the robot is manual rotated in teleop
      * to the proper "forward" position. THEN and ONLY THEN, the button can be
@@ -224,7 +223,7 @@ public class RobotContainer {
     m_operatorController.back().whileTrue(new SetWinch(winch, WinchConstants.WINCH_POWER_BOOST));
 
     m_operatorController.rightTrigger().whileTrue(shootStage); // Shoot Stage
-    m_operatorController.leftTrigger().whileTrue(new SetFlywheel(shooter2, arm, ShooterConstants.FLYWHEEL_VELOCITY_STAGE)); // Lob shot
+    // m_operatorController.leftTrigger().whileTrue(new SetFlywheel(shooter2, arm, ShooterConstants.FLYWHEEL_VELOCITY_STAGE)); // Lob shot
 
   };
 
