@@ -3,6 +3,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.ShooterSubsystem2;
+import frc.robot.util.Constants;
 import frc.robot.util.IndexConstants;
 import frc.robot.subsystems.NoteSensorSubsystem;
 import frc.robot.util.ShooterConstants;
@@ -41,7 +42,6 @@ public class ShootStage extends Command {
             index.setIndexPower(IndexConstants.INDEX_POWER);
         } else {
             index.stopIndexing();
-            // shooter2.setFlywheelVelocity(shooter2.FLYWHEEL_VELOCITY);
         }
     }
 

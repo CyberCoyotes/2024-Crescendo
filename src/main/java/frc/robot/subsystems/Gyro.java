@@ -24,12 +24,14 @@ public class Gyro {
     public Gyro() {
         pidgey = new Pigeon2(14); // ID from Change the ID as needed
 
-        // TODO Set to "180" for good Blue Alliance
-        // Set to "0" for Red Alliance
+        // this.startingPose = 180; // TODO Blue Alliance
+        this.startingPose = 0; // TODO Red Alliance
+
         // if (DriverStation.getAlliance()) {
 
             //From Shaun - Before placement matches. Untested, as of 4:31 PM. 
         // check if we're Red
+        /* 
         if (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red) {
             this.startingPose = 0;
 
@@ -37,6 +39,7 @@ public class Gyro {
             this.startingPose = 180;
 
         }
+        */
 
         // StatusSignal<Double> yawSignal;
 

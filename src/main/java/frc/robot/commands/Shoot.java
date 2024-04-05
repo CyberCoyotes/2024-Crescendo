@@ -42,7 +42,6 @@ public class Shoot extends Command {
             index.setIndexPower(IndexConstants.INDEX_POWER);
         } else {
             index.stopIndexing();
-            // shooter2.setFlywheelVelocity(shooter2.FLYWHEEL_VELOCITY);
         }
     }
 
