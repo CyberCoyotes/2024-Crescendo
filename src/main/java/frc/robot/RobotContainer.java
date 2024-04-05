@@ -129,7 +129,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("AutoShoot", autoShoot); // AutoShootWhenReady --> AutoShoot
     NamedCommands.registerCommand("AutoShootAmp", autoShootAmp); // shootWhenReadyAmp --> autoShootAmp 
     NamedCommands.registerCommand("AutoShootStage", autoShootStage);
-    NamedCommands.registerCommand("Intake", new IntakeIndex(index, intake));
+    NamedCommands.registerCommand("Intake", new IntakeIndex(index, intake, notesensor));
     NamedCommands.registerCommand("IntakeTimer", new IntakeIndexTimer(index, intake));
     NamedCommands.registerCommand("IntakeSmartTimer", new IntakeIndexSmartTimer(index, intake));
 
@@ -240,11 +240,11 @@ public class RobotContainer {
     // arm.showArmTelemetry("Driver Diagnostics");
     // Shuffleboard.getTab("Arm").add("Arm Output", arm);
 
-    SmartDashboard.putNumber("Yaw", pidgey.getYaw());
+    // SmartDashboard.putNumber("Yaw", pidgey.getYaw());
     // SmartDashboard.putNumber("Angle", pidgey.getAngle());
     // SmartDashboard.putNumber("Rotation2d", pidgey.Rotation2d());
-    SmartDashboard.getBoolean("Left Nominal", pidgey.isStageYawNominalLeft());
-    SmartDashboard.getBoolean("Left Nominal", pidgey.isStageYawNominalRight());
+    // SmartDashboard.getBoolean("Left Nominal", pidgey.isStageYawNominalLeft());
+    // SmartDashboard.getBoolean("Left Nominal", pidgey.isStageYawNominalRight());
 
 
     // #endregion Testing
