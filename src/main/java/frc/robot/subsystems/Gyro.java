@@ -102,6 +102,8 @@ public class Gyro {
      * pidgey.setYaw(180);
      * }
      */
+    
+     /* Half hearted attempt at using yaw for stage line up shot
     public double STAGE_YAW_RANGE = 5;
     public double LEFT_YAW_MIN = 142;
     public double LEFT_YAW_MAX = 148;
@@ -116,6 +118,7 @@ public class Gyro {
     public boolean isStageYawNominalRight() {
         return getYaw() >= RIGHT_YAW_MIN && getYaw() <= RIGHT_YAW_MAX;
     }
+     */
 
     /*
      * @Override
