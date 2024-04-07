@@ -81,7 +81,14 @@ public class ShooterSubsystem2 extends SubsystemBase{
 
     public void setFlywheelVelocityAmp(double velocity) {
         m_primaryMotor.setControl(m_velocityVoltage.withVelocity(velocity));
-        m_secondaryMotor.setControl(m_velocityVoltage.withVelocity(velocity*0.80));
+        m_secondaryMotor.setControl(m_velocityVoltage.withVelocity(velocity*0.60));
+        /* 
+            | 0.80 |   Worked at practice field, not event
+            | 0.70 |
+            | 0.60 |
+            | 0.50 |
+            | 0.40 |
+         */
     }
 
     public void setFlywheelToIdle() {
