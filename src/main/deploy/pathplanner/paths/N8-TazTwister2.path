@@ -1,0 +1,83 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 8.35,
+        "y": 0.9
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 8.35,
+        "y": 1.7999999999999998
+      },
+      "isLocked": false,
+      "linkedName": "N8BulldozePose"
+    },
+    {
+      "anchor": {
+        "x": 8.35,
+        "y": 7.0
+      },
+      "prevControl": {
+        "x": 8.35,
+        "y": 5.761926162634833
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "N8Push"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.3,
+      "rotationDegrees": -58.0,
+      "rotateFast": true
+    },
+    {
+      "waypointRelativePos": 0.55,
+      "rotationDegrees": 122.0,
+      "rotateFast": true
+    },
+    {
+      "waypointRelativePos": 0.85,
+      "rotationDegrees": -58.0,
+      "rotateFast": true
+    },
+    {
+      "waypointRelativePos": 0.4,
+      "rotationDegrees": 0,
+      "rotateFast": false
+    },
+    {
+      "waypointRelativePos": 0.65,
+      "rotationDegrees": 180.0,
+      "rotateFast": false
+    },
+    {
+      "waypointRelativePos": 0.85,
+      "rotationDegrees": 0,
+      "rotateFast": false
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 5.0,
+    "maxAcceleration": 5.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0.0,
+    "rotation": 122.0,
+    "rotateFast": true
+  },
+  "reversed": false,
+  "folder": null,
+  "previewStartingState": {
+    "rotation": -139.28587887263313,
+    "velocity": 0
+  },
+  "useDefaultConstraints": false
+}
