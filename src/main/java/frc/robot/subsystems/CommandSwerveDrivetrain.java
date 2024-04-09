@@ -15,8 +15,10 @@ import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.RobotContainer;
@@ -32,6 +34,14 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
     private Notifier m_simNotifier = null;
     private double m_lastSimTime;
 
+    private final Rotation2d BlueAlliancePerspectiveRotation = Rotation2d.fromDegrees(0);
+    
+    private final Rotation2d RedAllliancePerspectiveRotation = Rotation2d.fromDegrees(180);
+
+    private boolean hasAppliedOperatorPerspective = false;
+
+
+    // TODO Shaun?
     public void saltFieldRelative() {
         try {
             m_stateLock.writeLock().lock();
@@ -109,4 +119,16 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
         m_simNotifier.startPeriodic(kSimLoopPeriod);
     }
 
-}
+    @Override
+    public void periodic() {
+        if (!hasAppliedOperatorPerspective || DriverStation.isDisabled()) {
+            DriverStation.getAlliance().ifPresent((allianceColor) -> {
+                this.setOperatorPerspectiveForward(
+                    allianceColor == Alliance.Red ? RedAllliancePerspectiveRotation
+                    : BlueAlliancePerspectiveRotation);
+                    hasAppliedOperatorPerspective = true;
+        });
+     }
+    }
+
+} // end of class
