@@ -41,7 +41,8 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
     private boolean hasAppliedOperatorPerspective = false;
 
 
-    // TODO Shaun?
+    // 
+    /*
     public void saltFieldRelative() {
         try {
             m_stateLock.writeLock().lock();
@@ -49,7 +50,7 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
         } finally {
             m_stateLock.writeLock().unlock();
         }
-    }
+    }*/
 
     private final SwerveRequest.ApplyChassisSpeeds autoRequest = new SwerveRequest.ApplyChassisSpeeds();
 

@@ -18,14 +18,13 @@ public class Gyro {
 
     private RobotContainer m_robotContainer;
 
-    // TODO Keep for good Blue Alliance
-    private double startingPose;
+    // private double startingPose;
 
     public Gyro() {
         pidgey = new Pigeon2(14); // ID from Change the ID as needed
 
-        // this.startingPose = 180; // TODO Blue Alliance
-        this.startingPose = 0; // TODO Red Alliance
+        // this.startingPose = 180; // Blue Alliance
+        // this.startingPose = 0; // Red Alliance
 
         // if (DriverStation.getAlliance()) {
 
