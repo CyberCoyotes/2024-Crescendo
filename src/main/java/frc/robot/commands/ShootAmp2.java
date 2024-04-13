@@ -7,10 +7,10 @@ import frc.robot.subsystems.ShooterSubsystem2;
 import frc.robot.util.IndexConstants;
 import frc.robot.util.ShooterConstants;
 
-/* A command that turns on the flywheel with a method `setFlywheelVelocityAmp` with a value of `FLYWHEEL_VELOCITY_AMP` 
- * After a 0.5 delay, the command then runs the method `setIndexPower` to advance the game piece forward
- * 
+/* A command that turns on the flywheel with the method `setFlywheelVelocityAmp` with a value of `FLYWHEEL_VELOCITY_AMP` 
+ * After a 500ms delay, the command then runs the method `setIndexPower` to advance the game piece forward into the flywheel-shooter
  */
+
 public class ShootAmp2 extends Command {
     private ShooterSubsystem2 shooter2; 
     private IndexSubsystem index;
@@ -38,7 +38,8 @@ public class ShootAmp2 extends Command {
 
     @Override
     public boolean isFinished() {
-        return false;
+        return (notesensor.isNoteLoaded());
+        // return false; // default command and will run until interrupted by not pressing a button-trigger
     }
 
     @Override
