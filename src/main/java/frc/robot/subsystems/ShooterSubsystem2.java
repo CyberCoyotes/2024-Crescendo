@@ -81,7 +81,7 @@ public class ShooterSubsystem2 extends SubsystemBase{
 
     public void setFlywheelVelocityAmp(double velocity) {
         m_primaryMotor.setControl(m_velocityVoltage.withVelocity(velocity));
-        m_secondaryMotor.setControl(m_velocityVoltage.withVelocity(velocity*0.40)); 
+        m_secondaryMotor.setControl(m_velocityVoltage.withVelocity(velocity*0.0)); 
         // TODO Tune the Amp speed difference
         /* 
             | 0.80 |   Worked at practice field, not event
@@ -158,7 +158,10 @@ public class ShooterSubsystem2 extends SubsystemBase{
     }
 
     public boolean isFlywheelNominalAmp() { 
-        if (getFlywheelVelocity().getValue() >= (ShooterConstants.FLYWHEEL_AMP_MIN-0.5) && getFlywheelVelocity().getValue() <= ShooterConstants.FLYWHEEL_AMP_MAX) {
+        if (getFlywheelVelocity().getValue() >= 
+            (ShooterConstants.FLYWHEEL_AMP_MIN)) // Removed the upper limit check
+            // && getFlywheelVelocity().getValue() <= ShooterConstants.FLYWHEEL_AMP_MAX) 
+            {
             return true;
         } else {
             return false;
@@ -183,8 +186,8 @@ public class ShooterSubsystem2 extends SubsystemBase{
         // super.periodic(); // Suggested by VSCode
         // SmartDashboard.putBoolean("Flywheel 1.0 version", isFlywheelNominal());
         // SmartDashboard.putBoolean("Flywheel 2.0 version", isFlywheelNominal2());
-        SmartDashboard.putBoolean("Flywheel 3.0 version", isFlywheelNominal());
-        // SmartDashboard.putBoolean("Flywheel 4.0 version", isFlywheelNominal4());
+        SmartDashboard.putBoolean("Flywheel Nominal", isFlywheelNominal());
+        SmartDashboard.putBoolean("Amp Nom", isFlywheelNominalAmp());
         SmartDashboard.putNumber("RIGHT Flywheel Velocity", getFlywheelVelocity().getValue());
         SmartDashboard.putNumber("LEFT Flywheel Velocity", getFlywheelVelocitySecondary().getValue());
         SmartDashboard.putNumber("AVE Flywheel Velocity", getFlywheelVelocityAverage());

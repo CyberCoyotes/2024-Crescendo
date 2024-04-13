@@ -8,8 +8,9 @@ public class ShooterConstants {
     // TODO Tune the top amp Slower than regular // 30 is not enough
     /* 
      * 30 is too low
-     * 35 is 50% close
-     * 
+     * 35 is too low
+     * 40
+     * 42
     */
     public static final double FLYWHEEL_IDLE_VELOCITY = FLYWHEEL_VELOCITY * 0.30; // 30% of max speed
     public static final double FLYWHEEL_MARGIN_ERROR = FLYWHEEL_VELOCITY * 0.10; // 5% of max speed

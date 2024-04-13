@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.experimental;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IndexSubsystem;
@@ -25,13 +25,13 @@ public class ShootAmp2 extends Command {
 
     @Override
     public void initialize() {
-        shooter2.setFlywheelVelocityAmp(ShooterConstants.FLYWHEEL_VELOCITY_AMP);
-        withTimeout(600);
-        index.setIndexPower(IndexConstants.INDEX_POWER);
+
     }
 
     @Override
     public void execute() {
+        shooter2.setFlywheelVelocityAmp(ShooterConstants.FLYWHEEL_VELOCITY_AMP);
+        index.setIndexPower(IndexConstants.INDEX_POWER);        
     }
 
 
