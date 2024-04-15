@@ -31,8 +31,6 @@ import frc.robot.commands.Shoot;
 import frc.robot.commands.AutoShoot;
 import frc.robot.commands.AutoShootAmp;
 import frc.robot.commands.ShootAmp;
-import frc.robot.experimental.ShootAmp2;
-import frc.robot.experimental.ShootAmp3;
 
 import frc.robot.commands.ShootStage;
 import frc.robot.commands.IntakeIndex;

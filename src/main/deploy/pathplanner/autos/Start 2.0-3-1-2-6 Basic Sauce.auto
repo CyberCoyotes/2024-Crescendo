@@ -105,34 +105,15 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "AutoArmMid"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "N2-PoseE"
-                }
-              }
-            ]
+            "pathName": "N2-PoseB"
           }
         },
         {
           "type": "named",
           "data": {
             "name": "AutoShoot"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoArmHome"
           }
         },
         {
@@ -148,7 +129,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "PoseE-N6"
+                  "pathName": "PoseB-N6"
                 }
               }
             ]
