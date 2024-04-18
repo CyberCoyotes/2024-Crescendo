@@ -81,7 +81,7 @@ public class ShooterSubsystem2 extends SubsystemBase{
 
     public void setFlywheelVelocityAmp(double velocity) {
         m_primaryMotor.setControl(m_velocityVoltage.withVelocity(velocity));
-        m_secondaryMotor.setControl(m_velocityVoltage.withVelocity(velocity*0.0)); 
+        m_secondaryMotor.setControl(m_velocityVoltage.withVelocity(velocity*0.2)); 
         // TODO Tune the Amp speed difference
         /* 
             | 0.80 |   Worked at practice field, not event
