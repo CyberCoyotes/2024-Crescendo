@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.3,
-        "y": 5.65
+        "x": 2.1337781905235698,
+        "y": 5.656334051612468
       },
       "isLocked": false,
       "linkedName": "PoseB"
@@ -20,8 +20,8 @@
         "y": 4.05
       },
       "prevControl": {
-        "x": 1.613854764590132,
-        "y": 4.05
+        "x": 0.6582127857550991,
+        "y": 4.028527771748839
       },
       "nextControl": null,
       "isLocked": false,

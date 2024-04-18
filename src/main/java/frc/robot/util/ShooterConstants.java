@@ -4,10 +4,11 @@ public class ShooterConstants {
     
     public static final double FLYWHEEL_VELOCITY = 100; // rotations per second (rps) // 100
     public static final double FLYWHEEL_VELOCITY_STAGE = 120; // Greater than regular
-    public static final double FLYWHEEL_VELOCITY_AMP = 60; // Primary-Top amp value, i.e.
+    public static final double FLYWHEEL_VELOCITY_AMP = 55; // Primary-Top amp value, i.e.
     // TODO Tune the top amp, slower than a standard shot
     /* 
     /* 60
+    * 55 works when in the middle, not enough if off to one side
      * 50
      * 30 is too low
      * 35 is too low
