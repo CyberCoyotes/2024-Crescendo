@@ -111,7 +111,6 @@ public class RobotContainer {
   private final SetFlywheel setShooterIdle = new SetFlywheel(shooter2, arm, ShooterConstants.FLYWHEEL_IDLE_VELOCITY);
 
   private final Shoot shoot = new Shoot(shooter2, index, notesensor);
-  // TODO Test ShootAmp versions; changed 
   private final ShootAmp shootAmp = new ShootAmp(shooter2, index, notesensor); 
   private final ShootStage shootStage = new ShootStage(shooter2, index, notesensor);
 

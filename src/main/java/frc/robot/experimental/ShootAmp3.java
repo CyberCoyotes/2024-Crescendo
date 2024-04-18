@@ -10,6 +10,8 @@ import frc.robot.subsystems.ShooterSubsystem2;
 import frc.robot.util.IndexConstants;
 import frc.robot.util.ShooterConstants;
 
+@SuppressWarnings("unused")
+
 public class ShootAmp3 extends SequentialCommandGroup {
     private ShooterSubsystem2 shooter2;
     private IndexSubsystem index;

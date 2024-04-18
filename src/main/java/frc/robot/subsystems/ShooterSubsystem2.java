@@ -17,8 +17,8 @@ import frc.robot.util.ShooterConstants;
 public class ShooterSubsystem2 extends SubsystemBase{
 
     // Declare variables for the motors to be controlled
-    private TalonFX m_primaryMotor = new TalonFX(Constants.CANIDs.BOTTOM_FLYWHEEL_ID, "rio"); // BOTTOM / RIGHT
-    private TalonFX m_secondaryMotor = new TalonFX(Constants.CANIDs.TOP_FLYWHEEL_ID, "rio"); // TOP / LEFT
+    private TalonFX m_primaryMotor = new TalonFX(Constants.CANIDs.BOTTOM_FLYWHEEL_ID, "rio"); // BOTTOM = primary
+    private TalonFX m_secondaryMotor = new TalonFX(Constants.CANIDs.TOP_FLYWHEEL_ID, "rio"); // TOP = secondary
 
     /* 
     This is an instance of the `VelocityVoltage` class being created and assigned 
@@ -80,8 +80,8 @@ public class ShooterSubsystem2 extends SubsystemBase{
     }
 
     public void setFlywheelVelocityAmp(double velocity) {
-        m_primaryMotor.setControl(m_velocityVoltage.withVelocity(velocity));
-        m_secondaryMotor.setControl(m_velocityVoltage.withVelocity(velocity*0.2)); 
+        m_primaryMotor.setControl(m_velocityVoltage.withVelocity(velocity)); // Top
+        m_secondaryMotor.setControl(m_velocityVoltage.withVelocity(velocity*0.2)); // Bottom
         // TODO Tune the Amp speed difference
         /* 
             | 0.80 |   Worked at practice field, not event
@@ -89,6 +89,11 @@ public class ShooterSubsystem2 extends SubsystemBase{
             | 0.60 |
             | 0.50 |
             | 0.40 |
+            | 0.30 |
+            | 0.20 |   Seems to be the best value
+            | 0.10 |
+            | 0.05 |
+            | 0.00 | Tops the top wheel completely
          */
     }
 
