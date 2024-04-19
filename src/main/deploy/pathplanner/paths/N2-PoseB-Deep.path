@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.1,
-        "y": 7.15
+        "x": 2.95,
+        "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.6106680213360427,
-        "y": 7.097299512780844
+        "x": 2.38603773063779,
+        "y": 5.55
       },
       "isLocked": false,
-      "linkedName": "NotePose3"
+      "linkedName": "NotePose2"
     },
     {
       "anchor": {
@@ -20,8 +20,8 @@
         "y": 5.65
       },
       "prevControl": {
-        "x": 1.6520741952238023,
-        "y": 5.77451654592646
+        "x": 1.4504128818795337,
+        "y": 5.65
       },
       "nextControl": null,
       "isLocked": false,
