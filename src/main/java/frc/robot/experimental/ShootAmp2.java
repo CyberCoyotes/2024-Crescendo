@@ -1,11 +1,11 @@
 package frc.robot.experimental;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.IndexSubsystem;
-import frc.robot.subsystems.NoteSensorSubsystem;
-import frc.robot.subsystems.ShooterSubsystem2;
-import frc.robot.util.IndexConstants;
-import frc.robot.util.ShooterConstants;
+import frc.robot.index.IndexConstants;
+import frc.robot.index.IndexSubsystem;
+import frc.robot.shooter.ShooterConstants;
+import frc.robot.shooter.ShooterSubsystem2;
+import frc.robot.util.NoteSensorSubsystem;
 
 /* A command that turns on the flywheel with the method `setFlywheelVelocityAmp` with a value of `FLYWHEEL_VELOCITY_AMP` 
  * After a 500ms delay, the command then runs the method `setIndexPower` to advance the game piece forward into the flywheel-shooter

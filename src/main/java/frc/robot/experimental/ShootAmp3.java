@@ -3,12 +3,12 @@ package frc.robot.experimental;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.commands.ShootAmp;
-import frc.robot.subsystems.IndexSubsystem;
-import frc.robot.subsystems.NoteSensorSubsystem;
-import frc.robot.subsystems.ShooterSubsystem2;
-import frc.robot.util.IndexConstants;
-import frc.robot.util.ShooterConstants;
+import frc.robot.index.IndexConstants;
+import frc.robot.index.IndexSubsystem;
+import frc.robot.shooter.ShootAmp;
+import frc.robot.shooter.ShooterConstants;
+import frc.robot.shooter.ShooterSubsystem2;
+import frc.robot.util.NoteSensorSubsystem;
 
 @SuppressWarnings("unused")
 

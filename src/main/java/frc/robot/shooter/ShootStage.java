@@ -1,22 +1,19 @@
-package frc.robot.experimental;
+package frc.robot.shooter;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.arm.ArmSubsystem;
+import frc.robot.util.Constants;
+import frc.robot.util.NoteSensorSubsystem;
 import frc.robot.index.IndexConstants;
 import frc.robot.index.IndexSubsystem;
-import frc.robot.intake.IntakeSubsystem;
-import frc.robot.shooter.ShooterConstants;
-import frc.robot.shooter.ShooterSubsystem2;
-import frc.robot.util.NoteSensorSubsystem;
 
 @SuppressWarnings("unused")
 
-public class AutoShootStage extends Command {
+public class ShootStage extends Command {
     private ShooterSubsystem2 shooter2; 
     private IndexSubsystem index;
     private NoteSensorSubsystem notesensor;
 
-    public AutoShootStage(ArmSubsystem arm, IndexSubsystem index, IntakeSubsystem intake, NoteSensorSubsystem notesensor, ShooterSubsystem2 shooter2) {
+    public ShootStage(ShooterSubsystem2 shooter2, IndexSubsystem index, NoteSensorSubsystem notesensor) {
         this.shooter2 = shooter2;
         this.index = index;
         this.notesensor = notesensor;
@@ -43,7 +40,6 @@ public class AutoShootStage extends Command {
             index.setIndexPower(IndexConstants.INDEX_POWER);
         } else {
             index.stopIndexing();
-            // shooter2.setFlywheelVelocity(shooter2.FLYWHEEL_VELOCITY);
         }
     }
 
@@ -56,4 +52,4 @@ public class AutoShootStage extends Command {
     public boolean isFinished() {
         return false;
     }
-} // end of class ShootWhenReady
+} // end of class 

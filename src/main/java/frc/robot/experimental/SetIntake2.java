@@ -1,8 +1,8 @@
 package frc.robot.experimental;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.NoteSensorSubsystem;
+import frc.robot.intake.IntakeSubsystem;
+import frc.robot.util.NoteSensorSubsystem;
 
 /**
  * Run Once or Continuously

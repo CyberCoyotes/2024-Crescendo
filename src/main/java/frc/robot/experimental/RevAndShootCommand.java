@@ -5,9 +5,9 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
-import frc.robot.subsystems.IndexSubsystem;
-import frc.robot.subsystems.ShooterSubsystem2;
-import frc.robot.util.ShooterConstants;
+import frc.robot.index.IndexSubsystem;
+import frc.robot.shooter.ShooterConstants;
+import frc.robot.shooter.ShooterSubsystem2;
 
 @SuppressWarnings("unused")
 
