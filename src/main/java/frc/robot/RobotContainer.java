@@ -31,7 +31,7 @@ import frc.robot.drivetrain.Gyro;
 import frc.robot.drivetrain.TunerConstants;
 import frc.robot.util.Constants;
 import frc.robot.util.NoteSensorSubsystem;
-import frc.robot.vision.Limelight;
+import frc.robot.vision.Vision2;
 import frc.robot.experimental.AutoShootStage;
 import frc.robot.experimental.AutoShootStage2;
 import frc.robot.experimental.IntakeIndexSmartTimer;
@@ -123,7 +123,7 @@ public class RobotContainer {
 
   // Constructor of the class
   public RobotContainer() {
-    Limelight lime = new Limelight();
+    Vision2 lime = new Vision2();
 
     /* Pathplanner Named Commands */
     NamedCommands.registerCommand("AutoShoot", autoShoot); // AutoShootWhenReady --> AutoShoot

@@ -11,7 +11,7 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
-public class Limelight {
+public class Vision2 {
     NetworkTable limelightBack;// Table for the limelight
     NetworkTableEntry tx;// Table for the x-coordinate
     NetworkTableEntry ty;// Table for the y-coordinate
@@ -29,7 +29,7 @@ public class Limelight {
     NetworkTableEntry solvePNP;
     double[] defaultArray = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
 
-    public Limelight() {
+    public Vision2() {
 
         limelightBack = NetworkTableInstance.getDefault().getTable("limelight");// Instantiate the tables
         tx = limelightBack.getEntry("tx");
