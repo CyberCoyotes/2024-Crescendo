@@ -8,41 +8,41 @@ import frc.robot.util.ShooterConstants;
 import frc.robot.subsystems.NoteSensorSubsystem;
 
 public class ShootWhenReady2 extends Command{
-    private ShooterSubsystem2 shooter2;
+    private ShooterSubsystem2 shooter;
     private IndexSubsystem index;
     private NoteSensorSubsystem notesensor;
 
-    public ShootWhenReady2(ShooterSubsystem2 shooter2, IndexSubsystem index, NoteSensorSubsystem notesensor) {
-        this.shooter2 = shooter2;
+    public ShootWhenReady2(ShooterSubsystem2 shooter, IndexSubsystem index, NoteSensorSubsystem notesensor) {
+        this.shooter = shooter;
         this.index = index;
         this.notesensor = notesensor;
-        addRequirements(shooter2, index, notesensor);
+        addRequirements(shooter, index, notesensor);
     }
 
     @Override
     public void initialize() {
-        // shooter2.setFlywheelToIdle();
+        // shooter.setFlywheelToIdle();
     }
 
     public void execute() {
         // Turn on the shooter with setTargetFlywheelVelocity
-        shooter2.setFlywheelVelocity(ShooterConstants.FLYWHEEL_VELOCITY);
+        shooter.setFlywheelVelocity(ShooterConstants.FLYWHEEL_VELOCITY);
 
         // After the flywheel is at target velocity, index the game piece forward
-        if (shooter2.isFlywheelNominal() && notesensor.isNoteLoaded()) {
+        if (shooter.isFlywheelNominal() && notesensor.isNoteLoaded()) {
             index.setIndexPower(IndexConstants.INDEX_POWER);
         }
 
         // After index.HasCargo() is false, stop the shooter and index
         else if (!notesensor.isNoteLoaded()) {
-            shooter2.setFlywheelVelocity(0);
+            shooter.setFlywheelVelocity(0);
             index.stopIndexing();;
         }
     }
 
     @Override
     public void end(boolean interrupted) {
-        shooter2.setFlywheelVelocity(0);
+        shooter.setFlywheelVelocity(0);
     }
 
     @Override

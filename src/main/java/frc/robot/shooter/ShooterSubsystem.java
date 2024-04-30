@@ -12,7 +12,7 @@ import frc.robot.util.Constants;
 
 // @SuppressWarnings("unused")
 
-public class ShooterSubsystem2 extends SubsystemBase{
+public class ShooterSubsystem extends SubsystemBase{
 
     // Declare variables for the motors to be controlled
     private TalonFX m_primaryMotor = new TalonFX(Constants.CANIDs.BOTTOM_FLYWHEEL_ID, "rio"); // BOTTOM = primary
@@ -62,7 +62,7 @@ public class ShooterSubsystem2 extends SubsystemBase{
             false // LimitReverseMotion
         );
 
-    public ShooterSubsystem2() {
+    public ShooterSubsystem() {
 
         // Apply configurations from the FlywheelConfigs file to the two motors
         FlywheelConfigs.applyFlywheelConfigs(m_primaryMotor, m_secondaryMotor);

@@ -25,7 +25,7 @@ import frc.robot.arm.ArmSubsystem;
 import frc.robot.arm.SetArmClimb;
 import frc.robot.climb.SetWinch;
 import frc.robot.climb.WinchConstants;
-import frc.robot.climb.WinchSubsystem2;
+import frc.robot.climb.WinchSubsystem;
 import frc.robot.drivetrain.CommandSwerveDrivetrain;
 import frc.robot.drivetrain.Gyro;
 import frc.robot.drivetrain.TunerConstants;
@@ -44,20 +44,20 @@ import frc.robot.intake.IntakeRevCommandGroup;
 import frc.robot.intake.IntakeSubsystem;
 import frc.robot.shooter.AutoShoot;
 import frc.robot.shooter.AutoShootAmp;
-import frc.robot.shooter.RunShooter;
+// import frc.robot.shooter.RunShooter;
 import frc.robot.shooter.SetFlywheel;
 import frc.robot.shooter.Shoot;
 import frc.robot.shooter.ShootAmp;
 import frc.robot.shooter.ShootStage;
 import frc.robot.shooter.ShooterConstants;
-import frc.robot.shooter.ShooterSubsystem2;
-import frc.robot.shooter.ShooterSubsystemVelocity;
+import frc.robot.shooter.ShooterSubsystem;
+// import frc.robot.shooter.ShooterSubsystemVelocity;
 
 // Getting rid of the soft unused warnings
 @SuppressWarnings("unused")
 public class RobotContainer {
 
-  RunShooter shooterRun;
+  // RunShooter shooterRun;
   SwerveRequest.FieldCentric driveRequest;
   // private final Telemetry logger = new
   // Telemetry(Constants.SystemConstants.MAX_SPEED);
@@ -68,11 +68,11 @@ public class RobotContainer {
   // #region Subsystems
 
   /* Subsystems */
-  ShooterSubsystemVelocity shooter = new ShooterSubsystemVelocity();
-  ShooterSubsystem2 shooter2 = new ShooterSubsystem2();
+  // ShooterSubsystemVelocity shooter = new ShooterSubsystemVelocity();
+  ShooterSubsystem shooter = new ShooterSubsystem();
   IntakeSubsystem intake = new IntakeSubsystem();
   IndexSubsystem index = new IndexSubsystem();
-  WinchSubsystem2 winch = new WinchSubsystem2();
+  WinchSubsystem winch = new WinchSubsystem();
   ArmSubsystem arm = new ArmSubsystem();
   NoteSensorSubsystem notesensor = new NoteSensorSubsystem();
   Gyro pidgey = new Gyro();
@@ -107,16 +107,16 @@ public class RobotContainer {
   private final IntakeRevCommandGroup intakeRevGroup = new IntakeRevCommandGroup(index, intake);
 
   // Only Sets the flywheel to idle velocity, no index
-  private final SetFlywheel setShooterIdle = new SetFlywheel(shooter2, arm, ShooterConstants.FLYWHEEL_IDLE_VELOCITY);
+  private final SetFlywheel setShooterIdle = new SetFlywheel(shooter, arm, ShooterConstants.FLYWHEEL_IDLE_VELOCITY);
 
-  private final Shoot shoot = new Shoot(shooter2, index, notesensor);
-  private final ShootAmp shootAmp = new ShootAmp(shooter2, index, notesensor); 
-  private final ShootStage shootStage = new ShootStage(shooter2, index, notesensor);
+  private final Shoot shoot = new Shoot(shooter, index, notesensor);
+  private final ShootAmp shootAmp = new ShootAmp(shooter, index, notesensor); 
+  private final ShootStage shootStage = new ShootStage(shooter, index, notesensor);
 
   /* Auton Specific Commands */
-  private final AutoShoot autoShoot = new AutoShoot(arm, index, intake, shooter2, notesensor);
-  private final AutoShootAmp autoShootAmp = new AutoShootAmp(shooter2, index, notesensor);
-  private final AutoShootStage autoShootStage = new AutoShootStage(arm, index, intake, notesensor, shooter2);
+  private final AutoShoot autoShoot = new AutoShoot(arm, index, intake, shooter, notesensor);
+  private final AutoShootAmp autoShootAmp = new AutoShootAmp(shooter, index, notesensor);
+  private final AutoShootStage autoShootStage = new AutoShootStage(arm, index, intake, notesensor, shooter);
   
   /* Autonomous Chooser */
   SendableChooser<Command> autoChooser;
@@ -223,7 +223,7 @@ public class RobotContainer {
     m_operatorController.back().whileTrue(new SetWinch(winch, WinchConstants.WINCH_POWER_BOOST));
 
     m_operatorController.rightTrigger().whileTrue(shootStage); // Shoot Stage
-    // m_operatorController.leftTrigger().whileTrue(new SetFlywheel(shooter2, arm, ShooterConstants.FLYWHEEL_VELOCITY_STAGE)); // Lob shot
+    // m_operatorController.leftTrigger().whileTrue(new SetFlywheel(shooter, arm, ShooterConstants.FLYWHEEL_VELOCITY_STAGE)); // Lob shot
 
   };
 

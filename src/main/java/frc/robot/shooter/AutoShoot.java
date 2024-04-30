@@ -7,10 +7,10 @@ import frc.robot.intake.IntakeSubsystem;
 import frc.robot.util.NoteSensorSubsystem;
 
 public class AutoShoot extends SequentialCommandGroup {
-    public AutoShoot (ArmSubsystem arm, IndexSubsystem index, IntakeSubsystem intake, ShooterSubsystem2 shooter2, NoteSensorSubsystem notesensor) {
+    public AutoShoot (ArmSubsystem arm, IndexSubsystem index, IntakeSubsystem intake, ShooterSubsystem shooter, NoteSensorSubsystem notesensor) {
 
         addCommands(
-            new Shoot(shooter2, index, notesensor).withTimeout(1.0)
+            new Shoot(shooter, index, notesensor).withTimeout(1.0)
         );
     }
 }

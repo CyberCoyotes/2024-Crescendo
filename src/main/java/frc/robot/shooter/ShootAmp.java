@@ -9,20 +9,20 @@ import frc.robot.index.IndexSubsystem;
 @SuppressWarnings("unused")
 
 public class ShootAmp extends Command {
-    private ShooterSubsystem2 shooter2; 
+    private ShooterSubsystem shooter; 
     private IndexSubsystem index;
     private NoteSensorSubsystem notesensor;
 
-    public ShootAmp(ShooterSubsystem2 shooter2, IndexSubsystem index, NoteSensorSubsystem notesensor) {
-        this.shooter2 = shooter2;
+    public ShootAmp(ShooterSubsystem shooter, IndexSubsystem index, NoteSensorSubsystem notesensor) {
+        this.shooter = shooter;
         this.index = index;
         this.notesensor = notesensor;
-        addRequirements(shooter2, index, notesensor); 
+        addRequirements(shooter, index, notesensor); 
     }
 
     @Override
     public void initialize() {
-        shooter2.setFlywheelToIdle();
+        shooter.setFlywheelToIdle();
     }
 
     @Override
@@ -34,19 +34,19 @@ public class ShootAmp extends Command {
         * Else, setPower of Index to zero and continue running the flywheel until `isFlywheelNominal` is true
          */
 
-        shooter2.setFlywheelVelocityAmp(ShooterConstants.FLYWHEEL_VELOCITY_AMP);
+        shooter.setFlywheelVelocityAmp(ShooterConstants.FLYWHEEL_VELOCITY_AMP);
 
-        if (shooter2.isFlywheelNominalAmp()) {
+        if (shooter.isFlywheelNominalAmp()) {
             index.setIndexPower(IndexConstants.INDEX_POWER);
         } else {
             index.stopIndexing();
-            // shooter2.setFlywheelVelocity(shooter2.FLYWHEEL_VELOCITY);
+            // shooter.setFlywheelVelocity(shooter.FLYWHEEL_VELOCITY);
         }
     }
 
     @Override
     public void end(boolean interrupted) {
-        shooter2.setFlywheelVelocity(0);
+        shooter.setFlywheelVelocity(0);
     }
 
     @Override

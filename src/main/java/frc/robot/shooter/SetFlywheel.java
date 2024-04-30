@@ -6,17 +6,17 @@ import frc.robot.arm.ArmSubsystem;
 @SuppressWarnings("unused")
 
 public class SetFlywheel extends Command {
-    private final ShooterSubsystem2 shooter2;
+    private final ShooterSubsystem shooter;
     private final ArmSubsystem arm;
 
     private final double velocity;
 
-    public SetFlywheel(ShooterSubsystem2 shooter2, ArmSubsystem arm, double velocity) {
-        this.shooter2 = shooter2;
+    public SetFlywheel(ShooterSubsystem shooter, ArmSubsystem arm, double velocity) {
+        this.shooter = shooter;
         this.arm = arm;
         this.velocity = velocity;
 
-        addRequirements(shooter2);
+        addRequirements(shooter);
          
     }
 
@@ -29,13 +29,13 @@ public class SetFlywheel extends Command {
         // Consider adding logic that checks if the arm pose is greater than 21, the flywheel velocity is changed to VELOCITY_LONG_RANGE
         
         
-        shooter2.setFlywheelVelocity(velocity); // Add Constant here for shooter velocity to not worry about it later?
+        shooter.setFlywheelVelocity(velocity); // Add Constant here for shooter velocity to not worry about it later?
     
     }
 
     @Override
     public void end(boolean interrupted) {
-        shooter2.setFlywheelVelocity(0);
+        shooter.setFlywheelVelocity(0);
     }
 
     @Override

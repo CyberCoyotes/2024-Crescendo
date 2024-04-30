@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.index.IndexConstants;
 import frc.robot.index.IndexSubsystem;
 import frc.robot.shooter.ShooterConstants;
-import frc.robot.shooter.ShooterSubsystem2;
+import frc.robot.shooter.ShooterSubsystem;
 import frc.robot.util.NoteSensorSubsystem;
 
 /* A command that turns on the flywheel with the method `setFlywheelVelocityAmp` with a value of `FLYWHEEL_VELOCITY_AMP` 
@@ -12,15 +12,15 @@ import frc.robot.util.NoteSensorSubsystem;
  */
 
 public class ShootAmp2 extends Command {
-    private ShooterSubsystem2 shooter2; 
+    private ShooterSubsystem shooter; 
     private IndexSubsystem index;
     private NoteSensorSubsystem notesensor;
 
-    public ShootAmp2(ShooterSubsystem2 shooter2, IndexSubsystem index, NoteSensorSubsystem notesensor) {
-        this.shooter2 = shooter2;
+    public ShootAmp2(ShooterSubsystem shooter, IndexSubsystem index, NoteSensorSubsystem notesensor) {
+        this.shooter = shooter;
         this.index = index;
         this.notesensor = notesensor;
-        addRequirements(shooter2, index, notesensor);
+        addRequirements(shooter, index, notesensor);
     }
 
     @Override
@@ -30,7 +30,7 @@ public class ShootAmp2 extends Command {
 
     @Override
     public void execute() {
-        shooter2.setFlywheelVelocityAmp(ShooterConstants.FLYWHEEL_VELOCITY_AMP);
+        shooter.setFlywheelVelocityAmp(ShooterConstants.FLYWHEEL_VELOCITY_AMP);
         index.setIndexPower(IndexConstants.INDEX_POWER);        
     }
 
@@ -44,7 +44,7 @@ public class ShootAmp2 extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        shooter2.setFlywheelVelocity(0);
+        shooter.setFlywheelVelocity(0);
         index.stopIndexing();
         // Add any necessary cleanup code here
     }

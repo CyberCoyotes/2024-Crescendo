@@ -9,20 +9,20 @@ import frc.robot.index.IndexSubsystem;
 @SuppressWarnings("unused")
 
 public class Shoot extends Command {
-    private ShooterSubsystem2 shooter2; 
+    private ShooterSubsystem shooter; 
     private IndexSubsystem index;
     private NoteSensorSubsystem notesensor;
 
-    public Shoot(ShooterSubsystem2 shooter2, IndexSubsystem index, NoteSensorSubsystem notesensor) {
-        this.shooter2 = shooter2;
+    public Shoot(ShooterSubsystem shooter, IndexSubsystem index, NoteSensorSubsystem notesensor) {
+        this.shooter = shooter;
         this.index = index;
         this.notesensor = notesensor;
-        addRequirements(shooter2, index, notesensor); 
+        addRequirements(shooter, index, notesensor); 
     }
 
     @Override
     public void initialize() {
-        shooter2.setFlywheelToIdle();
+        shooter.setFlywheelToIdle();
     }
 
     @Override
@@ -34,9 +34,9 @@ public class Shoot extends Command {
         * Else, setPower of Index to zero and continue running the flywheel until `isFlywheelNominal` is true
          */
 
-        shooter2.setFlywheelVelocity(ShooterConstants.FLYWHEEL_VELOCITY);
+        shooter.setFlywheelVelocity(ShooterConstants.FLYWHEEL_VELOCITY);
 
-        if (shooter2.isFlywheelNominal()) {
+        if (shooter.isFlywheelNominal()) {
             index.setIndexPower(IndexConstants.INDEX_POWER);
         } else {
             index.stopIndexing();
@@ -45,7 +45,7 @@ public class Shoot extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        shooter2.setFlywheelVelocity(0);
+        shooter.setFlywheelVelocity(0);
     }
 
     @Override

@@ -7,32 +7,32 @@ import frc.robot.index.IndexConstants;
 import frc.robot.index.IndexSubsystem;
 import frc.robot.shooter.ShootAmp;
 import frc.robot.shooter.ShooterConstants;
-import frc.robot.shooter.ShooterSubsystem2;
+import frc.robot.shooter.ShooterSubsystem;
 import frc.robot.util.NoteSensorSubsystem;
 
 @SuppressWarnings("unused")
 
 public class ShootAmp3 extends SequentialCommandGroup {
-    private ShooterSubsystem2 shooter2;
+    private ShooterSubsystem shooter;
     private IndexSubsystem index;
     private NoteSensorSubsystem notesensor;
 
-    public ShootAmp3(ShooterSubsystem2 shooter2, IndexSubsystem index, NoteSensorSubsystem notesensor) {
-        this.shooter2 = shooter2;
+    public ShootAmp3(ShooterSubsystem shooter, IndexSubsystem index, NoteSensorSubsystem notesensor) {
+        this.shooter = shooter;
         this.index = index;
         this.notesensor = notesensor;
 
         addCommands(
-            new InstantCommand(() -> shooter2.setFlywheelToIdle(), shooter2).withTimeout(1),            
+            new InstantCommand(() -> shooter.setFlywheelToIdle(), shooter).withTimeout(1),            
             // new WaitCommand(200),
             new InstantCommand(() -> index.setIndexPower(IndexConstants.INDEX_POWER), index).withTimeout(3)
             // new WaitUntilCommand(notesensor::isNoteLoaded),
             /* 
             new WaitCommand(0.6),
             new InstantCommand(() -> {
-                shooter2.setFlywheelVelocity(0);
+                shooter.setFlywheelVelocity(0);
                 index.stopIndexing();
-            }, shooter2, index)
+            }, shooter, index)
             */
         );
     }

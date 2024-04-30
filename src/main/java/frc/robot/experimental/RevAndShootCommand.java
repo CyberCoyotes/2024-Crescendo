@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.index.IndexSubsystem;
 import frc.robot.shooter.ShooterConstants;
-import frc.robot.shooter.ShooterSubsystem2;
+import frc.robot.shooter.ShooterSubsystem;
 
 @SuppressWarnings("unused")
 
@@ -18,7 +18,7 @@ public class RevAndShootCommand extends SequentialCommandGroup {
     // The time to try to and shoot the cargo before executing..
     // subsystems
     IndexSubsystem indexer;
-    ShooterSubsystem2 shooter;
+    ShooterSubsystem shooter;
     // component Commands
     private IncrementIndex outtaMyWay;
     private Command revUpShooter;
@@ -31,7 +31,7 @@ public class RevAndShootCommand extends SequentialCommandGroup {
     }
    
 
-    public RevAndShootCommand(IndexSubsystem indexer, ShooterSubsystem2 shooter) {
+    public RevAndShootCommand(IndexSubsystem indexer, ShooterSubsystem shooter) {
         addRequirements(indexer, shooter);
         indexCommand = new RunCommand(() -> indexer.runIndexing(), indexer);
         this.shooter = shooter;

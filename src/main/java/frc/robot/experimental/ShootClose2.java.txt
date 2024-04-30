@@ -11,11 +11,11 @@ import frc.util.Constants.ArmConstants;
 
 
 public class ShootClose2 extends SequentialCommandGroup{
-    public ShootClose2(ArmSubsystem arm, IndexSubsystem index, IntakeSubsystem intake, ShooterSubsystem2 shooter2, NoteSensorSubsystem notesensor) {
+    public ShootClose2(ArmSubsystem arm, IndexSubsystem index, IntakeSubsystem intake, ShooterSubsystem2 shooter, NoteSensorSubsystem notesensor) {
 
         addCommands(
             new SetArmPosition(arm, ArmConstants.ARM_HOME_POSE),
-            new AutoShoot(shooter2, index, notesensor)
+            new AutoShoot(shooter, index, notesensor)
 
         );
     }

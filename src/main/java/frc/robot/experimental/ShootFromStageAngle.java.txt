@@ -22,15 +22,15 @@ public class AutoShootStageAngle extends SequentialCommandGroup
     private ArmSubsystem m_arm;
     private IndexSubsystem m_index;
     private IntakeSubsystem m_intake;
-    private ShooterSubsystem2 m_shooter2;
+    private ShooterSubsystem2 m_shooter;
 
 
-    public AutoShootStageAngle(CommandSwerveDrivetrain drive, ArmSubsystem arm, IndexSubsystem index, IntakeSubsystem intake, ShooterSubsystem2 shooter2) {
+    public AutoShootStageAngle(CommandSwerveDrivetrain drive, ArmSubsystem arm, IndexSubsystem index, IntakeSubsystem intake, ShooterSubsystem2 shooter) {
 
             this.m_arm = arm; 
             this.m_intake = intake;
             this.m_index = index;
-            this.m_shooter2 = shooter2;
+            this.m_shooter = shooter;
             this.m_drive = drive;
             
         List<PathPlannerTrajectory> AutoShootStageAngle = PathPlannerPath.loadPathGroup("AutoShootStage", new PathConstraints(4, 1));

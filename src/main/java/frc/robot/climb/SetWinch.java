@@ -3,10 +3,10 @@ package frc.robot.climb;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class SetWinch extends Command {
-    private final WinchSubsystem2 winch;
+    private final WinchSubsystem winch;
     private double power;
 
-    public SetWinch(WinchSubsystem2 winch, double power) {
+    public SetWinch(WinchSubsystem winch, double power) {
         this.winch = winch;
         this.power = power;
         addRequirements(winch); // This command requires the WinchSubsystem2

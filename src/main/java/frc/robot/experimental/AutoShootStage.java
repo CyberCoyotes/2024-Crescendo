@@ -6,26 +6,26 @@ import frc.robot.index.IndexConstants;
 import frc.robot.index.IndexSubsystem;
 import frc.robot.intake.IntakeSubsystem;
 import frc.robot.shooter.ShooterConstants;
-import frc.robot.shooter.ShooterSubsystem2;
+import frc.robot.shooter.ShooterSubsystem;
 import frc.robot.util.NoteSensorSubsystem;
 
 @SuppressWarnings("unused")
 
 public class AutoShootStage extends Command {
-    private ShooterSubsystem2 shooter2; 
+    private ShooterSubsystem shooter; 
     private IndexSubsystem index;
     private NoteSensorSubsystem notesensor;
 
-    public AutoShootStage(ArmSubsystem arm, IndexSubsystem index, IntakeSubsystem intake, NoteSensorSubsystem notesensor, ShooterSubsystem2 shooter2) {
-        this.shooter2 = shooter2;
+    public AutoShootStage(ArmSubsystem arm, IndexSubsystem index, IntakeSubsystem intake, NoteSensorSubsystem notesensor, ShooterSubsystem shooter) {
+        this.shooter = shooter;
         this.index = index;
         this.notesensor = notesensor;
-        addRequirements(shooter2, index, notesensor); 
+        addRequirements(shooter, index, notesensor); 
     }
 
     @Override
     public void initialize() {
-        shooter2.setFlywheelToIdle();
+        shooter.setFlywheelToIdle();
     }
 
     @Override
@@ -37,19 +37,19 @@ public class AutoShootStage extends Command {
         * Else, setPower of Index to zero and continue running the flywheel until `isFlywheelNominal` is true
          */
 
-        shooter2.setFlywheelVelocity(ShooterConstants.FLYWHEEL_VELOCITY_STAGE);
+        shooter.setFlywheelVelocity(ShooterConstants.FLYWHEEL_VELOCITY_STAGE);
 
-        if (shooter2.isFlywheelNominal()) {
+        if (shooter.isFlywheelNominal()) {
             index.setIndexPower(IndexConstants.INDEX_POWER);
         } else {
             index.stopIndexing();
-            // shooter2.setFlywheelVelocity(shooter2.FLYWHEEL_VELOCITY);
+            // shooter.setFlywheelVelocity(shooter.FLYWHEEL_VELOCITY);
         }
     }
 
     @Override
     public void end(boolean interrupted) {
-        shooter2.setFlywheelVelocity(0);
+        shooter.setFlywheelVelocity(0);
     }
 
     @Override
