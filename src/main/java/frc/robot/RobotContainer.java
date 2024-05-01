@@ -12,6 +12,8 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.VideoSource;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -31,7 +33,8 @@ import frc.robot.drivetrain.Gyro;
 import frc.robot.drivetrain.TunerConstants;
 import frc.robot.util.Constants;
 import frc.robot.util.NoteSensorSubsystem;
-import frc.robot.vision.Vision2;
+// import frc.robot.vision.LimelightHelpers;
+// import frc.robot.vision.Vision3;
 import frc.robot.experimental.AutoShootStage;
 import frc.robot.experimental.AutoShootStage2;
 import frc.robot.experimental.IntakeIndexSmartTimer;
@@ -51,7 +54,7 @@ import frc.robot.shooter.ShootAmp;
 import frc.robot.shooter.ShootStage;
 import frc.robot.shooter.ShooterConstants;
 import frc.robot.shooter.ShooterSubsystem;
-// import frc.robot.shooter.ShooterSubsystemVelocity;
+import frc.robot.util.ShuffleboardConfigs;
 
 // Getting rid of the soft unused warnings
 @SuppressWarnings("unused")
@@ -123,7 +126,7 @@ public class RobotContainer {
 
   // Constructor of the class
   public RobotContainer() {
-    Vision2 lime = new Vision2();
+    // Vision3 limelight = new Vision3();
 
     /* Pathplanner Named Commands */
     NamedCommands.registerCommand("AutoShoot", autoShoot); // AutoShootWhenReady --> AutoShoot
@@ -146,7 +149,11 @@ public class RobotContainer {
     /* Configure the Button Bindings */
     configureBindings();
 
+    /* Needed to display */
     DebugMethodSingle();
+
+    /* Make a reference to ShuffleboardConfigs here to implement */
+
 
   }
 

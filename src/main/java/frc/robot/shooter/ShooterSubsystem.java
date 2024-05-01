@@ -1,14 +1,19 @@
 package frc.robot.shooter;
 
+import java.util.function.BooleanSupplier;
+
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.controls.TorqueCurrentFOC;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.Constants;
+// import frc.robot.vision.LimelightHelpers.LimelightTarget_Fiducial;
 
 // @SuppressWarnings("unused")
 
@@ -186,10 +191,11 @@ public class ShooterSubsystem extends SubsystemBase{
 
     @Override
     public void periodic() {
+
         // super.periodic(); // Suggested by VSCode
         // SmartDashboard.putBoolean("Flywheel 1.0 version", isFlywheelNominal());
         // SmartDashboard.putBoolean("Flywheel 2.0 version", isFlywheelNominal2());
-        SmartDashboard.putBoolean("Flywheel Nominal", isFlywheelNominal());
+        // SmartDashboard.putBoolean("Flywheel Nominal", isFlywheelNominal());
         SmartDashboard.putBoolean("Amp Nom", isFlywheelNominalAmp());
         SmartDashboard.putNumber("RIGHT Flywheel Velocity", getFlywheelVelocity().getValue());
         SmartDashboard.putNumber("LEFT Flywheel Velocity", getFlywheelVelocitySecondary().getValue());
@@ -217,6 +223,10 @@ public class ShooterSubsystem extends SubsystemBase{
         // var currentFlywheelVel2 = flywheelVel.getValue();
 
 
+        /* Create a Shuffleboard tab to display Flywheel Nominal */
+        ShuffleboardTab shooterTab = Shuffleboard.getTab("Shooter");
+        //shooterTab.addBoolean(null, isFlywheelNominal());
+        
     }
 
 } // end of class ShooterSubsystem2

@@ -1,0 +1,39 @@
+package frc.robot.arm;
+
+import frc.robot.vision.LimelightHelpers;
+
+public class SetArmByVision {
+    ArmSubsystem armSub;
+    // LimelightHelpers vision;
+    
+/* Use Vision3.java to return a `tv` value
+* If tv shows a valid target, then the arm should move to a certain position. See the `ArmSubsystem.java and `SetArmPosition.java` for references.
+* Set the Arm position to a position of 30
+* If tv does not show a valid target, then the arm should move to a different position
+* Set the Arm position to a position of 10
+*/
+    public void SetArmVision() {
+
+        // Create a new ArmSubsystem object called armSub
+        ArmSubsystem armSub = new ArmSubsystem();
+        // Create a new LimelightHelpers object called vision
+        // LimelightHelpers vision = new LimelightHelpers();
+
+        // Get the ty value from LimelightHelpers
+        double ty = vision.getTy();
+
+        // Get the ty value from NetworkTables
+        double ty = networktables.getTy();
+
+        /*
+         * Method that checks AprilTag ID, i.e. fiducial ID, and sets the arm position to 10 if the target is equal to "0" and 30 if the target is equal to "1"
+         */
+        if (ty < -7) {
+            armSub.setArmPosition(10);
+        } else if (ty > -7) {
+            armSub.setArmPosition(30);
+        }
+
+    }
+
+}
