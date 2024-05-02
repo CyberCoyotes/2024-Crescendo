@@ -36,6 +36,7 @@ public class LedSubsystem extends SubsystemBase {
       ColorFlowRed,
       ColorFlowRedReverse,
       ColorFlowBlue,
+      ColorFlowGreen,
       // Fire, 
       // Larson, 
       // Rainbow,
@@ -44,7 +45,7 @@ public class LedSubsystem extends SubsystemBase {
       // Strobe,
       // Twinkle,
       // TwinkleOff,
-      AnimationsOff
+      AnimationsOff 
   }
 
    /* Constructor */
@@ -113,6 +114,12 @@ public class LedSubsystem extends SubsystemBase {
       m_candle.animate(m_toAnimate);
       changeAnimation(AnimationTypes.ColorFlowRed);
    }
+
+   public void ColorFlowGreen() {
+      m_candle.animate(m_toAnimate);
+      changeAnimation(AnimationTypes.ColorFlowGreen);
+   }
+
     public void ColorFlowRedReverse() {
       m_candle.animate(m_toAnimate);
       changeAnimation(AnimationTypes.ColorFlowRedReverse);
@@ -148,6 +155,9 @@ public class LedSubsystem extends SubsystemBase {
        break; 
      case ColorFlowBlue:
        m_toAnimate = new ColorFlowAnimation(0, 0, 255,0 , 0.7, LedCount, Direction.Forward);
+       break;
+     case ColorFlowGreen:
+       m_toAnimate = new ColorFlowAnimation(0, 255, 0,0 , 0.7, LedCount, Direction.Forward);
        break;
      case AnimationsOff:
          m_toAnimate = null;

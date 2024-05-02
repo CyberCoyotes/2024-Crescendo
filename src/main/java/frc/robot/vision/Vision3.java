@@ -15,8 +15,15 @@ package frc.robot.vision;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.arm.ArmSubsystem;
+import frc.robot.util.LedSubsystem;
 
-public class Vision3 {
+public class Vision3 extends SubsystemBase {
+
+    private LedSubsystem led = new LedSubsystem();
+    private ArmSubsystem arm = new ArmSubsystem();
 
     NetworkTable table;
     NetworkTableEntry tx;
@@ -32,11 +39,11 @@ public class Vision3 {
         tv = table.getEntry("tv");
     }
 
-    public double getX() {
+    public double getTX() {
         return tx.getDouble(0.0);
     }
 
-    public double getY() {
+    public double getTY() {
         return ty.getDouble(0.0);
     }
 
@@ -47,4 +54,46 @@ public class Vision3 {
     public boolean isTargetVisible() {
         return tv.getDouble(0) == 1;
     }
+
+    public boolean checkTYRange() {
+        // double ty = limelight.getTy();
+        double ty = getTY();
+        if (ty >= -8) {
+            return true; // Green with Arm at 10
+        } else {
+            return false; // Red with Arm at 20
+        }
+
+        // Send this to the dashboard
+    }
+
+    public void setLedbyDistance() {
+        if (checkTYRange()) {
+            led.ColorFlowGreen(); // Greater than -8
+        } else {
+            led.ColorFlowRed(); // Less than -8
+                }
+    }
+
+    public void setArmPoseByDistance() {
+        if (checkTYRange() == true) {
+            arm.setArmPose(10.0);
+        } else {
+            arm.setArmPose(20.0);
+        }
+    }
+
+    public void periodic() {
+        checkTYRange();
+        // setLedbyDistance();
+        setArmPoseByDistance();
+
+        setLedbyDistance();
+
+        // sendToDashboard();
+        SmartDashboard.putNumber("ty", getTY());
+        SmartDashboard.putBoolean("Range CK", checkTYRange());
+
+    }
+
 }

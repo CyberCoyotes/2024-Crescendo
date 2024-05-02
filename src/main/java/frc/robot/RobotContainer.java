@@ -5,6 +5,9 @@
 package frc.robot;
 
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
+
+import java.util.concurrent.TimeUnit;
+
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
@@ -20,6 +23,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.arm.ArmConstants;
@@ -32,6 +36,7 @@ import frc.robot.drivetrain.CommandSwerveDrivetrain;
 import frc.robot.drivetrain.Gyro;
 import frc.robot.drivetrain.TunerConstants;
 import frc.robot.util.Constants;
+import frc.robot.util.FeedbackDistance;
 import frc.robot.util.NoteSensorSubsystem;
 // import frc.robot.vision.LimelightHelpers;
 // import frc.robot.vision.Vision3;
@@ -55,6 +60,7 @@ import frc.robot.shooter.ShootStage;
 import frc.robot.shooter.ShooterConstants;
 import frc.robot.shooter.ShooterSubsystem;
 import frc.robot.util.ShuffleboardConfigs;
+import frc.robot.vision.Vision3;
 
 // Getting rid of the soft unused warnings
 @SuppressWarnings("unused")
@@ -79,6 +85,7 @@ public class RobotContainer {
   ArmSubsystem arm = new ArmSubsystem();
   NoteSensorSubsystem notesensor = new NoteSensorSubsystem();
   Gyro pidgey = new Gyro();
+
 
   // #endregion Subsystems
 
@@ -126,7 +133,7 @@ public class RobotContainer {
 
   // Constructor of the class
   public RobotContainer() {
-    // Vision3 limelight = new Vision3();
+    Vision3 limelight = new Vision3();
 
     /* Pathplanner Named Commands */
     NamedCommands.registerCommand("AutoShoot", autoShoot); // AutoShootWhenReady --> AutoShoot
@@ -152,9 +159,10 @@ public class RobotContainer {
     /* Needed to display */
     DebugMethodSingle();
 
-    /* Make a reference to ShuffleboardConfigs here to implement */
+    // Distance based on Limelight    
+    // InstantCommand feedbackDistanceCommand = new InstantCommand(feedbackDistance::run, feedbackDistance);
 
-
+    // CommandScheduler.feedbackDistanceCommand, 0, 1, TimeUnit.SECONDS);
   }
 
   /*

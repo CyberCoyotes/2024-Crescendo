@@ -1,7 +1,5 @@
 package frc.robot.shooter;
 
-import java.util.function.BooleanSupplier;
-
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.controls.TorqueCurrentFOC;

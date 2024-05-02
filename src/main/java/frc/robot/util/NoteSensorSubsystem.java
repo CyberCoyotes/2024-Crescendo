@@ -7,6 +7,7 @@ import com.playingwithfusion.TimeOfFlight.RangingMode;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /* Subsystem class to primarily use a Time of Flight sensor from 'Playing with Fusion'.
  * It will read the distance from the sensor to the 'note' and determine if the note is in a load position.
@@ -96,7 +97,9 @@ public class NoteSensorSubsystem extends SubsystemBase {
            
         // ! Can be achieved with Shuffleboard call in
         // ! Constructor, per 
-        setLEDColor();
+
+        // setLEDColor(); // TODO remove temporarily for testing
+    
 
         // Only needed for diagnostics
         // Shuffleboard.getTab("Note").add("Note Distance", noteDistance.getRange());
