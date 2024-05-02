@@ -13,9 +13,33 @@ import com.ctre.phoenix6.signals.GravityTypeValue;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class ArmSubsystem extends SubsystemBase {
 
+   //nasty limelight slop
+    NetworkTable limelightBack; // table for the limelight
+    NetworkTableEntry tid; // Table for the ID of target
+    NetworkTableEntry ty; // Table for the skew of the robot on a vertical axis
+/* 
+
+
+        
+    
+double TAG_ID = getID();
+double DISTANCE = DISTANCE_CALCULATIONS();
+    @Override
+    public void periodic(){
+    //if tag ID = 6 or 5 and the tag is a meter or less away, set arm pose to high
+System.out.println(DISTANCE_CALCULATIONS());
+System.out.println(getID());   
+if(getID() == 1.0){
+        setArmPose(55);
+    }
+}
+*/
     // Declare a variable for the motor you want to control
     private final TalonFX m_arm;
 
@@ -23,6 +47,12 @@ public class ArmSubsystem extends SubsystemBase {
     final MotionMagicVoltage m_armPose = new MotionMagicVoltage(0); // Initializes to position 0
 
     public ArmSubsystem() {
+
+        //more yummy slop
+       limelightBack = NetworkTableInstance.getDefault().getTable("limelight");
+      tid = limelightBack.getEntry("tid"); 
+       ty = limelightBack.getEntry("ty");
+ 
 
         // Initialize the motor in the constructor with the motor ID and optional canbus
         // ID
@@ -104,6 +134,8 @@ public class ArmSubsystem extends SubsystemBase {
 
     } /* End of the class-method */
 
+
+    
     public StatusSignal<Double> getArmPos() {
         /* Reusing from drivetrain subsystem */
         return m_arm.getPosition();
@@ -121,6 +153,36 @@ public class ArmSubsystem extends SubsystemBase {
             
     }
 
+    //MMMMMMMMMMMMMMMMMMMMMM YUMMY SLOP slorp slorp slorp slorp
+    //gets the ID of the selected apriltag 
+        public double getID(){
+            return tid.getDouble(-1.0);
+        } 
+
+        // distance from the bot to the april tag in centimeters using trig
+        //CHANGE 170 to 122 after TEST!!!! !! ! !!!! 
+    public double DISTANCE_CALCULATIONS(){
+        double angleToGoalRadians = (ty.getDouble(0.0)) * (3.14159/180.0);
+        return (170 - CAMERA_HEIGHT) / Math.tan(angleToGoalRadians);
+    }
+
+     double CAMERA_HEIGHT = 156; 
+    //crescendo bot height from floor to middle of LL camera is 56
+    //CHANGE POST TEST
+    double CAMERA_ANGLE = 28.61;
+
+    double TAG_ID = getID();
+double DISTANCE = DISTANCE_CALCULATIONS();
+    @Override
+    public void periodic(){
+    //if tag ID = 6 or 5 and the tag is a meter or less away, set arm pose to high
+System.out.println(DISTANCE_CALCULATIONS());
+System.out.println(getID());   
+// proof of concept, please work 
+if(getID() == 1.0){
+        setArmPose(55);
+    }
+}
 
     /*
      * Currently only being called in subsystem-command;
@@ -133,20 +195,8 @@ public class ArmSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Arm Voltage", m_arm.getMotorVoltage().getValue());
     }
 
-    VisionSubsystem vision = new VisionSubsystem();
 
-    @Override
-    public void periodic(){
-    double TAG_ID = vision.getID();
-    double DISTANCE = vision.DISTANCE_CALCULATIONS();
-    //if tag ID = 6 or 5 and the tag is a meter or less away, set arm pose to high
-    if((TAG_ID == 1.0)
-    //&&(DISTANCE <= 100)
-    ){
-        setArmPose(55);
-    }
 
-}
 } // end of ArmSubsystem method
 
 /***************************

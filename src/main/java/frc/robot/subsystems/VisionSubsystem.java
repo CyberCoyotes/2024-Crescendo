@@ -233,17 +233,15 @@ public class VisionSubsystem extends SubsystemBase {
         }
     }
 */
-/*ArmSubsystem arm = new ArmSubsystem();
+ArmSubsystem arm = new ArmSubsystem();
 
 @Override
 public void periodic(){
-    double TAG_ID = getID();
-    double DISTANCE = DISTANCE_CALCULATIONS();
     //if tag ID = 6 or 5 and the tag is a meter or less away, set arm pose to high
-    if((TAG_ID == 1.0)&&(DISTANCE <= 100)){
+    if((getID() == 1.0)&&(DISTANCE_CALCULATIONS() <= 100)){
         arm.setArmPose(55);
     }
-}*/
+}
 
 }
 // end of class
