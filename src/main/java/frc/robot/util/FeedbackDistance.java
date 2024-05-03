@@ -31,7 +31,7 @@ public class FeedbackDistance extends Command{
 
     @Override
     public void execute() {
-        vision.checkTYRange();
+        // vision.checkTYRange();
     }
 
 }

@@ -54,8 +54,7 @@ public class Vision3 extends SubsystemBase {
     public boolean isTargetVisible() {
         return tv.getDouble(0) == 1;
     }
-
-    public boolean checkTYRange() {
+/*     public boolean checkTYRange() {
         // double ty = limelight.getTy();
         double ty = getTY();
         if (ty >= -8) {
@@ -64,9 +63,10 @@ public class Vision3 extends SubsystemBase {
             return false; // Red with Arm at 20
         }
 
-        // Send this to the dashboard
     }
+*/
 
+/* 
     public void setLedbyDistance() {
         if (checkTYRange()) {
             led.ColorFlowGreen(); // Greater than -8
@@ -74,7 +74,9 @@ public class Vision3 extends SubsystemBase {
             led.ColorFlowRed(); // Less than -8
                 }
     }
+*/
 
+/* 
     public void setArmPoseByDistance() {
         if (checkTYRange() == true) {
             arm.setArmPose(10.0);
@@ -82,7 +84,9 @@ public class Vision3 extends SubsystemBase {
             arm.setArmPose(20.0);
         }
     }
+*/
 
+/* 
     public void periodic() {
         checkTYRange();
         // setLedbyDistance();
@@ -95,5 +99,6 @@ public class Vision3 extends SubsystemBase {
         SmartDashboard.putBoolean("Range CK", checkTYRange());
 
     }
+*/
 
 }

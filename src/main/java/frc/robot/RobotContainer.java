@@ -60,13 +60,13 @@ import frc.robot.shooter.ShootStage;
 import frc.robot.shooter.ShooterConstants;
 import frc.robot.shooter.ShooterSubsystem;
 import frc.robot.util.ShuffleboardConfigs;
+import frc.robot.vision.LimelightLedFeedback;
 import frc.robot.vision.Vision3;
 
 // Getting rid of the soft unused warnings
 @SuppressWarnings("unused")
 public class RobotContainer {
 
-  // RunShooter shooterRun;
   SwerveRequest.FieldCentric driveRequest;
   // private final Telemetry logger = new
   // Telemetry(Constants.SystemConstants.MAX_SPEED);
@@ -84,8 +84,8 @@ public class RobotContainer {
   WinchSubsystem winch = new WinchSubsystem();
   ArmSubsystem arm = new ArmSubsystem();
   NoteSensorSubsystem notesensor = new NoteSensorSubsystem();
-  Gyro pidgey = new Gyro();
-
+  LimelightLedFeedback limelightLedFeedback = new LimelightLedFeedback(null, null);
+    
 
   // #endregion Subsystems
 
@@ -163,7 +163,10 @@ public class RobotContainer {
     // InstantCommand feedbackDistanceCommand = new InstantCommand(feedbackDistance::run, feedbackDistance);
 
     // CommandScheduler.feedbackDistanceCommand, 0, 1, TimeUnit.SECONDS);
-  }
+    
+    CommandScheduler.getInstance().schedule(limelightLedFeedback);
+
+  } // end of constructor
 
   /*
    * Method to check our Alliance status for Red or Blue

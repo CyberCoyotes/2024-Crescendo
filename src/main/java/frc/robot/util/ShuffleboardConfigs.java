@@ -6,20 +6,18 @@ import frc.robot.shooter.ShooterSubsystem;
 
 public class ShuffleboardConfigs {
     // Create a tab for ShooterSubsystem
-    ShuffleboardTab shooterSubsystemTab = Shuffleboard.getTab("Shooter");
-
-
-    ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+    // ShuffleboardTab shooterSubsystemTab = Shuffleboard.getTab("Shooter");
+    // ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
 
     public ShuffleboardConfigs() {
         // Initialize the ShooterSubsystem tab
-        initializeShooterSubsystemTab();
+        // initializeShooterSubsystemTab();
     }
 
     private void initializeShooterSubsystemTab() {
-        Shuffleboard.selectTab("Shooter");
+        // Shuffleboard.selectTab("Shooter");
         // Add isFlywheelNominal results to the ShooterSubsystem tab
-        shooterSubsystemTab.addBoolean("Is Flywheel Nominal", () -> shooterSubsystem.isFlywheelNominal());
+        // shooterSubsystemTab.addBoolean("Is Flywheel Nominal", () -> shooterSubsystem.isFlywheelNominal());
         
 
     }

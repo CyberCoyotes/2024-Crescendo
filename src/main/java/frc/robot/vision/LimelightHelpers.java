@@ -30,6 +30,7 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class LimelightHelpers {
 
@@ -784,5 +785,25 @@ public class LimelightHelpers {
         return results;
     }
 
+/*
+ * Write a boolean method that checks the value of the ty entry
+ * that true if it is greater than or equal to -8
+ * and returns false otherwise.
+ * Place the boolean return value on the SmartDashboard
+ */
+    public boolean checkTYRange(String limelightName) {
+        double ty = getTY(limelightName);
+        if (ty >= -8) {
+            return true; // Green with Arm at 10
+        } else {
+            return false; // Red with Arm at 20
+        }
+    }
 
+    
+    /* Write a method that updates the value of the checkTYRange boolean on the SmartDashboard */
+    public void periodic(String limelightName) {
+        checkTYRange(limelightName);
+        SmartDashboard.putBoolean("Range Check", checkTYRange(limelightName));
+    }
 }

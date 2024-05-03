@@ -22,7 +22,7 @@ import com.ctre.phoenix.led.CANdleConfiguration;
 import com.ctre.phoenix.led.ColorFlowAnimation;
 import com.ctre.phoenix.led.ColorFlowAnimation.Direction;
 
-
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 @SuppressWarnings("unused")
@@ -35,8 +35,12 @@ public class LedSubsystem extends SubsystemBase {
    public enum AnimationTypes {
       ColorFlowRed,
       ColorFlowRedReverse,
-      ColorFlowBlue,
+      ColorFlowOrange,
+      ColorFlowYellow,
       ColorFlowGreen,
+      ColorFlowBlue,
+      ColorFlowPurple,
+
       // Fire, 
       // Larson, 
       // Rainbow,
@@ -88,12 +92,12 @@ public class LedSubsystem extends SubsystemBase {
       m_candle.configStatusLedState(offWhenActive, 0);
    }
 
-   public void ColorOrange() {
-      m_candle.setLEDs(255, 60, 0);
-   }
-
    public void ColorRed() {
       m_candle.setLEDs(255, 0, 0);
+   }
+   
+   public void ColorOrange() {
+      m_candle.setLEDs(255, 60, 0);
    }
 
    public void ColorGreen() {
@@ -115,19 +119,36 @@ public class LedSubsystem extends SubsystemBase {
       changeAnimation(AnimationTypes.ColorFlowRed);
    }
 
+   public void ColorFlowOrange() {
+      m_candle.animate(m_toAnimate);
+      changeAnimation(AnimationTypes.ColorFlowOrange);
+   }
+
+   public void ColorFlowYellow() {
+      m_candle.animate(m_toAnimate);
+      changeAnimation(AnimationTypes.ColorFlowYellow);
+   }
+
    public void ColorFlowGreen() {
       m_candle.animate(m_toAnimate);
       changeAnimation(AnimationTypes.ColorFlowGreen);
    }
 
-    public void ColorFlowRedReverse() {
-      m_candle.animate(m_toAnimate);
-      changeAnimation(AnimationTypes.ColorFlowRedReverse);
-   }
-    public void ColorFlowBlue() {
+   public void ColorFlowBlue() {
       m_candle.animate(m_toAnimate);
       changeAnimation(AnimationTypes.ColorFlowBlue);
    }
+
+   public void ColorFlowPurple() {
+      m_candle.animate(m_toAnimate);
+      changeAnimation(AnimationTypes.ColorFlowPurple);
+   }
+
+   public void ColorFlowRedReverse() {
+      m_candle.animate(m_toAnimate);
+      changeAnimation(AnimationTypes.ColorFlowRedReverse);
+   }
+
    /*******************************
     * Color | RGB Values
     * ----------------------------
@@ -147,22 +168,32 @@ public class LedSubsystem extends SubsystemBase {
       
       switch(toChange)
       {
-     case ColorFlowRed:
-       m_toAnimate = new ColorFlowAnimation(255, 0, 0, 0, 0.7, LedCount, Direction.Forward);
-       break;
-     case ColorFlowRedReverse:
-       m_toAnimate = new ColorFlowAnimation(255, 0, 0, 0, 0.7, LedCount, Direction.Backward);
-       break; 
-     case ColorFlowBlue:
-       m_toAnimate = new ColorFlowAnimation(0, 0, 255,0 , 0.7, LedCount, Direction.Forward);
-       break;
-     case ColorFlowGreen:
-       m_toAnimate = new ColorFlowAnimation(0, 255, 0,0 , 0.7, LedCount, Direction.Forward);
-       break;
-     case AnimationsOff:
-         m_toAnimate = null;
-    break;
-   }
+         case ColorFlowRed:
+            m_toAnimate = new ColorFlowAnimation(255, 0, 0, 0, 0.7, LedCount, Direction.Forward);
+            break;
+         case ColorFlowOrange:
+            m_toAnimate = new ColorFlowAnimation(255, 60, 0, 0, 0.7, LedCount, Direction.Forward);
+            break;
+         case ColorFlowYellow:
+            m_toAnimate = new ColorFlowAnimation(255, 255, 0, 0, 0.7, LedCount, Direction.Forward);
+            break;
+         case ColorFlowGreen:
+            m_toAnimate = new ColorFlowAnimation(0, 255, 0, 0, 0.7, LedCount, Direction.Forward);
+            break;
+         case ColorFlowBlue:
+            m_toAnimate = new ColorFlowAnimation(0, 0, 255, 0, 0.7, LedCount, Direction.Forward);
+            break;
+         case ColorFlowPurple:
+            m_toAnimate = new ColorFlowAnimation(255, 0, 255, 0, 0.7, LedCount, Direction.Forward);
+            break;
+         case ColorFlowRedReverse:
+            m_toAnimate = new ColorFlowAnimation(255, 0, 0, 0, 0.7, LedCount, Direction.Backward);
+            break;
+         
+         case AnimationsOff:
+            m_toAnimate = null;
+            break;
+      }
 
   // System.out.println("Changed to " + m_currentAnimation.toString());
    }
