@@ -5,7 +5,7 @@ import frc.robot.index.IndexConstants;
 import frc.robot.index.IndexSubsystem;
 import frc.robot.shooter.ShooterConstants;
 import frc.robot.shooter.ShooterSubsystem;
-import frc.robot.util.NoteSensorSubsystem;
+import frc.robot.util.NoteSensor;
 
 /* A command that turns on the flywheel with the method `setFlywheelVelocityAmp` with a value of `FLYWHEEL_VELOCITY_AMP` 
  * After a 500ms delay, the command then runs the method `setIndexPower` to advance the game piece forward into the flywheel-shooter
@@ -14,9 +14,9 @@ import frc.robot.util.NoteSensorSubsystem;
 public class ShootAmp2 extends Command {
     private ShooterSubsystem shooter; 
     private IndexSubsystem index;
-    private NoteSensorSubsystem notesensor;
+    private NoteSensor notesensor;
 
-    public ShootAmp2(ShooterSubsystem shooter, IndexSubsystem index, NoteSensorSubsystem notesensor) {
+    public ShootAmp2(ShooterSubsystem shooter, IndexSubsystem index, NoteSensor notesensor) {
         this.shooter = shooter;
         this.index = index;
         this.notesensor = notesensor;

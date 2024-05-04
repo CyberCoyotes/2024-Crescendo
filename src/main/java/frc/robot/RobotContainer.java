@@ -37,13 +37,14 @@ import frc.robot.drivetrain.Gyro;
 import frc.robot.drivetrain.TunerConstants;
 import frc.robot.util.Constants;
 import frc.robot.util.FeedbackDistance;
-import frc.robot.util.NoteSensorSubsystem;
+import frc.robot.util.NoteSensor;
 // import frc.robot.vision.LimelightHelpers;
 // import frc.robot.vision.Vision3;
 import frc.robot.experimental.AutoShootStage;
 import frc.robot.experimental.AutoShootStage2;
 import frc.robot.experimental.IntakeIndexSmartTimer;
 import frc.robot.experimental.IntakeIndexTimer;
+import frc.robot.experimental.VisionFeedback;
 import frc.robot.index.IndexSubsystem;
 import frc.robot.index.SetIndex;
 import frc.robot.intake.IntakeCommandGroup;
@@ -60,7 +61,6 @@ import frc.robot.shooter.ShootStage;
 import frc.robot.shooter.ShooterConstants;
 import frc.robot.shooter.ShooterSubsystem;
 import frc.robot.util.ShuffleboardConfigs;
-import frc.robot.vision.LimelightLedFeedback;
 import frc.robot.vision.Vision3;
 
 // Getting rid of the soft unused warnings
@@ -83,8 +83,8 @@ public class RobotContainer {
   IndexSubsystem index = new IndexSubsystem();
   WinchSubsystem winch = new WinchSubsystem();
   ArmSubsystem arm = new ArmSubsystem();
-  NoteSensorSubsystem notesensor = new NoteSensorSubsystem();
-  LimelightLedFeedback limelightLedFeedback = new LimelightLedFeedback(null, null);
+  NoteSensor notesensor = new NoteSensor();
+  VisionFeedback limelightLedFeedback = new VisionFeedback(null, null);
     
 
   // #endregion Subsystems

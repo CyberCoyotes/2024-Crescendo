@@ -27,7 +27,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 @SuppressWarnings("unused")
 
-public class LedSubsystem extends SubsystemBase {
+public class LEDSubsystem extends SubsystemBase{
+   // remove subsystem extension
    private final CANdle m_candle = new CANdle(Constants.CANIDs.CANDLE_ID);
 
    /* Update once the LEDs are installed if using Animations */
@@ -56,7 +57,7 @@ public class LedSubsystem extends SubsystemBase {
    private AnimationTypes m_currentAnimation;
    public Animation m_toAnimate = null;
 
-   public LedSubsystem() {
+   public LEDSubsystem() {
       // this.joystick = joy;
       changeAnimation(AnimationTypes.AnimationsOff);
       CANdleConfiguration configAll = new CANdleConfiguration();
@@ -76,7 +77,7 @@ public class LedSubsystem extends SubsystemBase {
       return m_candle.get5VRailVoltage();
    }
 
-   public void configBrightness(double percent, LedSubsystem ledSubsystem) {
+   public void configBrightness(double percent, LEDSubsystem ledSubsystem) {
       m_candle.configBrightnessScalar(percent, 0);
    }
 

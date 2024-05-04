@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class NoteSensorSubsystem extends SubsystemBase {
+public class NoteSensor extends SubsystemBase {
 
     /* Set ID in web interface http://172.22.11.2:5812/ */
     private TimeOfFlight noteDistance = new TimeOfFlight(Constants.CANIDs.NOTE_SENSOR_ID);
@@ -28,7 +28,7 @@ public class NoteSensorSubsystem extends SubsystemBase {
      * It is initialized with a new instance of the `LedSubsystem` class
      * It is needed to control the LEDs based on the method `isNoteLoaded()`
      */
-    private LedSubsystem m_ledSubsystem = new LedSubsystem();
+    private LEDSubsystem m_ledSubsystem = new LEDSubsystem();
      /*
      * Set the distance to the note to be considered load position.'
      * Measure in (mm) to determine an appropriate value.
@@ -36,7 +36,7 @@ public class NoteSensorSubsystem extends SubsystemBase {
     public int noteDistanceCheck = 375;
 
     /* Constructor */
-    public NoteSensorSubsystem() {
+    public NoteSensor() {
         /*
          * Initialize the sensor, and '.setRangingMode(RangingMode.Short)' foDr this
          * usage.

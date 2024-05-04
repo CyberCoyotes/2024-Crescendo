@@ -18,11 +18,11 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.arm.ArmSubsystem;
-import frc.robot.util.LedSubsystem;
+import frc.robot.util.LEDSubsystem;
 
-public class Vision3 extends SubsystemBase {
+public class Vision3 {
 
-    private LedSubsystem led = new LedSubsystem();
+    private LEDSubsystem led = new LEDSubsystem();
     private ArmSubsystem arm = new ArmSubsystem();
 
     NetworkTable table;

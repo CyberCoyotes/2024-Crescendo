@@ -6,16 +6,16 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.Constants;
-import frc.robot.util.NoteSensorSubsystem;
+import frc.robot.util.NoteSensor;
 
 /*For indexing cargo. That is, taking cargo from a stored position and proceeding it to the shooter.*/
 public class IndexSubsystem extends SubsystemBase {
     private TalonSRX motor;
-    public NoteSensorSubsystem NoteSensor;
+    public NoteSensor NoteSensor;
 
     public IndexSubsystem() {
         this.motor = new TalonSRX(Constants.CANIDs.INDEX_ID);
-        NoteSensor = new NoteSensorSubsystem();
+        NoteSensor = new NoteSensor();
         motor.set(ControlMode.PercentOutput, 0);
         motor.setNeutralMode(NeutralMode.Brake);
     }

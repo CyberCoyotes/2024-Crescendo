@@ -5,14 +5,14 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.index.IndexConstants;
 import frc.robot.index.IndexSubsystem;
 import frc.robot.index.SetIndex;
-import frc.robot.util.NoteSensorSubsystem;
+import frc.robot.util.NoteSensor;
 
 public class IntakeIndex extends SequentialCommandGroup {
     IndexSubsystem index;
     IntakeSubsystem intake;
-    NoteSensorSubsystem notesensor;
+    NoteSensor notesensor;
 
-    public IntakeIndex(IndexSubsystem index, IntakeSubsystem intake, NoteSensorSubsystem notesensor) {
+    public IntakeIndex(IndexSubsystem index, IntakeSubsystem intake, NoteSensor notesensor) {
         this.index = index;
         this.intake = intake;
         this.notesensor = notesensor;

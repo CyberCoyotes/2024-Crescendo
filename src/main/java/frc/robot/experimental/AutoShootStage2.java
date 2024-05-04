@@ -8,10 +8,10 @@ import frc.robot.index.IndexSubsystem;
 import frc.robot.intake.IntakeSubsystem;
 import frc.robot.shooter.ShootStage;
 import frc.robot.shooter.ShooterSubsystem;
-import frc.robot.util.NoteSensorSubsystem;
+import frc.robot.util.NoteSensor;
 
 public class AutoShootStage2 extends SequentialCommandGroup {
-    public AutoShootStage2(ArmSubsystem arm, IndexSubsystem index, IntakeSubsystem intake, ShooterSubsystem shooter, NoteSensorSubsystem notesensor) {
+    public AutoShootStage2(ArmSubsystem arm, IndexSubsystem index, IntakeSubsystem intake, ShooterSubsystem shooter, NoteSensor notesensor) {
 
         addCommands(
             // Set the arm to the middle position for shooting from the closest Stage leg
