@@ -3,7 +3,7 @@ package frc.robot.experimental;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.index.IndexConstants;
 import frc.robot.index.IndexSubsystem;
-import frc.robot.shooter.ShooterConstants;
+import frc.robot.shooter.FlywheelConstants;
 import frc.robot.shooter.ShooterSubsystem;
 import frc.robot.util.NoteSensorSubsystem;
 
@@ -30,7 +30,7 @@ public class ShootAmp2 extends Command {
 
     @Override
     public void execute() {
-        shooter.setFlywheelVelocityAmp(ShooterConstants.FLYWHEEL_VELOCITY_AMP);
+        shooter.setFlywheelVelocityAmp(FlywheelConstants.FLYWHEEL_VELOCITY_AMP);
         index.setIndexPower(IndexConstants.INDEX_POWER);        
     }
 

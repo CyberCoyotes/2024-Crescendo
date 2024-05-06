@@ -34,7 +34,7 @@ public class Shoot extends Command {
         * Else, setPower of Index to zero and continue running the flywheel until `isFlywheelNominal` is true
          */
 
-        shooter.setFlywheelVelocity(ShooterConstants.FLYWHEEL_VELOCITY);
+        shooter.setFlywheelVelocity(FlywheelConstants.FLYWHEEL_VELOCITY);
 
         if (shooter.isFlywheelNominal()) {
             index.setIndexPower(IndexConstants.INDEX_POWER);

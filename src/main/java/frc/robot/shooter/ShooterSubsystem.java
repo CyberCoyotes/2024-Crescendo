@@ -96,8 +96,8 @@ public class ShooterSubsystem extends SubsystemBase{
     }
 
     public void setFlywheelToIdle() {
-        m_primaryMotor.setControl(m_velocityVoltage.withVelocity(ShooterConstants.FLYWHEEL_IDLE_VELOCITY));
-        m_secondaryMotor.setControl(m_velocityVoltage.withVelocity(ShooterConstants.FLYWHEEL_IDLE_VELOCITY));
+        m_primaryMotor.setControl(m_velocityVoltage.withVelocity(FlywheelConstants.FLYWHEEL_IDLE_VELOCITY));
+        m_secondaryMotor.setControl(m_velocityVoltage.withVelocity(FlywheelConstants.FLYWHEEL_IDLE_VELOCITY));
     }
     public void stopFlywheel() {
         m_primaryMotor.setControl(m_velocityVoltage.withVelocity(0));
@@ -110,8 +110,8 @@ public class ShooterSubsystem extends SubsystemBase{
         m_secondaryMotor.setControl(mmVelocityVoltage.withVelocity(velocity));
     }
     public void setFlywheelToIdleMM() {
-        m_primaryMotor.setControl(mmVelocityVoltage.withVelocity(ShooterConstants.FLYWHEEL_IDLE_VELOCITY));
-        m_secondaryMotor.setControl(mmVelocityVoltage.withVelocity(ShooterConstants.FLYWHEEL_IDLE_VELOCITY));
+        m_primaryMotor.setControl(mmVelocityVoltage.withVelocity(FlywheelConstants.FLYWHEEL_IDLE_VELOCITY));
+        m_secondaryMotor.setControl(mmVelocityVoltage.withVelocity(FlywheelConstants.FLYWHEEL_IDLE_VELOCITY));
     }
     
     public void setFlywheelTorqueCurrent(double amps) {
@@ -153,7 +153,7 @@ public class ShooterSubsystem extends SubsystemBase{
     */
 
     public boolean isFlywheelNominal() { 
-        if (getFlywheelVelocity().getValue() >= ShooterConstants.FLYWHEEL_MIN && getFlywheelVelocity().getValue() <= ShooterConstants.FLYWHEEL_MAX ) {
+        if (getFlywheelVelocity().getValue() >= FlywheelConstants.FLYWHEEL_MIN && getFlywheelVelocity().getValue() <= FlywheelConstants.FLYWHEEL_MAX ) {
             return true;
         } else {
             return false;
@@ -162,7 +162,7 @@ public class ShooterSubsystem extends SubsystemBase{
 
     public boolean isFlywheelNominalAmp() { 
         if (getFlywheelVelocity().getValue() >= 
-            (ShooterConstants.FLYWHEEL_AMP_MIN)) // Removed the upper limit check
+            (FlywheelConstants.FLYWHEEL_AMP_MIN)) // Removed the upper limit check
             // && getFlywheelVelocity().getValue() <= ShooterConstants.FLYWHEEL_AMP_MAX) 
             {
             return true;

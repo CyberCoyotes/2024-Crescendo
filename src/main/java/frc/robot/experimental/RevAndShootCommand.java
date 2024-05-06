@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.index.IndexSubsystem;
-import frc.robot.shooter.ShooterConstants;
+import frc.robot.shooter.FlywheelConstants;
 import frc.robot.shooter.ShooterSubsystem;
 
 @SuppressWarnings("unused")
@@ -43,7 +43,7 @@ public class RevAndShootCommand extends SequentialCommandGroup {
     private void SetupCommands() {
         this.addCommands(
                 new ParallelCommandGroup(
-                        new RunCommand(() -> shooter.setFlywheelVelocity(ShooterConstants.FLYWHEEL_VELOCITY))),
+                        new RunCommand(() -> shooter.setFlywheelVelocity(FlywheelConstants.FLYWHEEL_VELOCITY))),
                         new SequentialCommandGroup(
                                 // new WaitUntilCommand(() -> shooter.AtVelocity(ShooterConstants.FLYWHEEL_VELOCITY-1))).andThen(indexCommand)
                                 ));
