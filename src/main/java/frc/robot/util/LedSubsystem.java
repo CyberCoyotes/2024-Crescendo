@@ -209,8 +209,9 @@ public class LEDSubsystem extends SubsystemBase{
          case AnimationsOff:
             m_toAnimate = null;
             break;
-      }
+      }      
+   } // end of switch block
 
-  // System.out.println("Changed to " + m_currentAnimation.toString());
-   }
+
+
 } // end of class LedSubsystem

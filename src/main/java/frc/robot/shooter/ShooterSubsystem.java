@@ -11,6 +11,9 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.Constants;
+import frc.robot.arm.ArmSubsystem;
+import frc.robot.shooter.DistanceConstants;
+import frc.robot.util.LEDSubsystem;
 // import frc.robot.vision.LimelightHelpers.LimelightTarget_Fiducial;
 import frc.robot.vision.LimelightHelpers;
 
@@ -21,6 +24,9 @@ public class ShooterSubsystem extends SubsystemBase{
     // Declare variables for the motors to be controlled
     private TalonFX m_primaryMotor = new TalonFX(Constants.CANIDs.BOTTOM_FLYWHEEL_ID, "rio"); // BOTTOM = primary
     private TalonFX m_secondaryMotor = new TalonFX(Constants.CANIDs.TOP_FLYWHEEL_ID, "rio"); // TOP = secondary
+    
+    private LEDSubsystem led = new LEDSubsystem();
+    private ArmSubsystem arm = new ArmSubsystem();
 
     /* 
     This is an instance of the `VelocityVoltage` class being created and assigned 
@@ -188,8 +194,49 @@ public class ShooterSubsystem extends SubsystemBase{
     } 
     */
 
+    public void setLEDdistance() {
+        // Get the distance from the limelight
+        double ty = LimelightHelpers.getTY("limelight-speedy");
+        // Choose LED color based on the value of tx
+            if (ty < DistanceConstants.TAG_RANGE_1) {
+                led.ColorFlowRed();
+            } else if (ty < DistanceConstants.TAG_RANGE_2) {
+                led.ColorFlowOrange();
+            } else if (ty < DistanceConstants.TAG_RANGE_3) {
+                led.ColorFlowYellow();
+            } else if (ty < DistanceConstants.TAG_RANGE_4) {
+                led.ColorFlowGreen();
+            } else if (ty < DistanceConstants.TAG_RANGE_5) {
+                led.ColorFlowBlue();
+            } else if (ty > DistanceConstants.TAG_RANGE_6){
+                led.ColorFlowPurple();            
+            }
+        } // Add this closing curly brace
+
+    public void setArmDistance() {
+        // Get the distance from the limelight (ty)
+        // Set arm based on the limelight distance (ty)
+        double ty = LimelightHelpers.getTY("limelight-speedy");
+        // Choose LED color based on the value of ty
+            if (ty < DistanceConstants.TAG_RANGE_1) {
+                arm.setArmPose(25);
+            } else if (ty < DistanceConstants.TAG_RANGE_2) {
+                arm.setArmPose(20);
+            } else if (ty < DistanceConstants.TAG_RANGE_3) {
+                arm.setArmPose(15);
+            } else if (ty < DistanceConstants.TAG_RANGE_4) {
+                arm.setArmPose(10);
+            } else if (ty < DistanceConstants.TAG_RANGE_5) {
+                arm.setArmPose(5);
+            } else if (ty > DistanceConstants.TAG_RANGE_6){
+                arm.setArmPose(0);
+            }
+        } // Add this closing curly brace
+
     @Override
     public void periodic() {
+        setLEDdistance();
+        setArmDistance();
 
         // super.periodic(); // Suggested by VSCode
         // SmartDashboard.putBoolean("Flywheel 1.0 version", isFlywheelNominal());
