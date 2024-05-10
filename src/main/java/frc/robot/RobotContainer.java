@@ -38,13 +38,10 @@ import frc.robot.drivetrain.TunerConstants;
 import frc.robot.util.Constants;
 import frc.robot.util.FeedbackDistance;
 import frc.robot.util.NoteSensor;
-// import frc.robot.vision.LimelightHelpers;
-// import frc.robot.vision.Vision3;
 import frc.robot.experimental.AutoShootStage;
 import frc.robot.experimental.AutoShootStage2;
 import frc.robot.experimental.IntakeIndexSmartTimer;
 import frc.robot.experimental.IntakeIndexTimer;
-import frc.robot.experimental.VisionFeedback;
 import frc.robot.index.IndexSubsystem;
 import frc.robot.index.SetIndex;
 import frc.robot.intake.IntakeCommandGroup;
@@ -53,7 +50,6 @@ import frc.robot.intake.IntakeRevCommandGroup;
 import frc.robot.intake.IntakeSubsystem;
 import frc.robot.shooter.AutoShoot;
 import frc.robot.shooter.AutoShootAmp;
-// import frc.robot.shooter.RunShooter;
 import frc.robot.shooter.SetFlywheel;
 import frc.robot.shooter.Shoot;
 import frc.robot.shooter.ShootAmp;
@@ -62,6 +58,7 @@ import frc.robot.shooter.ShooterConstants;
 import frc.robot.shooter.ShooterSubsystem;
 import frc.robot.util.ShuffleboardConfigs;
 import frc.robot.vision.Vision3;
+import frc.robot.experimental.VisionArmPose;
 
 // Getting rid of the soft unused warnings
 @SuppressWarnings("unused")
@@ -84,7 +81,10 @@ public class RobotContainer {
   WinchSubsystem winch = new WinchSubsystem();
   ArmSubsystem arm = new ArmSubsystem();
   NoteSensor notesensor = new NoteSensor();
-  VisionFeedback limelightLedFeedback = new VisionFeedback(null, null);
+  VisionArmPose visionArmPose = new VisionArmPose(null, arm);
+
+
+  // VisionFeedback limelightLedFeedback = new VisionFeedback(null, null);
     
 
   // #endregion Subsystems
@@ -164,7 +164,6 @@ public class RobotContainer {
 
     // CommandScheduler.feedbackDistanceCommand, 0, 1, TimeUnit.SECONDS);
     
-    CommandScheduler.getInstance().schedule(limelightLedFeedback);
 
   } // end of constructor
 

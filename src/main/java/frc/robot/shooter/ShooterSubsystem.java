@@ -246,7 +246,7 @@ public class ShooterSubsystem extends SubsystemBase{
     @Override
     public void periodic() {
         setLEDdistance();
-        setArmDistance();
+        // setArmDistance(); Tested previously and ranges worked rudimentarily
 
         // super.periodic(); // Suggested by VSCode
         // SmartDashboard.putBoolean("Flywheel 1.0 version", isFlywheelNominal());
