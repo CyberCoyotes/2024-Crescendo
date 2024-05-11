@@ -49,7 +49,6 @@ import frc.robot.util.NoteSensor;
 import frc.robot.experimental.AutoShootStage;
 import frc.robot.experimental.IntakeIndexSmartTimer;
 import frc.robot.experimental.IntakeIndexTimer;
-import frc.robot.experimental.VisionFeedback;
 import frc.robot.index.IndexSubsystem;
 import frc.robot.intake.IntakeCommandGroup;
 import frc.robot.intake.IntakeIndex;
@@ -66,6 +65,7 @@ import frc.robot.shooter.ShooterSubsystem;
 
 import frc.robot.util.ShuffleboardConfigs;
 import frc.robot.vision.Vision3;
+import frc.robot.experimental.VisionArmPose;
 
 import frc.robot.util.NoteSensorSubsystem;
 import frc.robot.vision.Vision2;
@@ -88,7 +88,10 @@ public class RobotContainer {
   WinchSubsystem winch = new WinchSubsystem();
   ArmSubsystem arm = new ArmSubsystem();
   NoteSensor notesensor = new NoteSensor();
-  VisionFeedback limelightLedFeedback = new VisionFeedback(null, null);
+  VisionArmPose visionArmPose = new VisionArmPose(null, arm);
+
+
+  // VisionFeedback limelightLedFeedback = new VisionFeedback(null, null);
     
 
   private double MaxSpeed = TunerConstants.kSpeedAt12VoltsMps; // kSpeedAt12VoltsMps desired top speed
@@ -161,7 +164,6 @@ public class RobotContainer {
 
     // CommandScheduler.feedbackDistanceCommand, 0, 1, TimeUnit.SECONDS);
     
-    CommandScheduler.getInstance().schedule(limelightLedFeedback);
 
   } // end of constructor
 

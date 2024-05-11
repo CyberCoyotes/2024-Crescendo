@@ -233,10 +233,20 @@ public class ShooterSubsystem extends SubsystemBase{
             }
         } // Add this closing curly brace
 
+    /* Linear interpolation method
+    * Take known empirically distance values, `ty` from `limelight-speedy` and arm angle poses using `setArmPose()` and use linear interpolation to figures out values in between   */
+
+    public double linearInterpolation(double x0, double y0, double x1, double y1, double x) {
+        if (x0 == x1) {
+            throw new IllegalArgumentException("x0 and x1 cannot be the same value");
+        }
+        return y0 + (x - x0) * (y1 - y0) / (x1 - x0);
+    }
+
     @Override
     public void periodic() {
         setLEDdistance();
-        setArmDistance();
+        // setArmDistance(); Tested previously and ranges worked rudimentarily
 
         // super.periodic(); // Suggested by VSCode
         // SmartDashboard.putBoolean("Flywheel 1.0 version", isFlywheelNominal());
