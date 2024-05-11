@@ -29,18 +29,6 @@ public class FlywheelConfigs2 {
         primaryMotor.setInverted(true);
         secondaryMotor.setInverted(true); 
 
-        /* Apply Configs - This approach seems to work the same as other Config approach */
-        /* Commenting out because we are using FlywheelConfigs
-
-        primaryMotor.getConfigurator().apply(slot0, 0.050);
-        primaryMotor.getConfigurator().apply(volt, 0.050);
-        primaryMotor.getConfigurator().apply(current, 0.050);
-    
-        secondaryMotor.getConfigurator().apply(slot0, 0.050);
-        secondaryMotor.getConfigurator().apply(volt, 0.050);
-        secondaryMotor.getConfigurator().apply(current, 0.050);
-         */
-
     } // end of constructor
 
 } // end of class

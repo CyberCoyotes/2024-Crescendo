@@ -34,7 +34,7 @@ public class ShootAmp extends Command {
         * Else, setPower of Index to zero and continue running the flywheel until `isFlywheelNominal` is true
          */
 
-        shooter.setFlywheelVelocityAmp(ShooterConstants.FLYWHEEL_VELOCITY_AMP);
+        shooter.setFlywheelVelocityAmp(FlywheelConstants.FLYWHEEL_VELOCITY_AMP);
 
         if (shooter.isFlywheelNominalAmp()) {
             index.setIndexPower(IndexConstants.INDEX_POWER);

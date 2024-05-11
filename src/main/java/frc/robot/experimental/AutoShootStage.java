@@ -5,7 +5,7 @@ import frc.robot.arm.ArmSubsystem;
 import frc.robot.index.IndexConstants;
 import frc.robot.index.IndexSubsystem;
 import frc.robot.intake.IntakeSubsystem;
-import frc.robot.shooter.ShooterConstants;
+import frc.robot.shooter.FlywheelConstants;
 import frc.robot.shooter.ShooterSubsystem;
 import frc.robot.util.NoteSensor;
 
@@ -37,7 +37,7 @@ public class AutoShootStage extends Command {
         * Else, setPower of Index to zero and continue running the flywheel until `isFlywheelNominal` is true
          */
 
-        shooter.setFlywheelVelocity(ShooterConstants.FLYWHEEL_VELOCITY_STAGE);
+        shooter.setFlywheelVelocity(FlywheelConstants.FLYWHEEL_VELOCITY_STAGE);
 
         if (shooter.isFlywheelNominal()) {
             index.setIndexPower(IndexConstants.INDEX_POWER);
