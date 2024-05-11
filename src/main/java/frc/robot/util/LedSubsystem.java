@@ -27,7 +27,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 @SuppressWarnings("unused")
 
+
 public class LEDSubsystem extends SubsystemBase{
+
    // remove subsystem extension
    private final CANdle m_candle = new CANdle(Constants.CANIDs.CANDLE_ID);
 
@@ -209,9 +211,10 @@ public class LEDSubsystem extends SubsystemBase{
          case AnimationsOff:
             m_toAnimate = null;
             break;
+
       }      
    } // end of switch block
 
-
-
+  // System.out.println("Changed to " + m_currentAnimation.toString());
+  
 } // end of class LedSubsystem

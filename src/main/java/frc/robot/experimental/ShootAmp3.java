@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.index.IndexConstants;
 import frc.robot.index.IndexSubsystem;
 import frc.robot.shooter.ShootAmp;
-import frc.robot.shooter.ShooterConstants;
+import frc.robot.shooter.FlywheelConstants;
 import frc.robot.shooter.ShooterSubsystem;
 import frc.robot.util.NoteSensor;
 

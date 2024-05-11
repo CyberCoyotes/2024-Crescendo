@@ -1,6 +1,6 @@
 package frc.robot.shooter;
 
-public class ShooterConstants {
+public class FlywheelConstants {
     
     public static final double FLYWHEEL_VELOCITY = 100; // rotations per second (rps) // 100
     public static final double FLYWHEEL_VELOCITY_STAGE = 120; // Greater than regular
