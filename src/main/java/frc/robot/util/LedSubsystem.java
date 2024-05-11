@@ -27,7 +27,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 @SuppressWarnings("unused")
 
-public class LEDSubsystem {
+
+public class LEDSubsystem extends SubsystemBase{
+
    // remove subsystem extension
    private final CANdle m_candle = new CANdle(Constants.CANIDs.CANDLE_ID);
 
@@ -41,7 +43,7 @@ public class LEDSubsystem {
       ColorFlowGreen,
       ColorFlowBlue,
       ColorFlowPurple,
-
+      ColorCyclonRed,
       // Fire, 
       // Larson, 
       // Rainbow,
@@ -150,6 +152,21 @@ public class LEDSubsystem {
       changeAnimation(AnimationTypes.ColorFlowRedReverse);
    }
 
+   public void ColorCyclonRed() {
+      // m_candle.animate(m_toAnimate);
+      // changeAnimation(AnimationTypes.ColorCyclonRed);
+
+      /* Animation mode that turns on one section of LEDS at 100% power with color red,
+       * The section precedeing will be at 50% power with color red, 
+       * and the section before that will be at 25% power with color red.
+       * The animation will then move to the next section and repeat the process until it reaches the end of the LED strip which `LEDCount`
+       * The process will then reverse and repeat until it reaches the start of the LED strip.
+       * The entire process will repeat indefinitely.
+       */
+      m_toAnimate = new ColorFlowAnimation(255, 0, 0, 0, 0.7, LedCount, Direction.Forward);
+      m_candle.animate(m_toAnimate);
+   }
+
    /*******************************
     * Color | RGB Values
     * ----------------------------
@@ -194,8 +211,10 @@ public class LEDSubsystem {
          case AnimationsOff:
             m_toAnimate = null;
             break;
-      }
+
+      }      
+   } // end of switch block
 
   // System.out.println("Changed to " + m_currentAnimation.toString());
-   }
+  
 } // end of class LedSubsystem

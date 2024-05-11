@@ -5,6 +5,8 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
+/* Originally named Limelight */
+
 package frc.robot.vision;
 
 import edu.wpi.first.networktables.NetworkTable;

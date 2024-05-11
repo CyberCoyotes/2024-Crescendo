@@ -23,8 +23,6 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
-  private Gyro gyro = new Gyro(); // Added by Scoy
-
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
@@ -34,9 +32,8 @@ public class Robot extends TimedRobot {
     CameraServer.startAutomaticCapture();
     // Creates the CvSink and connects it to the UsbCamera
     CvSink cvSink = CameraServer.getVideo();
-    NetworkTableInstance.getDefault().getTable("limelight-speedy").getEntry("stream").setNumber(2);
 
-    // Creates the CvSource and MjpegServer [2] and connects them
+    NetworkTableInstance.getDefault().getTable("limelight-speedy").getEntry("stream").setNumber(2);
 
   }
 

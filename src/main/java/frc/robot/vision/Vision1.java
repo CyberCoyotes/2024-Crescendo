@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.arm.ArmSubsystem;
 
 
-public class Vision1 extends SubsystemBase {
+public class Vision1 {
 
     NetworkTable limelightBack; // table for the limelight
 
@@ -225,9 +225,9 @@ public class Vision1 extends SubsystemBase {
         }
     }
 
-ArmSubsystem arm = new ArmSubsystem();
+// ArmSubsystem arm = new ArmSubsystem();
 
-@Override
+/*
 public void periodic(){
     double TAG_ID = getID();
     double DISTANCE = DISTANCE_CALCULATIONS();
@@ -235,6 +235,7 @@ public void periodic(){
         arm.setArmPose(55);
     }
 }
+ */
 
 }
 // end of class

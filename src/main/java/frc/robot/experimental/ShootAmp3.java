@@ -8,16 +8,16 @@ import frc.robot.index.IndexSubsystem;
 import frc.robot.shooter.ShootAmp;
 import frc.robot.shooter.FlywheelConstants;
 import frc.robot.shooter.ShooterSubsystem;
-import frc.robot.util.NoteSensorSubsystem;
+import frc.robot.util.NoteSensor;
 
 @SuppressWarnings("unused")
 
 public class ShootAmp3 extends SequentialCommandGroup {
     private ShooterSubsystem shooter;
     private IndexSubsystem index;
-    private NoteSensorSubsystem notesensor;
+    private NoteSensor notesensor;
 
-    public ShootAmp3(ShooterSubsystem shooter, IndexSubsystem index, NoteSensorSubsystem notesensor) {
+    public ShootAmp3(ShooterSubsystem shooter, IndexSubsystem index, NoteSensor notesensor) {
         this.shooter = shooter;
         this.index = index;
         this.notesensor = notesensor;

@@ -7,16 +7,16 @@ import frc.robot.index.IndexSubsystem;
 import frc.robot.intake.IntakeSubsystem;
 import frc.robot.shooter.FlywheelConstants;
 import frc.robot.shooter.ShooterSubsystem;
-import frc.robot.util.NoteSensorSubsystem;
+import frc.robot.util.NoteSensor;
 
 @SuppressWarnings("unused")
 
 public class AutoShootStage extends Command {
     private ShooterSubsystem shooter; 
     private IndexSubsystem index;
-    private NoteSensorSubsystem notesensor;
+    private NoteSensor notesensor;
 
-    public AutoShootStage(ArmSubsystem arm, IndexSubsystem index, IntakeSubsystem intake, NoteSensorSubsystem notesensor, ShooterSubsystem shooter) {
+    public AutoShootStage(ArmSubsystem arm, IndexSubsystem index, IntakeSubsystem intake, NoteSensor notesensor, ShooterSubsystem shooter) {
         this.shooter = shooter;
         this.index = index;
         this.notesensor = notesensor;

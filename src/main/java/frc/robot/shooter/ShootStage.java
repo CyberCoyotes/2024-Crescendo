@@ -2,7 +2,7 @@ package frc.robot.shooter;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.util.Constants;
-import frc.robot.util.NoteSensorSubsystem;
+import frc.robot.util.NoteSensor;
 import frc.robot.index.IndexConstants;
 import frc.robot.index.IndexSubsystem;
 
@@ -11,9 +11,9 @@ import frc.robot.index.IndexSubsystem;
 public class ShootStage extends Command {
     private ShooterSubsystem shooter; 
     private IndexSubsystem index;
-    private NoteSensorSubsystem notesensor;
+    private NoteSensor notesensor;
 
-    public ShootStage(ShooterSubsystem shooter, IndexSubsystem index, NoteSensorSubsystem notesensor) {
+    public ShootStage(ShooterSubsystem shooter, IndexSubsystem index, NoteSensor notesensor) {
         this.shooter = shooter;
         this.index = index;
         this.notesensor = notesensor;

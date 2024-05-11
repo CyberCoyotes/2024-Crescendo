@@ -2,17 +2,17 @@ package frc.robot.experimental;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.intake.IntakeSubsystem;
-import frc.robot.util.NoteSensorSubsystem;
+import frc.robot.util.NoteSensor;
 
 /**
  * Run Once or Continuously
  */
 public class SetIntake2 extends Command {
     private IntakeSubsystem intake;
-    private NoteSensorSubsystem notesensor;
+    private NoteSensor notesensor;
     private double power;
 
-    public SetIntake2(IntakeSubsystem intake, NoteSensorSubsystem notesensor, double power) {
+    public SetIntake2(IntakeSubsystem intake, NoteSensor notesensor, double power) {
         this.intake = intake;
         this.notesensor = notesensor;
         this.power = power;

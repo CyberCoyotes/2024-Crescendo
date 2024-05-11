@@ -5,6 +5,18 @@
 package frc.robot;
 
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
+
+import java.util.concurrent.TimeUnit;
+
+import com.ctre.phoenix6.hardware.Pigeon2;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.VideoSource;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -15,6 +27,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.arm.ArmConstants;
@@ -26,9 +39,17 @@ import frc.robot.climb.WinchSubsystem;
 import frc.robot.drivetrain.CommandSwerveDrivetrain;
 import frc.robot.drivetrain.Gyro;
 import frc.robot.drivetrain.TunerConstants;
+
+import frc.robot.util.Constants;
+import frc.robot.util.FeedbackDistance;
+import frc.robot.util.NoteSensor;
+// import frc.robot.vision.LimelightHelpers;
+// import frc.robot.vision.Vision3;
+
 import frc.robot.experimental.AutoShootStage;
 import frc.robot.experimental.IntakeIndexSmartTimer;
 import frc.robot.experimental.IntakeIndexTimer;
+import frc.robot.experimental.VisionFeedback;
 import frc.robot.index.IndexSubsystem;
 import frc.robot.intake.IntakeCommandGroup;
 import frc.robot.intake.IntakeIndex;
@@ -42,8 +63,13 @@ import frc.robot.shooter.ShootAmp;
 import frc.robot.shooter.ShootStage;
 import frc.robot.shooter.FlywheelConstants;
 import frc.robot.shooter.ShooterSubsystem;
+
+import frc.robot.util.ShuffleboardConfigs;
+import frc.robot.vision.Vision3;
+
 import frc.robot.util.NoteSensorSubsystem;
 import frc.robot.vision.Vision2;
+
 
 // Getting rid of the soft unused warnings
 @SuppressWarnings("unused")
@@ -61,8 +87,9 @@ public class RobotContainer {
   IndexSubsystem index = new IndexSubsystem();
   WinchSubsystem winch = new WinchSubsystem();
   ArmSubsystem arm = new ArmSubsystem();
-  NoteSensorSubsystem notesensor = new NoteSensorSubsystem();
-  Gyro pidgey = new Gyro();
+  NoteSensor notesensor = new NoteSensor();
+  VisionFeedback limelightLedFeedback = new VisionFeedback(null, null);
+    
 
   private double MaxSpeed = TunerConstants.kSpeedAt12VoltsMps; // kSpeedAt12VoltsMps desired top speed
   private double MaxAngularRate = 1.5 * Math.PI; // 3/4 of a rotation per second max angular velocity
@@ -103,7 +130,7 @@ public class RobotContainer {
 
   // Constructor of the class
   public RobotContainer() {
-    Vision2 lime = new Vision2();
+    Vision3 limelight = new Vision3();
 
     /* Autonomous - Pathplanner Named Commands */
     NamedCommands.registerCommand("AutoShoot", autoShoot); // AutoShootWhenReady --> AutoShoot
@@ -126,9 +153,17 @@ public class RobotContainer {
     /* Configure the Button Bindings */
     configureBindings(); // 
 
+    /* Needed to display */
     DebugMethodSingle();
 
-  }
+    // Distance based on Limelight    
+    // InstantCommand feedbackDistanceCommand = new InstantCommand(feedbackDistance::run, feedbackDistance);
+
+    // CommandScheduler.feedbackDistanceCommand, 0, 1, TimeUnit.SECONDS);
+    
+    CommandScheduler.getInstance().schedule(limelightLedFeedback);
+
+  } // end of constructor
 
   /*
    * Method to check our Alliance status for Red or Blue
