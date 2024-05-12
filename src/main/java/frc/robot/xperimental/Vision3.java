@@ -10,19 +10,17 @@
  * It provides getter methods getX(), getY(), and getArea() to retrieve the values of tx, ty, and ta respectively. These methods return the double value of the corresponding entry, or 0.0 if the entry does not exist.
  */
 
-package frc.robot.vision;
+package frc.robot.xperimental;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.arm.ArmSubsystem;
-import frc.robot.util.LEDSubsystem;
+import frc.robot.util.LEDs;
 
 public class Vision3 {
 
-    private LEDSubsystem led = new LEDSubsystem();
+    private LEDs led = new LEDs();
     private ArmSubsystem arm = new ArmSubsystem();
 
     NetworkTable table;

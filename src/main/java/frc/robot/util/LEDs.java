@@ -21,17 +21,14 @@ import com.ctre.phoenix.led.CANdle.VBatOutputMode;
 import com.ctre.phoenix.led.CANdleConfiguration;
 import com.ctre.phoenix.led.ColorFlowAnimation;
 import com.ctre.phoenix.led.ColorFlowAnimation.Direction;
-
-import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-@SuppressWarnings("unused")
+// @SuppressWarnings("unused")
 
-
-public class LEDSubsystem extends SubsystemBase{
+public class LEDs extends SubsystemBase{
 
    // remove subsystem extension
-   private final CANdle m_candle = new CANdle(Constants.CANIDs.CANDLE_ID);
+   private final CANdle m_candle = new CANdle(Constants.CANDLE_ID);
 
    /* Update once the LEDs are installed if using Animations */
    private final int LedCount = 69;
@@ -59,7 +56,7 @@ public class LEDSubsystem extends SubsystemBase{
    private AnimationTypes m_currentAnimation;
    public Animation m_toAnimate = null;
 
-   public LEDSubsystem() {
+   public LEDs() {
       // this.joystick = joy;
       changeAnimation(AnimationTypes.AnimationsOff);
       CANdleConfiguration configAll = new CANdleConfiguration();
@@ -79,7 +76,7 @@ public class LEDSubsystem extends SubsystemBase{
       return m_candle.get5VRailVoltage();
    }
 
-   public void configBrightness(double percent, LEDSubsystem ledSubsystem) {
+   public void configBrightness(double percent, LEDs ledSubsystem) {
       m_candle.configBrightnessScalar(percent, 0);
    }
 

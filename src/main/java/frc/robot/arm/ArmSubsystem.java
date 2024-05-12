@@ -20,7 +20,7 @@ public class ArmSubsystem extends SubsystemBase {
 
         // Initialize the motor in the constructor with the motor ID and optional canbus
         // ID
-        m_arm = new TalonFX(Constants.CANIDs.ARM_ID);
+        m_arm = new TalonFX(Constants.ARM_ID);
 
         /*
          * Send info about the arm to the Shuffleboard

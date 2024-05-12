@@ -14,7 +14,7 @@ public class IndexSubsystem extends SubsystemBase {
     public NoteSensor NoteSensor;
 
     public IndexSubsystem() {
-        this.motor = new TalonSRX(Constants.CANIDs.INDEX_ID);
+        this.motor = new TalonSRX(Constants.INDEX_ID);
         NoteSensor = new NoteSensor();
         motor.set(ControlMode.PercentOutput, 0);
         motor.setNeutralMode(NeutralMode.Brake);

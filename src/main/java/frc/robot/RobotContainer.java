@@ -5,29 +5,14 @@
 package frc.robot;
 
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
-
-import java.util.concurrent.TimeUnit;
-
-import com.ctre.phoenix6.hardware.Pigeon2;
-import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.VideoSource;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.auto.NamedCommands;
-
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.arm.ArmConstants;
@@ -37,18 +22,12 @@ import frc.robot.climb.SetWinch;
 import frc.robot.climb.WinchConstants;
 import frc.robot.climb.WinchSubsystem;
 import frc.robot.drivetrain.CommandSwerveDrivetrain;
-import frc.robot.drivetrain.Gyro;
 import frc.robot.drivetrain.TunerConstants;
-
-import frc.robot.util.Constants;
-import frc.robot.util.FeedbackDistance;
 import frc.robot.util.NoteSensor;
-// import frc.robot.vision.LimelightHelpers;
-// import frc.robot.vision.Vision3;
-
-import frc.robot.experimental.AutoShootStage;
-import frc.robot.experimental.IntakeIndexSmartTimer;
-import frc.robot.experimental.IntakeIndexTimer;
+import frc.robot.xperimental.AutoShootStage;
+import frc.robot.xperimental.IntakeIndexSmartTimer;
+import frc.robot.xperimental.IntakeIndexTimer;
+import frc.robot.xperimental.VisionArmPose;
 import frc.robot.index.IndexSubsystem;
 import frc.robot.intake.IntakeCommandGroup;
 import frc.robot.intake.IntakeIndex;
@@ -63,16 +42,8 @@ import frc.robot.shooter.ShootStage;
 import frc.robot.shooter.FlywheelConstants;
 import frc.robot.shooter.ShooterSubsystem;
 
-import frc.robot.util.ShuffleboardConfigs;
-import frc.robot.vision.Vision3;
-import frc.robot.experimental.VisionArmPose;
-
-import frc.robot.util.NoteSensorSubsystem;
-import frc.robot.vision.Vision2;
-
-
 // Getting rid of the soft unused warnings
-@SuppressWarnings("unused")
+// @SuppressWarnings("unused")
 
 // The RobotContainer is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, the robot is defined here.
 public class RobotContainer {
@@ -90,9 +61,7 @@ public class RobotContainer {
   NoteSensor notesensor = new NoteSensor();
   VisionArmPose visionArmPose = new VisionArmPose(null, arm);
 
-
   // VisionFeedback limelightLedFeedback = new VisionFeedback(null, null);
-    
 
   private double MaxSpeed = TunerConstants.kSpeedAt12VoltsMps; // kSpeedAt12VoltsMps desired top speed
   private double MaxAngularRate = 1.5 * Math.PI; // 3/4 of a rotation per second max angular velocity
@@ -120,24 +89,23 @@ public class RobotContainer {
   // Only Sets the flywheel to idle velocity, no index
   private final SetFlywheel setShooterIdle = new SetFlywheel(shooter, arm, FlywheelConstants.FLYWHEEL_IDLE_VELOCITY);
   private final Shoot shoot = new Shoot(shooter, index, notesensor);
-  private final ShootAmp shootAmp = new ShootAmp(shooter, index, notesensor); 
+  private final ShootAmp shootAmp = new ShootAmp(shooter, index, notesensor);
   private final ShootStage shootStage = new ShootStage(shooter, index, notesensor);
 
   /* Auton Specific Commands */
   private final AutoShoot autoShoot = new AutoShoot(arm, index, intake, shooter, notesensor);
   private final AutoShootAmp autoShootAmp = new AutoShootAmp(shooter, index, notesensor);
   private final AutoShootStage autoShootStage = new AutoShootStage(arm, index, intake, notesensor, shooter);
-  
+
   /* Autonomous Chooser */
   SendableChooser<Command> autoChooser;
 
   // Constructor of the class
   public RobotContainer() {
-    Vision3 limelight = new Vision3();
 
     /* Autonomous - Pathplanner Named Commands */
     NamedCommands.registerCommand("AutoShoot", autoShoot); // AutoShootWhenReady --> AutoShoot
-    NamedCommands.registerCommand("AutoShootAmp", autoShootAmp); // shootWhenReadyAmp --> autoShootAmp 
+    NamedCommands.registerCommand("AutoShootAmp", autoShootAmp); // shootWhenReadyAmp --> autoShootAmp
     NamedCommands.registerCommand("AutoShootStage", autoShootStage);
     NamedCommands.registerCommand("Intake", new IntakeIndex(index, intake, notesensor));
     NamedCommands.registerCommand("IntakeTimer", new IntakeIndexTimer(index, intake));
@@ -154,16 +122,10 @@ public class RobotContainer {
     // Shuffleboard.getTab("Auton").add("Auto Chooser", autoChooser);
 
     /* Configure the Button Bindings */
-    configureBindings(); // 
+    configureBindings(); //
 
-    /* Needed to display */
-    DebugMethodSingle();
-
-    // Distance based on Limelight    
-    // InstantCommand feedbackDistanceCommand = new InstantCommand(feedbackDistance::run, feedbackDistance);
-
-    // CommandScheduler.feedbackDistanceCommand, 0, 1, TimeUnit.SECONDS);
-    
+    /* Needed to display the custom debug method */
+    // debug();
 
   } // end of constructor
 
@@ -176,31 +138,37 @@ public class RobotContainer {
     return DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red;
   }
 
-
-  /* This method is  sed to set up the button bindings for the robot; 
-  defines what each button on the robot's controller should do when pressed. */
+  /*
+   * This method sets up the button bindings for the robot;
+   * defines what each button on the robot's controller should do when pressed.
+   */
   private void configureBindings() {
 
     /* DRIVER BINDINGS */
     index.setDefaultCommand(index.run(() -> index.setIndexPower(0)));
 
     driveRequest = drive.withVelocityX(-m_driverController.getLeftY() * MaxSpeed)
-        .withVelocityY(-m_driverController.getLeftX() * MaxSpeed) // Drive left with negative X (left)
-        .withRotationalRate(-m_driverController.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
-        ;
+        // Drive left with negative X (left)    
+        .withVelocityY(-m_driverController.getLeftX() * MaxSpeed)
+        // Drive counterclockwise with negative X (left)
+        .withRotationalRate(-m_driverController.getRightX() * MaxAngularRate) 
+    ;
 
-    drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
+    // Drivetrain will execute this command periodically
+    drivetrain.setDefaultCommand( 
         // Drive forward with negative Y (forward)
         drivetrain.applyRequest(() -> drive.withVelocityX(-m_driverController.getLeftY() * MaxSpeed)
-            .withVelocityY(-m_driverController.getLeftX() * MaxSpeed) // Drive left with negative X (left)
-            .withRotationalRate(-m_driverController.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
+            // Drive left with negative X (left)
+            .withVelocityY(-m_driverController.getLeftX() * MaxSpeed) 
+            // Drive counterclockwise with negative X (left)
+            .withRotationalRate(-m_driverController.getRightX() * MaxAngularRate) 
         ));
 
     m_driverController.start().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
     m_driverController.a().whileTrue(new InstantCommand(() -> arm.setArmPose(ArmConstants.ARM_HOME_POSE)));
     m_driverController.b().whileTrue(new InstantCommand(() -> arm.setArmPose(ArmConstants.ARM_MID_POSE)));
     m_driverController.x().whileTrue(new InstantCommand(() -> arm.setArmPose(ArmConstants.ARM_AMP_POSE)));
-    // m_driverController.y().whileTrue(new InstantCommand(() -> ( ))); // Y-Button not used; use it for a new feature or testable function
+    // m_driverController.y().whileTrue(new InstantCommand(() -> ( ))); // Y-Button
 
     m_driverController.rightBumper().whileTrue(new IntakeCommandGroup(index, intake));
     m_driverController.leftBumper().whileTrue(new IntakeRevCommandGroup(index, intake));
@@ -214,23 +182,18 @@ public class RobotContainer {
     m_operatorController.y().whileTrue(new SetWinch(winch, WinchConstants.WINCH_POWER));
     m_operatorController.back().whileTrue(new SetWinch(winch, WinchConstants.WINCH_POWER_BOOST));
     m_operatorController.rightTrigger().whileTrue(shootStage); // Shoot Stage
-    // m_operatorController.leftTrigger().whileTrue(new SetFlywheel(shooter, arm, ShooterConstants.FLYWHEEL_VELOCITY_STAGE)); // Lob shot
 
   };
 
   /* Use for Debugging and diagnostics purposes */
-  public void DebugMethodSingle() {
+  public void debug() {
     // var driverDiagnostics = Shuffleboard.getTab("Diagnostics");
     // driverDiagnostics.addDouble("Arm Rot", () ->
     // arm.GetArmPos().getValueAsDouble());
     // driverDiagnostics.addDouble("Arm Rot Deg", () -> arm.GetPositionDegrees());
     // arm.showArmTelemetry("Driver Diagnostics");
     // Shuffleboard.getTab("Arm").add("Arm Output", arm);
-    // SmartDashboard.putNumber("Yaw", pidgey.getYaw());
-    // SmartDashboard.putNumber("Angle", pidgey.getAngle());
-    // SmartDashboard.putNumber("Rotation2d", pidgey.Rotation2d());
-    // SmartDashboard.getBoolean("Left Nominal", pidgey.isStageYawNominalLeft());
-    // SmartDashboard.getBoolean("Left Nominal", pidgey.isStageYawNominalRight());
+
   }
 
   public Command getAutonomousCommand() {

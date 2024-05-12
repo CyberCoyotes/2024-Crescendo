@@ -6,14 +6,10 @@ import com.ctre.phoenix6.controls.TorqueCurrentFOC;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.Constants;
 import frc.robot.arm.ArmSubsystem;
-import frc.robot.shooter.DistanceConstants;
-import frc.robot.util.LEDSubsystem;
+import frc.robot.util.LEDs;
 // import frc.robot.vision.LimelightHelpers.LimelightTarget_Fiducial;
 import frc.robot.vision.LimelightHelpers;
 
@@ -22,10 +18,10 @@ import frc.robot.vision.LimelightHelpers;
 public class ShooterSubsystem extends SubsystemBase{
 
     // Declare variables for the motors to be controlled
-    private TalonFX m_primaryMotor = new TalonFX(Constants.CANIDs.BOTTOM_FLYWHEEL_ID, "rio"); // BOTTOM = primary
-    private TalonFX m_secondaryMotor = new TalonFX(Constants.CANIDs.TOP_FLYWHEEL_ID, "rio"); // TOP = secondary
+    private TalonFX m_primaryMotor = new TalonFX(Constants.BOTTOM_FLYWHEEL_ID, "rio"); // BOTTOM = primary
+    private TalonFX m_secondaryMotor = new TalonFX(Constants.TOP_FLYWHEEL_ID, "rio"); // TOP = secondary
     
-    private LEDSubsystem led = new LEDSubsystem();
+    private LEDs led = new LEDs();
     private ArmSubsystem arm = new ArmSubsystem();
 
     /* 
@@ -234,14 +230,9 @@ public class ShooterSubsystem extends SubsystemBase{
         } // Add this closing curly brace
 
     /* Linear interpolation method
-    * Take known empirically distance values, `ty` from `limelight-speedy` and arm angle poses using `setArmPose()` and use linear interpolation to figures out values in between   */
-
-    public double linearInterpolation(double x0, double y0, double x1, double y1, double x) {
-        if (x0 == x1) {
-            throw new IllegalArgumentException("x0 and x1 cannot be the same value");
-        }
-        return y0 + (x - x0) * (y1 - y0) / (x1 - x0);
-    }
+    Take known distance values, `ty` from `limelight-speedy` 
+    and arm angle poses using `setArmPose()` 
+    and use linear interpolation to figures out values in between   */
 
     @Override
     public void periodic() {

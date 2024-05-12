@@ -20,11 +20,11 @@ public class RunIntake extends Command {
 
     @Override
     public void execute() {
-        intake.Run(-0.50);
+        intake.powerIntake(-0.50);
     }
 
     @Override
     public void end(boolean interrupted) {
-        intake.Run(0);
+        intake.stopIntake();
     }
 }

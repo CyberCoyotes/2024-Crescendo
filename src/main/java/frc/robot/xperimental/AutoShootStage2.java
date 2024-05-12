@@ -1,4 +1,4 @@
-package frc.robot.experimental;
+package frc.robot.xperimental;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.arm.ArmConstants;

@@ -1,4 +1,4 @@
-package frc.robot.experimental;
+package frc.robot.xperimental;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.intake.IntakeSubsystem;
@@ -21,14 +21,14 @@ public class SetIntake2 extends Command {
 
     @Override
     public void initialize() {
-        intake.Run(this.power);
+        intake.powerIntake(this.power);
     }
     @Override
     public void execute() {}
   
     @Override
     public void end(boolean interrupted) {
-      intake.Run(0);
+      intake.stopIntake();
     }
   
     @Override

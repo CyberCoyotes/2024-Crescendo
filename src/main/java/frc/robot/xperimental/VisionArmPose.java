@@ -1,4 +1,13 @@
-package frc.robot.experimental;
+/* 
+* Linear interpolation method
+* Take known distance values, `ty` from `limelight-speedy` 
+* and arm angle poses using `setArmPose()` 
+* and use linear interpolation to figures out values in between
+*/
+
+// Tested on Friday, 5-10-2024, and it worked as expected
+
+package frc.robot.xperimental;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.arm.ArmSubsystem;
@@ -37,10 +46,5 @@ public class VisionArmPose extends SubsystemBase {
             return (y1 + y2) / 2;
         }
         return y1 + (x - x1) * (y2 - y1) / (x2 - x1);
-    }
-
-    // Use the setArmPose method from the ArmSubsystem class to set the arm pose instead of the following method
-    private void setArmPose(double pose) {
-        // Implement the function to set the arm pose
     }
 }

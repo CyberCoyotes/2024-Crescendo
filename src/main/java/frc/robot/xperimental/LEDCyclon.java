@@ -9,7 +9,7 @@ In an FRC command based Java framework, write a class that use Cross the Roads E
 
 */
 
-package frc.robot.util;
+package frc.robot.xperimental;
 
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -53,7 +53,7 @@ public class LEDCyclon {
                 setColorAndBrightness();
                 
                 // Update LED strip
-                ledStrip.setData(colors);
+                // ledStrip.setData(colors);
                 
                 // Delay between LED updates
                 Timer.delay(0.05); // Adjust this delay as needed
@@ -103,7 +103,7 @@ public class LEDCyclon {
             int dutyCycle = (int) (brightness * 2.55);
             
             // Set LED brightness
-            ledStrip.setLEDOutput(index, new Color(0, 0, 0), dutyCycle);
+            // ledStrip.setLEDOutput(index, new Color(0, 0, 0), dutyCycle);
         }
     }
 

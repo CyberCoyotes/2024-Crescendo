@@ -1,12 +1,9 @@
-package frc.robot.util;
+package frc.robot.xperimental;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.vision.LimelightHelpers;
-import frc.robot.vision.Vision3;
 import frc.robot.arm.ArmSubsystem;
-import frc.robot.util.LEDSubsystem;
+import frc.robot.util.LEDs;
 
 public class FeedbackDistance extends Command{
     
@@ -19,11 +16,11 @@ public class FeedbackDistance extends Command{
      * - If the "ty range is false", set the led color to purple
      */
     private LimelightHelpers limelight;
-    private LEDSubsystem led;
+    private LEDs led;
     private Vision3 vision;
     private ArmSubsystem arm;
 
-    public FeedbackDistance(LimelightHelpers limelight, LEDSubsystem led, Vision3 vision, ArmSubsystem arm) {
+    public FeedbackDistance(LimelightHelpers limelight, LEDs led, Vision3 vision, ArmSubsystem arm) {
         this.limelight = limelight;
         this.led = led;
         this.vision = vision;

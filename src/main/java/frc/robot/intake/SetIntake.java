@@ -17,14 +17,14 @@ public class SetIntake extends Command {
 
     @Override
     public void initialize() {
-        intake.Run(this.power);
+        intake.powerIntake(this.power);
     }
     @Override
     public void execute() {}
   
     @Override
     public void end(boolean interrupted) {
-      intake.Run(0);
+      intake.stopIntake();
     }
   
     @Override

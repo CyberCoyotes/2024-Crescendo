@@ -7,7 +7,6 @@ import com.playingwithfusion.TimeOfFlight.RangingMode;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /* Subsystem class to primarily use a Time of Flight sensor from 'Playing with Fusion'.
  * It will read the distance from the sensor to the 'note' and determine if the note is in a load position.
@@ -20,7 +19,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class NoteSensor extends SubsystemBase {
 
     /* Set ID in web interface http://172.22.11.2:5812/ */
-    private TimeOfFlight noteDistance = new TimeOfFlight(Constants.CANIDs.NOTE_SENSOR_ID);
+    private TimeOfFlight noteDistance = new TimeOfFlight(Constants.NOTE_SENSOR_ID);
 
     /*
      * This line declares a private instance variable called `m_ledSubsystem` of
@@ -28,7 +27,7 @@ public class NoteSensor extends SubsystemBase {
      * It is initialized with a new instance of the `LedSubsystem` class
      * It is needed to control the LEDs based on the method `isNoteLoaded()`
      */
-    private LEDSubsystem m_ledSubsystem = new LEDSubsystem();
+    private LEDs m_ledSubsystem = new LEDs();
      /*
      * Set the distance to the note to be considered load position.'
      * Measure in (mm) to determine an appropriate value.
@@ -64,7 +63,6 @@ public class NoteSensor extends SubsystemBase {
         return noteDistance.getRange() < noteDistanceCheck; // return NoteDistance.
     }
 
-   
      public void setLEDColor() {
         /*
          * Set the LED color based on the note position.

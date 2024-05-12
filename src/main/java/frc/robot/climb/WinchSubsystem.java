@@ -12,7 +12,7 @@ public class WinchSubsystem extends SubsystemBase {
 
     public WinchSubsystem() {
 
-        motor = new TalonFX(Constants.CANIDs.WINCH_ID);
+        motor = new TalonFX(Constants.WINCH_ID);
 
         dutyCycle = new DutyCycleOut(0);
         motor.setControl(dutyCycle);

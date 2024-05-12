@@ -6,22 +6,13 @@ package frc.robot.util;
 
 public final class Constants {
 
-  public static class OperatorConstants {
-    public static final int K_DRIVER_CONTROLLER_PORT = 0; // Driver Controller
-    public static final int K_OPERATOR_CONTROLLER_PORT = 1; // Operator or Secondary Controller
-    public static final int DEFAULT_ARM_INCREMENT_VALUE = 20; // ?
-
-  }
-
-  public static class SystemConstants {
+  // Ports and IDs
 
     public static final double MAX_SPEED = 6; // 6 meters per second desired top speed
     public static final double MAX_ANGULAR_RATE = 1.5 * Math.PI; // 3/4 of a rotation per second max angular velocity
-  }
 
-  public static class CANIDs {
-    public static final int CANDLE_ID =         15; // Mini LED and LED strip controller
-    public static final int INTAKE_ID =         20;
+    
+    public static final int CANDLE_ID =         15; // Mini LED and LED strip controller    
     public static final int INDEX_ID =          21;
     public static final int ARM_ID =            22;
     public static final int TOP_FLYWHEEL_ID =  23; // TOP
@@ -62,6 +53,22 @@ public final class Constants {
      * | Winch       | 25 |
      * | ToF Note    | 42 |
      */
-  }
+
+    public static class OperatorConstants {
+      public static final int K_DRIVER_CONTROLLER_PORT = 0; // Driver Controller
+      public static final int K_OPERATOR_CONTROLLER_PORT = 1; // Operator or Secondary Controller
+      public static final int DEFAULT_ARM_INCREMENT_VALUE = 20; // ?
+  
+    }
 
 } // end of class Constants
+
+/* 
+See also 
+https://github.com/FRCTeam2910/2023CompetitionRobot-Public/blob/main/src/main/java/org/frcteam2910/c2023/config/Phantom.java
+package org.frcteam2910.c2023.config;
+import edu.wpi.first.math.controller.PIDController; 
+
+They had two robots named Phantom and Loki
+
+*/
