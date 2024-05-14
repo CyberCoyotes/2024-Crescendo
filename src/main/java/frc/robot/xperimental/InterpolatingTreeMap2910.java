@@ -1,21 +1,21 @@
 package frc.robot.xperimental;
 // package org.frcteam2910.common.util;
-/* 
+
 import edu.wpi.first.math.interpolation.Interpolatable;
 import java.io.Serializable;
 import java.util.TreeMap;
 
-public class InterpolatingTreeMap<K extends InverseInterpolatable<K> & Comparable<K>, V extends Interpolatable<V>>
+public class InterpolatingTreeMap2910<K extends InverseInterpolatable2910<K> & Comparable<K>, V extends Interpolatable<V>>
         extends TreeMap<K, V> implements Serializable {
     private static final long serialVersionUID = -2284755214507163440L;
 
     private final int maxSize;
 
-    public InterpolatingTreeMap() {
+    public InterpolatingTreeMap2910() {
         maxSize = Integer.MAX_VALUE;
     }
 
-    public InterpolatingTreeMap(int maxSize) {
+    public InterpolatingTreeMap2910(int maxSize) {
         this.maxSize = maxSize;
     }
 
@@ -59,4 +59,3 @@ public class InterpolatingTreeMap<K extends InverseInterpolatable<K> & Comparabl
     }
 }
 
-*/
