@@ -192,7 +192,7 @@ public class ShooterSubsystem extends SubsystemBase{
 
     public void setLEDdistance() {
         // Get the distance from the limelight
-        double ty = LimelightHelpers.getTY("limelight-speedy");
+        double ty = LimelightHelpers.getTY("limelight-marvin");
         // Choose LED color based on the value of tx
             if (ty < DistanceConstants.TAG_RANGE_1) {
                 led.ColorFlowRed();
@@ -212,7 +212,7 @@ public class ShooterSubsystem extends SubsystemBase{
     public void setArmDistance() {
         // Get the distance from the limelight (ty)
         // Set arm based on the limelight distance (ty)
-        double ty = LimelightHelpers.getTY("limelight-speedy");
+        double ty = LimelightHelpers.getTY("limelight-marvin");
         // Choose LED color based on the value of ty
             if (ty < DistanceConstants.TAG_RANGE_1) {
                 arm.setArmPose(25);
@@ -230,7 +230,7 @@ public class ShooterSubsystem extends SubsystemBase{
         } // Add this closing curly brace
 
     /* Linear interpolation method
-    Take known distance values, `ty` from `limelight-speedy` 
+    Take known distance values, `ty` from `limelight-marvin` 
     and arm angle poses using `setArmPose()` 
     and use linear interpolation to figures out values in between   */
 

@@ -1,6 +1,6 @@
 /* 
 * Linear interpolation method
-* Take known distance values, `ty` from `limelight-speedy` 
+* Take known distance values, `ty` from `limelight-marvin` 
 * and arm angle poses using `setArmPose()` 
 * and use linear interpolation to figures out values in between
 */
@@ -17,8 +17,8 @@ public class VisionArmPose extends SubsystemBase {
     private final LimelightHelpers heimdall;
     private final ArmSubsystem m_armSubsystem;
     private static final double TY_LOWER_BOUND = -10;
-    private static final double TY_UPPER_BOUND = -2;
-    private static final double ARM_POSE_LOWER_BOUND = 20;
+    private static final double TY_UPPER_BOUND = -4;
+    private static final double ARM_POSE_LOWER_BOUND = 40;
     private static final double ARM_POSE_UPPER_BOUND = 0;
 
     public VisionArmPose(LimelightHelpers heimdall, ArmSubsystem armSubsystem) {
@@ -29,7 +29,7 @@ public class VisionArmPose extends SubsystemBase {
     @Override
     public void periodic() {
         // Get the ty value from the limelight
-        double ty = LimelightHelpers.getTY("limelight-speedy");
+        double ty = LimelightHelpers.getTY("limelight-marvin");
 
         // Interpolate the setArmPose value based on the ty value
         double interpolatedArmPose = interpolate(ty, TY_LOWER_BOUND, TY_UPPER_BOUND, ARM_POSE_LOWER_BOUND, ARM_POSE_UPPER_BOUND);
