@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.RobotContainer;
@@ -155,11 +156,15 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
   double limelight_range_proportional()
   {    
     double kP = .1;
-    double targetingForwardSpeed = LimelightHelpers.getTY("limelight") * kP;
+    double targetingForwardSpeed = LimelightHelpers.getTY("limelight-marvin") * kP;
     // targetingForwardSpeed *= Drivetrain.kMaxSpeed;
     // targetingForwardSpeed *= Drivetrain.kMaxSpeed;
     targetingForwardSpeed *= -1.0;
     return targetingForwardSpeed;
+  }
+
+  public double getMarvinTX() {
+    return LimelightHelpers.getTX("limelight-marvin");
   }
 
     @Override
@@ -172,6 +177,10 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
                     hasAppliedOperatorPerspective = true;
         });
      }
+
+     // Put `getMartianTX()` on the SmartDashboard
+        SmartDashboard.putNumber("(-)NoteLT (+)NoteRT", getMarvinTX());
+
     }
 
 } // end of class
