@@ -204,6 +204,9 @@ public class LEDs extends SubsystemBase{
          case ColorFlowRedReverse:
             m_toAnimate = new ColorFlowAnimation(255, 0, 0, 0, 0.7, LedCount, Direction.Backward);
             break;
+         case ColorCyclonRed:
+            m_toAnimate = new ColorFlowAnimation(255, 0, 0, 0, 0.7, LedCount, Direction.Backward);
+            break;
          
          case AnimationsOff:
             m_toAnimate = null;
