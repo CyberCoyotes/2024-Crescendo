@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import frc.robot.shooter.ShooterSubsystem;
 
+@SuppressWarnings("unused")
+
 public class ShuffleboardConfigs {
     // Create a tab for ShooterSubsystem
     // ShuffleboardTab shooterSubsystemTab = Shuffleboard.getTab("Shooter");

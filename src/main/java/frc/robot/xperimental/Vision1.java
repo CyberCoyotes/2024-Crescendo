@@ -14,6 +14,8 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
+@SuppressWarnings("unused")
+
 public class Vision1 {
 
     NetworkTable limelightBack; // table for the limelight
@@ -43,7 +45,7 @@ public class Vision1 {
 
     public Vision1() {
         // instantiate the tables (basically make the tables real)
-        limelightBack = NetworkTableInstance.getDefault().getTable("limelight");
+        limelightBack = NetworkTableInstance.getDefault().getTable("limelight-marvin");
         // brings in each individual table
         tx = limelightBack.getEntry("tx");
         ty = limelightBack.getEntry("ty");

@@ -33,7 +33,7 @@ public class Robot extends TimedRobot {
     // Creates the CvSink and connects it to the UsbCamera
     CvSink cvSink = CameraServer.getVideo();
 
-    NetworkTableInstance.getDefault().getTable("limelight-iludium").getEntry("stream").setNumber(2);
+    NetworkTableInstance.getDefault().getTable("limelight-marvin").getEntry("stream").setNumber(2);
 
   }
 

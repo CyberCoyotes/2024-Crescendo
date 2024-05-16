@@ -33,7 +33,7 @@ public class Vision2 {
 
     public Vision2() {
 
-        limelightBack = NetworkTableInstance.getDefault().getTable("limelight");// Instantiate the tables
+        limelightBack = NetworkTableInstance.getDefault().getTable("limelight-marvin");// Instantiate the tables
         tx = limelightBack.getEntry("tx");
         ty = limelightBack.getEntry("ty");
         ta = limelightBack.getEntry("ta");

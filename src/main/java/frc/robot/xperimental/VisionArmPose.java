@@ -1,6 +1,6 @@
 /* 
 * Linear interpolation method
-* Take known distance values, `ty` from `limelight-iludium` 
+* Take known distance values, `ty` from `limelight-marvin` 
 * and arm angle poses using `setArmPose()` 
 * and use linear interpolation to figures out values in between
 */
@@ -13,23 +13,25 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.arm.ArmSubsystem;
 import frc.robot.vision.LimelightHelpers;
 
+@SuppressWarnings("unused")
+
 public class VisionArmPose extends SubsystemBase {
-    private final LimelightHelpers iludium;
+    private final LimelightHelpers marvin;
     private final ArmSubsystem m_armSubsystem;
     private static final double TY_LOWER_BOUND = -10;
     private static final double TY_UPPER_BOUND = -2;
     private static final double ARM_POSE_LOWER_BOUND = 20;
     private static final double ARM_POSE_UPPER_BOUND = 0;
 
-    public VisionArmPose(LimelightHelpers iludium, ArmSubsystem armSubsystem) {
-        this.iludium = iludium;
+    public VisionArmPose(LimelightHelpers marvin, ArmSubsystem armSubsystem) {
+        this.marvin = marvin;
         this.m_armSubsystem = armSubsystem;
     }
 
     @Override
     public void periodic() {
         // Get the ty value from the limelight
-        double ty = LimelightHelpers.getTY("limelight-iludium");
+        double ty = LimelightHelpers.getTY("limelight-marvin");
 
         // Interpolate the setArmPose value based on the ty value
         double interpolatedArmPose = interpolate(ty, TY_LOWER_BOUND, TY_UPPER_BOUND, ARM_POSE_LOWER_BOUND, ARM_POSE_UPPER_BOUND);

@@ -163,9 +163,33 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
     return targetingForwardSpeed;
   }
 
-  public double getMarvinTX() {
+
+public double getMarvinTX() {
     return LimelightHelpers.getTX("limelight-marvin");
+}
+
+// Method that returns true if `limeLight-marvin` neural object is detected
+/* 
+public boolean isMarvinDetected() {
+    return hasAppliedOperatorPerspective;
+    // return LimelightHelpers.getTV("limelight-marvin") == 1;
+}
+*/
+
+/*
+public boolean isMarvinVisible() {
+    /* If `getMarvinTX` range is -25 to 25, but not == 0.0,
+    *  then target is visible and should return true
+    *  Otherwise, return false
+    */
+ /* 
+    if (getMarvinTX() != 0.0) {
+            return true;
+    } else {
+        return false;
+    }
   }
+  */
 
     @Override
     public void periodic() {

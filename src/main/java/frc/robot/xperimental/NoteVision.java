@@ -3,6 +3,10 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
+// TODO Work in progress
+
+@SuppressWarnings("unused")
+
 public class NoteVision extends Command {
     private final double targetArea = 100.0; // Example target area for object detection
     private final double targetDistance = 50.0; // Example target distance for object detection

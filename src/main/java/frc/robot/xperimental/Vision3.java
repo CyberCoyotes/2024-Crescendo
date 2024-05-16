@@ -18,6 +18,8 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import frc.robot.arm.ArmSubsystem;
 import frc.robot.util.LEDs;
 
+@SuppressWarnings("unused")
+
 public class Vision3 {
 
     private LEDs led = new LEDs();
@@ -30,7 +32,7 @@ public class Vision3 {
     NetworkTableEntry tv; // 
 
     public Vision3() {
-        table = NetworkTableInstance.getDefault().getTable("limelight");
+        table = NetworkTableInstance.getDefault().getTable("limelight-marvin");
         tx = table.getEntry("tx");
         ty = table.getEntry("ty");
         ta = table.getEntry("ta");

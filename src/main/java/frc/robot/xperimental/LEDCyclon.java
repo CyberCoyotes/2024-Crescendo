@@ -9,6 +9,7 @@ In an FRC command based Java framework, write a class that use Cross the Roads E
 
 */
 
+
 package frc.robot.xperimental;
 
 
@@ -17,6 +18,8 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.DriverStation;
+
+@SuppressWarnings("unused")
 
 public class LEDCyclon {
     

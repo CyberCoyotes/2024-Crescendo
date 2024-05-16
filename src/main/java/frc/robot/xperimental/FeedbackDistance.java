@@ -5,6 +5,8 @@ import frc.robot.vision.LimelightHelpers;
 import frc.robot.arm.ArmSubsystem;
 import frc.robot.util.LEDs;
 
+@SuppressWarnings("unused")
+
 public class FeedbackDistance extends Command{
     
     /* A command class with methods
