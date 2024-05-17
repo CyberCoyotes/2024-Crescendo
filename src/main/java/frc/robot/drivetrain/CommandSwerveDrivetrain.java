@@ -168,6 +168,16 @@ public double getMarvinTX() {
     return LimelightHelpers.getTX("limelight-marvin");
 }
 
+// Added for aim driving
+public void drive(double xSpeed, double ySpeed, double rot) {
+    // Implement swerve drive logic to drive the modules
+}
+
+// Add4ed for aim driving
+public void stop() {
+    drive(0, 0, 0);
+}
+
 // Method that returns true if `limeLight-marvin` neural object is detected
 /* 
 public boolean isMarvinDetected() {

@@ -24,10 +24,12 @@ import frc.robot.climb.WinchSubsystem;
 import frc.robot.drivetrain.CommandSwerveDrivetrain;
 import frc.robot.drivetrain.TunerConstants;
 import frc.robot.util.NoteSensor;
+import frc.robot.xperimental.AlignToAprilTagCommand;
 import frc.robot.xperimental.AutoShootStage;
 import frc.robot.xperimental.IntakeIndexSmartTimer;
 import frc.robot.xperimental.IntakeIndexTimer;
 import frc.robot.xperimental.VisionArmPose;
+import frc.robot.xperimental.VisionChatAimSubsystem;
 import frc.robot.index.IndexSubsystem;
 import frc.robot.intake.IntakeCommandGroup;
 import frc.robot.intake.IntakeIndex;
@@ -62,6 +64,10 @@ public class RobotContainer {
   NoteSensor notesensor = new NoteSensor();
   VisionArmPose visionArmPose = new VisionArmPose(null, arm);
 
+  CommandSwerveDrivetrain swerve = new CommandSwerveDrivetrain(null, null);
+  
+  VisionChatAimSubsystem visionAlign = new VisionChatAimSubsystem(); // added for vision alignment
+
   // VisionFeedback limelightLedFeedback = new VisionFeedback(null, null);
 
   private double MaxSpeed = TunerConstants.kSpeedAt12VoltsMps; // kSpeedAt12VoltsMps desired top speed
@@ -92,6 +98,7 @@ public class RobotContainer {
   private final Shoot shoot = new Shoot(shooter, index, notesensor);
   private final ShootAmp shootAmp = new ShootAmp(shooter, index, notesensor);
   private final ShootStage shootStage = new ShootStage(shooter, index, notesensor);
+  private final AlignToAprilTagCommand tagAlign = new AlignToAprilTagCommand(swerve, visionAlign);
 
   /* Auton Specific Commands */
   private final AutoShoot autoShoot = new AutoShoot(arm, index, intake, shooter, notesensor);
@@ -183,6 +190,9 @@ public class RobotContainer {
     m_operatorController.y().whileTrue(new SetWinch(winch, WinchConstants.WINCH_POWER));
     m_operatorController.back().whileTrue(new SetWinch(winch, WinchConstants.WINCH_POWER_BOOST));
     m_operatorController.rightTrigger().whileTrue(shootStage); // Shoot Stage
+    
+    
+    alignButton.whenPressed(new AlignToAprilTagCommand(swerveDriveSubsystem, visionSubsystem));
 
   };
 
@@ -196,6 +206,8 @@ public class RobotContainer {
     // Shuffleboard.getTab("Arm").add("Arm Output", arm);
 
   }
+
+
 
   public Command getAutonomousCommand() {
     return autoChooser.getSelected();
