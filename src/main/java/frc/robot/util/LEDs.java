@@ -23,7 +23,7 @@ import com.ctre.phoenix.led.ColorFlowAnimation;
 import com.ctre.phoenix.led.ColorFlowAnimation.Direction;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-// @SuppressWarnings("unused")
+@SuppressWarnings("unused")
 
 public class LEDs extends SubsystemBase{
 

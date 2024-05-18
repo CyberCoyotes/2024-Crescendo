@@ -43,7 +43,7 @@ import frc.robot.shooter.FlywheelConstants;
 import frc.robot.shooter.ShooterSubsystem;
 
 // Getting rid of the soft unused warnings
-// @SuppressWarnings("unused")
+@SuppressWarnings("unused")
 
 // The RobotContainer is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, the robot is defined here.
 public class RobotContainer {
