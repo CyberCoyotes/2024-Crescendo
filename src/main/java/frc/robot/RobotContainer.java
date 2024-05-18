@@ -24,11 +24,11 @@ import frc.robot.climb.WinchSubsystem;
 import frc.robot.drivetrain.CommandSwerveDrivetrain;
 import frc.robot.drivetrain.TunerConstants;
 import frc.robot.util.NoteSensor;
-// import frc.robot.xperimental.AlignToAprilTagCommand;
+import frc.robot.xperimental.AlignToAprilTagCommand;
 import frc.robot.xperimental.AutoShootStage;
 import frc.robot.xperimental.IntakeIndexSmartTimer;
 import frc.robot.xperimental.IntakeIndexTimer;
-import frc.robot.xperimental.VisionArmPose;
+// import frc.robot.xperimental.VisionArmPose;
 import frc.robot.xperimental.VisionChatAimSubsystem;
 import frc.robot.index.IndexSubsystem;
 import frc.robot.intake.IntakeCommandGroup;
@@ -62,9 +62,10 @@ public class RobotContainer {
   WinchSubsystem winch = new WinchSubsystem();
   ArmSubsystem arm = new ArmSubsystem();
   NoteSensor notesensor = new NoteSensor();
-  VisionArmPose visionArmPose = new VisionArmPose(null, arm);
+  // VisionArmPose visionArmPose = new VisionArmPose(null, arm);
 
-  CommandSwerveDrivetrain swerve = new CommandSwerveDrivetrain(null, null);
+  // TODO - Add the swerve drivetrain for auto align
+  private final CommandSwerveDrivetrain swerve;
   
   VisionChatAimSubsystem visionAlign = new VisionChatAimSubsystem(); // added for vision alignment
 
@@ -111,6 +112,7 @@ public class RobotContainer {
   // Constructor of the class
   public RobotContainer() {
 
+    
     /* Autonomous - Pathplanner Named Commands */
     NamedCommands.registerCommand("AutoShoot", autoShoot); // AutoShootWhenReady --> AutoShoot
     NamedCommands.registerCommand("AutoShootAmp", autoShootAmp); // shootWhenReadyAmp --> autoShootAmp
@@ -134,6 +136,8 @@ public class RobotContainer {
 
     /* Needed to display the custom debug method */
     // debug();
+    
+    this.swerve = null; // TODO auto align
 
   } // end of constructor
 
@@ -177,7 +181,7 @@ public class RobotContainer {
     m_driverController.b().whileTrue(new InstantCommand(() -> arm.setArmPose(ArmConstants.ARM_MID_POSE)));
     m_driverController.x().whileTrue(new InstantCommand(() -> arm.setArmPose(ArmConstants.ARM_AMP_POSE)));
     // m_driverController.y().whileTrue(new InstantCommand(() -> ( ))); // Y-Button
-    // m_driverController.y().whileTrue((new AlignToAprilTagCommand(swerve, visionAlign)));
+    m_driverController.y().whileTrue((new AlignToAprilTagCommand(swerve, visionAlign))); // FIXME
 
     m_driverController.rightBumper().whileTrue(new IntakeCommandGroup(index, intake));
     m_driverController.leftBumper().whileTrue(new IntakeRevCommandGroup(index, intake));

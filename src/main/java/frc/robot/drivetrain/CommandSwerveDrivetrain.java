@@ -119,6 +119,18 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
         m_simNotifier.startPeriodic(kSimLoopPeriod);
     }
 
+    /*
+     * added for auto alignment
+     */
+    public void drive(double xSpeed, double ySpeed, double rot) {
+        // Implement swerve drive logic to drive the modules
+    }
+
+    public void stop() {
+        drive(0, 0, 0);
+    }
+
+
     @Override
     public void periodic() {
         if (!hasAppliedOperatorPerspective || DriverStation.isDisabled()) {
