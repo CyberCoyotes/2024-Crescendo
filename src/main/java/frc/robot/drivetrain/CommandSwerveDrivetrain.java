@@ -16,14 +16,12 @@ import com.pathplanner.lib.util.ReplanningConfig;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.RobotContainer;
-import frc.robot.vision.LimelightHelpers;
 
 /**
  * Class that extends the Phoenix SwerveDrivetrain class and implements
@@ -121,86 +119,6 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
         m_simNotifier.startPeriodic(kSimLoopPeriod);
     }
 
-    // TODO Vision related additions
-    double limelight_aim_proportional()
-  {    
-    // kP (constant of proportionality)
-    // this is a hand-tuned number that determines the aggressiveness of our proportional control loop
-    // if it is too high, the robot will oscillate.
-    // if it is too low, the robot will never reach its target
-    // if the robot never turns in the correct direction, kP should be inverted.
-    double kP = .035;
-
-    // tx ranges from (-hfov/2) to (hfov/2) in degrees. If your target is on the rightmost edge of 
-    // your limelight 3 feed, tx should return roughly 31 degrees.
-    double targetingAngularVelocity = LimelightHelpers.getTX("limelight") * kP;
-
-    // convert to radians per second for our drive method
-    // targetingAngularVelocity *= Drivetrain.kMaxAngularSpeed; original
-    /*
-     *  multiplying the targetingAngularVelocity by Drivetrain.kMaxAngularSpeed.
-     * Drivetrain.kMaxAngularSpeed is presumably a constant that represents the maximum angular speed of the drivetrain.
-     * This operation scales the targetingAngularVelocity (which was previously calculated based on the target's position and a proportionality constant) to the drivetrain's maximum angular speed.
-     * This ensures that the targetingAngularVelocity is within the drivetrain's capabilities.
-     */
-
-    //invert since tx is positive when the target is to the right of the crosshair
-    targetingAngularVelocity *= -1.0;
-
-    return targetingAngularVelocity;
-  }
-
-  // simple proportional ranging control with Limelight's "ty" value
-  // this works best if your Limelight's mount height and target mount height are different.
-  // if your limelight and target are mounted at the same or similar heights, use "ta" (area) for target ranging rather than "ty"
-  double limelight_range_proportional()
-  {    
-    double kP = .1;
-    double targetingForwardSpeed = LimelightHelpers.getTY("limelight-marvin") * kP;
-    // targetingForwardSpeed *= Drivetrain.kMaxSpeed;
-    // targetingForwardSpeed *= Drivetrain.kMaxSpeed;
-    targetingForwardSpeed *= -1.0;
-    return targetingForwardSpeed;
-  }
-
-
-public double getMarvinTX() {
-    return LimelightHelpers.getTX("limelight-marvin");
-}
-
-// Added for aim driving
-public void drive(double xSpeed, double ySpeed, double rot) {
-    // Implement swerve drive logic to drive the modules
-}
-
-// Add4ed for aim driving
-public void stop() {
-    drive(0, 0, 0);
-}
-
-// Method that returns true if `limeLight-marvin` neural object is detected
-/* 
-public boolean isMarvinDetected() {
-    return hasAppliedOperatorPerspective;
-    // return LimelightHelpers.getTV("limelight-marvin") == 1;
-}
-*/
-
-/*
-public boolean isMarvinVisible() {
-    /* If `getMarvinTX` range is -25 to 25, but not == 0.0,
-    *  then target is visible and should return true
-    *  Otherwise, return false
-    */
- /* 
-    if (getMarvinTX() != 0.0) {
-            return true;
-    } else {
-        return false;
-    }
-  }
-  */
-
     @Override
     public void periodic() {
         if (!hasAppliedOperatorPerspective || DriverStation.isDisabled()) {
@@ -211,10 +129,6 @@ public boolean isMarvinVisible() {
                     hasAppliedOperatorPerspective = true;
         });
      }
-
-     // Put `getMartianTX()` on the SmartDashboard
-        SmartDashboard.putNumber("(-)NoteLT (+)NoteRT", getMarvinTX());
-
     }
 
 } // end of class

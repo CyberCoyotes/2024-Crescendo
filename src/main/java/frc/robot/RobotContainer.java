@@ -24,7 +24,7 @@ import frc.robot.climb.WinchSubsystem;
 import frc.robot.drivetrain.CommandSwerveDrivetrain;
 import frc.robot.drivetrain.TunerConstants;
 import frc.robot.util.NoteSensor;
-import frc.robot.xperimental.AlignToAprilTagCommand;
+// import frc.robot.xperimental.AlignToAprilTagCommand;
 import frc.robot.xperimental.AutoShootStage;
 import frc.robot.xperimental.IntakeIndexSmartTimer;
 import frc.robot.xperimental.IntakeIndexTimer;
@@ -98,7 +98,7 @@ public class RobotContainer {
   private final Shoot shoot = new Shoot(shooter, index, notesensor);
   private final ShootAmp shootAmp = new ShootAmp(shooter, index, notesensor);
   private final ShootStage shootStage = new ShootStage(shooter, index, notesensor);
-  private final AlignToAprilTagCommand tagAlign = new AlignToAprilTagCommand(swerve, visionAlign);
+  // private final AlignToAprilTagCommand tagAlign = new AlignToAprilTagCommand(swerve, visionAlign);
 
   /* Auton Specific Commands */
   private final AutoShoot autoShoot = new AutoShoot(arm, index, intake, shooter, notesensor);
@@ -177,11 +177,13 @@ public class RobotContainer {
     m_driverController.b().whileTrue(new InstantCommand(() -> arm.setArmPose(ArmConstants.ARM_MID_POSE)));
     m_driverController.x().whileTrue(new InstantCommand(() -> arm.setArmPose(ArmConstants.ARM_AMP_POSE)));
     // m_driverController.y().whileTrue(new InstantCommand(() -> ( ))); // Y-Button
+    // m_driverController.y().whileTrue((new AlignToAprilTagCommand(swerve, visionAlign)));
 
     m_driverController.rightBumper().whileTrue(new IntakeCommandGroup(index, intake));
     m_driverController.leftBumper().whileTrue(new IntakeRevCommandGroup(index, intake));
     m_driverController.rightTrigger().whileTrue(shoot);
     m_driverController.leftTrigger().whileTrue(shootAmp);
+
 
     /* OPERATOR BINDINGS */
     // m_operatorController.a().whileTrue());
@@ -192,8 +194,7 @@ public class RobotContainer {
     m_operatorController.rightTrigger().whileTrue(shootStage); // Shoot Stage
     
     
-    alignButton.whenPressed(new AlignToAprilTagCommand(swerveDriveSubsystem, visionSubsystem));
-
+    
   };
 
   /* Use for Debugging and diagnostics purposes */
