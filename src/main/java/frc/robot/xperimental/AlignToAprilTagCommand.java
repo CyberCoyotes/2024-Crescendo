@@ -10,6 +10,7 @@ public class AlignToAprilTagCommand extends Command {
     private static final double kP = 0.05; // Proportional control constant
     private static final double ALIGN_THRESHOLD = 1.0; // Threshold for alignment in degrees
 
+  
     public AlignToAprilTagCommand(CommandSwerveDrivetrain swerve, VisionChatAimSubsystem visionAlign) {
         this.swerve = swerve;
         this.visionAlign = visionAlign;
