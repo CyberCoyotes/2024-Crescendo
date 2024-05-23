@@ -9,6 +9,7 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Vision.LimelightHelpers;
 import frc.robot.util.ArmConfigs;
 import frc.robot.util.Constants;
 
@@ -25,10 +26,6 @@ public class ArmSubsystem extends SubsystemBase {
     final MotionMagicVoltage m_armPose = new MotionMagicVoltage(0); // Initializes to position 0
 
     public ArmSubsystem() {
-
-                limelightBack = NetworkTableInstance.getDefault().getTable("limelight");
-                tv = limelightBack.getEntry("tv");
-
 
         // Initialize the motor in the constructor with the motor ID and optional canbus
         // ID
@@ -94,9 +91,10 @@ public class ArmSubsystem extends SubsystemBase {
         Shuffleboard.getTab("Arm").add("Arm Voltage", m_arm.getMotorVoltage().getValue());
          */
 
-         if (tv.getDouble(0.0) == 1.0){
-            setArmPose(55);
-         }
+        double tid = LimelightHelpers.getFiducialID("limelight-marvin");
+      if (tid == 1.0){
+         setArmPose(0);
+   }
     }
 
 } // end of ArmSubsystem method

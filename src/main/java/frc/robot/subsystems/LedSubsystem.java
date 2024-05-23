@@ -27,15 +27,13 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Vision.LimelightHelpers;
 import frc.robot.util.Constants;
 
 @SuppressWarnings("unused")
 
 public class LedSubsystem extends SubsystemBase {
    private final CANdle m_candle = new CANdle(Constants.CANIDs.CANDLE_ID);
-
-        NetworkTable limelightBack; // table for the limelight
-    NetworkTableEntry tv; // Table to see if there are valid targets
 
    /* Update once the LEDs are installed if using Animations */
    private final int LedCount = 69;
@@ -68,9 +66,6 @@ public class LedSubsystem extends SubsystemBase {
       configAll.brightnessScalar = 1.0; // 0 to 1 Scale. Previously tested 0.1
       configAll.vBatOutputMode = VBatOutputMode.Modulated;
       m_candle.configAllSettings(configAll, 100);
-
-      limelightBack = NetworkTableInstance.getDefault().getTable("limelight");
-                tv = limelightBack.getEntry("tv");
    }
 
    public double getVbat() {
@@ -167,14 +162,18 @@ public class LedSubsystem extends SubsystemBase {
   // System.out.println("Changed to " + m_currentAnimation.toString());
    }
 
-      public double getTarget(){
+   /*public double getTarget(){
       return tv.getDouble(0.0);
-   }
+   }*/
 
-   @Override
+ /* 
+woohoo*/
+ @Override
    public void periodic() {
-      if (getTarget() == 1.0){
+        double tid = LimelightHelpers.getFiducialID("limelight-marvin");
+      if (tid == 1.0){
          ColorGreen();
-      }
    }
+}
+
 } // end of class LedSubsystem
