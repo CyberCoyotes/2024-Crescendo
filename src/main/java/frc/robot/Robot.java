@@ -4,36 +4,64 @@
 
 package frc.robot;
 
+// import com.ctre.phoenix6.SignalLogger;
+
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.CvSink;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.subsystems.Gyro; // Gyro added for some auton-teleop control // Added by Scoy
+
+@SuppressWarnings("unused")
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
 
+  private Gyro gyro = new Gyro(); // Added by Scoy
+
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
+    // DO NOT LEAVE THIS UNCOMMENTED DURING COMPETITION
+    // SignalLogger.setPath("/media/sda1/");
+    // SignalLogger.start();
+    CameraServer.startAutomaticCapture();
+    // Creates the CvSink and connects it to the UsbCamera
+    CvSink cvSink = CameraServer.getVideo();
+    NetworkTableInstance.getDefault().getTable("limelight-speedy").getEntry("stream").setNumber(2);
+
+    // Creates the CvSource and MjpegServer [2] and connects them
+
   }
 
   @Override
   public void robotPeriodic() {
-    CommandScheduler.getInstance().run(); 
+    CommandScheduler.getInstance().run();
   }
 
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+  }
 
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {
+  }
 
   @Override
-  public void disabledExit() {}
+  public void disabledExit() {
+  }
 
   @Override
   public void autonomousInit() {
+
+    // gyro.setAutonStartingPose180(180);
+    // gyro.setAutonStartingPose(-180); // Seems to impact Teleop more than auton
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     if (m_autonomousCommand != null) {
@@ -42,23 +70,47 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+  }
 
   @Override
-  public void autonomousExit() {}
+  public void autonomousExit() {
+  }
 
   @Override
   public void teleopInit() {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    // Shaun's Pre-Field Additions: 4-2-24
+    // Some things to try to reset the gyro
+
+    // This one probably won't work; it's equivalent to Rkyer just pressing Start.
+    // m_robotContainer.drivetrain.seedFieldRelative();
+    
+    // This one also probably won't work.
+    // m_robotContainer.drivetrain.getPigeon2().setYaw(0);
+    
+    // I have some hope for this!
+    // m_robotContainer.drivetrain.getPigeon2().setYaw(180);
+    
+    // This one is nasty, and I don't have a great understanding of it; delete this
+    // method if we don't use it. It pretty much does the same as seedFieldRelative
+    // but with an additional 180 degrees
+    // m_robotContainer.drivetrain.saltFieldRelative();
+
+  // new InstantCommand(gyro::setStartingPoseBasedOnAlliance);
+  
+}
+
+  @Override
+  public void teleopPeriodic() {
+    // SmartDashboard.putNumber("Gyro Pose", gyro.getYaw());
   }
 
   @Override
-  public void teleopPeriodic() {}
-
-  @Override
-  public void teleopExit() {}
+  public void teleopExit() {
+  }
 
   @Override
   public void testInit() {
@@ -66,11 +118,14 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void testPeriodic() {}
+  public void testPeriodic() {
+  }
 
   @Override
-  public void testExit() {}
+  public void testExit() {
+  }
 
   @Override
-  public void simulationPeriodic() {}
+  public void simulationPeriodic() {
+  }
 }

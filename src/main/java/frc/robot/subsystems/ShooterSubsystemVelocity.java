@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.configs.VoltageConfigs;
@@ -9,9 +10,10 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
+import frc.robot.util.Constants;
+
+@SuppressWarnings("unused")
 
 /**
  * Serves as a base for any flywheel system driven by 2 motors. Fire and forget,
@@ -32,7 +34,7 @@ public class ShooterSubsystemVelocity extends SubsystemBase {
     private double runningVoltage = 20;
     // private double maxPower = 1;
     /** The multiplier that converts from "primary speed" to "secondary speed" */
-    private double ratio = .95;
+    private double ratio = 1.0;
     private VelocityVoltage mainVeloCycle;
     private VelocityVoltage subVeloCycle;
 
@@ -48,7 +50,8 @@ public class ShooterSubsystemVelocity extends SubsystemBase {
                     .withKV(0.12))
             .withVoltage(new VoltageConfigs().withPeakForwardVoltage(8).withPeakReverseVoltage(-8))
             .withCurrentLimits(
-                    new CurrentLimitsConfigs().withStatorCurrentLimit(100).withStatorCurrentLimitEnable(true));
+                    new CurrentLimitsConfigs().withStatorCurrentLimit(60).withStatorCurrentLimitEnable(true))
+            .withMotorOutput(new MotorOutputConfigs().withNeutralMode(NeutralModeValue.Coast));
 
     // ! Peak output of 8 volts
 
@@ -56,12 +59,12 @@ public class ShooterSubsystemVelocity extends SubsystemBase {
 
         singleMotor = false;
 
-        m_main = new TalonFX(Constants.CANIDs.RIGHT_FLYWHEEL_ID);
-        m_sub = new TalonFX(Constants.CANIDs.LEFT_FLYWHEEL_ID);
+        m_main = new TalonFX(Constants.CANIDs.BOTTOM_FLYWHEEL_ID);
+        m_sub = new TalonFX(Constants.CANIDs.TOP_FLYWHEEL_ID);
         m_main.getConfigurator().apply(motorConfigs);
         m_sub.getConfigurator().apply(motorConfigs);
-        m_main.setInverted(true);
-        m_sub.setInverted(false);
+        m_main.setInverted(true); // Switched based on Tuner, was true
+        m_sub.setInverted(true);// Switched based on Tuner, was false
         m_main.setNeutralMode(NeutralModeValue.Coast);
         m_sub.setNeutralMode(NeutralModeValue.Coast);
 
@@ -99,12 +102,7 @@ public class ShooterSubsystemVelocity extends SubsystemBase {
 
     }
 
-    @Override
-    public void periodic() {
-        // System.out.println(m_main.getVelocity());
-        SmartDashboard.putNumber("Velocity", GetVelocity());
-    }
-
+  
     public void SetMaxOutput(double velo) {
         // percent = Math.max(0, Math.min(percent,1));
         this.runningVoltage = velo;
@@ -137,8 +135,22 @@ public class ShooterSubsystemVelocity extends SubsystemBase {
         return m_main.getVelocity().getValueAsDouble();
     }
 
-    public Boolean AtVelocity(double velo) {
+    public boolean AtVelocity(double velo) {
         return m_main.getVelocity().getValueAsDouble() >= (velo - 0.5);
+    }
+
+    public boolean isAtSetpoint() {
+        double currentVelocity = GetVelocity(); // Assuming GetVelocity() is a method that returns the current velocity
+        double setpoint = mainVeloCycle.Velocity; // Assuming mainVeloCycle.Velocity is the setpoint
+        double tolerance = 0.03; // You can adjust this value based on your needs
+    return Math.abs(currentVelocity - setpoint) >= tolerance;
+    }
+
+    @Override
+    public void periodic() {
+        // System.out.println(m_main.getVelocity());
+        // Shuffleboard.getTab("Shooter").add("Velocity", GetVelocity());
+        // Shuffleboard.getTab("Shooter").add("Velocity Achieved", isAtSetpoint());
     }
 
 }

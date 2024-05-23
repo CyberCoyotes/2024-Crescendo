@@ -1,8 +1,8 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-
 import frc.robot.subsystems.ShooterSubsystemVelocity;
+import frc.robot.util.ShooterConstants;
 
 public class RunShooter extends Command {
     private ShooterSubsystemVelocity shooter;
@@ -14,7 +14,7 @@ public class RunShooter extends Command {
 
     @Override
     public void execute() {
-        shooter.SetOutput(1);
+        shooter.SetOutput(ShooterConstants.FLYWHEEL_VELOCITY);
     }
 
     @Override

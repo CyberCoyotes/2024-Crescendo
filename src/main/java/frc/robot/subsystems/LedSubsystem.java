@@ -22,25 +22,35 @@ import com.ctre.phoenix.led.CANdleConfiguration;
 import com.ctre.phoenix.led.ColorFlowAnimation;
 import com.ctre.phoenix.led.ColorFlowAnimation.Direction;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
+import frc.robot.util.Constants;
+
+@SuppressWarnings("unused")
 
 public class LedSubsystem extends SubsystemBase {
    private final CANdle m_candle = new CANdle(Constants.CANIDs.CANDLE_ID);
+
+        NetworkTable limelightBack; // table for the limelight
+    NetworkTableEntry tv; // Table to see if there are valid targets
 
    /* Update once the LEDs are installed if using Animations */
    private final int LedCount = 69;
    public enum AnimationTypes {
       ColorFlowRed,
-      Fire, 
-      Larson, 
-      Rainbow,
-      RgbFade,
-      SingleFade,
-      Strobe,
-      Twinkle,
-      TwinkleOff,
+      ColorFlowRedReverse,
+      ColorFlowBlue,
+      // Fire, 
+      // Larson, 
+      // Rainbow,
+      // RgbFade,
+      // SingleFade,
+      // Strobe,
+      // Twinkle,
+      // TwinkleOff,
       AnimationsOff
   }
 
@@ -58,6 +68,9 @@ public class LedSubsystem extends SubsystemBase {
       configAll.brightnessScalar = 1.0; // 0 to 1 Scale. Previously tested 0.1
       configAll.vBatOutputMode = VBatOutputMode.Modulated;
       m_candle.configAllSettings(configAll, 100);
+
+      limelightBack = NetworkTableInstance.getDefault().getTable("limelight");
+                tv = limelightBack.getEntry("tv");
    }
 
    public double getVbat() {
@@ -93,21 +106,30 @@ public class LedSubsystem extends SubsystemBase {
    }
 
    public void ColorGreen() {
-      AnimeOFFMaybe();
+      // AnimeOFFMaybe();
       m_candle.setLEDs(0, 255, 0);
    }
 
    public void ColorBlue() {
+      // AnimeOFFMaybe();
       m_candle.setLEDs(0, 0, 255);
    }
 
    public void ColorYellow() {
       m_candle.setLEDs(255, 255, 0);
    }
-   
+  
    public void ColorFlowRed() {
       m_candle.animate(m_toAnimate);
       changeAnimation(AnimationTypes.ColorFlowRed);
+   }
+    public void ColorFlowRedReverse() {
+      m_candle.animate(m_toAnimate);
+      changeAnimation(AnimationTypes.ColorFlowRedReverse);
+   }
+    public void ColorFlowBlue() {
+      m_candle.animate(m_toAnimate);
+      changeAnimation(AnimationTypes.ColorFlowBlue);
    }
    /*******************************
     * Color | RGB Values
@@ -131,11 +153,28 @@ public class LedSubsystem extends SubsystemBase {
      case ColorFlowRed:
        m_toAnimate = new ColorFlowAnimation(255, 0, 0, 0, 0.7, LedCount, Direction.Forward);
        break;
+     case ColorFlowRedReverse:
+       m_toAnimate = new ColorFlowAnimation(255, 0, 0, 0, 0.7, LedCount, Direction.Backward);
+       break; 
+     case ColorFlowBlue:
+       m_toAnimate = new ColorFlowAnimation(0, 0, 255,0 , 0.7, LedCount, Direction.Forward);
+       break;
      case AnimationsOff:
          m_toAnimate = null;
     break;
    }
 
-   System.out.println("Changed to " + m_currentAnimation.toString());
+  // System.out.println("Changed to " + m_currentAnimation.toString());
+   }
+
+      public double getTarget(){
+      return tv.getDouble(0.0);
+   }
+
+   @Override
+   public void periodic() {
+      if (getTarget() == 1.0){
+         ColorGreen();
+      }
    }
 } // end of class LedSubsystem

@@ -4,196 +4,255 @@
 
 package frc.robot;
 
-
-import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
-
-import edu.wpi.first.networktables.GenericEntry;
+import com.ctre.phoenix6.hardware.Pigeon2;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.VideoSource;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.commands.IncrementIndex1Stage;
 import frc.robot.commands.IntakeCommandGroup;
-import frc.robot.commands.RevAndShootCommand;
+import frc.robot.commands.IntakeRevCommandGroup;
 import frc.robot.commands.RunShooter;
-import frc.robot.commands.SetArmPosition;
-import frc.robot.generated.TunerConstants;
+import frc.robot.commands.SetArmClimb;
+import frc.robot.commands.SetIndex;
+import frc.robot.commands.SetWinch;
+import frc.robot.commands.Shoot;
+import frc.robot.commands.AutoShoot;
+import frc.robot.commands.AutoShootAmp;
+import frc.robot.commands.ShootAmp;
+
+import frc.robot.commands.ShootStage;
+import frc.robot.commands.IntakeIndex;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.Gyro;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.ShooterSubsystemVelocity;
-import frc.robot.subsystems.VisionSubsystem;
+import frc.robot.subsystems.WinchSubsystem2;
+import frc.robot.util.Constants;
+import frc.robot.util.ArmConstants;
+import frc.robot.util.ShooterConstants;
+import frc.robot.util.TunerConstants;
+import frc.robot.util.WinchConstants;
+import frc.robot.commands.SetFlywheel;
+import frc.robot.subsystems.ShooterSubsystem2;
+import frc.robot.subsystems.NoteSensorSubsystem;
+import frc.robot.experimental.AutoShootStage;
+import frc.robot.experimental.AutoShootStage2;
+import frc.robot.experimental.IntakeIndexSmartTimer;
+import frc.robot.experimental.IntakeIndexTimer;
 
-import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.path.PathPlannerTrajectory;
-
+// Getting rid of the soft unused warnings
+@SuppressWarnings("unused")
 public class RobotContainer {
 
   RunShooter shooterRun;
-  IncrementIndex1Stage indexIncrent;
-
+  SwerveRequest.FieldCentric driveRequest;
   // private final Telemetry logger = new
   // Telemetry(Constants.SystemConstants.MAX_SPEED);
   // #endregion
   // #region Network Tables
-  SendableChooser<Command> autoChooser;
-  // Interactable way to change increment distance on arm for High Speed High
-  // Fidelity Testing
-  GenericEntry incrementDistanceEntry;
+
   // #endregion Network Tables
   // #region Subsystems
+
+  /* Subsystems */
   ShooterSubsystemVelocity shooter = new ShooterSubsystemVelocity();
+  ShooterSubsystem2 shooter2 = new ShooterSubsystem2();
   IntakeSubsystem intake = new IntakeSubsystem();
   IndexSubsystem index = new IndexSubsystem();
-   
-  // OrchestraSubsystem daTunes;
-  // WinchSubsystem winch;
+  WinchSubsystem2 winch = new WinchSubsystem2();
   ArmSubsystem arm = new ArmSubsystem();
-  VisionSubsystem vision = new VisionSubsystem();
+  NoteSensorSubsystem notesensor = new NoteSensorSubsystem();
+  Gyro pidgey = new Gyro();
+
   // #endregion Subsystems
 
   // #region commands
 
   // #endregion
+
   private double MaxSpeed = TunerConstants.kSpeedAt12VoltsMps; // kSpeedAt12VoltsMps desired top speed
   private double MaxAngularRate = 1.5 * Math.PI; // 3/4 of a rotation per second max angular velocity
 
   /* Setting up bindings for necessary control of the swerve drive platform */
   private final CommandXboxController m_driverController = new CommandXboxController(0); // My joystick
   private final CommandXboxController m_operatorController = new CommandXboxController(1); // My joystick
-
-  private final CommandSwerveDrivetrain drivetrain = TunerConstants.DriveTrain; // My drivetrain
-
+  public final CommandSwerveDrivetrain drivetrain = TunerConstants.DriveTrain; // My drivetrain
   private final CommandXboxController[] Controllers = new CommandXboxController[] { m_driverController,
       m_operatorController
 
   };
 
   private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-      .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
-      .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // I want field-centric
-                                                               // driving in open loop
+      .withDeadband(MaxSpeed * 0.1)
+      .withRotationalDeadband(MaxAngularRate * 0.1)
+      .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
   private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
   private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
   private final Telemetry logger = new Telemetry(MaxSpeed);
 
-  /* TODO For testing autonomous files built with PathPlanner */
-  private Command autonTesting = drivetrain.getAutoPath("Start1.0-3-4-5");
-
   private final IntakeCommandGroup intakeGroup = new IntakeCommandGroup(index, intake);
+  private final IntakeRevCommandGroup intakeRevGroup = new IntakeRevCommandGroup(index, intake);
 
-  private final SetArmPosition setArmPositionCommand = new SetArmPosition(arm, 20);
+  // Only Sets the flywheel to idle velocity, no index
+  private final SetFlywheel setShooterIdle = new SetFlywheel(shooter2, arm, ShooterConstants.FLYWHEEL_IDLE_VELOCITY);
 
+  private final Shoot shoot = new Shoot(shooter2, index, notesensor);
+  private final ShootAmp shootAmp = new ShootAmp(shooter2, index, notesensor); 
+  private final ShootStage shootStage = new ShootStage(shooter2, index, notesensor);
+
+  /* Auton Specific Commands */
+  private final AutoShoot autoShoot = new AutoShoot(arm, index, intake, shooter2, notesensor);
+  private final AutoShootAmp autoShootAmp = new AutoShootAmp(shooter2, index, notesensor);
+  private final AutoShootStage autoShootStage = new AutoShootStage(arm, index, intake, notesensor, shooter2);
+  
+  /* Autonomous Chooser */
+  SendableChooser<Command> autoChooser;
+
+  // Constructor of the class
   public RobotContainer() {
-    
-    indexIncrent = new IncrementIndex1Stage(index);
+    Limelight lime = new Limelight();
 
-    shooter = new ShooterSubsystemVelocity();
+    /* Pathplanner Named Commands */
+    NamedCommands.registerCommand("AutoShoot", autoShoot); // AutoShootWhenReady --> AutoShoot
+    NamedCommands.registerCommand("AutoShootAmp", autoShootAmp); // shootWhenReadyAmp --> autoShootAmp 
+    NamedCommands.registerCommand("AutoShootStage", autoShootStage);
+    NamedCommands.registerCommand("Intake", new IntakeIndex(index, intake, notesensor));
+    NamedCommands.registerCommand("IntakeTimer", new IntakeIndexTimer(index, intake));
+    NamedCommands.registerCommand("IntakeSmartTimer", new IntakeIndexSmartTimer(index, intake));
 
-    // Set up our pathplanenr stuff
-    NamedCommands.registerCommand("RunShooter", new RunShooter(shooter));
+    /*
+     * Auto Chooser
+     * Unintended side effect is this will create EVERY auton file from the RIO
+     * deploy folder.
+     * FTP into the the RIO to delete old auton options
+     */
+    autoChooser = AutoBuilder.buildAutoChooser();
+    SmartDashboard.putData("Auto Chooser", autoChooser);
+    // Shuffleboard.getTab("Auton").add("Auto Chooser", autoChooser);
 
-    // arm.setDefaultCommand(
-    // arm.run(() -> arm(((m_operatorController.axisLessThan(Axis.kLeftY.value,
-    // -0.1).getAsBoolean() ||
-    // (m_operatorController.axisGreaterThan(Axis.kLeftY.value, 0.1))
-    // .getAsBoolean()) ? m_operatorController.getLeftY() : 0))));
-
-    // // intake run depending on driver bumper status
-    // ORIGINAL intake.setDefaultCommand(intake.run(() -> intake.Run(0.75 * -BumperStatus(0))));
-    // intake.setDefaultCommand(intakeGroupCommand);
-
-
-    index.setDefaultCommand(index.run(() -> index.SetPower(BumperStatus(1))));
-    /* 
-    shooter.setDefaultCommand(shooter.run(() -> shooter.SetOutput(
-        // ! cool but unintuitive
-        Math.max(m_operatorController.getLeftTriggerAxis() * 0.5 * 60,
-            m_operatorController.getRightTriggerAxis() * 60))));
-    */
+    /* Configure the Button Bindings */
     configureBindings();
+
     DebugMethodSingle();
+
   }
 
+  /*
+   * Method to check our Alliance status for Red or Blue
+   * This is essential for the autonomous mode to know which side of the field we
+   * are on
+   */
+  public static boolean isAllianceRed() {
+    return DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red;
+  }
+
+  /* Method to configure the button bindings */
   private void configureBindings() {
 
+    /* DRIVER BINDINGS */
+    index.setDefaultCommand(index.run(() -> index.setIndexPower(0)));
+
+    driveRequest = drive.withVelocityX(-m_driverController.getLeftY() * MaxSpeed)
+        .withVelocityY(-m_driverController.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+        .withRotationalRate(-m_driverController.getRightX() * MaxAngularRate) // Drive counterclockwise with
+                                                                              // negative X (left)
+    ;
     drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
-        drivetrain.applyRequest(() -> drive.withVelocityX(-m_driverController.getLeftY() * MaxSpeed) // Drive forward
-                                                                                                     // with
-            // negative Y (forward)
+        // Drive forward with negative Y (forward)
+        drivetrain.applyRequest(() -> drive.withVelocityX(-m_driverController.getLeftY() * MaxSpeed)
             .withVelocityY(-m_driverController.getLeftX() * MaxSpeed) // Drive left with negative X (left)
             .withRotationalRate(-m_driverController.getRightX() * MaxAngularRate) // Drive counterclockwise with
                                                                                   // negative X (left)
         ));
-
     // m_driverController.a().whileTrue(drivetrain.applyRequest(() -> brake));
-    /* m_driverController.b().whileTrue(drivetrain
-        .applyRequest(() -> point
-            .withModuleDirection(new Rotation2d(-m_driverController.getLeftY(), -m_driverController.getLeftX()))));
-    */
-    
-    // reset the field-centric heading on left bumper press
+    /*
+     * m_driverController.b().whileTrue(drivetrain
+     * .applyRequest(() -> point
+     * .withModuleDirection(new Rotation2d(-m_driverController.getLeftY(),
+     * -m_driverController.getLeftX()))));
+     */
+
+    // reset the field-centric heading
+    /*
+     * m_driverController.b().whileTrue(drivetrain.applyRequest(() -> point
+     * .withModuleDirection(new Rotation2d(-m_driverController.getLeftY(),
+     * -m_driverController.getLeftX()))));
+     */
+
+    /*
+     * This button does nothing UNLESS the robot is manual rotated in teleop
+     * to the proper "forward" position. THEN and ONLY THEN, the button can be
+     * triggered
+     * and the forward orientation is properly set. If not triggered, the robot
+     * forward and backwards
+     * on the joysticks as are left and right
+     */
     m_driverController.start().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
 
-    /* This command call works now. Not sure if there are advantages/disadvantages to one or the other */
-    /* m_driverController.y().whileTrue(new SetArmPosition(arm, 15)); */
-    m_driverController.a().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_HOME_POSE)));
-    m_driverController.b().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_LOW_POSE)));
-    //m_driverController.x().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_AMP_POSE)));
-    m_driverController.y().whileTrue(new InstantCommand(() -> arm.setArmPose(Constants.ArmConstants.ARM_MID_POSE)));
+    m_driverController.a().whileTrue(new InstantCommand(() -> arm.setArmPose(ArmConstants.ARM_HOME_POSE)));
+    m_driverController.b().whileTrue(new InstantCommand(() -> arm.setArmPose(ArmConstants.ARM_MID_POSE)));
+    m_driverController.x().whileTrue(new InstantCommand(() -> arm.setArmPose(ArmConstants.ARM_AMP_POSE)));
+    // m_driverController.y().whileTrue(new InstantCommand(() -> ( )));
 
     m_driverController.rightBumper().whileTrue(new IntakeCommandGroup(index, intake));
+    m_driverController.leftBumper().whileTrue(new IntakeRevCommandGroup(index, intake));
+    
+    m_driverController.rightTrigger().whileTrue(shoot);
+    m_driverController.leftTrigger().whileTrue(shootAmp);
+    // m_driverController.leftTrigger().whileTrue(new SetIndex(index, -0.75));
 
-    m_driverController.rightTrigger().whileTrue(new RevAndShootCommand(index, shooter));
-    m_driverController.rightTrigger().whileFalse(new InstantCommand(() -> shooter.SetOutput(0)));
+    /* OPERATOR BINDINGS */
 
-    // m_driverController.rightBumper().whileTrue(new InstantCommand(() -> intake.Run(0.75)));
+    // m_operatorController.a().whileTrue());
+    m_operatorController.b().whileTrue(new SetArmClimb(arm, ArmConstants.ARM_MANUAL_POWER));
+    // m_operatorController.x().whileTrue());
+    m_operatorController.y().whileTrue(new SetWinch(winch, WinchConstants.WINCH_POWER));
+    m_operatorController.back().whileTrue(new SetWinch(winch, WinchConstants.WINCH_POWER_BOOST));
 
-    // Needs to be reversed
-    m_driverController.leftBumper().whileTrue(new IntakeCommandGroup(index, intake));
-
-    m_driverController.x().onTrue(new InstantCommand(() -> vision.turnLL()));
+    m_operatorController.rightTrigger().whileTrue(shootStage); // Shoot Stage
+    // m_operatorController.leftTrigger().whileTrue(new SetFlywheel(shooter2, arm, ShooterConstants.FLYWHEEL_VELOCITY_STAGE)); // Lob shot
 
   };
 
+  /* Use for Debugging and diagnostics purposes */
   public void DebugMethodSingle() {
     // #region Driving
-    // More useful logs that the drivers will probably want
-    // driverDiagnostics.addDouble("Net Arm Angle", () ->
-    // arm.GetPositionDegreesAbsolulte());S
+    var driverDiagnostics = Shuffleboard.getTab("Diagnostics");
     // #endregion Driving
     // #region Testing
 
-    // Less useful logs that we still need to see for testing.
-
-    // var driverDiagnostics = Shuffleboard.getTab("Driver Diagnostics");
-    var driverDiagnostics = Shuffleboard.getTab("Driver Diagnostics");
-
-    // driverDiagnostics.addBoolean("Note Detected", () -> index.HasCargo());
     // driverDiagnostics.addDouble("Arm Rot", () ->
     // arm.GetArmPos().getValueAsDouble());
     // driverDiagnostics.addDouble("Arm Rot Deg", () -> arm.GetPositionDegrees());
     // arm.showArmTelemetry("Driver Diagnostics");
+    // Shuffleboard.getTab("Arm").add("Arm Output", arm);
+
+    // SmartDashboard.putNumber("Yaw", pidgey.getYaw());
+    // SmartDashboard.putNumber("Angle", pidgey.getAngle());
+    // SmartDashboard.putNumber("Rotation2d", pidgey.Rotation2d());
+    // SmartDashboard.getBoolean("Left Nominal", pidgey.isStageYawNominalLeft());
+    // SmartDashboard.getBoolean("Left Nominal", pidgey.isStageYawNominalRight());
+
 
     // #endregion Testing
   }
 
-  /**
-   * Schizophrenic method to quickly get an int indicating driver bumper status. 1
-   * if RB,-1 if LB, 0 if both or none
-   * 
-   * @param port controller port, 0 is driver, 1 is operaator
-   * @return an int indicating driver bumper status.
-   */
-  private double BumperStatus(int port) {
-    return (Controllers[port].rightBumper().getAsBoolean() ? 1 : 0)
-        + (Controllers[port].leftBumper().getAsBoolean() ? -1 : 0);
+  public Command getAutonomousCommand() {
+    return autoChooser.getSelected();
   }
 
-  public Command getAutonomousCommand() {
-    /* irst put the drivetrain into auto run mode, then run the auto */
-    return indexIncrent;
-  }
-}
+} // End of class

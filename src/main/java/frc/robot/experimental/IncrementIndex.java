@@ -1,13 +1,13 @@
-package frc.robot.commands;
+package frc.robot.experimental;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IndexSubsystem;
 
-public class IncrementIndex1Stage extends Command {
+public class IncrementIndex extends Command {
 
     IndexSubsystem indexer;
 
-    public IncrementIndex1Stage(IndexSubsystem indexer) {
+    public IncrementIndex(IndexSubsystem indexer) {
         this.indexer = indexer;
 
         addRequirements(indexer);
@@ -15,13 +15,13 @@ public class IncrementIndex1Stage extends Command {
 
     @Override
     public void execute() {
-        indexer.SetPower(-0.1);
+        indexer.setIndexPower(-0.1);
     }
 
     @Override
     public boolean isFinished() {
         // Check if there is no note loaded. i.e. HasCargo() returns false
-        return !indexer.HasCargo();
+        return !indexer.hasCargo();
     }
 
 }

@@ -1,18 +1,21 @@
 package frc.robot.subsystems;
 
-/* Subsystem class to primarily use a Time of Flight sensor from 'Playing with Fusion'.
- * It will read the distance from the sensor to the 'note' and determine if the note is in a load position.
- * It should return an actual distance reading to the SmartDashboard and a boolean for a method 'isNoteLoaded'
- * This sensor data will change LED status and enable/disable intake and index motors
- */
-
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import java.util.Optional;
 
 import com.playingwithfusion.TimeOfFlight;
 import com.playingwithfusion.TimeOfFlight.RangingMode;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Constants;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+
+/* Subsystem class to primarily use a Time of Flight sensor from 'Playing with Fusion'.
+ * It will read the distance from the sensor to the 'note' and determine if the note is in a load position.
+ * It should return an actual distance reading to and a boolean for a method 'isNoteLoaded'
+ * This sensor data will change LED status and enable/disable intake and index motors
+ */
+
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.util.Constants;
 
 public class NoteSensorSubsystem extends SubsystemBase {
 
@@ -35,7 +38,7 @@ public class NoteSensorSubsystem extends SubsystemBase {
     /* Constructor */
     public NoteSensorSubsystem() {
         /*
-         * Initialize the sensor, and '.setRangingMode(RangingMode.Short)' for this
+         * Initialize the sensor, and '.setRangingMode(RangingMode.Short)' foDr this
          * usage.
          *
          * | Sample value | Time |
@@ -45,7 +48,9 @@ public class NoteSensorSubsystem extends SubsystemBase {
          * | 3 | 50 ms |
          * | 4 (default) | 100 ms |
          * | 5 | 200 ms |
+
          *****************************/
+        // The refresh time at Lake City was 1, i.e. 20ms
         noteDistance.setRangingMode(RangingMode.Short, 1);
     }
 
@@ -59,20 +64,29 @@ public class NoteSensorSubsystem extends SubsystemBase {
         return noteDistance.getRange() < noteDistanceCheck; // return NoteDistance.
     }
 
-    public void setLEDColor() {
+   
+     public void setLEDColor() {
         /*
          * Set the LED color based on the note position.
          * Requires 'isNoteLoadeded' value and two led methods
          */
+        Optional<Alliance> AllianceColor = DriverStation.getAlliance();
         if (isNoteLoaded() == true) {
             // Decided loaded color = green
 
             m_ledSubsystem.ColorGreen();
 
-        } else if (isNoteLoaded() == false) {
-            m_ledSubsystem.ColorFlowRed();
+        } else if (isNoteLoaded() == false && AllianceColor.get() == Alliance.Red) {
+        //  m_ledSubsystem.ColorFlowRed();
+         m_ledSubsystem.ColorRed();
+            
+           
+        } else if(isNoteLoaded() == false && AllianceColor.get() == Alliance.Blue) {
+            // m_ledSubsystem.ColorFlowBlue(); 
+            m_ledSubsystem.ColorBlue(); 
 
         }
+        
     }
 
     public void periodic() {
@@ -84,8 +98,12 @@ public class NoteSensorSubsystem extends SubsystemBase {
         // ! Can be achieved with Shuffleboard call in
         // ! Constructor, per 
         setLEDColor();
-        SmartDashboard.putNumber("Note Distance", noteDistance.getRange());
-        SmartDashboard.putBoolean("Note Loaded", isNoteLoaded());
+
+        // Only needed for diagnostics
+        // Shuffleboard.getTab("Note").add("Note Distance", noteDistance.getRange());
+        // This is not working as expected. Code crashes saying .add title is already in use, probably because it's being called periodically.
+        // Shuffleboard.getTab("Sensors").add("Note Loaded 2", isNoteLoaded());
+
     }
 }
 // end of class NoteSensorSubsystem

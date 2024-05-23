@@ -1,14 +1,12 @@
 package frc.robot.subsystems;
 
-import java.util.function.DoubleSupplier;
-
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 // import com.playingwithfusion.TimeOfFlight;
 // import com.playingwithfusion.TimeOfFlight.RangingMode;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
+import frc.robot.util.Constants;
 
 /**
  * Using a ToF sensor and a single motor
@@ -25,17 +23,16 @@ public class IntakeSubsystem extends SubsystemBase {
 
         dutyCycle = new DutyCycleOut(0);
         motor.setControl(dutyCycle);
-
-        // int noteDistanceCheck = Constants.NOTE_DISTANCE_CHECK;
-
-        // notey = new NoteSensorSubsystem();
-        // Every 20ms it updates ()
-
+        // motor.setInverted(false);
     }
 
     public void Run(double input) {
 
         motor.setControl(dutyCycle.withOutput(input));
+    }
+
+    public void stopIntake() {
+        motor.setControl(dutyCycle.withOutput(0));
     }
 
 }
