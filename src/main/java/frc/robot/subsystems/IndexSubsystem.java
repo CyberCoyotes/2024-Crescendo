@@ -24,6 +24,10 @@ public class IndexSubsystem extends SubsystemBase {
         motor.set(ControlMode.PercentOutput, IndexConstants.INDEX_POWER);
     }
 
+    public void runIndexingReverse() {
+        motor.set(ControlMode.PercentOutput, IndexConstants.INDEX_POWER_REV);
+    }
+
     public boolean hasCargo() {
         return NoteSensor.isNoteLoaded();
     }

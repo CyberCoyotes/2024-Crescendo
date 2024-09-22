@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.util.IndexConstants;
 
 public class IntakeRevCommandGroup extends SequentialCommandGroup {
     // LED to unloaded color
@@ -22,10 +23,9 @@ public class IntakeRevCommandGroup extends SequentialCommandGroup {
         addCommands(
                 new ParallelCommandGroup(
                     // Run Intake in reverse
-                
                     new SetIntake(intake, 0.75),  
                     // Run Index in reverse
-                    new SetIndex(index, -0.75)
+                    new SetIndex(index, IndexConstants.INDEX_POWER_REV)
         ));
 
     }
