@@ -5,12 +5,12 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.util.IndexConstants;
+import frc.robot.util.IntakeConstants;
 
 public class IntakeRevCommandGroup extends SequentialCommandGroup {
     // LED to unloaded color
     // Intake + Index in parallel.
-    // Note triggers the note sensor (ToF), turn off both intake and index,
-    // Set LED status to loaded and to dashboard
+    // ToF should NOT be part of this command like it does for `IntakeCommandGroup`
 
     SetIntake runIntake;
     IndexSubsystem index;
@@ -23,7 +23,9 @@ public class IntakeRevCommandGroup extends SequentialCommandGroup {
         addCommands(
                 new ParallelCommandGroup(
                     // Run Intake in reverse
-                    new SetIntake(intake, 0.75),  
+                    // This was set numerically to 0.75 but `INTAKE_POWER` is -0.75
+                    // TODO Test reverse intake!
+                    new SetIntake(intake, IntakeConstants.INTAKE_POWER),
                     // Run Index in reverse
                     new SetIndex(index, IndexConstants.INDEX_POWER_REV)
         ));
