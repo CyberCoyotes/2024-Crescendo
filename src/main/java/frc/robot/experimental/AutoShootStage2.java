@@ -8,7 +8,7 @@ import frc.robot.subsystems.IndexSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.NoteSensorSubsystem;
 import frc.robot.subsystems.ShooterSubsystem2;
-import frc.robot.util.ArmConstants;
+import frc.robot.subsystemsModernized.ArmConstants;
 
 public class AutoShootStage2 extends SequentialCommandGroup {
     public AutoShootStage2(ArmSubsystem arm, IndexSubsystem index, IntakeSubsystem intake, ShooterSubsystem2 shooter2, NoteSensorSubsystem notesensor) {
